@@ -15,6 +15,7 @@
                             {{ $name }}
                         </a>
                     @endforeach
+
                     {!! $index !!}
                 </div>
             </div>

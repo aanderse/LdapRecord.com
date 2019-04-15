@@ -62,7 +62,6 @@ class DocsController extends Controller
                 'index' => $this->docs->getIndex($version),
                 'content' => view('partials.doc-missing'),
                 'currentVersion' => $version,
-                'versions' => Documentation::getDocVersions(),
                 'currentSection' => '',
                 'canonical' => null,
             ], 404);
@@ -89,7 +88,6 @@ class DocsController extends Controller
             'index' => $this->docs->getIndex($version),
             'content' => $content,
             'currentVersion' => $version,
-            'versions' => Documentation::getDocVersions(),
             'currentSection' => $section,
             'canonical' => $canonical,
         ]);

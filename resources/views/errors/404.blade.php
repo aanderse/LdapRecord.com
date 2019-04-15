@@ -1,25 +1,18 @@
-@extends('app')
+@extends('base')
 
-@section('content')
-    <nav id="slide-menu" class="slide-menu" role="navigation">
-        <div class="brand">
-            <a href="/">
-                <img src="/assets/img/laravel-logo-white.png" height="50" alt="Laravel white logo">
-            </a>
+@section('body')
+    <section class="container">
+        <div class="row align-items-center vh-100">
+            <div class="col text-center">
+                <h1>404 - Not Found</h1>
+
+                @include('partials.doc-missing')
+
+                <a href="{{ url('/docs/'.DEFAULT_VERSION) }}" class="btn btn-outline-secondary mt-2">
+                    <i class="fa fa-book-open"></i>
+                    Go to Adldap2 Documentation
+                </a>
+            </div>
         </div>
-
-        <ul class="slide-main-nav">
-            @include('partials.main-nav')
-        </ul>
-    </nav>
-
-    <div class="contain">
-        <div class="media">
-            <img src="/assets/svg/404.svg">
-        </div>
-        <div class="content">
-            <h1>You seem to have upset the delicate internal balance of my housekeeper.</h1>
-        </div>
-    </div>
-
+    </section>
 @endsection
