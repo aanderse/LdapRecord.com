@@ -25,6 +25,11 @@ a {
   text-decoration:none !important;
 }
 
+// Add extra margin to the bottom for some breathing room.
+article {
+  margin-bottom:50px;
+}
+
 .side-nav a.active {
   cursor:default;
   font-weight:600;
