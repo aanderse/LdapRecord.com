@@ -1,0 +1,12 @@
+/vendor
+/resources/docs
+/public/page-cache
+/public/storage
+/node_modules
+composer.phar
+.env.*
+.env
+.DS_Store
+Thumbs.db
+/.idea
+package-lock.json

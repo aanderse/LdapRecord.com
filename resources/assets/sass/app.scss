@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+$headings-font-weight:600;
+$h1-font-size:1.875rem;
+$h2-font-size:1.6rem;
+$h3-font-size:1.4rem;
+$h4-font-size:1.2rem;
+$h5-font-size:1.0rem;
+$font-size-base: 14;
+
+$svg-color:#5f5f65;
+$font-color:#22292f;
+$navbar-padding-y:1rem;
+
+@import '~bootstrap/scss/bootstrap';
+@import '~prismjs/themes/prism.css';
+
+body, html {
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  color: $font-color;
+}
+
+a {
+  color:$font-color;
+  text-decoration:none !important;
+}
+
+.side-nav a.active {
+  cursor:default;
+  font-weight:600;
+  color:$link-color;
+}
+
+.side-nav > ul, .side-nav > ul > li > ul {
+  list-style-type:none;
+  padding-left:0;
+}
+
+.side-nav > ul > li > ul > li {
+  padding-bottom:5px;
+}
+
+.side-nav > ul > li > h2 {
+  font-size:0.9rem;
+  color: #808185;
+  text-transform:uppercase;
+  padding-bottom:5px;
+  margin-bottom:0.5rem;
+  border-bottom:1px solid #dee2e6;
+}
+
+blockquote {
+  display:flex;
+  color:#fff;
+  border-radius:3px;
+  background:#3490dc;
+  box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+blockquote .flag {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:0 1rem 0;
+  border-top-left-radius:3px;
+  border-bottom-left-radius:3px;
+  background-color:#2779bd;
+}
+
+blockquote > div:not(.flag) {
+  margin:0;
+  border-radius:3px;
+  padding:0 10px 0 10px;
+}
+
+table {
+  @extend .table, .table-striped, .table-bordered;
+  border-collapse: collapse;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+span.token.operator {
+  background-color:inherit !important;
+}
+
+span.token.variable {
+  color:#4EA1DF;
+}
+
+pre {
+  @extend .rounded;
+  font-size:12px !important;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125);
+  background-color:rgba(238, 238, 238, 0.35) !important;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  color:#525252;
+  margin-top:1rem;
+  margin-bottom:1rem;
+}
+
+// Equal spacing on top and bottom of paragraphs.
+p {
+  margin-top:1rem;
+}
+
+p > code.language-php,li > code.language-php {
+  padding-left:5px;
+  padding-right:5px;
+}
+
+.alert-secondary {
+  background-color:#f1f1f1;
+}
