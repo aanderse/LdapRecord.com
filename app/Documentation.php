@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Cache\Repository as Cache;
 
@@ -65,7 +66,7 @@ class Documentation
      */
     public function get($version, $page)
     {
-        return $this->cache->remember('docs.'.$version.'.'.$page, 5, function () use ($version, $page) {
+        return $this->cache->remember('docs.'.$version.'.'.Str::slug($page), 5, function () use ($version, $page) {
             $path = base_path('resources/docs/'.$version.'/'.$page.'.md');
 
             if ($this->files->exists($path)) {
