@@ -1,4 +1,4 @@
-@extends('base')
+@extends('layouts.base')
 
 @section('body')
     <section class="container">
@@ -10,7 +10,7 @@
 
                 <a href="{{ url('/docs/'.DEFAULT_VERSION) }}" class="btn btn-outline-secondary mt-2">
                     <i class="fa fa-book-open"></i>
-                    Go to Adldap2 Documentation
+                    Go to LdapRecord Documentation
                 </a>
             </div>
         </div>

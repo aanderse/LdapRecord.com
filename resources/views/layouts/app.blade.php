@@ -1,8 +1,8 @@
-@extends('base')
+@extends('layouts.base')
 
 @section('body')
     @include('partials.nav')
-    <div class="container mt-4">
+    <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-4 col-lg-3 pt-4 border-right">
                 <div class="navbar-collapse side-nav" id="nav-main">
