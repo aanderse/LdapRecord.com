@@ -121,3 +121,20 @@ p > code.language-php,li > code.language-php {
 .alert-secondary {
   background-color:#f1f1f1;
 }
+
+// Create some extra border utilities.
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    .border#{$infix}-right { border-right: $border-width solid $border-color !important; }
+    .border#{$infix}-bottom-none { border-bottom: none !important; }
+  }
+}
+
+// Always display the nav when medium or larger.
+@media(min-width:map-get($grid-breakpoints, md)) {
+  .collapse:not(.show) {
+    display:block !important;
+  }
+}
