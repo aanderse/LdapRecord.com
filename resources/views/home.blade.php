@@ -21,7 +21,7 @@
                         <i class="fa fa-rocket"></i> Quick Start
                     </a>
 
-                    <a href="https://github.com/Adldap2/Adldap2" class="btn btn-outline-secondary rounded-pill mx-1 mx-md-2 mb-2 mb-md-0">
+                    <a href="https://github.com/DirectoryTree/LdapRecord" class="btn btn-outline-secondary rounded-pill mx-1 mx-md-2 mb-2 mb-md-0">
                         <i class="fab fa-github"></i> Source on GitHub
                     </a>
                 </div>
