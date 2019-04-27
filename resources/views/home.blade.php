@@ -4,7 +4,10 @@
     <div class="d-flex justify-content-center align-items-center min-vh-100 mt-n4">
         <div class="d-flex flex-column align-items-center">
             <div class="text-center">
-                <img src="{{ asset('assets/img/ldap-record.png') }}" width="500" class="img-fluid">
+
+                <div class="col-8 offset-2 col-md-12 offset-md-0">
+                    <img src="{{ asset('assets/img/ldap-record.png') }}" width="400" class="img-fluid">
+                </div>
 
                 <p class="text-muted" style="font-size:1.3em;">
                     A PHP LDAP Package <strong>for humans</strong>.
