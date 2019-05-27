@@ -17,7 +17,7 @@ class CacheResponse
     /**
      * Constructor.
      *
-     * @var \Illuminate\Filesystem\Filesystem  $files
+     * @var \Illuminate\Filesystem\Filesystem $files
      */
     public function __construct(Filesystem $files)
     {
@@ -27,8 +27,9 @@ class CacheResponse
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -45,7 +46,8 @@ class CacheResponse
     /**
      * Determines whether the given request/response should be cached.
      *
-     * @param  \Illuminate\Http\Response  $response
+     * @param \Illuminate\Http\Response $response
+     *
      * @return bool
      */
     protected function shouldCache($request, $response)
@@ -56,8 +58,9 @@ class CacheResponse
     /**
      * Cache the response to a file.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Http\Response  $response
+     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Response $response
+     *
      * @return void
      */
     protected function cacheResponse($request, $response)
@@ -72,7 +75,8 @@ class CacheResponse
     /**
      * Get the names of the directory and file.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     protected function getDirectoryAndFileNames($request)
@@ -87,7 +91,8 @@ class CacheResponse
     /**
      * Get the path to the cache directory.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
     protected function getCachePath($path = '')

@@ -45,8 +45,8 @@ class Documentation
      */
     public function getIndex($version)
     {
-        return $this->cache->remember('docs.'.$version.'.index', 5, function () use ($version) {
-            $path = base_path('resources/docs/'.$version.'/documentation.md');
+        return $this->cache->remember($this->getIndexCacheKey($version), 5, function () use ($version) {
+            $path = $this->getIndexBasePath($version);
 
             if ($this->files->exists($path)) {
                 return $this->replaceLinks($version, markdown($this->files->get($path)));
@@ -66,8 +66,8 @@ class Documentation
      */
     public function get($version, $page)
     {
-        return $this->cache->remember('docs.'.$version.'.'.Str::slug($page), 5, function () use ($version, $page) {
-            $path = base_path('resources/docs/'.$version.'/'.$page.'.md');
+        return $this->cache->remember($this->getPageCacheKey($version, $page), 5, function () use ($version, $page) {
+            $path = $this->getPageBasePath($version, $page);
 
             if ($this->files->exists($path)) {
                 return $this->replaceLinks($version, markdown($this->files->get($path)));
@@ -101,8 +101,31 @@ class Documentation
     public function sectionExists($version, $page)
     {
         return $this->files->exists(
-            base_path('resources/docs/'.$version.'/'.$page.'.md')
+            $this->getPageBasePath($version, $page)
         );
+    }
+
+    /**
+     * Returns the documentations root URL.
+     *
+     * @return string
+     */
+    public static function getRootUrl()
+    {
+        return route('docs');
+    }
+
+    /**
+     * Returns the repositories page URL.
+     *
+     * @param string      $version
+     * @param string|null $page
+     *
+     * @return string
+     */
+    public static function getPageUrl($version, $page = null)
+    {
+        return route('page', $version, $page);
     }
 
     /**
@@ -114,7 +137,68 @@ class Documentation
     {
         return [
             'master' => 'Master',
-            '1.0' => 'v1.0',
         ];
+    }
+
+    /**
+     * Returns the full path of the documentation index markdown file.
+     *
+     * @param string $version
+     *
+     * @return string
+     */
+    protected function getIndexBasePath($version)
+    {
+        return $this->getDocsPath($version.'/documentation.md');
+    }
+
+    /**
+     * Returns the full path of the given documentation markdown file.
+     *
+     * @param string $version
+     * @param string $page
+     *
+     * @return string
+     */
+    protected function getPageBasePath($version, $page)
+    {
+        return $this->getDocsPath($version.'/'.$page.'.md');
+    }
+
+    /**
+     * Returns the page cache key.
+     *
+     * @param string $version
+     * @param string $page
+     *
+     * @return string
+     */
+    protected function getPageCacheKey($version, $page)
+    {
+        return 'docs.'.$version.'.'.Str::slug($page);
+    }
+
+    /**
+     * Returns the documentation index cache key.
+     *
+     * @param string $version
+     *
+     * @return string
+     */
+    protected function getIndexCacheKey($version)
+    {
+        return 'docs.'.$version.'.index';
+    }
+
+    /**
+     * Returns the documentation full path and appends the given path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    protected function getDocsPath($path)
+    {
+        return base_path('resources/docs/'.$path);
     }
 }

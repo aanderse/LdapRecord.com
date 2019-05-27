@@ -1,15 +1,16 @@
 <?php
 
 /**
- * Set the default documentation version...
+ * Setup our repository routes...
  */
+
 if (! defined('DEFAULT_VERSION')) {
-    define('DEFAULT_VERSION', '1.0');
+    define('DEFAULT_VERSION', 'master');
 }
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
-Route::get('docs', 'DocsController@showRootPage');
-Route::get('docs/{version}/{page?}', 'DocsController@show')->where('page', '.*');
+Route::get('docs', 'DocsController@showRootPage')->name('docs');
+Route::get('docs/{version}/{page?}', 'DocsController@show')->where('page', '.*')->name('page');

@@ -15,9 +15,10 @@ class DocsController extends Controller
     protected $docs;
 
     /**
-     * Create a new controller instance.
+     * Constructor.
      *
-     * @param  Documentation  $docs
+     * @param Documentation $docs
+     *
      * @return void
      */
     public function __construct(Documentation $docs)
@@ -32,7 +33,7 @@ class DocsController extends Controller
      */
     public function showRootPage()
     {
-        return redirect('docs/'.DEFAULT_VERSION);
+        return redirect($this->docs::getRootUrl());
     }
 
     /**
@@ -45,8 +46,10 @@ class DocsController extends Controller
      */
     public function show($version, $page = null)
     {
+        $default = $this->getDefaultVersion();
+
         if (! $this->isVersion($version)) {
-            return redirect('docs/'.DEFAULT_VERSION.'/'.$version, 301);
+            return redirect('docs/'.$default, 301);
         }
 
         if (! defined('CURRENT_VERSION')) {
@@ -79,8 +82,8 @@ class DocsController extends Controller
 
         $canonical = null;
 
-        if ($this->docs->sectionExists(DEFAULT_VERSION, $sectionPage)) {
-            $canonical = 'docs/'.DEFAULT_VERSION.'/'.$sectionPage;
+        if ($this->docs->sectionExists($default, $sectionPage)) {
+            $canonical = 'docs/'.$default.'/'.$sectionPage;
         }
 
         return view('docs', [
@@ -94,6 +97,26 @@ class DocsController extends Controller
     }
 
     /**
+     * Returns the documentations default version.
+     *
+     * @return string
+     */
+    protected function getDefaultVersion()
+    {
+        return DEFAULT_VERSION;
+    }
+
+    /**
+     * Returns the available documentation versions.
+     *
+     * @return array
+     */
+    protected function getDocVersions()
+    {
+        return Documentation::getDocVersions();
+    }
+
+    /**
      * Determine if the given URL segment is a valid version.
      *
      * @param string $version
@@ -102,6 +125,6 @@ class DocsController extends Controller
      */
     protected function isVersion($version)
     {
-        return array_key_exists($version, Documentation::getDocVersions());
+        return array_key_exists($version, $this->getDocVersions());
     }
 }
