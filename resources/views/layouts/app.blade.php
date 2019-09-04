@@ -17,6 +17,14 @@
                 @endforeach
 
                 {!! $index !!}
+
+                <ul class="d-sm-block d-md-none">
+                    <li>
+                        <a href="https://github.com/DirectoryTree/LdapRecord">
+                            <i class="fab fa-github"></i> Source on GitHub
+                        </a>
+                    </li>
+                </ul>
             </div>
 
             <div class="col-md-8 col-lg-9">
