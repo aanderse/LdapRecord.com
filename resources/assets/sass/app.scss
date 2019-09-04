@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-
 $headings-font-weight:600;
 $h1-font-size:1.875rem;
 $h2-font-size:1.6rem;
 $h3-font-size:1.4rem;
 $h4-font-size:1.2rem;
-$h5-font-size:1.0rem;
-$font-size-base: 14;
+$h5-font-size:1.1rem;
+$font-size-base:1rem;
 
 $svg-color:#5f5f65;
 $font-color:#22292f;
@@ -17,7 +15,7 @@ $navbar-padding-y:1rem;
 @import 'documentation';
 
 body, html {
-  font-family: 'Segoe UI', 'Open Sans', sans-serif;
+  font-family: scandia-web,sans-serif;
   color: $font-color;
 }
 
@@ -31,9 +29,19 @@ article {
   margin-bottom:50px;
 }
 
+article .anchor-tag {
+  font-weight: 400;
+  color: #22a7f0;
+  opacity: .6;
+}
+
+.side-nav {
+  font-weight:500;
+}
+
 .side-nav a.active {
   cursor:default;
-  font-weight:600;
+  font-weight:500;
   color:$link-color;
 }
 
@@ -98,7 +106,7 @@ span.token.variable {
 
 pre {
   @extend .rounded;
-  font-size:12px !important;
+  font-size: 0.9rem !important;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125);
   background-color:rgba(238, 238, 238, 0.35) !important;
 }

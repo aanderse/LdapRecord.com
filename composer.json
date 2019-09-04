@@ -1,7 +1,7 @@
 {
-    "name": "adldap2/adldap2-docs",
-    "description": "The Adldap2 docs site.",
-    "keywords": ["adldap2", "adldap2-laravel", "ldap", "docs"],
+    "name": "ldaprecord/ldaprecord.com",
+    "description": "The LdapRecord documentation site.",
+    "keywords": ["ldap", "ldaprecord", "adldap2", "adldap2-laravel"],
     "license": "MIT",
     "type": "project",
     "require": {

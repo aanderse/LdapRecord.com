@@ -13,7 +13,9 @@ $('article h2').each(function () {
         .replace(/[^\w ]+/g,'')
         .replace(/ +/g,'-');
 
-    $(this).html('<a id="'+anchor+'" href="#'+anchor+'">'+$(this).html()+'</a>');
+    $(this).html('<a id="'+anchor+'" href="#'+anchor+'">' +
+        '<span class="anchor-tag">#</span> '+$(this).html()+'</a>'
+    );
 });
 
 // Wrap blockquote content in a div for flex-box.
