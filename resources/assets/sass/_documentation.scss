@@ -8,10 +8,17 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
   line-height: 1.8;
   padding-bottom:20px;
   border-bottom: 1px dashed #f0f2f1;
   -webkit-font-smoothing: antialiased;
+}
+
+.docs article h1 + ul > li > ul {
+  list-style: none;
+  font-size:0.9rem;
+  font-weight:400;
+  padding-inline-start:20px;
 }

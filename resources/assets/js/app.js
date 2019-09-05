@@ -8,7 +8,7 @@ window.jQuery = window.$ = require('jquery');
 require('bootstrap');
 
 // Add anchors to each doc heading.
-$('article h2').each(function () {
+$('article h2, h3').each(function () {
     var anchor = $(this).html().toLowerCase()
         .replace(/[^\w ]+/g,'')
         .replace(/ +/g,'-');
