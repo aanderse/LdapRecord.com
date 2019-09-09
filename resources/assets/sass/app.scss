@@ -84,6 +84,15 @@ blockquote .flag {
   background-color:#2779bd;
 }
 
+blockquote a {
+  color: $note-link-color !important;
+  text-decoration: underline !important;
+}
+
+blockquote a:hover {
+  color: darken($note-link-color, 20%) !important;
+}
+
 blockquote > div:not(.flag) {
   margin:0;
   border-radius:3px;
