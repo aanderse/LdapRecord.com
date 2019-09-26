@@ -13,9 +13,22 @@
                     A PHP LDAP Package <strong>for humans</strong>.
                 </p>
 
-                <hr/>
 
-                <div class="d-md-flex justify-content-center">
+                <pre><code class="language-php">namespace App\Ldap\ActiveDirectory;
+
+use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    public static $objectClasses = [
+        'top',
+        'person',
+        'organizationalperson',
+        'user',
+    ];
+}</code></pre>
+
+                <div class="mt-4 d-md-flex justify-content-center">
                     <a href="{{ url('docs/'.DEFAULT_VERSION) }}" class="btn btn-outline-secondary rounded-pill mx-1 mx-md-2 mb-2 mb-md-0">
                         <i class="fa fa-book-open"></i> Documentation
                     </a>
