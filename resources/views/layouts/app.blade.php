@@ -32,4 +32,13 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer mt-auto py-3 border-top">
+        <div class="container text-muted text-center">
+            Built with ❤ by
+            <a href="https://github.com/stevebauman" title="Link to Github User">Steve Bauman</a>
+
+            using <a href="https://laravel.com">Laravel</a> & <a href="https://getbootstrap.com">Bootstrap 4</a>
+        </div>
+    </footer>
 @endsection
