@@ -112,7 +112,7 @@ class Documentation
      */
     public static function getRootUrl()
     {
-        return route('docs');
+        return '/docs/'.DEFAULT_VERSION;
     }
 
     /**
