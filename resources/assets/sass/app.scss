@@ -16,8 +16,10 @@ $navbar-padding-y:1rem;
 @import '~prismjs/themes/prism.css';
 @import 'documentation';
 
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap');
+
 body, html {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Nunito Sans', Helvetica, Arial, sans-serif;
   color: $font-color;
 }
 

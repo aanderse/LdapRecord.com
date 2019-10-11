@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light navbar-expand-lg bg-light border-bottom">
+<nav class="navbar navbar-light navbar-expand-lg bg-light border-bottom shadow-sm">
 	<div class="container justify-content-between align-middle">
 		<a class="navbar-brand" href="{{ url('/') }}">
 			<img src="{{ asset('assets/img/ldap-record.png') }}" width="150">
