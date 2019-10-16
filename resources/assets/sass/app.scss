@@ -12,8 +12,6 @@ $note-link-color:#a4e5ff;
 $article-link-color:#22a7f0;
 $navbar-padding-y:1rem;
 
-$table-striped-order:#fffff;
-
 $menu-heading-color:#808185;
 
 @import '~bootstrap/scss/bootstrap';
@@ -106,13 +104,12 @@ blockquote > div:not(.flag) {
 }
 
 table {
-  @extend .table, .table-striped, .table-bordered;
+  @extend .table, .table-bordered;
   border-collapse: collapse;
   border-radius: 3px;
   border-top:1px $menu-heading-color;
   border-left:1px $menu-heading-color;
   border-right:1px $menu-heading-color;
-  overflow: hidden;
   box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);
 }
 

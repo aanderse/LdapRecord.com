@@ -8,24 +8,28 @@ window.jQuery = window.$ = require('jquery');
 require('bootstrap');
 
 // Add anchors to each doc heading.
-$('article h2, h3').each(function () {
-    var anchor = $(this).html().toLowerCase()
+$('article h2, h3').each((index, element) => {
+    var anchor = $(element).html().toLowerCase()
         .replace(/[^\w ]+/g,'')
         .replace(/ +/g,'-');
 
-    $(this).html('<a id="'+anchor+'" href="#'+anchor+'">' +
-        '<span class="anchor-tag">#</span> '+$(this).html()+'</a>'
+    $(element).html('<a id="'+anchor+'" href="#'+anchor+'">' +
+        '<span class="anchor-tag">#</span> '+$(element).html()+'</a>'
     );
 });
 
 // Wrap blockquote content in a div for flex-box.
-$('.docs blockquote').each(function () {
-    $(this).html('<div>'+$(this).html()+'</div>');
+$('.docs blockquote').each((index, element) => {
+    $(element).wrap('<div></div>');
+});
+
+$('table').each((index, element) => {
+    $(element).wrap('<div class="table-responsive"></div>');
 });
 
 // Parse blockquote content for flags.
-$('.docs blockquote p').each(function() {
-    var str = $(this).html();
+$('.docs blockquote p').each((index, element) => {
+    var str = $(element).html();
     var match = str.match(/\{(.*?)\}/);
 
     if (match) {
@@ -43,12 +47,12 @@ $('.docs blockquote p').each(function() {
                 break;
         }
 
-        $(this).html(str.replace(/\{(.*?)\}/, ''));
-        $(this).parent().before('<div class="flag">'+ icon +'</div>');
+        $(element).html(str.replace(/\{(.*?)\}/, ''));
+        $(element).parent().before('<div class="flag">'+ icon +'</div>');
     }
 });
 
 // Set active classes in the side navigation links.
-$(".side-nav").find("a[href='"+window.location.pathname+"']").each(function() {
-    $(this).addClass("active");
+$(".side-nav").find("a[href='"+window.location.pathname+"']").each((index, element) => {
+    $(element).addClass("active");
 });
