@@ -12,15 +12,19 @@ $note-link-color:#a4e5ff;
 $article-link-color:#22a7f0;
 $navbar-padding-y:1rem;
 
+$table-striped-order:#fffff;
+
+$menu-heading-color:#808185;
+
 @import '~bootstrap/scss/bootstrap';
 @import '~prismjs/themes/prism.css';
 @import 'documentation';
 
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap');
+@import url('https://rsms.me/inter/inter.css');
 
 body, html {
-  font-family: 'Nunito Sans', Helvetica, Arial, sans-serif;
   color: $font-color;
+  font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -39,10 +43,6 @@ article .anchor-tag {
   opacity: .6;
 }
 
-.side-nav {
-  font-weight:500;
-}
-
 .side-nav a.active {
   cursor:default;
   font-weight:500;
@@ -55,12 +55,16 @@ article .anchor-tag {
 }
 
 .side-nav > ul > li > ul > li {
+  font-weight: 600;
   padding-bottom:5px;
+  a {
+    color:#555555;
+  }
 }
 
 .side-nav > ul > li > h2 {
   font-size:0.9rem;
-  color: #808185;
+  color:$menu-heading-color;
   text-transform:uppercase;
   padding-bottom:5px;
   margin-bottom:0.5rem;
@@ -105,6 +109,9 @@ table {
   @extend .table, .table-striped, .table-bordered;
   border-collapse: collapse;
   border-radius: 3px;
+  border-top:1px $menu-heading-color;
+  border-left:1px $menu-heading-color;
+  border-right:1px $menu-heading-color;
   overflow: hidden;
   box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);
 }
@@ -132,7 +139,7 @@ h1,h2,h3,h4,h5,h6 {
 
 article {
     h1,h2,h3,h4,h5,h6 {
-        margin-top:2.5rem;
+        margin-top:1.5rem;
     }
 }
 
