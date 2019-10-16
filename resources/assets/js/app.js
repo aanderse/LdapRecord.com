@@ -24,7 +24,7 @@ $('.docs blockquote').each(function () {
 });
 
 $('table').each(function () {
-  $(this).html('<div class="overflow-hidden">'+$(this).html()+'</div>');
+  $(this).wrap('<div class="table-responsive"></div>');
 });
 
 // Parse blockquote content for flags.
