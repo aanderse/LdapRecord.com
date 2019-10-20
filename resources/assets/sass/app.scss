@@ -9,7 +9,7 @@ $font-size-base:1rem;
 $svg-color:#5f5f65;
 $font-color:#22292f;
 $note-link-color:#a4e5ff;
-$article-link-color:#22a7f0;
+$article-link-color: #058bd0;
 $navbar-padding-y:1rem;
 
 $menu-heading-color:#808185;
@@ -169,4 +169,8 @@ p > code.language-php,li > code.language-php {
   .collapse:not(.show) {
     display:block !important;
   }
+}
+
+.collapsing {
+    transition: none !important;
 }

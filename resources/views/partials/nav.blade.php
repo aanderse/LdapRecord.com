@@ -8,8 +8,8 @@
             <i class="fab fa-github"></i> Source on GitHub
         </a>
 
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-main" aria-controls="nav-main" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
+		<button class="navbar-toggler rounded-pill border-0" type="button" data-toggle="collapse" data-target="#nav-main" aria-controls="nav-main" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
 		</button>
 	</div>
 </nav>

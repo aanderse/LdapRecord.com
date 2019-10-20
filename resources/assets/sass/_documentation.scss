@@ -1,7 +1,8 @@
 .docs article h1 + ul li:before {
   content: "# ";
   margin-right: .25em;
-  color: #add1ff;
+  color: $article-link-color;
+  font-weight: lighter;
 }
 
 .docs article h1 + ul {
