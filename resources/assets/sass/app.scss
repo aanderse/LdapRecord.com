@@ -14,6 +14,8 @@ $navbar-padding-y:1rem;
 
 $menu-heading-color:#808185;
 
+$docs-box-shadow: 1px 2px 6px rgba(0,0,0,.125);
+
 @import '~bootstrap/scss/bootstrap';
 @import '~prismjs/themes/prism.css';
 @import 'documentation';
@@ -74,7 +76,7 @@ blockquote {
   color:#fff;
   border-radius:3px;
   background:#3f8bca;
-  box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow:$docs-box-shadow;
 }
 
 blockquote .flag {
@@ -105,12 +107,16 @@ blockquote > div:not(.flag) {
 
 table {
   @extend .table, .table-bordered;
+  margin-bottom:0;
   border-collapse: collapse;
   border-radius: 3px;
   border-top:1px $menu-heading-color;
   border-left:1px $menu-heading-color;
   border-right:1px $menu-heading-color;
-  box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.table-responsive {
+  box-shadow:$docs-box-shadow;
 }
 
 span.token.operator {
@@ -124,7 +130,7 @@ span.token.variable {
 pre {
   @extend .rounded;
   font-size: 0.9rem !important;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125);
+  box-shadow:$docs-box-shadow;
   background-color:rgba(238, 238, 238, 0.35) !important;
 }
 
