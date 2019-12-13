@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="Searching your directory using LdapRecord">
+
+        <meta property="og:site_name" content="LdapRecord"/>
+        <meta property="og:title" content="Searching | LdapRecord"/>
+        <meta property="og:description" content="Searching your directory using LdapRecord"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/searching"/>
+        <meta property="og:image" content="/assets/img/logo.png"/>
+        <meta property="og:type" content="website"/>
+
+        <meta name="twitter:image:alt" content="LdapRecord">
+        <meta name="twitter:card" content="summary_large_image">
+
+        
+        <title>LdapRecord | Searching</title>
+
+        <link rel="home" href="https://ldaprecord.com">
+        <link rel="icon" href="/favicon.ico">
+
+        
+                    <!-- Insert analytics code here -->
+        
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=ba88416577c4902e9c5e">
+
+            </head>
+
+    <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
+        <header class="flex items-center shadow bg-white border-b h-24 mb-8 py-4" role="banner">
+            <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
+                <div class="flex items-center">
+                    <a href="/" title="LdapRecord home" class="inline-flex items-center">
+                        <img class="h-20 md:h-24 mr-3" src="/assets/img/logo.svg" alt="LdapRecord logo" />
+                    </a>
+                </div>
+
+                <div class="flex flex-1 justify-end items-center text-right md:pl-10">
+                                    </div>
+            </div>
+
+                <button class="flex justify-center items-center bg-purple-500 border border-purple-500 h-10 mr-4 px-5 rounded-full lg:hidden focus:outline-none"
+    onclick="navMenu.toggle()"
+>
+    <svg id="js-nav-menu-show" xmlns="http://www.w3.org/2000/svg"
+        class="fill-current text-white h-9 w-4" viewBox="0 0 32 32"
+    >
+        <path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/>
+    </svg>
+
+    <svg id="js-nav-menu-hide" xmlns="http://www.w3.org/2000/svg"
+        class="hidden fill-current text-white h-9 w-4" viewBox="0 0 36 30"
+    >
+        <polygon points="32.8,4.4 28.6,0.2 18,10.8 7.4,0.2 3.2,4.4 13.8,15 3.2,25.6 7.4,29.8 18,19.2 28.6,29.8 32.8,25.6 22.2,15 "/>
+    </svg>
+</button>
+
+        </header>
+
+        <main role="main" class="w-full flex-auto">
+            <section class="container max-w-8xl mx-auto px-6 md:px-8 py-4">
+    <div class="flex flex-col lg:flex-row">
+        <nav id="js-nav-menu" class="nav-menu hidden lg:block">
+            <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <p class="nav-menu__item text-gray-600 font-bold">Getting Started</p>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <a href="/docs/installation"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Installation
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/configuration"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Configuration
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/connections"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Connecting
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+            <li class="pl-4">
+            
+        <p class="nav-menu__item text-gray-600 font-bold">Models</p>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <a href="/docs/models"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Getting Started
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/model-relationships"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Relationships
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/model-mutators"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Accessors &amp; Mutators
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/searching"
+            class="lvl0  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+        >
+            Searching
+        </a>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <a href="/docs/events"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Events
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/logging"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Logging
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+            <li class="pl-4">
+            
+        <p class="nav-menu__item text-gray-600 font-bold">Tutorials</p>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <p class="nav-menu__item text-gray-600 font-bold">ActiveDirectory</p>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <a href="/docs/user-management"
+            class="lvl2   nav-menu__item hover:text-blue-500"
+        >
+            User Management
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+        </nav>
+
+        <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
+            <h1>Searching</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#selects">Selects</a></li>
+<li><a href="#executing-searches">Executing</a></li>
+<li><a href="#limit">Limit</a></li>
+<li><a href="#wheres">Wheres</a></li>
+<li><a href="#nested-filters">Nested Filters</a></li>
+<li><a href="#raw-filters">Raw Filters</a></li>
+<li><a href="#sorting">Sorting</a></li>
+<li><a href="#paginating">Paginating</a></li>
+</ul>
+<h2>Introduction</h2>
+<p>Using the LdapRecord query builder makes building LDAP queries feel effortless.</p>
+<p>It allows you to generate LDAP filters using a fluent and
+convenient interface, similar to Eloquent in Laravel.</p>
+<blockquote>
+<p>{note} The LdapRecord query builder escapes all fields &amp; values
+given to its <code>where()</code> methods. There is no need to clean or
+escape strings before passing them into the query builder.</p>
+</blockquote>
+<h2>Creating a new Query</h2>
+<p>To create a new search query, call the <code>query()</code> method on your <code>Connection</code> instance:</p>
+<pre><code class="language-php">$query = $connection-&gt;query();</code></pre>
+<p>Or you can chain all your methods if you'd prefer:</p>
+<pre><code class="language-php">$results = $connection-&gt;query()-&gt;where('cn', '=', 'John Doe')-&gt;get();</code></pre>
+<blockquote>
+<p>{note} Querying your LDAP connection manually will return raw LDAP results
+in a <code>Collection</code>. You must query using <a href="/docs/{{version}}/models#retrieving-models">models</a>
+themselves if you would like them to be returned instead.</p>
+</blockquote>
+<h2>Selects</h2>
+<blockquote>
+<p>{note} Fields are case in-sensitive. For example, you can
+insert <code>CN</code>, <code>cn</code> or <code>cN</code>, they will return the same result.</p>
+</blockquote>
+<h4>Selecting attributes</h4>
+<p>Selecting only the LDAP attributes you need will increase the speed of your queries.</p>
+<pre><code class="language-php">// Passing in an array of attributes
+$query-&gt;select(['cn', 'samaccountname', 'telephone', 'mail']);
+
+// Passing in each attribute as an argument
+$query-&gt;select('cn', 'samaccountname', 'telephone', 'mail');</code></pre>
+<h2>Executing Searches</h2>
+<h4>Finding a record</h4>
+<p>If you're trying to find a single record, you must use the <code>find()</code> method
+and insert the distinguished name of the record you are looking for:</p>
+<pre><code class="language-php">$record = $query-&gt;find('cn=John Doe,dc=acme,dc=org');
+
+if ($record) {
+    // Record was found!    
+} else {
+    // Hmm, looks like we couldn't find anything...
+}</code></pre>
+<h5>Finding a record (or failing)</h5>
+<p>If you'd like to try and find a single record and throw an exception when
+it hasn't been found, use the <code>findOrFail()</code> method:</p>
+<pre><code class="language-php">try {
+    $record = $query-&gt;findOrFail('cn=John Doe,dc=acme,dc=org');
+} catch (LdapRecord\Models\ModelNotFoundException $e) {
+    // Record wasn't found!
+}</code></pre>
+<h4>Finding by ANR</h4>
+<p>If you'd like to locate a record by a generic attribute search, use the <code>findByAnr()</code> method:</p>
+<pre><code class="language-php">$record = $query-&gt;findByAnr('jdoe');</code></pre>
+<p>You can also use <code>findByAnrOrFail()</code> to generate an exception when a record is not found.</p>
+<blockquote>
+<p>{note} ActiveDirectory is the only LDAP distribution that supports ANR.
+An equivalent query will be created for other LDAP distributions
+that are not compatible.</p>
+<p>For a more fine-tuned search, use the <code>findBy()</code> method below.</p>
+</blockquote>
+<h4>Finding a record by a specific attribute</h4>
+<p>If you're looking for a single record with a specific attribute, use the <code>findBy()</code> method:</p>
+<pre><code class="language-php">// We're looking for a record with the 'samaccountname' of 'jdoe'.
+$record = $query-&gt;findBy('samaccountname', 'jdoe');</code></pre>
+<p>You can also use <code>findByOrFail()</code> to generate an exception when a record is not found.</p>
+<h4>Retrieving results</h4>
+<p>To get the results from a search, simply call the <code>get()</code> method:</p>
+<pre><code class="language-php">$results = $query-&gt;select(['cn', 'samaccountname'])-&gt;get();</code></pre>
+<blockquote>
+<p>{note} Executed searches via the <code>get()</code> method will return results inside an
+<code>Illuminate\Support\Collection</code> instance.</p>
+<p>Executed searches via the <code>first()</code> method will return <strong>the model instance only</strong>.</p>
+</blockquote>
+<h5>Retrieving the first record</h5>
+<p>To retrieve the first record of a search, call the <code>first()</code> method:</p>
+<pre><code class="language-php">$record = $query-&gt;first();</code></pre>
+<p>You can also use <code>firstOrFail()</code> to generate an exception when no records are found.</p>
+<h2>Limit</h2>
+<p>To limit the results records returned from your LDAP server and increase the
+speed of your queries, you can use the <code>limit()</code> method:</p>
+<pre><code class="language-php">// This will only return 5 records that contain the name of 'John':
+$records = $query-&gt;where('cn', 'contains', 'John')-&gt;limit(5)-&gt;get();</code></pre>
+<h2>Wheres</h2>
+<p>To perform a where clause on the search object, use the <code>where()</code> function:</p>
+<pre><code class="language-php">$query-&gt;where('cn', '=', 'John Doe');</code></pre>
+<p>This query would look for a record with the common name of 'John Doe' and return the results.</p>
+<p>We can also perform a 'where equals' without including the operator:</p>
+<pre><code class="language-php">$query-&gt;whereEquals('cn', 'John Doe');</code></pre>
+<p>We can also supply an array of key - value pairs to quickly add multiple wheres:</p>
+<pre><code class="language-php">$wheres = [
+    'cn' =&gt; 'John Doe',
+    'samaccountname' =&gt; 'jdoe',
+];
+
+$query-&gt;where($wheres);</code></pre>
+<p>Or, if you require conditionals, you can quickly add multiple wheres with nested arrays:</p>
+<pre><code class="language-php">$query-&gt;where([
+   ['cn', '=', 'John Doe'],
+   ['manager', '!', 'Suzy Doe'],
+]);</code></pre>
+<h4>Where Starts With</h4>
+<p>We could also perform a search for all objects beginning with the common name of 'John' using the <code>starts_with</code> operator:</p>
+<pre><code class="language-php">$results = $query-&gt;where('cn', 'starts_with', 'John')-&gt;get();
+
+// Or use the method whereStartsWith($attribute, $value):
+
+$results = $query-&gt;whereStartsWith('cn', 'John')-&gt;get();</code></pre>
+<h4>Where Ends With</h4>
+<p>We can also search for all objects that end with the common name of <code>Doe</code> using the <code>ends_with</code> operator:</p>
+<pre><code class="language-php">$results = $query-&gt;where('cn', 'ends_with', 'Doe')-&gt;get();
+
+// Or use the method whereEndsWith($attribute, $value):
+
+$results = $query-&gt;whereEndsWith('cn', 'Doe')-&gt;get();</code></pre>
+<h4>Where Between</h4>
+<p>To search for records between two values, use the <code>whereBetween</code> method.</p>
+<p>For the example below, we'll retrieve all users who were created between two dates:</p>
+<pre><code class="language-php">$from = (new DateTime('October 1st 2016'))-&gt;format('YmdHis.0\Z');
+$to = (new DateTime('January 1st 2017'))-&gt;format('YmdHis.0\Z');
+
+$users = $query-&gt;users()-&gt;whereBetween('whencreated', [$from, $to])-&gt;get();</code></pre>
+<h4>Where Contains</h4>
+<p>We can also search for all objects with a common name that contains <code>John Doe</code> using the <code>contains</code> operator:</p>
+<pre><code class="language-php">$results = $query-&gt;where('cn', 'contains', 'John Doe')-&gt;get();
+
+// Or use the method whereContains($attribute, $value):
+
+$results = $query-&gt;whereContains('cn', 'John Doe')-&gt;get();</code></pre>
+<h5>Where Not Contains</h5>
+<p>You can use a 'where not contains' to perform the inverse of a 'where contains':</p>
+<pre><code class="language-php">$results = $query-&gt;where('cn', 'not_contains', 'John Doe')-&gt;get();
+
+// Or use the method whereNotContains($attribute, $value):
+
+$results = $query-&gt;whereNotContains('cn', 'John Doe');</code></pre>
+<h4>Where Has</h4>
+<p>Or we can retrieve all objects that have a common name attribute using the wildcard operator (<code>*</code>):</p>
+<pre><code class="language-php">$results = $query-&gt;where('cn', '*')-&gt;get();
+
+// Or use the method whereHas($field):
+
+$results = $query-&gt;whereHas('cn')-&gt;get();</code></pre>
+<p>This type of filter syntax allows you to clearly see what your searching for.</p>
+<h5>Where Not Has</h5>
+<p>You can use a 'where not has' to perform the inverse of a 'where has':</p>
+<pre><code class="language-php">$results = $query-&gt;where('cn', '!*')-&gt;get();
+
+// Or use the method whereNotHas($field):
+
+$results = $query-&gt;whereNotHas($field)-&gt;get();</code></pre>
+<h2>Or Wheres</h2>
+<p>To perform an <code>or where</code> clause on the search object, use the <code>orWhere()</code> method. However,
+please be aware this function performs differently than it would on a database.</p>
+<p>For example:</p>
+<pre><code class="language-php">$results = $query
+            -&gt;where('cn', '=', 'John Doe')
+            -&gt;orWhere('cn', '=', 'Suzy Doe')
+            -&gt;get();</code></pre>
+<p>This query would return no results. Since we're already defining that the common name (<code>cn</code>) must equal <code>John Doe</code>, applying
+the <code>orWhere()</code> does not amount to 'Look for an object with the common name as &quot;John Doe&quot; OR &quot;Suzy Doe&quot;'. This query would
+actually amount to 'Look for an object with the common name that <b>equals</b> &quot;John Doe&quot; OR &quot;Suzy Doe&quot;</p>
+<p>To solve the above problem, we would use <code>orWhere()</code> for both fields. For example:</p>
+<pre><code class="language-php">$results = $query
+        -&gt;orWhere('cn', '=', 'John Doe')
+        -&gt;orWhere('cn', '=', 'Suzy Doe')
+        -&gt;get();</code></pre>
+<p>Now, we'll retrieve both John and Suzy's LDAP records, because the common name can equal either.</p>
+<blockquote>
+<p>{note} You can also use all <code>where</code> methods as an or where, for example:
+<code>orWhereHas()</code>, <code>orWhereContains()</code>, <code>orWhereStartsWith()</code>, <code>orWhereEndsWith()</code></p>
+</blockquote>
+<h2>Dynamic Wheres</h2>
+<p>To perform a dynamic where, simply suffix a <code>where</code> with the field you're looking for.</p>
+<p>This feature was directly ported from Laravel's Eloquent.</p>
+<p>Here's an example:</p>
+<pre><code class="language-php">// This query:
+$result = $query-&gt;where('cn', '=', 'John Doe')-&gt;first();
+
+// Can be converted to:
+$result = $query-&gt;whereCn('John Doe')-&gt;first();</code></pre>
+<p>You can perform this on <strong>any</strong> attribute:</p>
+<pre><code class="language-php">$result = $query-&gt;whereTelephonenumber('555-555-5555')-&gt;first();</code></pre>
+<p>You can also chain them:</p>
+<pre><code class="language-php">$result = $query
+    -&gt;whereTelephonenumber('555-555-5555')
+    -&gt;whereGivenname('John Doe')
+    -&gt;whereSn('Doe')
+    -&gt;first();</code></pre>
+<p>You can even perform multiple dynamic wheres by separating your fields by an <code>And</code>:</p>
+<pre><code class="language-php">// This would perform a search for a user with the
+// first name of 'John' and last name of 'Doe'.
+$result = $query-&gt;whereGivennameAndSn('John', 'Doe')-&gt;first();</code></pre>
+<h2>Nested Filters</h2>
+<p>By default, the LdapRecord query builder automatically wraps your queries in <code>and</code> / <code>or</code> filters for you.
+However, if any further complexity is required, nested filters allow you
+to construct any query fluently and easily.</p>
+<h4>andFilter</h4>
+<p>The <code>andFilter</code> method accepts a closure which allows you to construct a query inside of an <code>and</code> LDAP filter:</p>
+<pre><code class="language-php">// Creates the filter: (&amp;(givenname=John)(sn=Doe))
+$results = $query-&gt;andFilter(function (LdapRecord\Query\Builder $q) {
+    $q-&gt;where('givenname', '=', 'John')
+      -&gt;where('sn', '=', 'Doe');
+})-&gt;get();</code></pre>
+<p>The above query would return records that contain the first name <code>John</code> <strong>and</strong> the last name <code>Doe</code>.</p>
+<h4>orFilter</h4>
+<p>The <code>orFilter</code> method accepts a closure which allows you to construct a query inside of an <code>or</code> LDAP filter:</p>
+<pre><code class="language-php">// Creates the filter: (|(givenname=John)(sn=Doe))
+$results = $query-&gt;orFilter(function (LdapRecord\Query\Builder $q) {
+    $q-&gt;where('givenname', '=', 'John')
+      -&gt;where('sn', '=', 'Doe');
+})-&gt;get();</code></pre>
+<p>The above query would return records that contain the first name <code>John</code> <strong>or</strong> the last name <code>Doe</code>.</p>
+<h4>notFilter</h4>
+<p>The <code>notFilter</code> method accepts a closure which allows you to construct a query inside a <code>not</code> LDAP filter:</p>
+<pre><code class="language-php">// Creates the filter: (!(givenname=John)(sn=Doe))
+$results = $query-&gt;notFilter(function (LdapRecord\Query\Builder $q) {
+    $q-&gt;where('givenname', '=', 'John')
+      -&gt;where('sn', '=', 'Doe');
+})-&gt;get();</code></pre>
+<p>The above query would return records that <strong>do not</strong> contain the first name <code>John</code> <strong>or</strong> the last name <code>Doe</code>.</p>
+<h4>Complex Nesting</h4>
+<p>The above methods <code>andFilter</code> / <code>orFilter</code> can be chained together and nested
+as many times as you'd like for larger complex queries:</p>
+<pre><code class="language-php">$query = $query-&gt;orFilter(function (LdapRecord\Query\Builder $q) {
+    $q-&gt;where('givenname', '=', 'John')-&gt;where('sn', '=', 'Doe');
+})-&gt;andFilter(function (LdapRecord\Query\Builder $q) {
+    $q-&gt;where('department', '=', 'Accounting')-&gt;where('title', '=', 'Manager');
+})-&gt;getUnescapedQuery();
+
+echo $query; // Returns '(&amp;(|(givenname=John)(sn=Doe))(&amp;(department=Accounting)(title=Manager)))'</code></pre>
+<h2>Raw Filters</h2>
+<blockquote>
+<p>{note} Raw filters are not escaped. <strong>Do not</strong> accept user input into the raw filter method.</p>
+</blockquote>
+<p>Sometimes you might just want to add a raw filter without using the query builder.
+You can do so by using the <code>rawFilter()</code> method:</p>
+<pre><code class="language-php">$results = $query-&gt;rawFilter('(samaccountname=jdoe)')-&gt;get();
+
+// Or use an array
+$filters = [
+    '(samaccountname=jdoe)',
+    '(surname=Doe)',
+];
+
+$results = $query-&gt;rawFilter($filters)-&gt;get();
+
+// Or use multiple arguments
+$results = $query-&gt;rawFilter($filters[0], $filters[1])-&gt;get();
+
+// Multiple raw filters will be automatically wrapped into an `and` filter:
+$query = $query-&gt;getUnescapedQuery();
+
+echo $query; // Returns (&amp;(samaccountname=jdoe)(surname=Doe))</code></pre>
+<h2>Paginating</h2>
+<p>Paginating your search results will allow you to return more results than your LDAP cap (usually 1000).</p>
+<p>For example, if your LDAP server contains 10,000 records and you paginate by 1000, 10 queries will be executed.</p>
+<blockquote>
+<p>{note} Calling <code>paginate()</code> will retrieve <strong>all</strong> records from your LDAP server for the current query.</p>
+<p>This <strong>does not</strong> operate the same way pagination occurs in a database. Pagination of
+an LDAP query simply allows you to return a larger result set than your
+LDAP servers configured maximum (usually 1000).</p>
+</blockquote>
+<pre><code class="language-php">// Perform global "all" search, paginating by 1000 records:
+$results = $query-&gt;paginate(1000);
+
+foreach ($results as $result) {
+    //
+}</code></pre>
+<h2>Base DN</h2>
+<p>To set the base DN of your search you can use one of two methods:</p>
+<pre><code class="language-php">// Using the `in()` method:
+$results = $query-&gt;in('ou=Accounting,dc=acme,dc=org')-&gt;get();
+
+// Using the `setDn()` method:
+$results = $query-&gt;setDn('ou=Accounting,dc=acme,dc=org')-&gt;get();</code></pre>
+<p>Either option will return the same results. Use which ever method you prefer to be more readable.</p>
+<h2>Search Options</h2>
+<h4>Recursive</h4>
+<p>By default, all searches performed are recursive.</p>
+<p>If you'd like to disable recursive search and perform a single level search, use the <code>listing()</code> method:</p>
+<pre><code class="language-php">$result = $query-&gt;listing()-&gt;get();</code></pre>
+<p>This would perform an <code>ldap_listing()</code> instead of an <code>ldap_search()</code>.</p>
+<h4>Read</h4>
+<p>If you'd like to perform a read instead of a listing or a recursive search, use the <code>read()</code> method:</p>
+<pre><code class="language-php">$result = $query-&gt;read()-&gt;where('objectClass', '*')-&gt;get();</code></pre>
+<p>This would perform an <code>ldap_read()</code> instead of an <code>ldap_listing()</code> or an <code>ldap_search()</code>.</p>
+<blockquote>
+<p>{note} Performing a <code>read()</code> will always return <em>one</em> record in your result.</p>
+</blockquote>
+<h2>Retrieving the ran query</h2>
+<p>If you'd like to retrieve the current query to save or run it at another
+time, use the <code>getQuery()</code> method on the query builder.</p>
+<p>This will return the escaped filter.</p>
+<pre><code class="language-php">$query = $query-&gt;where('cn', '=', 'John Doe')-&gt;getQuery();
+
+echo $query; // Returns '(cn=\4a\6f\68\6e\20\44\6f\65)'</code></pre>
+<p>To retrieve the unescaped filter, call the <code>getUnescapedQuery()</code> method:</p>
+<pre><code class="language-php">$query = $query-&gt;where('cn', '=', 'John Doe')-&gt;getUnescapedQuery();
+
+echo $query; // Returns '(cn=John Doe)'</code></pre>
+<p>Now that you know how to search your directory, lets move onto <a href="/docs/{{version}}/models">creating / modifying LDAP records</a>.</p>        </div>
+    </div>
+</section>
+        </main>
+
+        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
+
+        <script>
+    const navMenu = {
+        toggle() {
+            const menu = document.getElementById('js-nav-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('lg:block');
+            document.getElementById('js-nav-menu-hide').classList.toggle('hidden');
+            document.getElementById('js-nav-menu-show').classList.toggle('hidden');
+        },
+    }
+</script>
+
+        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
+            <ul class="flex flex-col md:flex-row justify-center list-none">
+                <li class="md:mr-2">
+                    &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> 2019.
+                </li>
+
+                <li>
+                    Built with <a href="http://jigsaw.tighten.co" title="Jigsaw by Tighten">Jigsaw</a>
+                    and <a href="https://tailwindcss.com" title="Tailwind CSS, a utility-first CSS framework">Tailwind CSS</a>.
+                </li>
+            </ul>
+        </footer>
+    </body>
+</html>

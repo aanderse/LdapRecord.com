@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="Managing users with LdapRecord">
+
+        <meta property="og:site_name" content="LdapRecord"/>
+        <meta property="og:title" content="User Management (ActiveDirectory) | LdapRecord"/>
+        <meta property="og:description" content="Managing users with LdapRecord"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/user-management"/>
+        <meta property="og:image" content="/assets/img/logo.png"/>
+        <meta property="og:type" content="website"/>
+
+        <meta name="twitter:image:alt" content="LdapRecord">
+        <meta name="twitter:card" content="summary_large_image">
+
+        
+        <title>LdapRecord | User Management (ActiveDirectory)</title>
+
+        <link rel="home" href="https://ldaprecord.com">
+        <link rel="icon" href="/favicon.ico">
+
+        
+                    <!-- Insert analytics code here -->
+        
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=ba88416577c4902e9c5e">
+
+            </head>
+
+    <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
+        <header class="flex items-center shadow bg-white border-b h-24 mb-8 py-4" role="banner">
+            <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
+                <div class="flex items-center">
+                    <a href="/" title="LdapRecord home" class="inline-flex items-center">
+                        <img class="h-20 md:h-24 mr-3" src="/assets/img/logo.svg" alt="LdapRecord logo" />
+                    </a>
+                </div>
+
+                <div class="flex flex-1 justify-end items-center text-right md:pl-10">
+                                    </div>
+            </div>
+
+                <button class="flex justify-center items-center bg-purple-500 border border-purple-500 h-10 mr-4 px-5 rounded-full lg:hidden focus:outline-none"
+    onclick="navMenu.toggle()"
+>
+    <svg id="js-nav-menu-show" xmlns="http://www.w3.org/2000/svg"
+        class="fill-current text-white h-9 w-4" viewBox="0 0 32 32"
+    >
+        <path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/>
+    </svg>
+
+    <svg id="js-nav-menu-hide" xmlns="http://www.w3.org/2000/svg"
+        class="hidden fill-current text-white h-9 w-4" viewBox="0 0 36 30"
+    >
+        <polygon points="32.8,4.4 28.6,0.2 18,10.8 7.4,0.2 3.2,4.4 13.8,15 3.2,25.6 7.4,29.8 18,19.2 28.6,29.8 32.8,25.6 22.2,15 "/>
+    </svg>
+</button>
+
+        </header>
+
+        <main role="main" class="w-full flex-auto">
+            <section class="container max-w-8xl mx-auto px-6 md:px-8 py-4">
+    <div class="flex flex-col lg:flex-row">
+        <nav id="js-nav-menu" class="nav-menu hidden lg:block">
+            <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <p class="nav-menu__item text-gray-600 font-bold">Getting Started</p>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <a href="/docs/installation"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Installation
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/configuration"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Configuration
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/connections"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Connecting
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+            <li class="pl-4">
+            
+        <p class="nav-menu__item text-gray-600 font-bold">Models</p>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <a href="/docs/models"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Getting Started
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/model-relationships"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Relationships
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/model-mutators"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Accessors &amp; Mutators
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/searching"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Searching
+        </a>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <a href="/docs/events"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Events
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/logging"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Logging
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+            <li class="pl-4">
+            
+        <p class="nav-menu__item text-gray-600 font-bold">Tutorials</p>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <p class="nav-menu__item text-gray-600 font-bold">ActiveDirectory</p>
+    
+            
+        <ul class="list-none my-0">
+            <li class="pl-4">
+            
+        <a href="/docs/user-management"
+            class="lvl2  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+        >
+            User Management
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+        </nav>
+
+        <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
+            <h1>User Management (ActiveDirectory)</h1>
+<ul>
+<li><a href="#creation">Creation</a></li>
+<li><a href="#setting-passwords">Setting Passwords</a></li>
+<li><a href="#changing-passwords">Changing Passwords</a></li>
+<li><a href="#resetting-passwords">Resetting Passwords</a></li>
+<li><a href="#user-account-control">User Account Control</a></li>
+<li><a href="#password-policy-errors">Password Policy Errors</a></li>
+<li><a href="#group-management">Group Management</a></li>
+</ul>
+<h2>Creation</h2>
+<p>Let's walk through the basics of user creation for ActiveDirectory. There
+are some prerequisites you must know prior to creation:</p>
+<ul>
+<li>You must connect to your server via TLS or SSL if you set the <code>unicodepwd</code> attribute</li>
+<li>You must connect to your server with an account that has permission to create users</li>
+<li>You must set a common name (<code>cn</code>) for the user</li>
+<li>You must set the <code>unicodePwd</code> attribute as a non-encoded string (more on this below)</li>
+<li>To set the users <code>userAccountControl</code>, it must be set <strong>after</strong> the user has been saved</li>
+</ul>
+<blockquote>
+<p>{note} Attributes that are set below can be cased in <em>any</em> manor. They
+can be uppercase, lowercase, camel-cased, etc. Use whichever casing
+you prefer to be most readable in your application.</p>
+</blockquote>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+
+$user = new User();
+
+$user-&gt;cn = 'John Doe';
+$user-&gt;samccountname = 'jdoe';
+$user-&gt;userPrincipalName = 'jdoe@acme.org';
+$user-&gt;unicodePwd = 'SecretPassword#123';
+
+// Save the user.
+$user-&gt;save();
+
+// Enable the user.
+$user-&gt;userAccountControl = 512;
+
+// Save the enablement.
+$user-&gt;save();</code></pre>
+<p>To create a user inside of a container or an organizational unit, you can
+use the <code>inside()</code> method to set the base DN the user must be located in.</p>
+<p>It may be useful to first locate the organizational unit or container
+prior to ensure it exists before attempting creation:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+use LdapRecord\Models\ActiveDirectory\OrganizationalUnit;
+
+$ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
+
+$user = (new User())-&gt;inside($ou);
+
+$user-&gt;cn = 'John Doe';
+
+// User will be saved in the 'Users' OU.
+$user-&gt;save();</code></pre>
+<blockquote>
+<p>{note} It is wise to encapsulate saving your user in a try / catch block, so if it
+fails you can determine if the cause of failure is due to your password policy.</p>
+</blockquote>
+<h3>Setting Passwords</h3>
+<p>Utilizing the included <code>LdapRecord\Models\ActiveDirectory\User</code> model, an attribute
+<a href="/docs/{{version}}/model-mutators">mutator</a> has been added that assists in
+the setting and changing of passwords on user objects. Feel free to take a
+peek into the source code to see how it all works.</p>
+<p>The password string you set on the users <code>unicodePwd</code> attribute is automatically encoded,
+you do not need to encode it yourself. Doing so will cause an error or exception upon
+saving the user.</p>
+<p>Once you have set a password on a user object, this generates a modification
+on the user model equal to a <code>LDAP_MODIFY_BATCH_REPLACE</code>:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+
+$user = new User();
+
+$user-&gt;unicodepwd = 'secret';
+
+$modification = $user-&gt;getModifications()[0];
+
+var_dump($modification);
+
+// "attrib" =&gt; "unicodepwd"
+// "modtype" =&gt; 3
+// "values" =&gt; array:1 [▼
+//    0 =&gt; ""\x00s\x00e\x00c\x00r\x00e\x00t\x00"\x00"
+// ]</code></pre>
+<p>As you can see, a batch modification is generated for the user and upon
+calling <code>save()</code>, it will be sent to your LDAP server.</p>
+<h3>Changing Passwords</h3>
+<p>To change a users password, you must bind to your LDAP server with a user
+that has permissions to reset passwords, or bind as the user whose
+password you are trying to change.</p>
+<p>There are some prerequisites you must know for changing passwords:</p>
+<ul>
+<li>You must provide the correct users old password</li>
+<li>You must provide a new password that abides by your password policy, such as history, complexity and length</li>
+<li>You must set the <code>unicodepwd</code> attribute with an array containing two (2) values (old &amp; new password)</li>
+</ul>
+<p>Let's walk through an example:</p>
+<blockquote>
+<p>{note} You must use a try / catch block upon saving. An LDAP exception will always be thrown
+when an incorrect old password is given, or the new password does not abide by your
+password policy.</p>
+</blockquote>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user-&gt;unicodepwd = ['old-password', 'new-password'];
+
+try {
+    $user-&gt;save();
+
+    // User password changed!
+} catch (\Exception $ex) {
+    // Failed changing password.
+    $connection = $user-&gt;getConnection();
+
+    // Get the last LDAP error to determine the cause of failure.
+    $error = $connection-&gt;getLdapConnection()-&gt;getDetailedError();
+
+    echo $error-&gt;getErrorCode();
+    echo $error-&gt;getErrorMessage();
+    echo $error-&gt;getDiagnosticMessage();
+}</code></pre>
+<h3>Resetting Passwords</h3>
+<p>To reset a user password, you must be bound to your LDAP directory with a user whom has permission to do so.</p>
+<p>This is done by setting the users <code>unicodepwd</code> attribute as a string, and then saving, similarly to how
+it is done during user creation:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user-&gt;unicodepwd = 'new-password';
+
+try {
+    $user-&gt;save();
+
+    // User password reset!
+} catch (\Exception $ex) {
+    // Failed resetting password.
+    $connection = $user-&gt;getConnection();
+
+    // Get the last LDAP error to determine the cause of failure.
+    $error = $connection-&gt;getLdapConnection()-&gt;getDetailedError();
+
+    echo $error-&gt;getErrorCode();
+    echo $error-&gt;getErrorMessage();
+    echo $error-&gt;getDiagnosticMessage();
+}</code></pre>
+<h3>User Account Control</h3>
+<p>User account control is an integer that contains flags to control the behaviour of an ActiveDirectory user account.</p>
+<p>You can manipulate this manually by simply setting the <code>userAccountControl</code> property on an existing user,
+or you can use the account control builder <code>LdapRecord\Models\Attributes\AccountControl</code>:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+use LdapRecord\Models\Attributes\AccountControl;
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$uac = new UserAccountControl();
+
+$uac-&gt;accountIsNormal()-&gt;passwordDoesNotExpire();
+
+$user-&gt;userAccountControl = $uac;
+
+$user-&gt;save();</code></pre>
+<p>To determine what controls an existing user already has, create an <code>AccountControl</code> object
+with the users <code>userAccountControl</code> value and use the <code>has()</code> method:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+use LdapRecord\Models\Attributes\AccountControl;
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$uac = new UserAccountControl($user-&gt;userAccountControl);
+
+if ($uac-&gt;has(AccountControl::LOCKOUT)) {
+    // This account is locked out.
+} elseif ($uac-&gt;has(AccountControl::ACCOUNTDISABLE)) {
+    // This account is disabled.
+} elseif ($uac-&gt;has(AccountControl::DONT_EXPIRE_PASSWORD)) {
+    // This accounts password does not expire.
+}</code></pre>
+<h3>Password Policy Errors</h3>
+<p>ActiveDirectory will return diagnostic error codes when a password modification fails.</p>
+<p>To determine the cause, you can check this diagnostic message to see if it contains any of the following codes:</p>
+<ul>
+<li>525 - user not found</li>
+<li>52e - invalid credentials</li>
+<li>530 - not permitted to logon at this time</li>
+<li>531 - not permitted to logon at this workstation</li>
+<li>532 - password expired</li>
+<li>533 - account disabled</li>
+<li>701 - account expired</li>
+<li>773 - user must reset password</li>
+<li>775 - user account locked</li>
+</ul>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user-&gt;unicodepwd = ['old-password', 'new-password'];
+
+try {
+    $user-&gt;save();
+
+    // User password changed!
+} catch (\Exception $ex) {
+    // Failed resetting password.
+    $connection = $user-&gt;getConnection();
+
+    // Get the last LDAP error to determine the cause of failure.
+    $error = $connection-&gt;getLdapConnection()-&gt;getDetailedError();
+
+    echo $error-&gt;getErrorCode(); // 49
+    echo $error-&gt;getErrorMessage(); // 'Invalid credentials'
+    echo $error-&gt;getDiagnosticMessage(); // '80090308: LdapErr: DSID-0C09042A, comment: AcceptSecurityContext error, data 52e, v3839'
+
+    if (strpos($error-&gt;getDiagnosticMessage(), '52e')) {
+        // This is an invalid credentials error.
+    }
+}</code></pre>
+<h3>Group Management</h3>
+<p>If you are utilizing the included <code>LdapRecord\Models\ActiveDirectory\User</code> model, the <code>groups()</code>
+relationship exists for easily removing / adding groups to users.</p>
+<blockquote>
+<p>{note} To attach or detach groups on users, you must locate the first locate the group
+you wish to add or detach, and ensure the <code>member</code> attribute is selected.</p>
+</blockquote>
+<h4>Adding Groups</h4>
+<p>To add groups to a user, call the <code>groups()</code> relationship method, then <code>attach()</code>:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+use LdapRecord\Models\ActiveDirectory\Group;
+
+$group = Group::findOrFail('cn=Accounting,ou=Groups,dc=acme,dc=org');
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+if ($user-&gt;groups()-&gt;attach($group)) {
+    // Successfully added the group to the user.
+}</code></pre>
+<h4>Removing Groups</h4>
+<p>To remove groups on user, call the <code>groups()</code> relationship method, then <code>detach()</code>:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+use LdapRecord\Models\ActiveDirectory\Group;
+
+$group = Group::findOrFail('cn=Accounting,ou=Groups,dc=acme,dc=org');
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+if ($user-&gt;groups()-&gt;detach($group)) {
+    // Successfully removed the group from the user.
+}</code></pre>
+<blockquote>
+<p>{note} The <code>detach()</code> method will return <code>true</code> if the user is already not apart
+of the given group. This does not indicate that the user was previously a member.</p>
+</blockquote>
+<p>You may want to locate groups on the user prior removal to ensure they are a member:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\User;
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$group = $user-&gt;groups()-&gt;first();
+
+if ($group &amp;&amp; $user-&gt;groups()-&gt;detach($group)) {
+    // Successfully removed the first group from the user.
+}</code></pre>        </div>
+    </div>
+</section>
+        </main>
+
+        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
+
+        <script>
+    const navMenu = {
+        toggle() {
+            const menu = document.getElementById('js-nav-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('lg:block');
+            document.getElementById('js-nav-menu-hide').classList.toggle('hidden');
+            document.getElementById('js-nav-menu-show').classList.toggle('hidden');
+        },
+    }
+</script>
+
+        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
+            <ul class="flex flex-col md:flex-row justify-center list-none">
+                <li class="md:mr-2">
+                    &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> 2019.
+                </li>
+
+                <li>
+                    Built with <a href="http://jigsaw.tighten.co" title="Jigsaw by Tighten">Jigsaw</a>
+                    and <a href="https://tailwindcss.com" title="Tailwind CSS, a utility-first CSS framework">Tailwind CSS</a>.
+                </li>
+            </ul>
+        </footer>
+    </body>
+</html>
