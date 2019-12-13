@@ -1,6 +1,6 @@
 <?php
 
-use App\Listeners\GenerateSitemap;
+use App\Listeners\BuildSiteMap;
 use TightenCo\Jigsaw\Jigsaw;
 
 /** @var $container \Illuminate\Container\Container */
@@ -17,5 +17,4 @@ use TightenCo\Jigsaw\Jigsaw;
  * });
  */
 
-$events->afterBuild(GenerateSitemap::class);
-
+$events->afterBuild(BuildSiteMap::class);

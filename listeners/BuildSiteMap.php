@@ -5,7 +5,7 @@ namespace App\Listeners;
 use samdark\sitemap\Sitemap;
 use TightenCo\Jigsaw\Jigsaw;
 
-class GenerateSitemap
+class BuildSiteMap
 {
     protected $exclude = [
         '/assets/*',
