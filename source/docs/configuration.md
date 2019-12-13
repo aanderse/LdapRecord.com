@@ -83,7 +83,7 @@ The hosts option is an array of IP addresses or host names located on your netwo
 
 You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).
 
-> {note} Do not append your port to your IP addresses or host names. Use the `port` configuration option instead.
+> Do not append your port to your IP addresses or host names. Use the `port` configuration option instead.
 
 ### Base Distinguished Name {#base-distinguished-name}
 
@@ -93,7 +93,7 @@ An example base DN would be `DC=corp,DC=acme,DC=org`.
 
 If one is not defined, you will not retrieve any search results.
 
-> {note} Your base DN is **case insensitive**. You do not need to worry about incorrect casing.
+> Your base DN is **case insensitive**. You do not need to worry about incorrect casing.
 
 ### Username & Password {#username-amp-password}
 
@@ -101,7 +101,7 @@ To connect to your LDAP server, a username and password is required to be able t
 
 You can use any account that has these permissions.
 
-> {note} To run administration level operations, such as resetting passwords,
+> To run administration level operations, such as resetting passwords,
 > this account **must** have permissions to do so on your directory.
 
 ### Port {#port}
@@ -118,11 +118,11 @@ These Boolean options enable an SSL or TLS connection to your LDAP server.
 
 Only **one** can be set to `true`. You must chose either or.
 
-> {note} You **must** enable SSL or TLS to reset passwords in ActiveDirectory.
+> You **must** enable SSL or TLS to reset passwords in ActiveDirectory.
 
 These options are definitely recommended if you have the ability to connect to your server securely.
 
-> {note} TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.
+> TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.
 
 ### Timeout {#timeout}
 

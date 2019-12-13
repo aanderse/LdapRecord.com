@@ -3,3 +3,11 @@
     @apply .ml-8;
   }
 }
+
+.DocSearch-content {
+  blockquote {
+    @apply .bg-blue-100;
+    @apply .rounded;
+    @apply .py-1;
+  }
+}

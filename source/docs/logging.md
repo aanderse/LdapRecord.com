@@ -11,7 +11,7 @@ LdapRecord includes an implementation of PSR's widely supported [Logger](https:/
 
 By default, all of LdapRecord's [events](/docs/{{version}}/events) will call the logger you have set to utilize.
 
-> {note} LdapRecord does not include a file / text logger. You must implement your own.
+> LdapRecord does not include a file / text logger. You must implement your own.
 
 ## Registering & Enabling a Logger {#enabling-logger}
 

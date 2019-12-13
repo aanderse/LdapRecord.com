@@ -64,7 +64,7 @@ class User extends Model
 As you can see from the above, the attribute name we want to create
 an accessor for, must be between `get` and `Attribute`.
 
-> {note} The casing of `get` and `Attribute` are very important.
+> The casing of `get` and `Attribute` are very important.
 > This casing difference is how LdapRecord detects accessor
 > and mutator methods.
 
@@ -130,7 +130,7 @@ $user->unicodepwd = 'secret';
 By default, LdapRecord will convert the attributes `createtimestamp` and
 `modifytimestamp` to instances of [Carbon](https://github.com/briannesbitt/Carbon).
 
-> {note} If you extend from `ActiveDirectory` models, the attributes
+> If you extend from `ActiveDirectory` models, the attributes
 > `whenchanged` and `whencreated` will be converted instead.
 
 When you define an attribute as a date, you can set its value to an

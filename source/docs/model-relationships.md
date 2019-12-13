@@ -147,7 +147,7 @@ models that are potential members of the group. This allows
 the relationship to properly create the models that are
 returned from the query results.
 
-> {note} LdapRecord will return plain `Entry` models when
+> LdapRecord will return plain `Entry` models when
 > it cannot locate the correct model in the given array.
 
 ```php
@@ -169,7 +169,7 @@ class Group extends Model
 }
 ```
 
-> {note} For brevity, we have not shown the creation of the `Contact` model.
+> For brevity, we have not shown the creation of the `Contact` model.
 
 You can see from the above example, we have passed an array of models
 that are possible members of the group. The difference of this
@@ -197,7 +197,7 @@ The has many in relationship allows you to retrieve related models from
 the given parent models [virtual attribute](https://ldapwiki.com/wiki/Virtual%20Attribute)
 such as `memberof`.
 
-> {note} Since this relationship uses virtual attributes, you cannot
+> Since this relationship uses virtual attributes, you cannot
 > use `attach()` or `detach()` methods. This also means that
 > for each entry that is contained in the virtual attribute,
 > they will be queried for individually which can be very
@@ -272,7 +272,7 @@ $user = User::find('cn=John Doe,dc=acme,dc=org');
 $adminGroups = $user->groups()->whereStartsWith('cn', 'Admin')->get();
 ```
 
-> {note} By default, querying relations will not include recursive results. More on this below.
+> By default, querying relations will not include recursive results. More on this below.
 
 ### Recursive Queries {#recursive-queries}
 

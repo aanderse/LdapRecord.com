@@ -26,7 +26,7 @@ are some prerequisites you must know prior to creation:
 - You must set the `unicodePwd` attribute as a non-encoded string (more on this below)
 - To set the users `userAccountControl`, it must be set **after** the user has been saved
 
-> {note} Attributes that are set below can be cased in *any* manor. They
+> Attributes that are set below can be cased in *any* manor. They
 > can be uppercase, lowercase, camel-cased, etc. Use whichever casing
 > you prefer to be most readable in your application.
 
@@ -74,7 +74,7 @@ $user->cn = 'John Doe';
 $user->save();
 ```
 
-> {note} It is wise to encapsulate saving your user in a try / catch block, so if it 
+> It is wise to encapsulate saving your user in a try / catch block, so if it 
 > fails you can determine if the cause of failure is due to your password policy.
 
 ### Setting Passwords
@@ -128,7 +128,7 @@ There are some prerequisites you must know for changing passwords:
 
 Let's walk through an example:
 
-> {note} You must use a try / catch block upon saving. An LDAP exception will always be thrown
+> You must use a try / catch block upon saving. An LDAP exception will always be thrown
 > when an incorrect old password is given, or the new password does not abide by your
 > password policy.
 
@@ -288,7 +288,7 @@ try {
 If you are utilizing the included `LdapRecord\Models\ActiveDirectory\User` model, the `groups()`
 relationship exists for easily removing / adding groups to users.
 
-> {note} To attach or detach groups on users, you must locate the first locate the group
+> To attach or detach groups on users, you must locate the first locate the group
 > you wish to add or detach, and ensure the `member` attribute is selected.
 
 #### Adding Groups
@@ -329,7 +329,7 @@ if ($user->groups()->detach($group)) {
 }
 ```
 
-> {note} The `detach()` method will return `true` if the user is already not apart
+> The `detach()` method will return `true` if the user is already not apart
 > of the given group. This does not indicate that the user was previously a member.
 
 You may want to locate groups on the user prior removal to ensure they are a member:

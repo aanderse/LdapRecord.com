@@ -24,7 +24,7 @@ Using the LdapRecord query builder makes building LDAP queries feel effortless.
 It allows you to generate LDAP filters using a fluent and
 convenient interface, similar to Eloquent in Laravel.
 
-> {note} The LdapRecord query builder escapes all fields & values
+> The LdapRecord query builder escapes all fields & values
 > given to its `where()` methods. There is no need to clean or
 > escape strings before passing them into the query builder.
 
@@ -42,13 +42,13 @@ Or you can chain all your methods if you'd prefer:
 $results = $connection->query()->where('cn', '=', 'John Doe')->get();
 ```
 
-> {note} Querying your LDAP connection manually will return raw LDAP results
+> Querying your LDAP connection manually will return raw LDAP results
 > in a `Collection`. You must query using [models](/docs/{{version}}/models#retrieving-models)
 > themselves if you would like them to be returned instead.
 
 ## Selects
 
-> {note} Fields are case in-sensitive. For example, you can
+> Fields are case in-sensitive. For example, you can
 > insert `CN`, `cn` or `cN`, they will return the same result.
 
 #### Selecting attributes
@@ -103,7 +103,7 @@ $record = $query->findByAnr('jdoe');
 
 You can also use `findByAnrOrFail()` to generate an exception when a record is not found.
 
-> {note} ActiveDirectory is the only LDAP distribution that supports ANR.
+> ActiveDirectory is the only LDAP distribution that supports ANR.
 > An equivalent query will be created for other LDAP distributions
 > that are not compatible.
 >
@@ -128,7 +128,7 @@ To get the results from a search, simply call the `get()` method:
 $results = $query->select(['cn', 'samaccountname'])->get();
 ```
 
-> {note} Executed searches via the `get()` method will return results inside an
+> Executed searches via the `get()` method will return results inside an
 > `Illuminate\Support\Collection` instance.
 >
 > Executed searches via the `first()` method will return **the model instance only**.
@@ -305,7 +305,7 @@ $results = $query
 
 Now, we'll retrieve both John and Suzy's LDAP records, because the common name can equal either.
 
-> {note} You can also use all `where` methods as an or where, for example:
+> You can also use all `where` methods as an or where, for example:
 > `orWhereHas()`, `orWhereContains()`, `orWhereStartsWith()`, `orWhereEndsWith()`
 
 ## Dynamic Wheres
@@ -413,7 +413,7 @@ echo $query; // Returns '(&(|(givenname=John)(sn=Doe))(&(department=Accounting)(
 
 ## Raw Filters
 
-> {note} Raw filters are not escaped. **Do not** accept user input into the raw filter method.
+> Raw filters are not escaped. **Do not** accept user input into the raw filter method.
 
 Sometimes you might just want to add a raw filter without using the query builder.
 You can do so by using the `rawFilter()` method:
@@ -444,7 +444,7 @@ Paginating your search results will allow you to return more results than your L
 
 For example, if your LDAP server contains 10,000 records and you paginate by 1000, 10 queries will be executed.
 
-> {note} Calling `paginate()` will retrieve **all** records from your LDAP server for the current query.
+> Calling `paginate()` will retrieve **all** records from your LDAP server for the current query.
 >
 > This **does not** operate the same way pagination occurs in a database. Pagination of
 > an LDAP query simply allows you to return a larger result set than your
@@ -497,7 +497,7 @@ $result = $query->read()->where('objectClass', '*')->get();
 
 This would perform an `ldap_read()` instead of an `ldap_listing()` or an `ldap_search()`.
 
-> {note} Performing a `read()` will always return *one* record in your result.
+> Performing a `read()` will always return *one* record in your result.
 
 ## Retrieving the ran query
 

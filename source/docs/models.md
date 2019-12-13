@@ -66,7 +66,7 @@ As you can see above, we must add a public static property that contains the obj
 
 These object classes are used to locate the proper objects in your LDAP directory.
 
-> {note} If you do not provide any object classes, global directory searches will be performed when retrieving models.
+> If you do not provide any object classes, global directory searches will be performed when retrieving models.
 
 ### Predefined Models
 
@@ -93,7 +93,7 @@ Here is a list:
 
 You may extend these built-in models and add your own methods & functionality.
 
-> {note} Don't see a model for the LDAP server you're using? Create a pull request!
+> Don't see a model for the LDAP server you're using? Create a pull request!
 
 ### Connections
 
@@ -124,7 +124,7 @@ class User extends Model
 If you would like to define the default values for some of your model's attributes,
 you may define an `$attributes` property on your model:
 
-> {note} Due to LDAP's multi-valued nature, each attribute value you define **must** be
+> Due to LDAP's multi-valued nature, each attribute value you define **must** be
 > an array, regardless if it is single-valued or or multi-valued.
 
 ```php
@@ -177,7 +177,7 @@ $users = User::whereStartsWith('cn', 'John')
         ->get();
 ```
 
-> {note} Since models are query builders, it's a good idea to review the
+> Since models are query builders, it's a good idea to review the
 > [query builder](/docs/{{version}}/searching) methods so you can utilize
 > them to their full potential.
 
@@ -185,7 +185,7 @@ $users = User::whereStartsWith('cn', 'John')
 
 Models come with some built in constraint methods that you may find useful.
 
-> {note}  The below constraints will only retrieve the models that are equal
+>  The below constraints will only retrieve the models that are equal
 > to the type you have retrieved. For example, retrieving the descendants
 > of an organizational unit will only return organizational units that
 > are direct descendants.
@@ -373,7 +373,7 @@ $user->inside('ou=Users,dc=acme,dc=org')->save();
 
 The above example will save the user inside the `Users` OU.
 
-> {note} Depending on your directory, some attributes are required to be set for it
+> Depending on your directory, some attributes are required to be set for it
 > to be created successfully. LdapRecord will not validate this for you and you will
 > receive an exception if this occurs.
 > 
@@ -613,7 +613,7 @@ $user = User::first();
 $user->delete();
 ```
 
-> {note} The account you have configured to bind to your LDAP server must have permission to delete the record
+> The account you have configured to bind to your LDAP server must have permission to delete the record
 > you have retrieved. If it does not, you will receive an exception upon deletion.
 
 #### Deleting Models By Distinguished Name
@@ -632,7 +632,7 @@ $deleted = User::destroy(['cn=John Doe,dc=acme,dc=org', 'cn=Jane Doe,dc=acme,dc=
 $deleted = User::destroy(new Collection(['cn=John Doe,dc=acme,dc=org', 'cn=Jane Doe,dc=acme,dc=org']));
 ```
 
-> {note} You may also pass in `true` into the second parameter to recursively delete
+> You may also pass in `true` into the second parameter to recursively delete
 > leaf entries if a record is located by the distinguished name you have given.
 
 #### Recursive Deleting
@@ -685,7 +685,7 @@ if ($ou->isAncestorOf($user)) {
 }
 ```
 
-> {note} Calling `isDescendantOf()` or `isAncestorOf()` does not check recursively.
+> Calling `isDescendantOf()` or `isAncestorOf()` does not check recursively.
 > If a user is contained in a nested container of the one you are checking, this
 > method will return `false`.
 
@@ -729,7 +729,7 @@ $dispatcher->listen(\LdapRecord\Models\Events\Creating::class, function ($event)
 });
 ```
 
-> {note} You will want to setup any listeners prior to making changes to models,
+> You will want to setup any listeners prior to making changes to models,
 > otherwise your listener will not be executed due to them not existing yet.
 
 ## Serialization
@@ -756,7 +756,7 @@ otherwise `json_encode()` will throw an exception.
 
 This can be done by adding a `convertAttributesForJson()` method to your model: 
 
-> {note} By default, the `objectguid` and `objectsid` attributes are
+> By default, the `objectguid` and `objectsid` attributes are
 > converted for you when using the built-in ActiveDirectory models.
 
 ```php

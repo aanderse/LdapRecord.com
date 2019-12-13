@@ -99,7 +99,7 @@ You must add your LDAP connections to the container if
 you would like to use LdapRecord models. Models pull
 the connection that they use from this container.
 
-> {note} Ensure you connect to your LDAP server with each
+> Ensure you connect to your LDAP server with each
 > `Connection` you add into the container, otherwise
 > you will not receive any results from queries.
 

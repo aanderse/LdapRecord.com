@@ -10,7 +10,7 @@ section: content
 LdapRecord events provide a method of listening for certain LDAP actions
 that are called and execute tasks for that specific event.
 
-> {note} The LdapRecord event dispatcher was actually derived from the
+> The LdapRecord event dispatcher was actually derived from the
 > [Laravel Framework](https://github.com/laravel/framework) with
 > Broadcasting & Queuing omitted to remove extra dependencies
 > that would be required with implementing those features.
@@ -19,7 +19,7 @@ that are called and execute tasks for that specific event.
 
 ## Registering Listeners {#registering-listeners}
 
-> {note} Before we get to registering listeners, it's crucial to know that events throughout
+> Before we get to registering listeners, it's crucial to know that events throughout
 > LdapRecord are fired irrespective of the current connection or provider in use.
 >
 > This means that when using multiple LDAP connections, the same events will be fired.
@@ -47,7 +47,7 @@ second is either a closure or class name that should handle the event:
 
 Using a class:
 
-> {note} When using just a class name, the class must contain a public `handle()` method that will handle the event.
+> When using just a class name, the class must contain a public `handle()` method that will handle the event.
 
 ```php
 $dispatcher = \LdapRecord\Container::getEventDispatcher();
