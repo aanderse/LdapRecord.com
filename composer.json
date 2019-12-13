@@ -1,43 +1,31 @@
 {
     "name": "ldaprecord/ldaprecord.com",
     "description": "The LdapRecord documentation site.",
-    "keywords": ["ldap", "ldaprecord", "adldap2", "adldap2-laravel"],
+    "keywords": [
+        "ldap",
+        "ldaprecord",
+        "adldap2",
+        "adldap2-laravel"
+    ],
     "license": "MIT",
-    "type": "project",
+    "authors": [
+        {
+            "name": "Steve Bauman",
+            "email": "steven_bauman@outlook.com"
+        }
+    ],
     "require": {
-        "php": ">=7.1.3",
-        "laravel/framework": "6.0.*",
-        "erusev/parsedown-extra": "0.7.*",
-        "symfony/browser-kit": "~4.0"
+        "tightenco/jigsaw": "^1.3",
+        "tightenco/jigsaw-docs-template": "^1.0",
+        "samdark/sitemap": "^2.2"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\Listeners\\": [
+                "listeners/",
+                "listeners/"
+            ],
+            "App\\Parsers\\": "parsers/"
         }
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
-        }
-    },
-    "scripts": {
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate"
-        ],
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover",
-            "@php artisan view:clear"
-        ]
-    },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "optimize-autoloader": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

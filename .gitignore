@@ -1,12 +1,5 @@
-/vendor
-/resources/docs
-/public/page-cache
-/public/storage
-/node_modules
-composer.phar
-.env.*
-.env
+/build_*/
+/node_modules/
+/vendor/
 .DS_Store
-Thumbs.db
-/.idea
-package-lock.json
+/source/assets/build/

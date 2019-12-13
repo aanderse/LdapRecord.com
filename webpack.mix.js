@@ -1,16 +1,33 @@
-const mix = require('laravel-mix');
+let mix = require('laravel-mix');
+let build = require('./tasks/build.js');
+let tailwindcss = require('tailwindcss');
+require('laravel-mix-purgecss');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
+mix.disableSuccessNotifications();
+mix.setPublicPath('source/assets/build/');
+mix.webpackConfig({
+    plugins: [
+        build.jigsaw,
+        build.browserSync(),
+        build.watch([
+            'config.php',
+            'source/**/*.md',
+            'source/**/*.php',
+            'source/**/*.scss',
+        ]),
+    ],
+});
 
-mix.js('resources/assets/js/app.js', 'public/assets/js')
-    .sass('resources/assets/sass/app.scss', 'public/assets/css')
+mix.js('source/_assets/js/main.js', 'js')
+    .sourceMaps()
+    .sass('source/_assets/sass/main.scss', 'css/main.css')
+    .options({
+        processCssUrls: false,
+        postCss: [tailwindcss()],
+    })
+    .purgeCss({
+        extensions: ['html', 'md', 'js', 'php', 'vue'],
+        folders: ['source'],
+        whitelistPatterns: [/language/, /hljs/, /algolia/],
+    })
     .version();
