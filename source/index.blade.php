@@ -17,7 +17,7 @@
         </div>
 
         <div class="mx-auto mb-6 lg:mb-0 lg:w-2/3">
-            <img src="/assets/img/logo-large.svg" alt="{{ $page->siteName }} large logo" class="mx-auto mb-6 lg:mb-0">
+            <img src="/assets/img/logo-large.png" alt="{{ $page->siteName }} large logo" class="mx-auto mb-6 lg:mb-0">
         </div>
     </div>
 
