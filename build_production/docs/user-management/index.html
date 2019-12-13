@@ -26,7 +26,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=911876dc19e7f0a26de3">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d5c018361385072a492e">
 
             </head>
 
@@ -40,7 +40,11 @@
                 </div>
 
                 <div class="flex flex-1 justify-end items-center text-right md:pl-10">
-                                    </div>
+                    
+                    <a href="https://github.com/DirectoryTree/LdapRecord">
+                        <svg class="fill-current text-blue-800 w-8 ml-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
+                    </a>
+                </div>
             </div>
 
                 <button class="flex justify-center items-center bg-purple-500 border border-purple-500 h-10 mr-4 px-5 rounded-full lg:hidden focus:outline-none"
@@ -216,7 +220,7 @@ are some prerequisites you must know prior to creation:</p>
 <li>To set the users <code>userAccountControl</code>, it must be set <strong>after</strong> the user has been saved</li>
 </ul>
 <blockquote>
-<p>{note} Attributes that are set below can be cased in <em>any</em> manor. They
+<p>Attributes that are set below can be cased in <em>any</em> manor. They
 can be uppercase, lowercase, camel-cased, etc. Use whichever casing
 you prefer to be most readable in your application.</p>
 </blockquote>
@@ -257,7 +261,7 @@ $user-&gt;cn = 'John Doe';
 // User will be saved in the 'Users' OU.
 $user-&gt;save();</code></pre>
 <blockquote>
-<p>{note} It is wise to encapsulate saving your user in a try / catch block, so if it
+<p>It is wise to encapsulate saving your user in a try / catch block, so if it
 fails you can determine if the cause of failure is due to your password policy.</p>
 </blockquote>
 <h3>Setting Passwords</h3>
@@ -301,7 +305,7 @@ password you are trying to change.</p>
 </ul>
 <p>Let's walk through an example:</p>
 <blockquote>
-<p>{note} You must use a try / catch block upon saving. An LDAP exception will always be thrown
+<p>You must use a try / catch block upon saving. An LDAP exception will always be thrown
 when an incorrect old password is given, or the new password does not abide by your
 password policy.</p>
 </blockquote>
@@ -436,7 +440,7 @@ try {
 <p>If you are utilizing the included <code>LdapRecord\Models\ActiveDirectory\User</code> model, the <code>groups()</code>
 relationship exists for easily removing / adding groups to users.</p>
 <blockquote>
-<p>{note} To attach or detach groups on users, you must locate the first locate the group
+<p>To attach or detach groups on users, you must locate the first locate the group
 you wish to add or detach, and ensure the <code>member</code> attribute is selected.</p>
 </blockquote>
 <h4>Adding Groups</h4>
@@ -468,7 +472,7 @@ if ($user-&gt;groups()-&gt;detach($group)) {
     // Successfully removed the group from the user.
 }</code></pre>
 <blockquote>
-<p>{note} The <code>detach()</code> method will return <code>true</code> if the user is already not apart
+<p>The <code>detach()</code> method will return <code>true</code> if the user is already not apart
 of the given group. This does not indicate that the user was previously a member.</p>
 </blockquote>
 <p>You may want to locate groups on the user prior removal to ensure they are a member:</p>
@@ -487,7 +491,7 @@ if ($group &amp;&amp; $user-&gt;groups()-&gt;detach($group)) {
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
+        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
 
         <script>
     const navMenu = {

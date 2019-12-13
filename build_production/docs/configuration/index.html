@@ -26,7 +26,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=911876dc19e7f0a26de3">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d5c018361385072a492e">
 
             </head>
 
@@ -40,7 +40,11 @@
                 </div>
 
                 <div class="flex flex-1 justify-end items-center text-right md:pl-10">
-                                    </div>
+                    
+                    <a href="https://github.com/DirectoryTree/LdapRecord">
+                        <svg class="fill-current text-blue-800 w-8 ml-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
+                    </a>
+                </div>
             </div>
 
                 <button class="flex justify-center items-center bg-purple-500 border border-purple-500 h-10 mr-4 px-5 rounded-full lg:hidden focus:outline-none"
@@ -258,20 +262,20 @@ $config-&gt;set('hosts', [
 <p>The hosts option is an array of IP addresses or host names located on your network that serve Active Directory.</p>
 <p>You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).</p>
 <blockquote>
-<p>{note} Do not append your port to your IP addresses or host names. Use the <code>port</code> configuration option instead.</p>
+<p>Do not append your port to your IP addresses or host names. Use the <code>port</code> configuration option instead.</p>
 </blockquote>
 <h3 id="base-distinguished-name">Base Distinguished Name</h3>
 <p>The base distinguished name is the base distinguished name you'd like to perform operations on.</p>
 <p>An example base DN would be <code>DC=corp,DC=acme,DC=org</code>.</p>
 <p>If one is not defined, you will not retrieve any search results.</p>
 <blockquote>
-<p>{note} Your base DN is <strong>case insensitive</strong>. You do not need to worry about incorrect casing.</p>
+<p>Your base DN is <strong>case insensitive</strong>. You do not need to worry about incorrect casing.</p>
 </blockquote>
 <h3 id="username-amp-password">Username &amp; Password</h3>
 <p>To connect to your LDAP server, a username and password is required to be able to query and run operations on your server(s).</p>
 <p>You can use any account that has these permissions.</p>
 <blockquote>
-<p>{note} To run administration level operations, such as resetting passwords,
+<p>To run administration level operations, such as resetting passwords,
 this account <strong>must</strong> have permissions to do so on your directory.</p>
 </blockquote>
 <h3 id="port">Port</h3>
@@ -282,11 +286,11 @@ this account <strong>must</strong> have permissions to do so on your directory.<
 <p>These Boolean options enable an SSL or TLS connection to your LDAP server.</p>
 <p>Only <strong>one</strong> can be set to <code>true</code>. You must chose either or.</p>
 <blockquote>
-<p>{note} You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</p>
+<p>You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</p>
 </blockquote>
 <p>These options are definitely recommended if you have the ability to connect to your server securely.</p>
 <blockquote>
-<p>{note} TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.</p>
+<p>TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.</p>
 </blockquote>
 <h3 id="timeout">Timeout</h3>
 <p>The timeout option allows you to configure the amount of seconds to wait until
@@ -309,7 +313,7 @@ your application receives a response from your LDAP server.</p>
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
+        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
 
         <script>
     const navMenu = {

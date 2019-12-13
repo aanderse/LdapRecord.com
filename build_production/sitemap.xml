@@ -2,122 +2,142 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
  <url>
   <loc>https://ldaprecord.com/assets\build\css/main.css</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\build\js/main.js</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\build\js/main.js.map</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\build/mix-manifest.json</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\images/jigsaw.png</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\img/docsearch.png</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\img/icon-stack.svg</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\img/icon-terminal.svg</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\img/icon-window.svg</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\img/logo-large.svg</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\img/logo.png</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\img/logo.svg</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+ </url>
+ <url>
+  <loc>https://ldaprecord.com/assets\img/magic-wand.svg</loc>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/assets\img/magnifying-glass.svg</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+ </url>
+ <url>
+  <loc>https://ldaprecord.com/assets\img/repeat.svg</loc>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+ </url>
+ <url>
+  <loc>https://ldaprecord.com/assets\img/stopwatch.svg</loc>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+ </url>
+ <url>
+  <loc>https://ldaprecord.com/assets\img/volume-control.svg</loc>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/configuration</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/connections</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/events</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/installation</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/logging</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/model-mutators</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/model-relationships</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/models</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/searching</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com/docs/user-management</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://ldaprecord.com</loc>
-  <lastmod>2019-12-13T19:26:11+00:00</lastmod>
+  <lastmod>2019-12-13T20:03:39+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
 </urlset>

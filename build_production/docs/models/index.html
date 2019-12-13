@@ -26,7 +26,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=911876dc19e7f0a26de3">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d5c018361385072a492e">
 
             </head>
 
@@ -40,7 +40,11 @@
                 </div>
 
                 <div class="flex flex-1 justify-end items-center text-right md:pl-10">
-                                    </div>
+                    
+                    <a href="https://github.com/DirectoryTree/LdapRecord">
+                        <svg class="fill-current text-blue-800 w-8 ml-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
+                    </a>
+                </div>
             </div>
 
                 <button class="flex justify-center items-center bg-purple-500 border border-purple-500 h-10 mr-4 px-5 rounded-full lg:hidden focus:outline-none"
@@ -252,7 +256,7 @@ class User extends Model
 <p>As you can see above, we must add a public static property that contains the object classes of the LDAP record.</p>
 <p>These object classes are used to locate the proper objects in your LDAP directory.</p>
 <blockquote>
-<p>{note} If you do not provide any object classes, global directory searches will be performed when retrieving models.</p>
+<p>If you do not provide any object classes, global directory searches will be performed when retrieving models.</p>
 </blockquote>
 <h3>Predefined Models</h3>
 <p>LdapRecord comes with many predefined models that allow you to get started right away.</p>
@@ -325,7 +329,7 @@ class User extends Model
 </table>
 <p>You may extend these built-in models and add your own methods &amp; functionality.</p>
 <blockquote>
-<p>{note} Don't see a model for the LDAP server you're using? Create a pull request!</p>
+<p>Don't see a model for the LDAP server you're using? Create a pull request!</p>
 </blockquote>
 <h3>Connections</h3>
 <p>By default, all models you create will try to use your <code>default</code> LDAP connection that resides in the connection
@@ -350,7 +354,7 @@ class User extends Model
 <p>If you would like to define the default values for some of your model's attributes,
 you may define an <code>$attributes</code> property on your model:</p>
 <blockquote>
-<p>{note} Due to LDAP's multi-valued nature, each attribute value you define <strong>must</strong> be
+<p>Due to LDAP's multi-valued nature, each attribute value you define <strong>must</strong> be
 an array, regardless if it is single-valued or or multi-valued.</p>
 </blockquote>
 <pre><code class="language-php">&lt;?php
@@ -389,14 +393,14 @@ $users = User::whereStartsWith('cn', 'John')
         -&gt;limit(10)
         -&gt;get();</code></pre>
 <blockquote>
-<p>{note} Since models are query builders, it's a good idea to review the
+<p>Since models are query builders, it's a good idea to review the
 <a href="/docs/{{version}}/searching">query builder</a> methods so you can utilize
 them to their full potential.</p>
 </blockquote>
 <h4>Model Constraints</h4>
 <p>Models come with some built in constraint methods that you may find useful.</p>
 <blockquote>
-<p>{note}  The below constraints will only retrieve the models that are equal
+<p>The below constraints will only retrieve the models that are equal
 to the type you have retrieved. For example, retrieving the descendants
 of an organizational unit will only return organizational units that
 are direct descendants.</p>
@@ -533,7 +537,7 @@ $user = new User(['cn' =&gt; 'John Doe']);
 $user-&gt;inside('ou=Users,dc=acme,dc=org')-&gt;save();</code></pre>
 <p>The above example will save the user inside the <code>Users</code> OU.</p>
 <blockquote>
-<p>{note} Depending on your directory, some attributes are required to be set for it
+<p>Depending on your directory, some attributes are required to be set for it
 to be created successfully. LdapRecord will not validate this for you and you will
 receive an exception if this occurs.</p>
 <p>For example, users must have a common name (cn) and organizational units must have an ou.</p>
@@ -685,7 +689,7 @@ $user = User::first();
 
 $user-&gt;delete();</code></pre>
 <blockquote>
-<p>{note} The account you have configured to bind to your LDAP server must have permission to delete the record
+<p>The account you have configured to bind to your LDAP server must have permission to delete the record
 you have retrieved. If it does not, you will receive an exception upon deletion.</p>
 </blockquote>
 <h4>Deleting Models By Distinguished Name</h4>
@@ -700,7 +704,7 @@ $deleted = User::destroy(['cn=John Doe,dc=acme,dc=org', 'cn=Jane Doe,dc=acme,dc=
 
 $deleted = User::destroy(new Collection(['cn=John Doe,dc=acme,dc=org', 'cn=Jane Doe,dc=acme,dc=org']));</code></pre>
 <blockquote>
-<p>{note} You may also pass in <code>true</code> into the second parameter to recursively delete
+<p>You may also pass in <code>true</code> into the second parameter to recursively delete
 leaf entries if a record is located by the distinguished name you have given.</p>
 </blockquote>
 <h4>Recursive Deleting</h4>
@@ -736,7 +740,7 @@ if ($ou-&gt;isAncestorOf($user)) {
     // This OU is a direct ancestor of this user!
 }</code></pre>
 <blockquote>
-<p>{note} Calling <code>isDescendantOf()</code> or <code>isAncestorOf()</code> does not check recursively.
+<p>Calling <code>isDescendantOf()</code> or <code>isAncestorOf()</code> does not check recursively.
 If a user is contained in a nested container of the one you are checking, this
 method will return <code>false</code>.</p>
 </blockquote>
@@ -794,7 +798,7 @@ $dispatcher-&gt;listen(\LdapRecord\Models\Events\Creating::class, function ($eve
     $model = $event-&gt;getModel();
 });</code></pre>
 <blockquote>
-<p>{note} You will want to setup any listeners prior to making changes to models,
+<p>You will want to setup any listeners prior to making changes to models,
 otherwise your listener will not be executed due to them not existing yet.</p>
 </blockquote>
 <h2>Serialization</h2>
@@ -814,7 +818,7 @@ convert the <code>objectguid</code> property to a string since it is in binary,
 otherwise <code>json_encode()</code> will throw an exception.</p>
 <p>This can be done by adding a <code>convertAttributesForJson()</code> method to your model: </p>
 <blockquote>
-<p>{note} By default, the <code>objectguid</code> and <code>objectsid</code> attributes are
+<p>By default, the <code>objectguid</code> and <code>objectsid</code> attributes are
 converted for you when using the built-in ActiveDirectory models.</p>
 </blockquote>
 <pre><code class="language-php">&lt;?php
@@ -840,7 +844,7 @@ class User extends Model
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
+        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
 
         <script>
     const navMenu = {
