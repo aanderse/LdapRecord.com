@@ -10,7 +10,7 @@ return [
 
     // Algolia DocSearch credentials
     'docsearchApiKey' => '4c517cbb86c1aa1895e06496448af038',
-    'docsearchIndexName' => 'prod_LdapRecord',
+    'docsearchIndexName' => '8P6UJDXFFA',
 
     // navigation menu
     'navigation' => require_once('navigation.php'),
