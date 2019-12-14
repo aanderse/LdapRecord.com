@@ -9,8 +9,8 @@ return [
     'siteDescription' => 'Eloquent ActiveRecord for LDAP.',
 
     // Algolia DocSearch credentials
-    'docsearchApiKey' => '4c517cbb86c1aa1895e06496448af038',
-    'docsearchIndexName' => '8P6UJDXFFA',
+    'docsearchApiKey' => '8d3be67a9c6f04f6d69ff70a96924698',
+    'docsearchIndexName' => 'ldaprecord',
 
     // navigation menu
     'navigation' => require_once('navigation.php'),
