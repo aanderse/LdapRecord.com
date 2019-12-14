@@ -16,6 +16,7 @@
         <meta name="twitter:image:alt" content="LdapRecord">
         <meta name="twitter:card" content="summary_large_image">
 
+                    <meta name="generator" content="tighten_jigsaw_doc">
         
         <title>LdapRecord | Logging</title>
 
@@ -33,8 +34,9 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=40850263852e162efbb9">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=593fd340f646378b41ab">
 
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
 
     <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
@@ -47,6 +49,32 @@
                 </div>
 
                 <div class="flex flex-1 justify-end items-center text-right md:pl-10">
+                                            <button
+    title="Start searching"
+    type="button"
+    class="flex md:hidden bg-gray-100 hover:bg-blue-100 justify-center items-center border border-gray-500 rounded-full focus:outline-none h-10 px-3"
+    onclick="searchInput.toggle()"
+>
+    <img src="/assets/img/magnifying-glass.svg" alt="search icon" class="h-4 w-4 max-w-none">
+</button>
+
+<div id="js-search-input" class="docsearch-input__wrapper hidden md:block">
+    <label for="search" class="hidden">Search</label>
+
+    <input
+        id="docsearch-input"
+        class="docsearch-input relative block h-10 transition-fast w-full lg:w-1/2 xl:w-1/3 bg-gray-100 outline-none rounded-full text-gray-700 border border-gray-500 focus:border-blue-400 ml-auto px-4 pb-0"
+        name="docsearch"
+        type="text"
+        placeholder="Search"
+    >
+
+    <button
+        class="md:hidden absolute pin-t pin-r h-full font-light text-3xl text-blue-500 hover:text-blue-600 focus:outline-none -mt-px pr-7"
+        onclick="searchInput.toggle()"
+    >&times;</button>
+</div>
+
                     
                     <a href="https://github.com/DirectoryTree/LdapRecord">
                         <svg class="fill-current text-blue-800 w-8 ml-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
@@ -208,7 +236,7 @@
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
             <h1 id="logging">Logging</h1>
 <p>LdapRecord includes an implementation of PSR's widely supported <a href="https://github.com/php-fig/log">Logger</a> interface.</p>
-<p>By default, all of LdapRecord's <a href="/docs/{{version}}/events">events</a> will call the logger you have set to utilize.</p>
+<p>By default, all of LdapRecord's <a href="/docs/events">events</a> will call the logger you have set to utilize.</p>
 <blockquote>
 <p>LdapRecord does not include a file / text logger. You must implement your own.</p>
 </blockquote>
@@ -230,84 +258,38 @@ try {
     //
 }</code></pre>
 <h2 id="logged">Logged Information</h2>
-<p>Here is a list of events that are logged along with the information included:</p>
-<table>
-<thead>
-<tr>
-<th>Authentication Events</th>
-<th>Logged</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>LdapRecord\Auth\Events\Attempting</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Attempting - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Auth\Events\Binding</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Binding - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Auth\Events\Bound</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Bound - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Auth\Events\Passed</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Passed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Auth\Events\Failed</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Failed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Invalid Credentials</code></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>Model Events</th>
-<th>Logged</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>LdapRecord\Models\Events\Saving</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: Saving - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Models\Events\Saved</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: Saved - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Models\Events\Creating</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: Creating - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Models\Events\Created</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: Created - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Models\Events\Updating</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: Updating - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Models\Events\Updated</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: Updated - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Models\Events\Deleting</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: Deleting - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></td>
-</tr>
-<tr>
-<td><code>LdapRecord\Models\Events\Deleted</code></td>
-<td><code>LDAP (ldap://192.168.1.1:389) - Operation: Deleted - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></td>
-</tr>
-</tbody>
-</table>        </div>
+<p>After enabling LdapRecord logging, the following events are logged:</p>
+<h3><code>LdapRecord\Auth\Events\Attempting</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Attempting - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org</code></pre>
+<h3><code>LdapRecord\Auth\Events\Binding</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Binding - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org</code></pre>
+<h3><code>LdapRecord\Auth\Events\Bound</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Bound - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org</code></pre>
+<h3><code>LdapRecord\Auth\Events\Passed</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Passed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org</code></pre>
+<h3><code>LdapRecord\Auth\Events\Failed</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: LdapRecord\Auth\Events\Failed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Invalid Credentials</code></pre>
+<h3><code>LdapRecord\Models\Events\Saving</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: Saving - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></pre>
+<h3><code>LdapRecord\Models\Events\Saved</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: Saved - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></pre>
+<h3><code>LdapRecord\Models\Events\Creating</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: Creating - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></pre>
+<h3><code>LdapRecord\Models\Events\Created</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: Created - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></pre>
+<h3><code>LdapRecord\Models\Events\Updating</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: Updating - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></pre>
+<h3><code>LdapRecord\Models\Events\Updated</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: Updated - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></pre>
+<h3><code>LdapRecord\Models\Events\Deleting</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: Deleting - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></pre>
+<h3><code>LdapRecord\Models\Events\Deleted</code></h3>
+<pre><code>LDAP (ldap://192.168.1.1:389) - Operation: Deleted - On: LdapRecord\Models\Entry - Distinguished Name: cn=John Doe,dc=acme,dc=org</code></pre>        </div>
     </div>
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
+        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
 
         <script>
     const navMenu = {
@@ -320,7 +302,24 @@ try {
         },
     }
 </script>
+            <script type="text/javascript">
+            docsearch({
+                apiKey: '4c517cbb86c1aa1895e06496448af038',
+                indexName: 'prod_LdapRecord',
+                inputSelector: '#docsearch-input',
+                debug: false // Set debug to true if you want to inspect the dropdown
+            });
 
+            const searchInput = {
+                toggle() {
+                    const menu = document.getElementById('js-search-input');
+                    menu.classList.toggle('hidden');
+                    menu.classList.toggle('md:block');
+                    document.getElementById('docsearch-input').focus();
+                },
+            }
+        </script>
+    
         <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-none">
                 <li class="md:mr-2">

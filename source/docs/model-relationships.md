@@ -239,7 +239,7 @@ $groups = $user->groups()->get();
 
 ## Querying Relationships {#querying-relationships}
 
-LdapRecord relationships also serve as [query builders](/docs/{{version}}/searching).
+LdapRecord relationships also serve as [query builders](/docs/searching).
 This means you can chain query builder methods onto relationship methods to add
 constraints to the relationship query prior to retrieving the results from
 your directory.

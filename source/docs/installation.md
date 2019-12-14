@@ -34,7 +34,7 @@ require __DIR__ . '/vendor/autoload.php';
 ```
 
 You're all set! Either continue on with the [quick start](#quick-start) below, or head over to
-the [configuration](/docs/{{version}}/configuration) guide.
+the [configuration](/docs/configuration) guide.
 
 ## Quick Start {#installation-quick-start}
 

@@ -43,7 +43,7 @@ $results = $connection->query()->where('cn', '=', 'John Doe')->get();
 ```
 
 > Querying your LDAP connection manually will return raw LDAP results
-> in a `Collection`. You must query using [models](/docs/{{version}}/models#retrieving-models)
+> in a `Collection`. You must query using [models](/docs/models#retrieving-models)
 > themselves if you would like them to be returned instead.
 
 ## Selects
@@ -129,7 +129,7 @@ $results = $query->select(['cn', 'samaccountname'])->get();
 ```
 
 > Executed searches via the `get()` method will return results inside an
-> `Illuminate\Support\Collection` instance.
+> `LdapRecord\Query\Collection` instance.
 >
 > Executed searches via the `first()` method will return **the model instance only**.
 
@@ -520,4 +520,4 @@ $query = $query->where('cn', '=', 'John Doe')->getUnescapedQuery();
 echo $query; // Returns '(cn=John Doe)'
 ```
 
-Now that you know how to search your directory, lets move onto [creating / modifying LDAP records](/docs/{{version}}/models).
+Now that you know how to search your directory, lets move onto [creating / modifying LDAP records](/docs/models).

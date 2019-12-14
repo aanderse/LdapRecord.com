@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
     'baseUrl' => '',
     'production' => false,
@@ -7,15 +9,15 @@ return [
     'siteDescription' => 'Eloquent ActiveRecord for LDAP.',
 
     // Algolia DocSearch credentials
-    'docsearchApiKey' => '',
-    'docsearchIndexName' => '',
+    'docsearchApiKey' => '4c517cbb86c1aa1895e06496448af038',
+    'docsearchIndexName' => 'prod_LdapRecord',
 
     // navigation menu
     'navigation' => require_once('navigation.php'),
 
     // helpers
     'isActive' => function ($page, $path) {
-        return ends_with(trimPath($page->getPath()), trimPath($path));
+        return Str::endsWith(trimPath($page->getPath()), trimPath($path));
     },
     'isActiveParent' => function ($page, $menuItem) {
         if (is_object($menuItem) && $menuItem->children) {
@@ -25,6 +27,6 @@ return [
         }
     },
     'url' => function ($page, $path) {
-        return starts_with($path, 'http') ? $path : '/' . trimPath($path);
+        return Str::startsWith($path, 'http') ? $path : '/' . trimPath($path);
     },
 ];

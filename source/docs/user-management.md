@@ -15,7 +15,7 @@ section: content
 - [Password Policy Errors](#password-policy-errors)
 - [Group Management](#group-management)
 
-## Creation
+## Creation {#creation}
 
 Let's walk through the basics of user creation for ActiveDirectory. There
 are some prerequisites you must know prior to creation:
@@ -77,10 +77,10 @@ $user->save();
 > It is wise to encapsulate saving your user in a try / catch block, so if it 
 > fails you can determine if the cause of failure is due to your password policy.
 
-### Setting Passwords
+### Setting Passwords {#setting-passwords}
 
 Utilizing the included `LdapRecord\Models\ActiveDirectory\User` model, an attribute
-[mutator](/docs/{{version}}/model-mutators) has been added that assists in
+[mutator](/docs/model-mutators) has been added that assists in
 the setting and changing of passwords on user objects. Feel free to take a
 peek into the source code to see how it all works.
 
@@ -114,7 +114,7 @@ var_dump($modification);
 As you can see, a batch modification is generated for the user and upon
 calling `save()`, it will be sent to your LDAP server.
 
-### Changing Passwords
+### Changing Passwords {#changing-passwords}
 
 To change a users password, you must bind to your LDAP server with a user
 that has permissions to reset passwords, or bind as the user whose
@@ -158,7 +158,7 @@ try {
 }
 ```
 
-### Resetting Passwords
+### Resetting Passwords {#resetting-passwords}
 
 To reset a user password, you must be bound to your LDAP directory with a user whom has permission to do so.
 
@@ -191,7 +191,7 @@ try {
 }
 ```
 
-### User Account Control
+### User Account Control {#user-account-control}
 
 User account control is an integer that contains flags to control the behaviour of an ActiveDirectory user account.
 
@@ -237,7 +237,7 @@ if ($uac->has(AccountControl::LOCKOUT)) {
 }
 ```
 
-### Password Policy Errors
+### Password Policy Errors {#password-policy-errors}
 
 ActiveDirectory will return diagnostic error codes when a password modification fails.
 
@@ -283,7 +283,7 @@ try {
 }
 ```
 
-### Group Management
+### Group Management {#group-management}
 
 If you are utilizing the included `LdapRecord\Models\ActiveDirectory\User` model, the `groups()`
 relationship exists for easily removing / adding groups to users.
@@ -291,7 +291,7 @@ relationship exists for easily removing / adding groups to users.
 > To attach or detach groups on users, you must locate the first locate the group
 > you wish to add or detach, and ensure the `member` attribute is selected.
 
-#### Adding Groups
+#### Adding Groups {#adding-groups}
 
 To add groups to a user, call the `groups()` relationship method, then `attach()`:
 
@@ -310,7 +310,7 @@ if ($user->groups()->attach($group)) {
 }
 ```
 
-#### Removing Groups
+#### Removing Groups {#removing-groups}
 
 To remove groups on user, call the `groups()` relationship method, then `detach()`:
 

@@ -16,6 +16,7 @@
         <meta name="twitter:image:alt" content="LdapRecord">
         <meta name="twitter:card" content="summary_large_image">
 
+                    <meta name="generator" content="tighten_jigsaw_doc">
         
         <title>LdapRecord | User Management (ActiveDirectory)</title>
 
@@ -33,8 +34,9 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=40850263852e162efbb9">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=593fd340f646378b41ab">
 
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
 
     <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
@@ -47,6 +49,32 @@
                 </div>
 
                 <div class="flex flex-1 justify-end items-center text-right md:pl-10">
+                                            <button
+    title="Start searching"
+    type="button"
+    class="flex md:hidden bg-gray-100 hover:bg-blue-100 justify-center items-center border border-gray-500 rounded-full focus:outline-none h-10 px-3"
+    onclick="searchInput.toggle()"
+>
+    <img src="/assets/img/magnifying-glass.svg" alt="search icon" class="h-4 w-4 max-w-none">
+</button>
+
+<div id="js-search-input" class="docsearch-input__wrapper hidden md:block">
+    <label for="search" class="hidden">Search</label>
+
+    <input
+        id="docsearch-input"
+        class="docsearch-input relative block h-10 transition-fast w-full lg:w-1/2 xl:w-1/3 bg-gray-100 outline-none rounded-full text-gray-700 border border-gray-500 focus:border-blue-400 ml-auto px-4 pb-0"
+        name="docsearch"
+        type="text"
+        placeholder="Search"
+    >
+
+    <button
+        class="md:hidden absolute pin-t pin-r h-full font-light text-3xl text-blue-500 hover:text-blue-600 focus:outline-none -mt-px pr-7"
+        onclick="searchInput.toggle()"
+    >&times;</button>
+</div>
+
                     
                     <a href="https://github.com/DirectoryTree/LdapRecord">
                         <svg class="fill-current text-blue-800 w-8 ml-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
@@ -216,7 +244,7 @@
 <li><a href="#password-policy-errors">Password Policy Errors</a></li>
 <li><a href="#group-management">Group Management</a></li>
 </ul>
-<h2>Creation</h2>
+<h2 id="creation">Creation</h2>
 <p>Let's walk through the basics of user creation for ActiveDirectory. There
 are some prerequisites you must know prior to creation:</p>
 <ul>
@@ -271,9 +299,9 @@ $user-&gt;save();</code></pre>
 <p>It is wise to encapsulate saving your user in a try / catch block, so if it
 fails you can determine if the cause of failure is due to your password policy.</p>
 </blockquote>
-<h3>Setting Passwords</h3>
+<h3 id="setting-passwords">Setting Passwords</h3>
 <p>Utilizing the included <code>LdapRecord\Models\ActiveDirectory\User</code> model, an attribute
-<a href="/docs/{{version}}/model-mutators">mutator</a> has been added that assists in
+<a href="/docs/model-mutators">mutator</a> has been added that assists in
 the setting and changing of passwords on user objects. Feel free to take a
 peek into the source code to see how it all works.</p>
 <p>The password string you set on the users <code>unicodePwd</code> attribute is automatically encoded,
@@ -300,7 +328,7 @@ var_dump($modification);
 // ]</code></pre>
 <p>As you can see, a batch modification is generated for the user and upon
 calling <code>save()</code>, it will be sent to your LDAP server.</p>
-<h3>Changing Passwords</h3>
+<h3 id="changing-passwords">Changing Passwords</h3>
 <p>To change a users password, you must bind to your LDAP server with a user
 that has permissions to reset passwords, or bind as the user whose
 password you are trying to change.</p>
@@ -339,7 +367,7 @@ try {
     echo $error-&gt;getErrorMessage();
     echo $error-&gt;getDiagnosticMessage();
 }</code></pre>
-<h3>Resetting Passwords</h3>
+<h3 id="resetting-passwords">Resetting Passwords</h3>
 <p>To reset a user password, you must be bound to your LDAP directory with a user whom has permission to do so.</p>
 <p>This is done by setting the users <code>unicodepwd</code> attribute as a string, and then saving, similarly to how
 it is done during user creation:</p>
@@ -366,7 +394,7 @@ try {
     echo $error-&gt;getErrorMessage();
     echo $error-&gt;getDiagnosticMessage();
 }</code></pre>
-<h3>User Account Control</h3>
+<h3 id="user-account-control">User Account Control</h3>
 <p>User account control is an integer that contains flags to control the behaviour of an ActiveDirectory user account.</p>
 <p>You can manipulate this manually by simply setting the <code>userAccountControl</code> property on an existing user,
 or you can use the account control builder <code>LdapRecord\Models\Attributes\AccountControl</code>:</p>
@@ -402,7 +430,7 @@ if ($uac-&gt;has(AccountControl::LOCKOUT)) {
 } elseif ($uac-&gt;has(AccountControl::DONT_EXPIRE_PASSWORD)) {
     // This accounts password does not expire.
 }</code></pre>
-<h3>Password Policy Errors</h3>
+<h3 id="password-policy-errors">Password Policy Errors</h3>
 <p>ActiveDirectory will return diagnostic error codes when a password modification fails.</p>
 <p>To determine the cause, you can check this diagnostic message to see if it contains any of the following codes:</p>
 <ul>
@@ -443,14 +471,14 @@ try {
         // This is an invalid credentials error.
     }
 }</code></pre>
-<h3>Group Management</h3>
+<h3 id="group-management">Group Management</h3>
 <p>If you are utilizing the included <code>LdapRecord\Models\ActiveDirectory\User</code> model, the <code>groups()</code>
 relationship exists for easily removing / adding groups to users.</p>
 <blockquote>
 <p>To attach or detach groups on users, you must locate the first locate the group
 you wish to add or detach, and ensure the <code>member</code> attribute is selected.</p>
 </blockquote>
-<h4>Adding Groups</h4>
+<h4 id="adding-groups">Adding Groups</h4>
 <p>To add groups to a user, call the <code>groups()</code> relationship method, then <code>attach()</code>:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -464,7 +492,7 @@ $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 if ($user-&gt;groups()-&gt;attach($group)) {
     // Successfully added the group to the user.
 }</code></pre>
-<h4>Removing Groups</h4>
+<h4 id="removing-groups">Removing Groups</h4>
 <p>To remove groups on user, call the <code>groups()</code> relationship method, then <code>detach()</code>:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -498,7 +526,7 @@ if ($group &amp;&amp; $user-&gt;groups()-&gt;detach($group)) {
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
+        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
 
         <script>
     const navMenu = {
@@ -511,7 +539,24 @@ if ($group &amp;&amp; $user-&gt;groups()-&gt;detach($group)) {
         },
     }
 </script>
+            <script type="text/javascript">
+            docsearch({
+                apiKey: '4c517cbb86c1aa1895e06496448af038',
+                indexName: 'prod_LdapRecord',
+                inputSelector: '#docsearch-input',
+                debug: false // Set debug to true if you want to inspect the dropdown
+            });
 
+            const searchInput = {
+                toggle() {
+                    const menu = document.getElementById('js-search-input');
+                    menu.classList.toggle('hidden');
+                    menu.classList.toggle('md:block');
+                    document.getElementById('docsearch-input').focus();
+                },
+            }
+        </script>
+    
         <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-none">
                 <li class="md:mr-2">
