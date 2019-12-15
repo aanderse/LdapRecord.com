@@ -24,6 +24,7 @@ return [
     ],
     'Tutorials' => [
         'children' => [
+            'Authentication' => 'docs/authentication',
             'ActiveDirectory' => [
                 'children' => [
                     'User Management' => 'docs/user-management',
