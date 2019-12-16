@@ -2,7 +2,7 @@
 
 @section('body')
 <section class="container max-w-6xl mx-auto px-6 py-0 lg:py-12">
-    <div class="flex flex-col mb-10 lg:flex-row lg:mb-24">
+    <div class="flex flex-col mb-10 lg:flex-row lg:mb-32">
         <div class="lg:mt-8">
             <h1 id="intro-docs-template">{{ $page->siteName }}</h1>
 
@@ -16,34 +16,103 @@
             </div>
         </div>
 
-        <div class="mx-auto mb-6 lg:mb-0 lg:w-2/3">
-            <img src="/assets/img/logo-large.png" alt="{{ $page->siteName }} large logo" class="mx-auto mb-6 lg:mb-0">
+        <div class="mb-6 lg:mb-0 lg:w-2/3">
+            <div class="feature">
+                <div class="top-bar">
+                    <div class="circles">
+                        <div class="circle circle-red"></div>
+                        <div class="circle circle-yellow"></div>
+                        <div class="circle circle-green"></div>
+                    </div>
+                </div>
+
+                @include('docs.examples.landing')
+            </div>
         </div>
     </div>
 
     <hr class="block my-8 border lg:hidden">
 
-    <div class="md:flex -mx-2 -mx-4">
-        <div class="mb-8 mx-3 px-2 md:w-1/3">
-            <img src="/assets/img/stopwatch.svg" class="h-12 w-12" alt="window icon">
+    <!-- Fast Setup. -->
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32">
+        <div class="md:w-3/5">
+            <div class="feature">
+                <div class="top-bar">
+                    <div class="circles">
+                        <div class="circle circle-red"></div>
+                        <div class="circle circle-yellow"></div>
+                        <div class="circle circle-green"></div>
+                    </div>
+                </div>
 
-            <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0">Up and running <br>within minutes</h3>
+                @include('docs.examples.fast-setup')
+            </div>
+        </div>
+
+        <div class="md:w-2/5 md:ml-8">
+            <div class="flex items-center">
+                <img src="/assets/img/stopwatch.svg" class="h-12 w-12" alt="window icon">
+
+                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Up and running within minutes</h3>
+            </div>
 
             <p>Effortlessly connect to your LDAP servers and start running queries & operations in a matter of minutes.</p>
         </div>
+    </div>
 
-        <div class="mb-8 mx-3 px-2 md:w-1/3">
-            <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="terminal icon">
+    <hr class="block my-8 border lg:hidden">
 
-            <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0">Fluent <br>Query Builder</h3>
+    <!-- Fluent Query Builder. -->
+    <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32">
+        <div class="md:w-2/5 md:mr-8">
+            <div class="flex items-center">
+                <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="terminal icon">
+
+                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Fluent Query Builder</h3>
+            </div>
 
             <p>Building LDAP queries has never been so easy. Find the objects you're looking for in a couple lines or less with a fluent interface.</p>
         </div>
 
-        <div class="mx-3 px-2 md:w-1/3">
-            <img src="/assets/img/volume-control.svg" class="h-12 w-12" alt="stack icon">
+        <div class="md:w-3/5">
+            <div class="feature">
+                <div class="top-bar">
+                    <div class="circles">
+                        <div class="circle circle-red"></div>
+                        <div class="circle circle-yellow"></div>
+                        <div class="circle circle-green"></div>
+                    </div>
+                </div>
 
-            <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0">Supercharged <br>ActiveRecord</h3>
+                @include('docs.examples.fluent')
+            </div>
+        </div>
+    </div>
+
+    <hr class="block my-8 border lg:hidden">
+
+    <!-- ActiveRecord. -->
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32">
+        <div class="md:w-3/5">
+            <div class="feature">
+                <div class="top-bar">
+                    <div class="circles">
+                        <div class="circle circle-red"></div>
+                        <div class="circle circle-yellow"></div>
+                        <div class="circle circle-green"></div>
+                    </div>
+                </div>
+
+                @include('docs.examples.active-record')
+            </div>
+        </div>
+
+        <div class="md:w-2/5 md:ml-8">
+            <div class="flex items-center">
+                <img src="/assets/img/volume-control.svg" class="h-12 w-12" alt="stack icon">
+
+                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Supercharged ActiveRecord</h3>
+            </div>
 
             <p>
                 Create and modify LDAP obects with ease. All LDAP objects are individual models. Simply modify the

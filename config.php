@@ -6,7 +6,7 @@ return [
     'baseUrl' => '',
     'production' => false,
     'siteName' => 'LdapRecord',
-    'siteDescription' => 'Eloquent ActiveRecord for LDAP.',
+    'siteDescription' => 'Eloquent LDAP Management',
 
     // Algolia DocSearch credentials
     'docsearchApiKey' => '8d3be67a9c6f04f6d69ff70a96924698',

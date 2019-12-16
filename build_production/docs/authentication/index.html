@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="Connecting to LDAP servers using LdapRecord">
+        <meta name="description" content="Binding users to an LDAP directory">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Connecting | LdapRecord"/>
-        <meta property="og:description" content="Connecting to LDAP servers using LdapRecord"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/connections"/>
+        <meta property="og:title" content="Authentication | LdapRecord"/>
+        <meta property="og:description" content="Binding users to an LDAP directory"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/authentication"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Connecting</title>
+        <title>LdapRecord | Authentication</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -132,7 +132,7 @@
             <li class="pl-4">
             
         <a href="/docs/connections"
-            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Connecting
         </a>
@@ -214,7 +214,7 @@
             <li class="pl-4">
             
         <a href="/docs/authentication"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
         >
             Authentication
         </a>
@@ -243,135 +243,161 @@
         </nav>
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-            <h1>Connections</h1>
+            <h1>Authentication</h1>
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#binding">Binding Users</a></li>
-<li><a href="#container">The Container</a></li>
+<li><a href="#basic">Basic Authentication</a></li>
+<li><a href="#other-attributes">Using Other Attributes</a></li>
+<li><a href="#restricting">Restricting Authentication</a>
+<ul>
+<li><a href="#group-memberships">Group Memberships</a></li>
+<li><a href="#organizational-units">Organizational Units</a></li>
+</ul></li>
 </ul>
-<h2 id="introduction">Introduction</h2>
-<p>Once you've defined your configuration, you must then create
-a connection and insert your configuration into it:</p>
-<pre><code class="language-php">use LdapRecord\Connection;
-
-$connection = Connection([
-     'hosts' =&gt; ['192.168.1.1'],
-     'port' =&gt; 389,
-     'username' =&gt; 'user',
-     'password' =&gt; 'secret',
-]);</code></pre>
-<p>Once you have your connection, call <code>connect()</code> to bind
-to your LDAP server:</p>
-<pre><code class="language-php">try {
-    $connection-&gt;connect();
-
-    echo "Successfully connected!";
-} catch (\LdapRecord\Auth\BindException $e) {
-    $error = $e-&gt;getDetailedError();
-
-    echo $error-&gt;getErrorCode();
-    echo $error-&gt;getErrorMessage();
-    echo $error-&gt;getDiagnosticMessage();
-}</code></pre>
-<p>If you'd like to connect / bind anonymously to your LDAP
-server, simply set your <code>username</code> and <code>password</code>
-configuration parameters to <code>null</code>:</p>
-<pre><code class="language-php">use LdapRecord\Connection;
-
-$connection = Connection([
-     'hosts' =&gt; ['192.168.1.1'],
-     'port' =&gt; 389,
-     'username' =&gt; null,
-     'password' =&gt; null,
+<blockquote>
+<p>Before we get started, it's paramount to know that LdapRecord does not set
+up any sort of PHP session that persists through every request. This is up
+to you to implement, as every project may vary with session usage.</p>
+</blockquote>
+<h2 id="basic">Basic Authentication</h2>
+<p>The most widely used feature of any LDAP library is authentication. Let's walk through this step by step using LdapRecord.</p>
+<p>Firstly, we need to define a <code>Connection</code> for your LDAP server that you would like users to authenticate against. Then,
+we will call the <code>auth()-&gt;attempt()</code> method:</p>
+<blockquote>
+<p>If you only need to authenticate users against your LDAP server, you do not need to provide a <code>base_dn</code>.
+This is only used for performing searches on your directory. Similarly with the <code>username</code> and
+<code>password</code> configuration options, these are only used for performing operations on your LDAP
+server that require permission - such as resetting passwords, modifying LDAP entries, and more.</p>
+</blockquote>
+<pre><code class="language-php">$connection = new \LdapRecord\Connection([
+    'hosts' =&gt; ['127.0.0.1'],
 ]);
 
-$connection-&gt;connect();</code></pre>
-<h2 id="binding">Binding</h2>
-<p>Using the connection instance, you can execute a bind request
-to perform LDAP authentication to see if a username and
-password is valid.</p>
-<pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt('username', 'secret'))
-{
-    echo "Username and password are correct!";
+if ($connection-&gt;auth()-&gt;attempt('cn=john doe,dc=acme,dc=org', 'p@ssw0rd', $stayAuthenticated = true)) {
+    // Successfully authenticated user.
+} else {
+    // Username or password is incorrect.
 }</code></pre>
-<p>After calling the above, the user you have configured
-in your configuration will be <strong>rebound</strong> to your
-LDAP server. This is to ensure you can continue
-to execute LDAP operations underneath this
-user during the same request.</p>
-<p>If you would like to run all further LDAP operations
-underneath the authenticated user, pass in <code>true</code> in
-the third parameter in the <code>attempt()</code> method:</p>
-<pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt('username', 'secret', $bindAsUser = true))
-{
-    echo "Username and password are correct!";
-
-    // Run further LDAP operations under this user.
-}</code></pre>
-<h2 id="container">Container</h2>
-<p>You must add your LDAP connections to the container if
-you would like to use LdapRecord models. Models pull
-the connection that they use from this container.</p>
+<p>As you can see from the above, the first parameter of the <code>attempt()</code> method is the users Distinguished Name.
+If you're running ActiveDirectory, you can use the users <code>userPrincipalName</code> instead, which (in the case
+above) would be in the format of <code>jdoe@acme.org</code>.</p>
+<p>You may have also noticed we added a third parameter named <code>$stayAuthenticated = true</code>. This means, that throughout the
+entire lifecycle of the current request, you can perform further operations on your LDAP server <em>as</em> the
+successfully authenticated user.</p>
+<h2 id="other-attributes">Authenticating with other username attributes</h2>
+<p>No user wants to type in their full Distinguished Name to login to an application. It's
+cumbersome, and will likely change over the years due to IT administrators moving
+objects in the LDAP directory for organization purposes.</p>
+<p>However, LDAP only supports binding (authenticating) users using their Distinguished Name (unless you're using ActiveDirectory).
+How do we get around this limitation? Well, we can first connect to our LDAP directory and then retrieve their account
+information - including their Distinguished Name. Let's walk through this.</p>
+<p>Since we will first be searching our LDAP directory for the user that is attempting to authenticate, we have two options:</p>
+<ul>
+<li>Providing a <code>username</code> and <code>password</code> to our connection</li>
+<li>Anonymously bind to our connection, by not providing a <code>username</code> and <code>password</code> (if enabled in your directory)</li>
+</ul>
 <blockquote>
-<p>Ensure you connect to your LDAP server with each
-<code>Connection</code> you add into the container, otherwise
-you will not receive any results from queries.</p>
+<p>Since we will be searching our directory, we must provide a <code>base_dn</code>, so LdapRecord knows where to begin searching for records.</p>
 </blockquote>
-<h4>Adding Connections</h4>
-<pre><code class="language-php">use LdapRecord\Container;                         
-use LdapRecord\Connection;
-
-$connection = new Connection(['...']);
+<pre><code class="language-php">// Connecting with an an account...
+$connection = new \LdapRecord\Connection([
+    'hosts' =&gt; ['127.0.0.1'],
+    'base_dn' =&gt; 'dc=acme,dc=org',
+    'username' =&gt; 'cn=WebApi,dc=acme,dc=org',
+    'password' =&gt; 'super-secret',
+]);
 
 $connection-&gt;connect();
 
-Container::getInstance()-&gt;add($connection);</code></pre>
-<p>Each connection you add can have it's own name. This is
-required for connecting to multiple LDAP servers at
-one time. To set the name of a connection in the
-container, pass it into the second parameter:</p>
-<pre><code class="language-php">Container::getInstance()-&gt;add($connection, 'domain-b');</code></pre>
-<p>Without passing in a name, the name of the connection is
-set to <code>default</code>. Passing in multiple connections
-without providing a name will overwrite the
-previously added connection, so be sure to
-identify them differently if needed:</p>
-<pre><code class="language-php">use LdapRecord\Container;
-use LdapRecord\Connection;
+// Anonymously binding...
+$connection = new \LdapRecord\Connection([
+    'hosts' =&gt; ['127.0.0.1'],
+    'base_dn' =&gt; 'dc=acme,dc=org',
+]);
 
-$connectionA = new Connection(['...']);
-$connectionB = new Connection(['...']);
+$connection-&gt;connect();</code></pre>
+<blockquote>
+<p>It's recommended to create and use an account in your LDAP directory that is specifically for your
+web application(s), rather than using your own account or a domain administrator.</p>
+</blockquote>
+<p>Once we're connected, we can then search for the user who is trying to authenticate.</p>
+<p>For this example, we're wanting users to login using their <code>sAMAccountName</code>:</p>
+<pre><code class="language-php">$connection = new \LdapRecord\Connection(['...']);
 
-$container = Container::getInstance();
+$connection-&gt;connect();
 
-$container-&gt;add($connectionA);
+$user = $connection-&gt;query()-&gt;where('samaccountname', '=', $_POST['username'])-&gt;firstOrFail();
 
-// This will overwrite $connectionA:
-$container-&gt;add($connectionB);</code></pre>
-<h4>Getting Connections</h4>
-<p>To get the default connection, call the <code>getDefault()</code>
-method on the container instance:</p>
-<pre><code class="language-php">$container = Container::getInstance();
+if ($connection-&gt;auth()-&gt;attempt($user['distinguishedname'], $_POST['password'])) {
+    // User has been successfully authenticated.
+} else {
+    // Username or password is incorrect.
+}</code></pre>
+<h2 id="restricting">Restricting Authentication</h2>
+<p>Sometimes you only want certain users allowed to login to your application. You can do this in a couple ways.</p>
+<h3 id="group-memberships">Group Memberships</h3>
+<p>To restrict who can authenticate in your application using groups that users will be members
+of, we will perform the same as above, except we will check if the returned <code>memberof</code>
+array of the user contains the allowed groups.</p>
+<p>In this example, we will limit users who are members of <code>Accounting</code> and <code>IT</code>.</p>
+<pre><code class="language-php">$connection = new \LdapRecord\Connection(['...']);
 
-$container-&gt;add(new Connection(['...']));
+$connection-&gt;connect();
 
-$connection = $container-&gt;getDefault();</code></pre>
-<p>To get a differently named connection, call the <code>get()</code> method:</p>
-<pre><code class="language-php">$connection = Container::getInstance()-&gt;get('domain-b');</code></pre>
-<p>To set the name of the default connection, call the
-<code>setDefault()</code> method prior to adding a connection:</p>
-<pre><code class="language-php">$container = Container::getInstance();
+$user = $connection-&gt;query()-&gt;where('samaccountname', '=', $_POST['username'])-&gt;firstOrFail();
 
-$container-&gt;setDefault('domain-a');
+// Get the groups from the user.
+$userGroups = $user['memberof'];
 
-$container-&gt;add(new Connection(['...']));
+// Set up our allowed groups.
+$allowed = [
+    'cn=Accounting,ou=Groups,dc=acme,dc=org',
+    'cn=IT,ou=Groups,dc=acme,dc=org',    
+];
 
-$container-&gt;getDefault(); // Returns `domain-a` connection</code></pre>
-<p>To determine the existence of a connection, you can
-call the <code>exists()</code> method:</p>
-<pre><code class="language-php">if (Container::getInstance()-&gt;exists('domain-b')) {
-    // A 'domain-b' connection exists!
-}</code></pre>        </div>
+// Normalize the group distinguished names and determine if
+// the user is a member of any of the allowed groups:
+$difference = array_intersect(
+    array_map('strtolower', $userGroups),
+    array_map('strtolower', $allowed)
+);
+
+if (count($difference) &gt; 0) {
+    // Our user is a member of one of the allowed groups.
+    // Continue with authentication.
+    if ($connection-&gt;auth()-&gt;attempt($user['distinguishedname'], $_POST['password'])) {
+        // User has been successfully authenticated.
+    } else {
+        // Username or password is incorrect.
+    }
+}
+
+// User is not a member of any of the allowed groups.</code></pre>
+<h3 id="organizational-units">Organizational Units</h3>
+<p>Using Organizational Units to determine which users are allowed to authenticate is easier than using groups.</p>
+<p>In this scenario, we will limit our search to a single Organization Unit that contain users who are allowed to authenticate.</p>
+<p>We can simply determine if a result is returned, we know the user exists inside:</p>
+<pre><code class="language-php">$connection = new \LdapRecord\Connection(['...']);
+
+$connection-&gt;connect();
+
+$organizationalUnit = 'ou=AllowedUsers,dc=acme,dc=org';
+
+$user = $connection-&gt;query()
+    -&gt;in($organizationalUnit)
+    -&gt;where('samaccountname', '=', $_POST['username'])
+    -&gt;first();
+
+if ($user) {
+    // Our user is a member of one of the allowed groups.
+    // Continue with authentication.
+    if ($connection-&gt;auth()-&gt;attempt($user['distinguishedname'], $_POST['password'])) {
+        // User has been successfully authenticated.
+    } else {
+        // Username or password is incorrect.
+    }
+}
+
+// No user found. They are not inside the OU.</code></pre>        </div>
     </div>
 </section>
         </main>
