@@ -284,7 +284,7 @@ relationship types that LdapRecord supports:</p>
 </ul>
 <h2 id="defining-relationships">Defining Relationships</h2>
 <h3 id="has-one">Has One</h3>
-<p>A has one relationship is basic relationship to work with. An example of a &quot;has one&quot; relationship would be
+<p>A has one relationship is a basic relationship to work with. An example of a &quot;has one&quot; relationship would be
 a <code>User</code> having one <code>manager</code>. To define this relationship, we place a <code>manager()</code> method on our <code>User</code>
 model, and call the <code>hasOne()</code> method and return the result:</p>
 <pre><code class="language-php">&lt;?php
@@ -465,10 +465,14 @@ $adminGroups = $user-&gt;groups()-&gt;whereStartsWith('cn', 'Admin')-&gt;get();<
 <p>By default, querying relations will not include recursive results. More on this below.</p>
 </blockquote>
 <h3 id="recursive-queries">Recursive Queries</h3>
-<p>To request all of the relationships results, such as nested groups in groups, call the <code>recursive()</code> method:</p>
+<p>To request all of the relationships results, such as nested groups in groups, call
+the <code>recursive()</code> method, prior to retrieving results via <code>get()</code>:</p>
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
 $allGroups = $user-&gt;groups()-&gt;recursive()-&gt;get();</code></pre>
+<p>The <code>recursive()</code> method sets a flag on the LdapRecord relationship indicating
+you would like recursive results included (groups of groups).</p>
+<p>If you're using ActiveDirectory, the LdapRecord will use </p>
 <h2 id="attaching-amp-detatching-relationships">Attaching &amp; Detatching Relationships</h2>
 <p>Using relationships you define, you can easily attach and detach related models from each other.
 For example, you may want to attach a <code>Group</code> to a <code>User</code>, or vice-versa.</p>
@@ -481,6 +485,16 @@ $user-&gt;groups()-&gt;attach($user);
 
 // Attaching a user to a group:
 $group-&gt;members()-&gt;attach($user);</code></pre>
+<p>You may also use the <code>attachMany()</code> method to attach many models at once.</p>
+<p>For this example, let's say we have an organizational unit that contains groups all new users must be apart of:</p>
+<pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Groups,dc=acme,dc=org');
+
+$groups = Group::in($ou)-&gt;get();
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user-&gt;groups()-&gt;attach($groups);</code></pre>
+<p>As you can see above, we took a complex LDAP operation and completed it in just 4 lines of code.</p>
 <h2 id="checking-relationship-existence">Checking Relationship Existence</h2>
 <p>To check if a model exists inside of a relationship, use the <code>exists()</code> relationship method.</p>
 <p>For example, lets determine if a <code>User</code> is a member of a <code>Group</code>:</p>

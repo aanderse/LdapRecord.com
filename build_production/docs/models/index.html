@@ -543,7 +543,16 @@ by using the <code>inside()</code> method, rather than your <code>base_dn</code>
 $user = new User(['cn' =&gt; 'John Doe']);
 
 $user-&gt;inside('ou=Users,dc=acme,dc=org')-&gt;save();</code></pre>
-<p>The above example will save the user inside the <code>Users</code> OU.</p>
+<p>You may also pass in an LdapRecord <code>Model</code> instance. This is convenient so you
+know the container / organizational unit distinguished name is valid:</p>
+<pre><code class="language-php">&lt;?php
+
+$ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
+
+$user = new User(['cn' =&gt; 'John Doe']);
+
+$user-&gt;inside($ou)-&gt;save();</code></pre>
+<p>The above examples will save the user inside the <code>Users</code> OU.</p>
 <blockquote>
 <p>Depending on your directory, some attributes are required to be set for it
 to be created successfully. LdapRecord will not validate this for you and you will
