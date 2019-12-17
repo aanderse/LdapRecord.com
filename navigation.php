@@ -24,10 +24,11 @@ return [
     ],
     'Tutorials' => [
         'children' => [
-            'Authentication' => 'docs/authentication',
+            'Authentication' => 'docs/tutorials/authentication',
+            'Common Queries' => 'docs/tutorials/common-queries',
             'ActiveDirectory' => [
                 'children' => [
-                    'User Management' => 'docs/user-management',
+                    'User Management' => 'docs/tutorials/user-management',
                 ],
             ]
         ],

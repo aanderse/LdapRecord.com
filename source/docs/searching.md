@@ -14,10 +14,15 @@ section: content
 - [Wheres](#wheres)
 - [Nested Filters](#nested-filters)
 - [Raw Filters](#raw-filters)
-- [Sorting](#sorting)
 - [Paginating](#paginating)
+- [Base DN](#base-dn)
+- [Search Options](#search-options)
+ - [Recursive](#recursive)
+ - [Listing](#listing)
+ - [Read](#read)
+- [Saving the Query](#saving-query)
 
-## Introduction
+## Introduction {#introduction}
 
 Using the LdapRecord query builder makes building LDAP queries feel effortless.
 
@@ -46,7 +51,7 @@ $results = $connection->query()->where('cn', '=', 'John Doe')->get();
 > in a `Collection`. You must query using [models](/docs/models#retrieving-models)
 > themselves if you would like them to be returned instead.
 
-## Selects
+## Selects {#selects}
 
 > Fields are case in-sensitive. For example, you can
 > insert `CN`, `cn` or `cN`, they will return the same result.
@@ -63,7 +68,7 @@ $query->select(['cn', 'samaccountname', 'telephone', 'mail']);
 $query->select('cn', 'samaccountname', 'telephone', 'mail');
 ```
 
-## Executing Searches
+## Executing Searches {#executing-searches}
 
 #### Finding a record
 
@@ -143,7 +148,7 @@ $record = $query->first();
 
 You can also use `firstOrFail()` to generate an exception when no records are found.
 
-## Limit
+## Limit {#limit}
 
 To limit the results records returned from your LDAP server and increase the
 speed of your queries, you can use the `limit()` method:
@@ -153,7 +158,7 @@ speed of your queries, you can use the `limit()` method:
 $records = $query->where('cn', 'contains', 'John')->limit(5)->get();
 ```
 
-## Wheres
+## Wheres {#wheres}
 
 To perform a where clause on the search object, use the `where()` function:
 
@@ -348,7 +353,7 @@ You can even perform multiple dynamic wheres by separating your fields by an `An
 $result = $query->whereGivennameAndSn('John', 'Doe')->first();
 ```
 
-## Nested Filters
+## Nested Filters {#nested-filters}
 
 By default, the LdapRecord query builder automatically wraps your queries in `and` / `or` filters for you.
 However, if any further complexity is required, nested filters allow you
@@ -411,7 +416,7 @@ $query = $query->orFilter(function (LdapRecord\Query\Builder $q) {
 echo $query; // Returns '(&(|(givenname=John)(sn=Doe))(&(department=Accounting)(title=Manager)))'
 ```
 
-## Raw Filters
+## Raw Filters {#raw-filters}
 
 > Raw filters are not escaped. **Do not** accept user input into the raw filter method.
 
@@ -438,7 +443,7 @@ $query = $query->getUnescapedQuery();
 echo $query; // Returns (&(samaccountname=jdoe)(surname=Doe))
 ```
 
-## Paginating
+## Paginating {#paginating}
 
 Paginating your search results will allow you to return more results than your LDAP cap (usually 1000).
 
@@ -459,7 +464,7 @@ foreach ($results as $result) {
 }
 ```
 
-## Base DN
+## Base DN {#base-dn}
 
 To set the base DN of your search you can use one of two methods:
 
@@ -473,9 +478,9 @@ $results = $query->setDn('ou=Accounting,dc=acme,dc=org')->get();
 
 Either option will return the same results. Use which ever method you prefer to be more readable.
 
-## Search Options
+## Search Options {#search-options}
 
-#### Recursive
+#### Recursive {#recursive}
 
 By default, all searches performed are recursive.
 
@@ -487,7 +492,7 @@ $result = $query->listing()->get();
 
 This would perform an `ldap_listing()` instead of an `ldap_search()`.
 
-#### Read
+#### Read {#read}
 
 If you'd like to perform a read instead of a listing or a recursive search, use the `read()` method:
 
@@ -499,7 +504,7 @@ This would perform an `ldap_read()` instead of an `ldap_listing()` or an `ldap_s
 
 > Performing a `read()` will always return *one* record in your result.
 
-## Retrieving the ran query
+## Retrieving the ran query {#saving-query}
 
 If you'd like to retrieve the current query to save or run it at another
 time, use the `getQuery()` method on the query builder.

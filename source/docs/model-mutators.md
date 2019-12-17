@@ -12,6 +12,9 @@ section: content
  - [Defining Accessors](#defining-an-accessor)
  - [Defining Mutators](#defining-a-mutator)
  - [Date Mutators](#date-mutators)
+      - [LDAP Timestamp](#ldap-date-type)
+      - [Windows Timestamp](#windows-date-type)
+      - [Windows Integer Timestamp](#windows-int-date-type)
 
 ## Introduction {#introduction}
 
@@ -185,7 +188,7 @@ if ($user->accountexpires->isPast()) {
 }
 ```
 
-#### Available Types
+#### Available Types {#available-date-types}
 
 Currently, there are 3 built-in date mutator types. They are:
 
@@ -193,21 +196,21 @@ Currently, there are 3 built-in date mutator types. They are:
 - `windows`
 - `windows-int`
 
-##### LDAP Type
+##### LDAP Type {#ldap-date-type}
 
 The `ldap` type is the most common format for LDAP timestamps -
 outside of ActiveDirectory. This format converts LDAP timestamps
 in the format of `YYYYMMDDHHMMSST`. T is the time zone which
 is usually 'Z' (Zulu Time Zone = UTC/GMT).
 
-##### Windows Type
+##### Windows Type {#windows-date-type}
 
 The `windows` type is similar to the `ldap` type, however it
 differs slightly so it requires its own conversion type. Its
 timestamp is in the format of `YYYYMMDDHHMMSS.0T`. T is the
 time zone which is usually 'Z' (Zulu Time Zone = UTC/GMT).
 
-##### Windows Integer Type
+##### Windows Integer Type {#windows-int-date-type}
 
 The `windows-int` type handles the 18-digit ActiveDirectory timestamp
 format, also named 'Windows NT time format', 'Win32 FILETIME or

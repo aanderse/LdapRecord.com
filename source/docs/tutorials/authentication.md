@@ -98,7 +98,9 @@ $connection = new \LdapRecord\Connection(['...']);
 
 $connection->connect();
 
-$user = $connection->query()->where('samaccountname', '=', $_POST['username'])->firstOrFail();
+$user = $connection->query()
+    ->where('samaccountname', '=', $_POST['username'])
+    ->firstOrFail();
 
 if ($connection->auth()->attempt($user['distinguishedname'], $_POST['password'])) {
     // User has been successfully authenticated.
@@ -124,7 +126,9 @@ $connection = new \LdapRecord\Connection(['...']);
 
 $connection->connect();
 
-$user = $connection->query()->where('samaccountname', '=', $_POST['username'])->firstOrFail();
+$user = $connection->query()
+    ->where('samaccountname', '=', $_POST['username'])
+    ->firstOrFail();
 
 // Get the groups from the user.
 $userGroups = $user['memberof'];

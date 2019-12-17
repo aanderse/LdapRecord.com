@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="Configuring LdapRecord">
+        <meta name="description" content="Common LDAP queries using LdapRecord">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Configuration | LdapRecord"/>
-        <meta property="og:description" content="Configuring LdapRecord"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/configuration"/>
+        <meta property="og:title" content="Common Queries | LdapRecord"/>
+        <meta property="og:description" content="Common LDAP queries using LdapRecord"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs\tutorials/common-queries"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Configuration</title>
+        <title>LdapRecord | Common Queries</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -123,7 +123,7 @@
             <li class="pl-4">
             
         <a href="/docs/configuration"
-            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Configuration
         </a>
@@ -252,116 +252,139 @@
         </nav>
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-            <h1>Configuration</h1>
+            <h1>Common Queries</h1>
+<p>Most applications will require retrieving certain set / type of objects from a directory.</p>
 <ul>
-<li><a href="#hosts">Hosts</a></li>
-<li><a href="#base-distinguished-name">Base DN</a></li>
-<li><a href="#username-amp-password">Username &amp; Password</a></li>
-<li><a href="#port">Port</a></li>
-<li><a href="#ssl-amp-tls">SSL &amp; TLS</a></li>
-<li><a href="#timeout">Timeout</a></li>
-<li><a href="#version">Version</a></li>
-<li><a href="#follow-referrals">Follow Referrals</a></li>
-<li><a href="#options">Options</a></li>
+<li><a href="#using-models">Using Models</a></li>
+<li><a href="#without-models">Without Models</a></li>
 </ul>
-<p>To configure your LDAP connections, you can either:</p>
-<ul>
-<li>Use an array</li>
-<li>Use a <code>DomainConfiguration</code> object</li>
-</ul>
-<p>Either or will produce the same results. Use whichever you feel most comfortable with.</p>
-<h2>Using an array</h2>
-<pre><code class="language-php">$config = [
-    'hosts' =&gt; [
-        'DC-01.corp.acme.org',
-    ],
-    '...'
-];</code></pre>
-<h2>Using a <code>DomainConfiguration</code> object</h2>
-<pre><code class="language-php">// Setting options using constructor:
-$config = new \LdapRecord\Configuration\DomainConfiguration([
-    'hosts' =&gt; [
-        'DC-01.corp.acme.org',
-    ],
-]);
+<h2 id="using-models">Using Models</h2>
+<p>Utilizing LdapRecord's built in models allow you to easily query specific types of objects in your directory.</p>
+<blockquote>
+<p>The examples below assume you have created a <code>Connection</code> and have added them into the <a href="/docs/connections#container">Container</a>.</p>
+</blockquote>
+<h3>ActiveDirectory</h3>
+<h5>Generic Queries</h5>
+<pre><code class="language-php">// All ActiveDirectory objects:
+// Note: We use 'paginate' here so over 1000 results can be returned.
+$objects = \LdapRecord\Models\ActiveDirectory\Entry::paginate();
 
-// Setting options using the `set()` method:
-$config-&gt;set('hosts', [
-    'DC-01.corp.acme.org',
-]);</code></pre>
-<h2>Options</h2>
-<pre><code class="language-php">$config = [
-    // Mandatory Configuration Options
-    'hosts'            =&gt; ['corp-dc1.corp.acme.org', 'corp-dc2.corp.acme.org'],
-    'base_dn'          =&gt; 'dc=corp,dc=acme,dc=org',
-    'username'         =&gt; 'admin',
-    'password'         =&gt; 'password',
+// All ActiveDirectory users:
+$users = \LdapRecord\Models\ActiveDirectory\User::get();
 
-    // Optional Configuration Options
-    'port'             =&gt; 389,
-    'follow_referrals' =&gt; false,
-    'use_ssl'          =&gt; false,
-    'use_tls'          =&gt; false,
-    'version'          =&gt; 3,
-    'timeout'          =&gt; 5,
+// All ActiveDirectory contacts:
+$contacts = \LdapRecord\Models\ActiveDirectory\Contact::get();
 
-    // Custom LDAP Options
-    'options' =&gt; [
-        // See: http://php.net/ldap_set_option
-        LDAP_OPT_X_TLS_REQUIRE_CERT =&gt; LDAP_OPT_X_TLS_HARD
-    ]
-];</code></pre>
-<h3 id="hosts">Hosts</h3>
-<p>The hosts option is an array of IP addresses or host names located on your network that serve Active Directory.</p>
-<p>You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).</p>
-<blockquote>
-<p>Do not append your port to your IP addresses or host names. Use the <code>port</code> configuration option instead.</p>
-</blockquote>
-<h3 id="base-distinguished-name">Base Distinguished Name</h3>
-<p>The base distinguished name is the base distinguished name you'd like to perform operations on.</p>
-<p>An example base DN would be <code>DC=corp,DC=acme,DC=org</code>.</p>
-<p>If one is not defined, you will not retrieve any search results.</p>
-<blockquote>
-<p>Your base DN is <strong>case insensitive</strong>. You do not need to worry about incorrect casing.</p>
-</blockquote>
-<h3 id="username-amp-password">Username &amp; Password</h3>
-<p>To connect to your LDAP server, a username and password is required to be able to query and run operations on your server(s).</p>
-<p>You can use any account that has these permissions.</p>
-<blockquote>
-<p>To run administration level operations, such as resetting passwords,
-this account <strong>must</strong> have permissions to do so on your directory.</p>
-</blockquote>
-<h3 id="port">Port</h3>
-<p>The port option is used for authenticating and binding to your LDAP server.</p>
-<p>The default ports are already used for non SSL and SSL connections (389 and 636).</p>
-<p>Only insert a port if your LDAP server uses a unique port.</p>
-<h3 id="ssl-amp-tls">SSL &amp; TLS</h3>
-<p>These Boolean options enable an SSL or TLS connection to your LDAP server.</p>
-<p>Only <strong>one</strong> can be set to <code>true</code>. You must chose either or.</p>
-<blockquote>
-<p>You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</p>
-</blockquote>
-<p>These options are definitely recommended if you have the ability to connect to your server securely.</p>
-<blockquote>
-<p>TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.</p>
-</blockquote>
-<h3 id="timeout">Timeout</h3>
-<p>The timeout option allows you to configure the amount of seconds to wait until
-your application receives a response from your LDAP server.</p>
-<p>The default is 5 seconds.</p>
-<h3 id="version">Version</h3>
-<p>The LDAP version to use for your connection.</p>
-<p>Must be an integer and can either be <code>2</code> or <code>3</code>.</p>
-<h3 id="follow-referrals">Follow Referrals</h3>
-<p>The follow referrals option is a boolean to tell active directory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.</p>
-<p>This option is defaulted to false.</p>
-<p>Disable this option if you're experiencing search / connectivity issues.</p>
-<p>For more information, visit: <a href="https://technet.microsoft.com/en-us/library/cc978014.aspx">https://technet.microsoft.com/en-us/library/cc978014.aspx</a></p>
-<h3 id="options">Options</h3>
-<p>Arbitrary options can be set for the connection to fine-tune TLS and connection behavior.</p>
-<p>Please note that <code>LDAP_OPT_PROTOCOL_VERSION</code>, <code>LDAP_OPT_NETWORK_TIMEOUT</code> and <code>LDAP_OPT_REFERRALS</code> will be ignored if set.</p>
-<p>These are set above with the <code>version</code>, <code>timeout</code> and <code>follow_referrals</code> keys respectively.</p>
-<p>Valid options are listed in the <a href="http://php.net/ldap_set_option">PHP documentation for ldap_set_option</a>.</p>        </div>
+// All ActiveDirectory groups:
+$groups = \LdapRecord\Models\ActiveDirectory\Group::get();
+
+// All ActiveDirectory organizational units:
+$ous = \LdapRecord\Models\ActiveDirectory\OrganizationalUnit::get();
+
+// All ActiveDirectory printers:
+$printers = \LdapRecord\Models\ActiveDirectory\Printer::get();
+
+// All ActiveDirectory computers:
+$computers = \LdapRecord\Models\ActiveDirectory\Computer::get();
+
+// All foreign security principals:
+$foreignPrincipals = \LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal::get();</code></pre>
+<h5>Users Created After a Date</h5>
+<pre><code class="language-php">$users = User::where();</code></pre>
+<h3>OpenLDAP</h3>
+<h5>Generic Queries</h5>
+<pre><code class="language-php">// All OpenLDAP objects:
+// Note: We use 'paginate' here so over 1000 results can be returned.
+$objects = \LdapRecord\Models\OpenLDAP\Entry::paginate();
+
+// All OpenLDAP users:
+$users = \LdapRecord\Models\OpenLDAP\User::get();
+
+// All OpenLDAP groups:
+$groups = \LdapRecord\Models\OpenLDAP\Group::get();
+
+// All OpenLDAP organizational units:
+$ous = \LdapRecord\Models\OpenLDAP\OrganizationalUnit::get();</code></pre>
+<h2 id="without-models">Without Models</h2>
+<p>If you do not want to use LdapRecord models, you can still use the query builder and retrieve raw LDAP results.</p>
+<pre><code class="language-php">use LdapRecord\Connection;
+
+$connection = new Connection(['...']);
+
+// All LDAP objects:
+// Note: We use 'paginate' here so over 1000 results can be returned.
+$objects = $connection-&gt;query()-&gt;paginate();</code></pre>
+<h3>ActiveDirectory</h3>
+<pre><code class="language-php">use LdapRecord\Connection;
+
+$connection = new Connection(['...']);
+
+// All ActiveDirectory Users:
+$users = $connection-&gt;query()-&gt;where([
+    ['objectclass', '=', 'top'],
+    ['objectclass', '=', 'person'],
+    ['objectclass', '=', 'organizationalperson'],
+    ['objectclass', '=', 'user'],
+])-&gt;get();
+
+// All ActiveDirectory contacts:
+$contacts = $connection-&gt;query()-&gt;where([
+    ['objectclass', '=', 'top'],
+    ['objectclass', '=', 'person'],
+    ['objectclass', '=', 'organizationalperson'],
+    ['objectclass', '=', 'contact'],
+])-&gt;get();
+
+// All ActiveDirectory groups:
+$groups = $connection-&gt;query()-&gt;where([
+    ['objectclass', '=', 'top'],
+    ['objectclass', '=', 'group'],
+])-&gt;get();
+
+// All ActiveDirectory organizational units:
+$ous = $connection-&gt;query()-&gt;where([
+    ['objectclass', '=', 'top'],
+    ['objectclass', '=', 'organizationalunit'],
+])-&gt;get();
+
+// All ActiveDirectory printers:
+$printers = $connection-&gt;query()
+    -&gt;where('objectclass', '=', 'printqueue')
+    -&gt;get();
+
+// All ActiveDirectory computers:
+$computers = $connection-&gt;query()-&gt;where([
+    ['objectclass', '=', 'top'],
+    ['objectclass', '=', 'person'],
+    ['objectclass', '=', 'organizationalperson'],
+    ['objectclass', '=', 'user'],
+    ['objectclass', '=', 'computer'],
+])-&gt;get();
+
+// All foreign security principals:
+$foreignPrincipals = $connection-&gt;query()
+    -&gt;where('objectclass', '=', 'foreignsecurityprincipal')
+    -&gt;get();</code></pre>
+<h3>OpenLDAP</h3>
+<pre><code class="language-php">// All OpenLDAP users:
+$users = $connection-&gt;query()-&gt;where([
+    ['objectclass', '=', 'top'],
+    ['objectclass', '=', 'person'],
+    ['objectclass', '=', 'organizationalperson'],
+    ['objectclass', '=', 'inetorgperson'],
+])-&gt;get();
+
+// All OpenLDAP groups:
+$groups = $connection-&gt;query()-&gt;where([
+    ['objectclass', '=', 'top'],
+    ['objectclass', '=', 'groupofuniquenames'],
+])-&gt;get();
+
+// All OpenLDAP organizational units:
+$ous = $connection-&gt;query()-&gt;where([
+    ['objectclass', '=', 'top'],
+    ['objectclass', '=', 'organizationalunit'],
+])-&gt;get();</code></pre>        </div>
     </div>
 </section>
         </main>
