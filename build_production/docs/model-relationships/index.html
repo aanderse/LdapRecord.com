@@ -493,8 +493,14 @@ $groups = Group::in($ou)-&gt;get();
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
-$user-&gt;groups()-&gt;attach($groups);</code></pre>
+$user-&gt;groups()-&gt;attachMany($groups);</code></pre>
 <p>As you can see above, we took a complex LDAP operation and completed it in just 4 lines of code.</p>
+<p>You may also want to detach a user from all groups, if for example they are
+leaving the company and you it is apart of your off-boarding process.</p>
+<p>You may accomplish this task by using the <code>detachAll()</code> method:</p>
+<pre><code class="language-php">$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user-&gt;groups()-&gt;detachAll();</code></pre>
 <h2 id="checking-relationship-existence">Checking Relationship Existence</h2>
 <p>To check if a model exists inside of a relationship, use the <code>exists()</code> relationship method.</p>
 <p>For example, lets determine if a <code>User</code> is a member of a <code>Group</code>:</p>

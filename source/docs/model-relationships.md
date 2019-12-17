@@ -319,10 +319,21 @@ $groups = Group::in($ou)->get();
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
-$user->groups()->attach($groups);
+$user->groups()->attachMany($groups);
 ```
 
 As you can see above, we took a complex LDAP operation and completed it in just 4 lines of code.
+
+You may also want to detach a user from all groups, if for example they are
+leaving the company and you it is apart of your off-boarding process.
+
+You may accomplish this task by using the `detachAll()` method:
+
+```php
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user->groups()->detachAll();
+```
 
 ## Checking Relationship Existence {#checking-relationship-existence}
 
