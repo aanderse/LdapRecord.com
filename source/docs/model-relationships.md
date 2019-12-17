@@ -37,7 +37,7 @@ relationship types that LdapRecord supports:
 
 ### Has One {#has-one}
 
-A has one relationship is basic relationship to work with. An example of a "has one" relationship would be
+A has one relationship is a basic relationship to work with. An example of a "has one" relationship would be
 a `User` having one `manager`. To define this relationship, we place a `manager()` method on our `User`
 model, and call the `hasOne()` method and return the result:
 
@@ -276,13 +276,19 @@ $adminGroups = $user->groups()->whereStartsWith('cn', 'Admin')->get();
 
 ### Recursive Queries {#recursive-queries}
 
-To request all of the relationships results, such as nested groups in groups, call the `recursive()` method:
+To request all of the relationships results, such as nested groups in groups, call
+the `recursive()` method, prior to retrieving results via `get()`:
 
 ```php
 $user = User::find('cn=John Doe,dc=acme,dc=org');
 
 $allGroups = $user->groups()->recursive()->get();
 ```
+
+The `recursive()` method sets a flag on the LdapRecord relationship indicating
+you would like recursive results included (groups of groups).
+
+If you're using ActiveDirectory, the LdapRecord will use 
 
 ## Attaching & Detatching Relationships {#attaching-amp-detatching-relationships}
 
@@ -301,6 +307,22 @@ $user->groups()->attach($user);
 // Attaching a user to a group:
 $group->members()->attach($user);
 ```
+
+You may also use the `attachMany()` method to attach many models at once.
+
+For this example, let's say we have an organizational unit that contains groups all new users must be apart of:
+
+```php
+$ou = OrganizationalUnit::find('ou=Groups,dc=acme,dc=org');
+
+$groups = Group::in($ou)->get();
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user->groups()->attach($groups);
+```
+
+As you can see above, we took a complex LDAP operation and completed it in just 4 lines of code.
 
 ## Checking Relationship Existence {#checking-relationship-existence}
 

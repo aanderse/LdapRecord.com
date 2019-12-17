@@ -376,13 +376,28 @@ $user = new User(['cn' => 'John Doe']);
 $user->inside('ou=Users,dc=acme,dc=org')->save();
 ```
 
-The above example will save the user inside the `Users` OU.
+You may also pass in an LdapRecord `Model` instance. This is convenient so you
+know the container / organizational unit distinguished name is valid:
+
+```php
+<?php
+
+$ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
+
+$user = new User(['cn' => 'John Doe']);
+
+$user->inside($ou)->save();
+```
+
+The above examples will save the user inside the `Users` OU.
 
 > Depending on your directory, some attributes are required to be set for it
 > to be created successfully. LdapRecord will not validate this for you and you will
 > receive an exception if this occurs.
 > 
+>
 > For example, users must have a common name (cn) and organizational units must have an ou.
+>
 >
 > In addition to the above, you cannot set attributes that do not exist in your directory's
 > LDAP schema, as well as set attributes that the bound LDAP user does not have permission
