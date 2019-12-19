@@ -11,7 +11,7 @@ section: content
 
 LdapRecord requires the following:
 
-- PHP >= 7.1
+- PHP >= 7.2
 - PHP LDAP extension enabled
 - An LDAP server (ActiveDirectory, OpenLDAP, FreeIPA etc.)
 

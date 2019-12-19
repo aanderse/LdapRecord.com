@@ -9,7 +9,7 @@ return [
     'siteDescription' => 'Eloquent LDAP Management',
 
     // Algolia DocSearch credentials
-    'docsearchApiKey' => '8d3be67a9c6f04f6d69ff70a96924698',
+    'docsearchApiKey' => 'bc526397341486f980ca0b7ee7a0fa61',
     'docsearchIndexName' => 'ldaprecord',
 
     // navigation menu

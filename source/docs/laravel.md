@@ -27,7 +27,7 @@ This package allows you to:
 LdapRecord-Laravel requires the following:
 
 - Laravel 5.5
-- PHP 7.1 or greater
+- PHP 7.2 or greater
 - PHP LDAP extension enabled
 - An LDAP Server
 
