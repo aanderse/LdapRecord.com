@@ -102,7 +102,7 @@
     <div class="flex flex-col">
         <h1 class="text-center">Ready to get started?</h1>
 
-        <div class="mx-auto text-center">
+        <div class="sm:mx-auto text-center">
             @include('docs.examples.install')
         </div>
     </div>
