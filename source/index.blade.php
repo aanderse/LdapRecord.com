@@ -36,17 +36,9 @@
     <!-- Fast Setup. -->
     <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32">
         <div class="md:w-3/5">
-            <div class="feature">
-                <div class="top-bar">
-                    <div class="circles">
-                        <div class="circle circle-red"></div>
-                        <div class="circle circle-yellow"></div>
-                        <div class="circle circle-green"></div>
-                    </div>
-                </div>
-
+            @component('components.feature')
                 @include('docs.examples.fast-setup')
-            </div>
+            @endcomponent
         </div>
 
         <div class="md:w-2/5 md:ml-8">
@@ -75,17 +67,9 @@
         </div>
 
         <div class="md:w-3/5">
-            <div class="feature">
-                <div class="top-bar">
-                    <div class="circles">
-                        <div class="circle circle-red"></div>
-                        <div class="circle circle-yellow"></div>
-                        <div class="circle circle-green"></div>
-                    </div>
-                </div>
-
+            @component('components.feature')
                 @include('docs.examples.fluent')
-            </div>
+            @endcomponent
         </div>
     </div>
 
@@ -94,17 +78,9 @@
     <!-- ActiveRecord. -->
     <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-24">
         <div class="md:w-3/5">
-            <div class="feature">
-                <div class="top-bar">
-                    <div class="circles">
-                        <div class="circle circle-red"></div>
-                        <div class="circle circle-yellow"></div>
-                        <div class="circle circle-green"></div>
-                    </div>
-                </div>
-
+            @component('components.feature')
                 @include('docs.examples.active-record')
-            </div>
+            @endcomponent
         </div>
 
         <div class="md:w-2/5 md:ml-8">
@@ -115,7 +91,7 @@
             </div>
 
             <p>
-                Create and modify LDAP obects with ease. All LDAP objects are individual models. Simply modify the
+                Create and modify LDAP objects with ease. All LDAP objects are individual models. Simply modify the
                 attributes on the model and save it to persist the changes to your LDAP server.
             </p>
         </div>
@@ -126,7 +102,7 @@
     <div class="flex flex-col">
         <h1 class="text-center">Ready to get started?</h1>
 
-        <div class="mx-auto md:2/3 lg:w-1/3">
+        <div class="mx-auto text-center">
             @include('docs.examples.install')
         </div>
     </div>
