@@ -34,7 +34,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=802a6db98fc9d3a77390">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=3c7274cabb4e48dd980e">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -269,8 +269,7 @@ $connection = Connection([
      'username' =&gt; 'user',
      'password' =&gt; 'secret',
 ]);</code></pre>
-<p>Once you have your connection, call <code>connect()</code> to bind
-to your LDAP server:</p>
+<p>Once you have your connection, call <code>connect()</code> to bind to your LDAP server:</p>
 <pre><code class="language-php">try {
     $connection-&gt;connect();
 
@@ -334,12 +333,12 @@ $connection = new Connection(['...']);
 
 $connection-&gt;connect();
 
-Container::getInstance()-&gt;add($connection);</code></pre>
+Container::addConnection($connection);</code></pre>
 <p>Each connection you add can have it's own name. This is
 required for connecting to multiple LDAP servers at
 one time. To set the name of a connection in the
 container, pass it into the second parameter:</p>
-<pre><code class="language-php">Container::getInstance()-&gt;add($connection, 'domain-b');</code></pre>
+<pre><code class="language-php">Container::addConnection($connection, 'domain-b');</code></pre>
 <p>Without passing in a name, the name of the connection is
 set to <code>default</code>. Passing in multiple connections
 without providing a name will overwrite the
@@ -348,44 +347,36 @@ identify them differently if needed:</p>
 <pre><code class="language-php">use LdapRecord\Container;
 use LdapRecord\Connection;
 
-$connectionA = new Connection(['...']);
-$connectionB = new Connection(['...']);
+$connectionAlpha = new Connection(['...']);
+$connectionBravo = new Connection(['...']);
 
-$container = Container::getInstance();
+Container::addConnection($connectionAlpha);
 
-$container-&gt;add($connectionA);
-
-// This will overwrite $connectionA:
-$container-&gt;add($connectionB);</code></pre>
+// This will overwrite $connectionAlpha:
+Container::addConnection($connectionBravo);</code></pre>
 <h4>Getting Connections</h4>
-<p>To get the default connection, call the <code>getDefault()</code>
-method on the container instance:</p>
-<pre><code class="language-php">$container = Container::getInstance();
-
-$container-&gt;add(new Connection(['...']));
-
-$connection = $container-&gt;getDefault();</code></pre>
-<p>To get a differently named connection, call the <code>get()</code> method:</p>
-<pre><code class="language-php">$connection = Container::getInstance()-&gt;get('domain-b');</code></pre>
+<p>To get the default connection, call the <code>getDefaultConnection</code> method:</p>
+<pre><code class="language-php">$connection = Container::getDefaultConnection();</code></pre>
+<p>To get a differently named connection, call the <code>getConnection</code> method:</p>
+<pre><code class="language-php">$connection = Container::getConnection('domain-b');</code></pre>
 <p>To set the name of the default connection, call the
-<code>setDefault()</code> method prior to adding a connection:</p>
-<pre><code class="language-php">$container = Container::getInstance();
+<code>setDefaultConnection</code> method prior to adding a connection:</p>
+<pre><code class="language-php">Container::setDefaultConnection('domain-a');
 
-$container-&gt;setDefault('domain-a');
+Container::addConnection(new Connection(['...']));
 
-$container-&gt;add(new Connection(['...']));
-
-$container-&gt;getDefault(); // Returns `domain-a` connection</code></pre>
+// Returns the `domain-a` connection.
+$connection = Container::getDefaultConnection();</code></pre>
 <p>To determine the existence of a connection, you can
-call the <code>exists()</code> method:</p>
+call the <code>exists()</code> method on the container instance:</p>
 <pre><code class="language-php">if (Container::getInstance()-&gt;exists('domain-b')) {
-    // A 'domain-b' connection exists!
+    // The 'domain-b' connection exists!
 }</code></pre>        </div>
     </div>
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
+        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
 
         <script>
     const navMenu = {

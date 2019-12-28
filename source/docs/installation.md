@@ -39,8 +39,12 @@ the [configuration](/docs/configuration) guide.
 ## Quick Start {#installation-quick-start}
 
 ```php
+use LdapRecord\Container;
+use LdapRecord\Connection;
+use LdapRecord\Models\Entry;
+
 // Create a new connection:
-$connection = new \LdapRecord\Connection([
+$connection = new Connection([
     'hosts' => ['192.168.1.1'],
     'port' => 389,
     'username' => 'user',
@@ -51,14 +55,14 @@ $connection = new \LdapRecord\Connection([
 // Connect to your server:
 $connection->connect();
 
-// Add the connection to the container:
-\LdapRecord\Container::getInstance()->add($connection);
+// Add the connection into the container:
+Container::addConnection($connection);
 
 // Get all objects:
-$objects = \LdapRecord\Models\Entry::get();
+$objects = Entry::get();
 
 // Get a single object:
-$object = \LdapRecord\Models\Entry::find('cn=John Doe,dc=local,dc=com');
+$object = Entry::find('cn=John Doe,dc=local,dc=com');
 
 // Getting attributes:
 foreach ($object->memberof as $group) {

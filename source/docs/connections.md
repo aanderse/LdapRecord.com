@@ -27,8 +27,7 @@ $connection = Connection([
 ]);
 ```
 
-Once you have your connection, call `connect()` to bind
-to your LDAP server:
+Once you have your connection, call `connect()` to bind to your LDAP server:
 
 ```php
 try {
@@ -113,7 +112,7 @@ $connection = new Connection(['...']);
 
 $connection->connect();
 
-Container::getInstance()->add($connection);
+Container::addConnection($connection);
 ```
 
 Each connection you add can have it's own name. This is
@@ -122,7 +121,7 @@ one time. To set the name of a connection in the
 container, pass it into the second parameter:
 
 ```php
-Container::getInstance()->add($connection, 'domain-b');
+Container::addConnection($connection, 'domain-b');
 ```
 
 Without passing in a name, the name of the connection is
@@ -135,54 +134,46 @@ identify them differently if needed:
 use LdapRecord\Container;
 use LdapRecord\Connection;
 
-$connectionA = new Connection(['...']);
-$connectionB = new Connection(['...']);
+$connectionAlpha = new Connection(['...']);
+$connectionBravo = new Connection(['...']);
 
-$container = Container::getInstance();
+Container::addConnection($connectionAlpha);
 
-$container->add($connectionA);
-
-// This will overwrite $connectionA:
-$container->add($connectionB);
+// This will overwrite $connectionAlpha:
+Container::addConnection($connectionBravo);
 ```
 
 #### Getting Connections
 
-To get the default connection, call the `getDefault()`
-method on the container instance:
+To get the default connection, call the `getDefaultConnection` method:
 
 ```php
-$container = Container::getInstance();
-
-$container->add(new Connection(['...']));
-
-$connection = $container->getDefault();
+$connection = Container::getDefaultConnection();
 ```
 
-To get a differently named connection, call the `get()` method:
+To get a differently named connection, call the `getConnection` method:
 
 ```php
-$connection = Container::getInstance()->get('domain-b');
+$connection = Container::getConnection('domain-b');
 ```
 
 To set the name of the default connection, call the
-`setDefault()` method prior to adding a connection:
+`setDefaultConnection` method prior to adding a connection:
 
 ```php
-$container = Container::getInstance();
+Container::setDefaultConnection('domain-a');
 
-$container->setDefault('domain-a');
+Container::addConnection(new Connection(['...']));
 
-$container->add(new Connection(['...']));
-
-$container->getDefault(); // Returns `domain-a` connection
+// Returns the `domain-a` connection.
+$connection = Container::getDefaultConnection();
 ```
 
 To determine the existence of a connection, you can
-call the `exists()` method:
+call the `exists()` method on the container instance:
 
 ```php
 if (Container::getInstance()->exists('domain-b')) {
-    // A 'domain-b' connection exists!
+    // The 'domain-b' connection exists!
 }
 ```

@@ -17,41 +17,9 @@ section: content
 - [Follow Referrals](#follow-referrals)
 - [Options](#options)
 
-To configure your LDAP connections, you can either:
+To configure your LDAP connections, provide an array with key-value pairs to set various parameters.
 
-- Use an array
-- Use a `DomainConfiguration` object
-
-Either or will produce the same results. Use whichever you feel most comfortable with.
-
-## Using an array
-
-```php
-$config = [
-    'hosts' => [
-        'DC-01.corp.acme.org',
-    ],
-    '...'
-];
-```
-
-## Using a `DomainConfiguration` object
-
-```php
-// Setting options using constructor:
-$config = new \LdapRecord\Configuration\DomainConfiguration([
-    'hosts' => [
-        'DC-01.corp.acme.org',
-    ],
-]);
-
-// Setting options using the `set()` method:
-$config->set('hosts', [
-    'DC-01.corp.acme.org',
-]);
-```
-
-## Options
+Here is a list of all parameters.
 
 ```php
 $config = [
@@ -75,6 +43,8 @@ $config = [
         LDAP_OPT_X_TLS_REQUIRE_CERT => LDAP_OPT_X_TLS_HARD
     ]
 ];
+
+$connection = new Connection($config);
 ```
 
 ### Hosts {#hosts}

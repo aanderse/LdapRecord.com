@@ -34,7 +34,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=802a6db98fc9d3a77390">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=3c7274cabb4e48dd980e">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -264,32 +264,8 @@
 <li><a href="#follow-referrals">Follow Referrals</a></li>
 <li><a href="#options">Options</a></li>
 </ul>
-<p>To configure your LDAP connections, you can either:</p>
-<ul>
-<li>Use an array</li>
-<li>Use a <code>DomainConfiguration</code> object</li>
-</ul>
-<p>Either or will produce the same results. Use whichever you feel most comfortable with.</p>
-<h2>Using an array</h2>
-<pre><code class="language-php">$config = [
-    'hosts' =&gt; [
-        'DC-01.corp.acme.org',
-    ],
-    '...'
-];</code></pre>
-<h2>Using a <code>DomainConfiguration</code> object</h2>
-<pre><code class="language-php">// Setting options using constructor:
-$config = new \LdapRecord\Configuration\DomainConfiguration([
-    'hosts' =&gt; [
-        'DC-01.corp.acme.org',
-    ],
-]);
-
-// Setting options using the `set()` method:
-$config-&gt;set('hosts', [
-    'DC-01.corp.acme.org',
-]);</code></pre>
-<h2>Options</h2>
+<p>To configure your LDAP connections, provide an array with key-value pairs to set various parameters.</p>
+<p>Here is a list of all parameters.</p>
 <pre><code class="language-php">$config = [
     // Mandatory Configuration Options
     'hosts'            =&gt; ['corp-dc1.corp.acme.org', 'corp-dc2.corp.acme.org'],
@@ -310,7 +286,9 @@ $config-&gt;set('hosts', [
         // See: http://php.net/ldap_set_option
         LDAP_OPT_X_TLS_REQUIRE_CERT =&gt; LDAP_OPT_X_TLS_HARD
     ]
-];</code></pre>
+];
+
+$connection = new Connection($config);</code></pre>
 <h3 id="hosts">Hosts</h3>
 <p>The hosts option is an array of IP addresses or host names located on your network that serve Active Directory.</p>
 <p>You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).</p>
@@ -366,7 +344,7 @@ your application receives a response from your LDAP server.</p>
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
+        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
 
         <script>
     const navMenu = {

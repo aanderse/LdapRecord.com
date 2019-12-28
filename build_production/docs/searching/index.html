@@ -34,7 +34,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=802a6db98fc9d3a77390">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=3c7274cabb4e48dd980e">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -268,6 +268,7 @@
 <li><a href="#recursive">Recursive</a></li>
 <li><a href="#listing">Listing</a></li>
 <li><a href="#read">Read</a></li>
+<li><a href="#custom-controls">Custom Controls</a></li>
 </ul></li>
 <li><a href="#saving-query">Saving the Query</a></li>
 </ul>
@@ -421,6 +422,12 @@ $results = $query-&gt;whereHas('cn')-&gt;get();</code></pre>
 // Or use the method whereNotHas($field):
 
 $results = $query-&gt;whereNotHas($field)-&gt;get();</code></pre>
+<h4>Where Deleted</h4>
+<p>To retrieve <strong>only</strong> deleted models from your LDAP server, use the <code>whereDeleted</code> method:</p>
+<pre><code class="language-php">$results = $query-&gt;whereDeleted()-&gt;get();</code></pre>
+<p>If you would like to <strong>include</strong> deleted models from your LDAP
+server in your query results, use the <code>withDeleted</code> method:</p>
+<pre><code class="language-php">$results = $query-&gt;withDeleted()-&gt;get();</code></pre>
 <h2>Or Wheres</h2>
 <p>To perform an <code>or where</code> clause on the search object, use the <code>orWhere()</code> method. However,
 please be aware this function performs differently than it would on a database.</p>
@@ -560,6 +567,9 @@ $results = $query-&gt;setDn('ou=Accounting,dc=acme,dc=org')-&gt;get();</code></p
 <blockquote>
 <p>Performing a <code>read()</code> will always return <em>one</em> record in your result.</p>
 </blockquote>
+<h4 id="custom-controls">Custom Controls</h4>
+<p>If you'd like to <a href="https://www.php.net/manual/en/ldap.controls.php">add server controls</a> to your query, use the <code>addControl</code> method:</p>
+<pre><code class="language-php">$result = $query-&gt;addControl('1.2.840.113556.1.4.417', $isCritical = true)-&gt;get();</code></pre>
 <h2 id="saving-query">Retrieving the ran query</h2>
 <p>If you'd like to retrieve the current query to save or run it at another
 time, use the <code>getQuery()</code> method on the query builder.</p>
@@ -576,7 +586,7 @@ echo $query; // Returns '(cn=John Doe)'</code></pre>
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
+        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
 
         <script>
     const navMenu = {

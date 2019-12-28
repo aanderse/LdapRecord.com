@@ -20,6 +20,7 @@ section: content
  - [Recursive](#recursive)
  - [Listing](#listing)
  - [Read](#read)
+ - [Custom Controls](#custom-controls)
 - [Saving the Query](#saving-query)
 
 ## Introduction {#introduction}
@@ -281,6 +282,21 @@ $results = $query->where('cn', '!*')->get();
 $results = $query->whereNotHas($field)->get();
 ```
 
+#### Where Deleted
+
+To retrieve **only** deleted models from your LDAP server, use the `whereDeleted` method:
+
+```php
+$results = $query->whereDeleted()->get();
+```
+
+If you would like to **include** deleted models from your LDAP
+server in your query results, use the `withDeleted` method:
+
+```php
+$results = $query->withDeleted()->get();
+``` 
+
 ## Or Wheres
 
 To perform an `or where` clause on the search object, use the `orWhere()` method. However,
@@ -503,6 +519,14 @@ $result = $query->read()->where('objectClass', '*')->get();
 This would perform an `ldap_read()` instead of an `ldap_listing()` or an `ldap_search()`.
 
 > Performing a `read()` will always return *one* record in your result.
+
+#### Custom Controls {#custom-controls}
+
+If you'd like to [add server controls](https://www.php.net/manual/en/ldap.controls.php) to your query, use the `addControl` method:
+
+```php
+$result = $query->addControl('1.2.840.113556.1.4.417', $isCritical = true)->get();
+```
 
 ## Retrieving the ran query {#saving-query}
 

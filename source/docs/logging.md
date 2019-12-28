@@ -34,7 +34,7 @@ try {
     $connection->connect();
     
     // Disable logging anything else.
-    \LdapRecord::setLogger(null);
+    \LdapRecord\Container::setLogger(null);
 } catch (\LdapRecord\Auth\BindException $e) {
     //
 }
