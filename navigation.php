@@ -1,13 +1,12 @@
 <?php
 
 return [
-    'Getting Started' => [
-        'children' => [
-            'Installation' => 'docs/installation',
-            'Configuration' => 'docs/configuration',
-            'Connecting' => 'docs/connections',
-        ],
-    ],
+    'Quickstart' => 'docs/quickstart',
+    'Overview' => 'docs',
+    'Installation' => 'docs/installation',
+    'Configuration' => 'docs/configuration',
+    'Connecting' => 'docs/connecting',
+    'Searching '=> 'docs/searching',
     'Models' => [
         'children' => [
             'Getting Started' => 'docs/models',
@@ -15,13 +14,8 @@ return [
             'Accessors & Mutators' => 'docs/model-mutators',
         ],
     ],
-    'Searching' => [
-        'url' => 'docs/searching',
-        'children' => [
-            'Events' => 'docs/events',
-            'Logging' => 'docs/logging',
-        ],
-    ],
+    'Events' => 'docs/events',
+    'Logging' => 'docs/logging',
     'Tutorials' => [
         'children' => [
             'Authentication' => 'docs/tutorials/authentication',
@@ -33,4 +27,6 @@ return [
             ]
         ],
     ],
+    'Versioning' => 'docs/versioning',
+    'License' => 'docs/license',
 ];

@@ -34,7 +34,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=3c7274cabb4e48dd980e">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=802a6db98fc9d3a77390">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -107,14 +107,26 @@
             <ul class="list-none my-0">
             <li class="pl-4">
             
-        <p class="nav-menu__item text-gray-600 font-bold">Getting Started</p>
+        <a href="/docs/quickstart"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Quickstart
+        </a>
     
+    </li>
+            <li class="pl-4">
             
-        <ul class="list-none my-0">
+        <a href="/docs"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Overview
+        </a>
+    
+    </li>
             <li class="pl-4">
             
         <a href="/docs/installation"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Installation
         </a>
@@ -123,7 +135,7 @@
             <li class="pl-4">
             
         <a href="/docs/configuration"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Configuration
         </a>
@@ -131,18 +143,25 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/connections"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+        <a href="/docs/connecting"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Connecting
         </a>
     
     </li>
-    </ul>
+            <li class="pl-4">
+            
+        <a href="/docs/searching"
+            class="lvl0  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+        >
+            Searching 
+        </a>
+    
     </li>
             <li class="pl-4">
             
-        <p class="nav-menu__item text-gray-600 font-bold">Models</p>
+        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase pt-2">Models</p>
     
             
         <ul class="list-none my-0">
@@ -177,18 +196,8 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/searching"
-            class="lvl0  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
-        >
-            Searching
-        </a>
-    
-            
-        <ul class="list-none my-0">
-            <li class="pl-4">
-            
         <a href="/docs/events"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Events
         </a>
@@ -197,17 +206,15 @@
             <li class="pl-4">
             
         <a href="/docs/logging"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Logging
         </a>
     
     </li>
-    </ul>
-    </li>
             <li class="pl-4">
             
-        <p class="nav-menu__item text-gray-600 font-bold">Tutorials</p>
+        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase pt-2">Tutorials</p>
     
             
         <ul class="list-none my-0">
@@ -231,7 +238,7 @@
     </li>
             <li class="pl-4">
             
-        <p class="nav-menu__item text-gray-600 font-bold">ActiveDirectory</p>
+        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase pt-2">ActiveDirectory</p>
     
             
         <ul class="list-none my-0">
@@ -247,6 +254,24 @@
     </ul>
     </li>
     </ul>
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/versioning"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Versioning
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/license"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            License
+        </a>
+    
     </li>
     </ul>
         </nav>
@@ -581,12 +606,29 @@ echo $query; // Returns '(cn=\4a\6f\68\6e\20\44\6f\65)'</code></pre>
 <pre><code class="language-php">$query = $query-&gt;where('cn', '=', 'John Doe')-&gt;getUnescapedQuery();
 
 echo $query; // Returns '(cn=John Doe)'</code></pre>
-<p>Now that you know how to search your directory, lets move onto <a href="/docs/models">creating / modifying LDAP records</a>.</p>        </div>
+<p>Now that you know how to search your directory, lets move onto <a href="/docs/models">creating / modifying LDAP records</a>.</p>
+            <div class="mt-12 pt-8 pb-6 border-t-2">
+                <div class="flex flex-col-reverse md:flex-row justify-between items-center">
+    <div class="flex flex-col items-center md:items-start">
+                    <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
+            <h4 class="font-bold underline m-0 text-blue-700">
+                <a href="/docs/connecting">Connecting</a>
+            </h4>
+            </div>
+    <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
+                    <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
+            <h4 class="font-bold underline m-0 text-blue-700">
+                <a href="/docs/models">Getting Started</a>
+            </h4>
+            </div>
+</div>
+            </div>
+        </div>
     </div>
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
+        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
 
         <script>
     const navMenu = {
@@ -620,7 +662,7 @@ echo $query; // Returns '(cn=John Doe)'</code></pre>
         <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-none">
                 <li class="md:mr-2">
-                    &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> 2019.
+                    &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> 2020.
                 </li>
 
                 <li>
