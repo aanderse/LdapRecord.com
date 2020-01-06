@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="A PHP LDAP package made for humans.">
+
+        <meta property="og:site_name" content="LdapRecord"/>
+        <meta property="og:title" content="LdapRecord"/>
+        <meta property="og:description" content="A PHP LDAP package made for humans."/>
+        <meta property="og:url" content="https://ldaprecord.com/"/>
+        <meta property="og:image" content="/assets/img/logo.png"/>
+        <meta property="og:type" content="website"/>
+
+        <meta name="twitter:image:alt" content="LdapRecord">
+        <meta name="twitter:card" content="summary_large_image">
+
+                    <meta name="generator" content="tighten_jigsaw_doc">
+        
+        <title>LdapRecord</title>
+
+        <link rel="home" href="https://ldaprecord.com">
+        <link rel="icon" href="/favicon.ico">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+
+        
+                    <!-- Insert analytics code here -->
+        
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2a7998172209bb1711f">
+
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+            </head>
+
+    <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
+        <header class="flex items-center shadow bg-white border-b h-24 mb-8 py-4" role="banner">
+            <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
+                <div class="flex items-center">
+                    <a href="/" title="LdapRecord home" class="inline-flex items-center">
+                        <img class="h-20 md:h-24 mr-3" src="/assets/img/logo.svg" alt="LdapRecord logo" />
+                    </a>
+                </div>
+
+                <div class="flex flex-1 justify-end items-center text-right md:pl-10">
+                                            <button
+    title="Start searching"
+    type="button"
+    class="flex md:hidden bg-gray-100 hover:bg-blue-100 justify-center items-center border border-gray-500 rounded-full focus:outline-none h-10 px-3"
+    onclick="searchInput.toggle()"
+>
+    <img src="/assets/img/magnifying-glass.svg" alt="search icon" class="h-4 w-4 max-w-none">
+</button>
+
+<div id="js-search-input" class="docsearch-input__wrapper hidden md:block">
+    <label for="search" class="hidden">Search</label>
+
+    <input
+        id="docsearch-input"
+        class="docsearch-input relative block h-10 transition-fast w-full lg:w-1/2 xl:w-1/3 bg-gray-100 outline-none rounded-full text-gray-700 border border-gray-500 focus:border-blue-400 ml-auto px-4 pb-0"
+        name="docsearch"
+        type="text"
+        placeholder="Search"
+    >
+
+    <button
+        class="md:hidden absolute pin-t pin-r h-full font-light text-3xl text-blue-500 hover:text-blue-600 focus:outline-none -mt-px"
+        onclick="searchInput.toggle()"
+    >&times;</button>
+</div>
+
+                    
+                    <a href="https://github.com/DirectoryTree/LdapRecord" class="hidden sm:inline">
+                        <svg class="fill-current text-blue-800 w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
+                    </a>
+                </div>
+            </div>
+
+                    </header>
+
+        <main role="main" class="w-full flex-auto">
+            <section class="container max-w-6xl mx-auto px-6 py-0">
+    <div class="mb-10 text-center">
+        <h1 id="intro-docs-template">Integrating LDAP is hard.</h1>
+
+        <h2 class="font-light hidden sm:block mt-4">
+            <strong>LdapRecord</strong> is a <strong>PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+        </h2>
+
+        <h4 class="font-light block sm:hidden mt-4">
+            <strong>LdapRecord</strong> is a <strong>PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+        </h4>
+    </div>
+
+    <div class="flex justify-center mb-8">
+        <a href="/docs/installation" title="LdapRecord getting started" class="bg-purple-500 hover:bg-purple-600 font-normal text-white hover:text-white rounded mr-4 py-2 px-6">Get Started</a>
+
+        <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="bg-gray-400 hover:bg-gray-600 text-blue-900 font-normal hover:text-white rounded py-2 px-6">Source Code</a>
+    </div>
+
+    <div class="lg:mb-32 lg:w-2/3 mx-auto">
+        <div class="feature">
+            <div class="top-bar">
+                <div class="circles">
+                    <div class="circle circle-red"></div>
+                    <div class="circle circle-yellow"></div>
+                    <div class="circle circle-green"></div>
+                </div>
+            </div>
+
+            <pre><code class="language-php">$user = User::create([
+    'cn' =&gt; 'Steve Bauman',
+    'company' =&gt; 'Acme',
+    'password' =&gt; 'P@ssw0rd',
+]);
+
+$administrators = Group::find('cn=Administrators,dc=acme,dc=org');
+
+$user-&gt;groups()-&gt;attach($administrators);</code></pre>        </div>
+    </div>
+
+    <hr class="block my-8 border">
+
+    <!-- Fast Setup. -->
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32">
+        <div class="md:w-3/5">
+            <div class="feature">
+    <div class="top-bar">
+        <div class="circles">
+            <div class="circle circle-red"></div>
+            <div class="circle circle-yellow"></div>
+            <div class="circle circle-green"></div>
+        </div>
+    </div>
+
+    <pre><code class="language-php">use LdapRecord\Connection;
+
+$connection = new Connection([
+    'username' =&gt; 'sbauman@acme.org',
+    'password' =&gt; 'SuperSecret',
+    'hosts' =&gt; ['127.0.0.1'],
+    'base_dn' =&gt; 'dc=acme,dc=org',
+]);
+
+$connection-&gt;connect();
+
+$users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get();</code></pre>
+</div>        </div>
+
+        <div class="md:w-2/5 md:ml-8">
+            <div class="flex items-center">
+                <img src="/assets/img/stopwatch.svg" class="h-12 w-12" alt="window icon">
+
+                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Up and running within minutes</h3>
+            </div>
+
+            <p>Effortlessly connect to your LDAP servers and start running queries & operations in a matter of minutes.</p>
+        </div>
+    </div>
+
+    <hr class="block my-8 border lg:hidden">
+
+    <!-- Fluent Query Builder. -->
+    <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32">
+        <div class="md:w-2/5 md:mr-8">
+            <div class="flex items-center">
+                <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="terminal icon">
+
+                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Fluent Query Builder</h3>
+            </div>
+
+            <p>Building LDAP queries has never been so easy. Find the objects you're looking for in a couple lines or less with a fluent interface.</p>
+        </div>
+
+        <div class="md:w-3/5">
+            <div class="feature">
+    <div class="top-bar">
+        <div class="circles">
+            <div class="circle circle-red"></div>
+            <div class="circle circle-yellow"></div>
+            <div class="circle circle-green"></div>
+        </div>
+    </div>
+
+    <pre><code class="language-php">User::whereEnabled()
+    -&gt;whereMemberOf('cn=Managers,ou=Groups,dc=acme,dc=org')
+    -&gt;whereNotContains('company', 'Acme')
+    -&gt;get()
+    -&gt;each(function ($user) {
+        $user-&gt;company = 'Acme Organization';
+
+        $user-&gt;save();
+    });</code></pre>
+</div>        </div>
+    </div>
+
+    <hr class="block my-8 border lg:hidden">
+
+    <!-- ActiveRecord. -->
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-24">
+        <div class="md:w-3/5">
+            <div class="feature">
+    <div class="top-bar">
+        <div class="circles">
+            <div class="circle circle-red"></div>
+            <div class="circle circle-yellow"></div>
+            <div class="circle circle-green"></div>
+        </div>
+    </div>
+
+    <pre><code class="language-php">$user = new User();
+
+$user-&gt;cn = 'Steve Bauman';
+$user-&gt;title = 'Developer';
+$user-&gt;samaccountname = 'sbauman';
+$user-&gt;company = 'Acme';
+$user-&gt;mail = 'sbauman@acme.org';
+$user-&gt;givenname = 'Steve';
+$user-&gt;sn = 'Bauman';
+$user-&gt;password = 'Super-Secret';
+
+$user-&gt;save();</code></pre>
+</div>        </div>
+
+        <div class="md:w-2/5 md:ml-8">
+            <div class="flex items-center">
+                <img src="/assets/img/volume-control.svg" class="h-12 w-12" alt="stack icon">
+
+                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Supercharged ActiveRecord</h3>
+            </div>
+
+            <p>
+                Create and modify LDAP objects with ease. All LDAP objects are individual models. Simply modify the
+                attributes on the model and save it to persist the changes to your LDAP server.
+            </p>
+        </div>
+    </div>
+</section>
+        </main>
+
+        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
+
+                    <script type="text/javascript">
+            docsearch({
+                apiKey: 'bc526397341486f980ca0b7ee7a0fa61',
+                indexName: 'ldaprecord',
+                inputSelector: '#docsearch-input',
+                debug: false // Set debug to true if you want to inspect the dropdown
+            });
+
+            const searchInput = {
+                toggle() {
+                    const menu = document.getElementById('js-search-input');
+                    menu.classList.toggle('hidden');
+                    menu.classList.toggle('md:block');
+                    document.getElementById('docsearch-input').focus();
+                },
+            }
+        </script>
+    
+        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
+            <ul class="flex flex-col md:flex-row justify-center list-none">
+                <li class="md:mr-2">
+                    &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> 2020.
+                </li>
+
+                <li>
+                    Built with <a href="http://jigsaw.tighten.co" title="Jigsaw by Tighten">Jigsaw</a>
+                    and <a href="https://tailwindcss.com" title="Tailwind CSS, a utility-first CSS framework">Tailwind CSS</a>.
+                </li>
+            </ul>
+        </footer>
+    </body>
+</html>
