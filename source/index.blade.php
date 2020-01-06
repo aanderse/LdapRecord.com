@@ -1,37 +1,40 @@
 @extends('_layouts.master')
 
 @section('body')
-<section class="container max-w-6xl mx-auto px-6 py-0 lg:py-12">
-    <div class="flex flex-col mb-10 lg:flex-row lg:mb-32">
-        <div class="lg:mt-8">
-            <h1 id="intro-docs-template">{{ $page->siteName }}</h1>
+<section class="container max-w-6xl mx-auto px-6 py-0">
+    <div class="mb-10 text-center">
+        <h1 id="intro-docs-template">Integrating LDAP is hard.</h1>
 
-            <h2 class="font-light hidden sm:block mt-4">{{ $page->siteDescription }}</h2>
-            <h4 class="font-light block sm:hidden mt-4">{{ $page->siteDescription }}</h4>
+        <h2 class="font-light hidden sm:block mt-4">
+            <strong>LdapRecord</strong> is a <strong>PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+        </h2>
 
-            <div class="flex my-10">
-                <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="bg-purple-500 hover:bg-purple-600 font-normal text-white hover:text-white rounded mr-4 py-2 px-6">Get Started</a>
+        <h4 class="font-light block sm:hidden mt-4">
+            <strong>LdapRecord</strong> is a <strong>PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+        </h4>
+    </div>
 
-                <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="bg-gray-400 hover:bg-gray-600 text-blue-900 font-normal hover:text-white rounded py-2 px-6">Source Code</a>
-            </div>
-        </div>
+    <div class="flex justify-center mb-8">
+        <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="bg-purple-500 hover:bg-purple-600 font-normal text-white hover:text-white rounded mr-4 py-2 px-6">Get Started</a>
 
-        <div class="mb-6 lg:mb-0 lg:w-2/3">
-            <div class="feature">
-                <div class="top-bar">
-                    <div class="circles">
-                        <div class="circle circle-red"></div>
-                        <div class="circle circle-yellow"></div>
-                        <div class="circle circle-green"></div>
-                    </div>
+        <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="bg-gray-400 hover:bg-gray-600 text-blue-900 font-normal hover:text-white rounded py-2 px-6">Source Code</a>
+    </div>
+
+    <div class="lg:mb-32 lg:w-2/3 mx-auto">
+        <div class="feature">
+            <div class="top-bar">
+                <div class="circles">
+                    <div class="circle circle-red"></div>
+                    <div class="circle circle-yellow"></div>
+                    <div class="circle circle-green"></div>
                 </div>
-
-                @include('docs.examples.landing')
             </div>
+
+            @include('docs.examples.landing')
         </div>
     </div>
 
-    <hr class="block my-8 border lg:hidden">
+    <hr class="block my-8 border">
 
     <!-- Fast Setup. -->
     <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32">
@@ -94,16 +97,6 @@
                 Create and modify LDAP objects with ease. All LDAP objects are individual models. Simply modify the
                 attributes on the model and save it to persist the changes to your LDAP server.
             </p>
-        </div>
-    </div>
-
-    <hr class="block border">
-
-    <div class="flex flex-col">
-        <h1 class="text-center">Ready to get started?</h1>
-
-        <div class="sm:mx-auto text-center">
-            @include('docs.examples.install')
         </div>
     </div>
 </section>
