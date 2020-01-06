@@ -34,7 +34,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=802a6db98fc9d3a77390">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=20c3a58580ccf7bd633c">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -339,14 +339,15 @@ this account <strong>must</strong> have permissions to do so on your directory.<
 <p>The default ports are already used for non SSL and SSL connections (389 and 636).</p>
 <p>Only insert a port if your LDAP server uses a unique port.</p>
 <h3 id="ssl-amp-tls">SSL &amp; TLS</h3>
-<p>These Boolean options enable an SSL or TLS connection to your LDAP server.</p>
+<p>These boolean options enable an SSL or TLS connection to your LDAP server.</p>
 <p>Only <strong>one</strong> can be set to <code>true</code>. You must chose either or.</p>
-<blockquote>
-<p>You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</p>
-</blockquote>
 <p>These options are definitely recommended if you have the ability to connect to your server securely.</p>
 <blockquote>
-<p>TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.</p>
+<p><strong>Tips</strong>: </p>
+<ul>
+<li>You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</li>
+<li>TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.</li>
+</ul>
 </blockquote>
 <h3 id="timeout">Timeout</h3>
 <p>The timeout option allows you to configure the amount of seconds to wait until
@@ -386,7 +387,7 @@ your application receives a response from your LDAP server.</p>
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=5678cbf31fd8c7734786"></script>
+        <script src="/assets/build/js/main.js?id=5dd822863934b75738db"></script>
 
         <script>
     const navMenu = {

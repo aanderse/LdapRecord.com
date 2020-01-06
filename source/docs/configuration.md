@@ -84,15 +84,15 @@ Only insert a port if your LDAP server uses a unique port.
 
 ### SSL & TLS {#ssl-amp-tls}
 
-These Boolean options enable an SSL or TLS connection to your LDAP server.
+These boolean options enable an SSL or TLS connection to your LDAP server.
 
 Only **one** can be set to `true`. You must chose either or.
 
-> You **must** enable SSL or TLS to reset passwords in ActiveDirectory.
-
 These options are definitely recommended if you have the ability to connect to your server securely.
 
-> TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.
+> **Tips**: 
+> - You **must** enable SSL or TLS to reset passwords in ActiveDirectory.
+> - TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.
 
 ### Timeout {#timeout}
 

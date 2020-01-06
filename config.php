@@ -6,7 +6,7 @@ return [
     'baseUrl' => '',
     'production' => false,
     'siteName' => 'LdapRecord',
-    'siteDescription' => 'Eloquent LDAP Management',
+    'siteDescription' => "A PHP LDAP package made for humans.",
 
     // Algolia DocSearch credentials
     'docsearchApiKey' => 'bc526397341486f980ca0b7ee7a0fa61',
