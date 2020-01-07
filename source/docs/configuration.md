@@ -49,7 +49,7 @@ $connection = new Connection($config);
 
 ### Hosts {#hosts}
 
-The hosts option is an array of IP addresses or host names located on your network that serve Active Directory.
+The hosts option is an array of IP addresses or host names located on your network that serve an LDAP directory.
 
 You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).
 
