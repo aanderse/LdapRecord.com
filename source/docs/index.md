@@ -1,5 +1,5 @@
 ---
-title: Overview & Quick Start
+title: Overview
 description: LdapRecord Overview
 extends: _layouts.documentation
 section: content

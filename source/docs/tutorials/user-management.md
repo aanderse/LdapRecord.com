@@ -195,8 +195,8 @@ try {
 
 User account control is an integer that contains flags to control the behaviour of an ActiveDirectory user account.
 
-You can manipulate this manually by simply setting the `userAccountControl` property on an existing user,
-or you can use the account control builder `LdapRecord\Models\Attributes\AccountControl`:
+You can manipulate this manually by simply setting the `userAccountControl` property on an existing user using
+the raw integer value, or you can use the account control builder `LdapRecord\Models\Attributes\AccountControl`:
 
 ```php
 <?php
@@ -206,14 +206,65 @@ use LdapRecord\Models\Attributes\AccountControl;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
-$uac = new UserAccountControl();
+// Setting the UAC value manually:
+$uac = 512; // Normal, enabled account.
 
-$uac->accountIsNormal()->passwordDoesNotExpire();
+// Or, using the UAC builder:
+$uac = (new UserAccountControl)->accountIsNormal();
 
 $user->userAccountControl = $uac;
 
 $user->save();
 ```
+
+When using the `UserAccountControl` builder, control methods you call upon it will automatically sum the proper integer value.
+
+For example, let's create an account control for a user with the following controls:
+
+- The user account is normal
+- The user account password does not expire
+- The user account password cannot be changed
+
+```php
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org')
+
+$uac = new UserAccountControl;
+
+$uac->accountIsNormal();
+$uac->passwordDoesNotExpire();
+$uac->passwordCannotBeChanged();
+
+$user->userAccountControl = $uac;
+
+$user->save();
+```
+
+Here is a list of all account control methods that are available on the `UserAccountControl` builder:
+
+- `UserAccountControl::runLoginScript()`
+- `UserAccountControl::accountIsLocked()`
+- `UserAccountControl::accountIsDisabled()`
+- `UserAccountControl::accountIsTemporary()`
+- `UserAccountControl::accountIsNormal()`
+- `UserAccountControl::accountIsForInterdomain()`
+- `UserAccountControl::accountIsForWorkstation()`
+- `UserAccountControl::accountIsForServer()`
+- `UserAccountControl::accountIsMnsLogon()`
+- `UserAccountControl::accountDoesNotRequirePreAuth()`
+- `UserAccountControl::accountRequiresSmartCard()`
+- `UserAccountControl::accountIsReadOnly()`
+- `UserAccountControl::homeFolderIsRequired()`
+- `UserAccountControl::passwordIsNotRequired()`
+- `UserAccountControl::passwordCannotBeChanged()`
+- `UserAccountControl::passwordDoesNotExpire()`
+- `UserAccountControl::passwordIsExpired()`
+- `UserAccountControl::allowEncryptedTextPassword()`
+- `UserAccountControl::trustForDelegation()`
+- `UserAccountControl::trustToAuthForDelegation()`
+- `UserAccountControl::doNotTrustForDelegation()`
+- `UserAccountControl::useDesKeyOnly()`
+
+#### Determining Set Account Control Flags {#determining-account-control-flags}
 
 To determine what controls an existing user already has, create an `AccountControl` object
 with the users `userAccountControl` value and use the `has()` method:

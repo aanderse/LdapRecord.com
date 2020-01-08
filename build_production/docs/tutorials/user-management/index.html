@@ -34,13 +34,13 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2a7998172209bb1711f">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=056d6dc0c5cc3460ec6f">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
 
     <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
-        <header class="flex items-center shadow bg-white border-b h-24 mb-8 py-4" role="banner">
+        <header class="flex items-center bg-white border-b h-24 mb-8 py-4" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
                     <a href="/" title="LdapRecord home" class="inline-flex items-center">
@@ -76,6 +76,8 @@
 </div>
 
                     
+                    <a href="/docs/" class="ml-6 text-blue-800" title="LdapRecord Documentation Link">Docs</a>
+
                     <a href="https://github.com/DirectoryTree/LdapRecord" class="hidden sm:inline">
                         <svg class="fill-current text-blue-800 w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
                     </a>
@@ -439,8 +441,8 @@ try {
 }</code></pre>
 <h3 id="user-account-control">User Account Control</h3>
 <p>User account control is an integer that contains flags to control the behaviour of an ActiveDirectory user account.</p>
-<p>You can manipulate this manually by simply setting the <code>userAccountControl</code> property on an existing user,
-or you can use the account control builder <code>LdapRecord\Models\Attributes\AccountControl</code>:</p>
+<p>You can manipulate this manually by simply setting the <code>userAccountControl</code> property on an existing user using
+the raw integer value, or you can use the account control builder <code>LdapRecord\Models\Attributes\AccountControl</code>:</p>
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\ActiveDirectory\User;
@@ -448,13 +450,59 @@ use LdapRecord\Models\Attributes\AccountControl;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
-$uac = new UserAccountControl();
+// Setting the UAC value manually:
+$uac = 512; // Normal, enabled account.
 
-$uac-&gt;accountIsNormal()-&gt;passwordDoesNotExpire();
+// Or, using the UAC builder:
+$uac = (new UserAccountControl)-&gt;accountIsNormal();
 
 $user-&gt;userAccountControl = $uac;
 
 $user-&gt;save();</code></pre>
+<p>When using the <code>UserAccountControl</code> builder, control methods you call upon it will automatically sum the proper integer value.</p>
+<p>For example, let's create an account control for a user with the following controls:</p>
+<ul>
+<li>The user account is normal</li>
+<li>The user account password does not expire</li>
+<li>The user account password cannot be changed</li>
+</ul>
+<pre><code class="language-php">$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org')
+
+$uac = new UserAccountControl;
+
+$uac-&gt;accountIsNormal();
+$uac-&gt;passwordDoesNotExpire();
+$uac-&gt;passwordCannotBeChanged();
+
+$user-&gt;userAccountControl = $uac;
+
+$user-&gt;save();</code></pre>
+<p>Here is a list of all account control methods that are available on the <code>UserAccountControl</code> builder:</p>
+<ul>
+<li><code>UserAccountControl::runLoginScript()</code></li>
+<li><code>UserAccountControl::accountIsLocked()</code></li>
+<li><code>UserAccountControl::accountIsDisabled()</code></li>
+<li><code>UserAccountControl::accountIsTemporary()</code></li>
+<li><code>UserAccountControl::accountIsNormal()</code></li>
+<li><code>UserAccountControl::accountIsForInterdomain()</code></li>
+<li><code>UserAccountControl::accountIsForWorkstation()</code></li>
+<li><code>UserAccountControl::accountIsForServer()</code></li>
+<li><code>UserAccountControl::accountIsMnsLogon()</code></li>
+<li><code>UserAccountControl::accountDoesNotRequirePreAuth()</code></li>
+<li><code>UserAccountControl::accountRequiresSmartCard()</code></li>
+<li><code>UserAccountControl::accountIsReadOnly()</code></li>
+<li><code>UserAccountControl::homeFolderIsRequired()</code></li>
+<li><code>UserAccountControl::passwordIsNotRequired()</code></li>
+<li><code>UserAccountControl::passwordCannotBeChanged()</code></li>
+<li><code>UserAccountControl::passwordDoesNotExpire()</code></li>
+<li><code>UserAccountControl::passwordIsExpired()</code></li>
+<li><code>UserAccountControl::allowEncryptedTextPassword()</code></li>
+<li><code>UserAccountControl::trustForDelegation()</code></li>
+<li><code>UserAccountControl::trustToAuthForDelegation()</code></li>
+<li><code>UserAccountControl::doNotTrustForDelegation()</code></li>
+<li><code>UserAccountControl::useDesKeyOnly()</code></li>
+</ul>
+<h4 id="determining-account-control-flags">Determining Set Account Control Flags</h4>
 <p>To determine what controls an existing user already has, create an <code>AccountControl</code> object
 with the users <code>userAccountControl</code> value and use the <code>has()</code> method:</p>
 <pre><code class="language-php">&lt;?php
