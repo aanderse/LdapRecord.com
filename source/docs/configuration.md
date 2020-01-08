@@ -109,7 +109,7 @@ Must be an integer and can either be `2` or `3`.
 
 ### Follow Referrals {#follow-referrals}
 
-The follow referrals option is a boolean to tell active directory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.
+The follow referrals option is a boolean to tell ActiveDirectory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.
 
 This option is defaulted to false.
 

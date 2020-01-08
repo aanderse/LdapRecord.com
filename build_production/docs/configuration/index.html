@@ -315,7 +315,7 @@
 
 $connection = new Connection($config);</code></pre>
 <h3 id="hosts">Hosts</h3>
-<p>The hosts option is an array of IP addresses or host names located on your network that serve Active Directory.</p>
+<p>The hosts option is an array of IP addresses or host names located on your network that serve an LDAP directory.</p>
 <p>You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).</p>
 <blockquote>
 <p>Do not append your port to your IP addresses or host names. Use the <code>port</code> configuration option instead.</p>
@@ -357,7 +357,7 @@ your application receives a response from your LDAP server.</p>
 <p>The LDAP version to use for your connection.</p>
 <p>Must be an integer and can either be <code>2</code> or <code>3</code>.</p>
 <h3 id="follow-referrals">Follow Referrals</h3>
-<p>The follow referrals option is a boolean to tell active directory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.</p>
+<p>The follow referrals option is a boolean to tell ActiveDirectory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.</p>
 <p>This option is defaulted to false.</p>
 <p>Disable this option if you're experiencing search / connectivity issues.</p>
 <p>For more information, visit: <a href="https://technet.microsoft.com/en-us/library/cc978014.aspx">https://technet.microsoft.com/en-us/library/cc978014.aspx</a></p>

@@ -284,7 +284,7 @@ Of course, you can place these scopes wherever you desire, but in this example, 
 ../my-application/app/Scopes/AccountingScope.php
 ```
 
-With this scope, we want to only allow members of an Active Directory group named: `Accounting`:
+With this scope, we want to only allow members of an ActiveDirectory group named: `Accounting`:
 
 ```php
 namespace App\Scopes;
@@ -579,7 +579,7 @@ To enable it, simply set the option to true in your `config/ldap_auth.php` confi
 
 Inside your `config/ldap_auth.php` file there is a configuration option named `sync_attributes`. This
 is an array of attributes where the key is the eloquent `User` model attribute, and the
-value is the active directory users attribute:
+value is the ActiveDirectory users attribute:
 
 ```php
 'sync_attributes' => [
