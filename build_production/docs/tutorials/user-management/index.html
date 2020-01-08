@@ -525,15 +525,15 @@ if ($uac-&gt;has(AccountControl::LOCKOUT)) {
 <p>ActiveDirectory will return diagnostic error codes when a password modification fails.</p>
 <p>To determine the cause, you can check this diagnostic message to see if it contains any of the following codes:</p>
 <ul>
-<li>525 - user not found</li>
-<li>52e - invalid credentials</li>
-<li>530 - not permitted to logon at this time</li>
-<li>531 - not permitted to logon at this workstation</li>
-<li>532 - password expired</li>
-<li>533 - account disabled</li>
-<li>701 - account expired</li>
-<li>773 - user must reset password</li>
-<li>775 - user account locked</li>
+<li><code>525</code> - user not found</li>
+<li><code>52e</code> - invalid credentials</li>
+<li><code>530</code> - not permitted to logon at this time</li>
+<li><code>531</code> - not permitted to logon at this workstation</li>
+<li><code>532</code> - password expired</li>
+<li><code>533</code> - account disabled</li>
+<li><code>701</code> - account expired</li>
+<li><code>773</code> - user must reset password</li>
+<li><code>775</code> - user account locked</li>
 </ul>
 <pre><code class="language-php">&lt;?php
 
