@@ -342,9 +342,9 @@ the third parameter in the <code>attempt()</code> method:</p>
     // Run further LDAP operations under this user.
 }</code></pre>
 <h2 id="container">Container</h2>
-<p>You must add your LDAP connections to the container if
-you would like to use LdapRecord models. Models pull
-the connection that they use from this container.</p>
+<p>You must add your LDAP connections into the container if you would
+like to use LdapRecord models. Models pull the connection that
+they use from this container by their name.</p>
 <blockquote>
 <p>Ensure you connect to your LDAP server with each
 <code>Connection</code> you add into the container, otherwise
@@ -379,6 +379,8 @@ Container::addConnection($connectionAlpha);
 
 // This will overwrite $connectionAlpha:
 Container::addConnection($connectionBravo);</code></pre>
+<p>If you do not define a <code>$connection</code> property inside of your
+LdapRecord models, they will use your default connection.</p>
 <h4>Getting Connections</h4>
 <p>To get the default connection, call the <code>getDefaultConnection</code> method:</p>
 <pre><code class="language-php">$connection = Container::getDefaultConnection();</code></pre>

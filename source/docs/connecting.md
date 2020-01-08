@@ -94,9 +94,9 @@ if ($connection->auth()->attempt('username', 'secret', $bindAsUser = true))
 
 ## Container {#container}
 
-You must add your LDAP connections to the container if
-you would like to use LdapRecord models. Models pull
-the connection that they use from this container.
+You must add your LDAP connections into the container if you would
+like to use LdapRecord models. Models pull the connection that
+they use from this container by their name.
 
 > Ensure you connect to your LDAP server with each
 > `Connection` you add into the container, otherwise
@@ -142,6 +142,9 @@ Container::addConnection($connectionAlpha);
 // This will overwrite $connectionAlpha:
 Container::addConnection($connectionBravo);
 ```
+
+If you do not define a `$connection` property inside of your
+LdapRecord models, they will use your default connection.
 
 #### Getting Connections
 
