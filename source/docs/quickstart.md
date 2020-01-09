@@ -24,9 +24,9 @@ use LdapRecord\Models\Entry;
 $connection = new Connection([
     'hosts' => ['192.168.1.1'],
     'port' => 389,
-    'username' => 'user',
-    'password' => 'secret',
     'base_dn' => 'dc=local,dc=com',
+    'username' => 'cn=user,dc=local,dc=com',
+    'password' => 'secret',
 ]);
 
 // Connect to your server:

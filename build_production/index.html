@@ -144,10 +144,10 @@ $user-&gt;groups()-&gt;attach($administrators);</code></pre>        </div>
     <pre><code class="language-php">use LdapRecord\Connection;
 
 $connection = new Connection([
-    'username' =&gt; 'sbauman@acme.org',
-    'password' =&gt; 'SuperSecret',
     'hosts' =&gt; ['127.0.0.1'],
-    'base_dn' =&gt; 'dc=acme,dc=org',
+    'base_dn' =&gt; 'dc=local,dc=com',
+    'username' =&gt; 'cn=user,dc=local,dc=com',
+    'password' =&gt; 'SuperSecret',
 ]);
 
 $connection-&gt;connect();

@@ -22,7 +22,7 @@ use LdapRecord\Connection;
 $connection = Connection([
      'hosts' => ['192.168.1.1'],
      'port' => 389,
-     'username' => 'user',
+     'username' => 'cn=user,dc=local,dc=com',
      'password' => 'secret',
 ]);
 ```
@@ -67,7 +67,7 @@ to perform LDAP authentication to see if a username and
 password is valid.
 
 ```php
-if ($connection->auth()->attempt('username', 'secret'))
+if ($connection->auth()->attempt('cn=user,dc=local,dc=com', 'secret'))
 {
     echo "Username and password are correct!";
 }
@@ -84,7 +84,7 @@ underneath the authenticated user, pass in `true` in
 the third parameter in the `attempt()` method:
 
 ```php
-if ($connection->auth()->attempt('username', 'secret', $bindAsUser = true))
+if ($connection->auth()->attempt('cn=user,dc=local,dc=com', 'secret', $bindAsUser = true))
 {
     echo "Username and password are correct!";
 

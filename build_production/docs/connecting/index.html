@@ -293,7 +293,7 @@ a connection and insert your configuration into it:</p>
 $connection = Connection([
      'hosts' =&gt; ['192.168.1.1'],
      'port' =&gt; 389,
-     'username' =&gt; 'user',
+     'username' =&gt; 'cn=user,dc=local,dc=com',
      'password' =&gt; 'secret',
 ]);</code></pre>
 <p>Once you have your connection, call <code>connect()</code> to bind to your LDAP server:</p>
@@ -325,7 +325,7 @@ $connection-&gt;connect();</code></pre>
 <p>Using the connection instance, you can execute a bind request
 to perform LDAP authentication to see if a username and
 password is valid.</p>
-<pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt('username', 'secret'))
+<pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt('cn=user,dc=local,dc=com', 'secret'))
 {
     echo "Username and password are correct!";
 }</code></pre>
@@ -337,7 +337,7 @@ user during the same request.</p>
 <p>If you would like to run all further LDAP operations
 underneath the authenticated user, pass in <code>true</code> in
 the third parameter in the <code>attempt()</code> method:</p>
-<pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt('username', 'secret', $bindAsUser = true))
+<pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt('cn=user,dc=local,dc=com', 'secret', $bindAsUser = true))
 {
     echo "Username and password are correct!";
 
