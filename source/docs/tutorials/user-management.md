@@ -210,14 +210,14 @@ $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 $uac = 512; // Normal, enabled account.
 
 // Or, using the UAC builder:
-$uac = (new UserAccountControl)->accountIsNormal();
+$uac = (new AccountControl)->accountIsNormal();
 
 $user->userAccountControl = $uac;
 
 $user->save();
 ```
 
-When using the `UserAccountControl` builder, control methods you call upon it will automatically sum the proper integer value.
+When using the `AccountControl` builder, control methods you call upon it will automatically sum the proper integer value.
 
 For example, let's create an account control for a user with the following controls:
 
@@ -228,7 +228,7 @@ For example, let's create an account control for a user with the following contr
 ```php
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org')
 
-$uac = new UserAccountControl;
+$uac = new AccountControl;
 
 $uac->accountIsNormal();
 $uac->passwordDoesNotExpire();
@@ -239,30 +239,30 @@ $user->userAccountControl = $uac;
 $user->save();
 ```
 
-Here is a list of all account control methods that are available on the `UserAccountControl` builder:
+Here is a list of all account control methods that are available on the `AccountControl` builder:
 
-- `UserAccountControl::runLoginScript()`
-- `UserAccountControl::accountIsLocked()`
-- `UserAccountControl::accountIsDisabled()`
-- `UserAccountControl::accountIsTemporary()`
-- `UserAccountControl::accountIsNormal()`
-- `UserAccountControl::accountIsForInterdomain()`
-- `UserAccountControl::accountIsForWorkstation()`
-- `UserAccountControl::accountIsForServer()`
-- `UserAccountControl::accountIsMnsLogon()`
-- `UserAccountControl::accountDoesNotRequirePreAuth()`
-- `UserAccountControl::accountRequiresSmartCard()`
-- `UserAccountControl::accountIsReadOnly()`
-- `UserAccountControl::homeFolderIsRequired()`
-- `UserAccountControl::passwordIsNotRequired()`
-- `UserAccountControl::passwordCannotBeChanged()`
-- `UserAccountControl::passwordDoesNotExpire()`
-- `UserAccountControl::passwordIsExpired()`
-- `UserAccountControl::allowEncryptedTextPassword()`
-- `UserAccountControl::trustForDelegation()`
-- `UserAccountControl::trustToAuthForDelegation()`
-- `UserAccountControl::doNotTrustForDelegation()`
-- `UserAccountControl::useDesKeyOnly()`
+- `AccountControl::runLoginScript()`
+- `AccountControl::accountIsLocked()`
+- `AccountControl::accountIsDisabled()`
+- `AccountControl::accountIsTemporary()`
+- `AccountControl::accountIsNormal()`
+- `AccountControl::accountIsForInterdomain()`
+- `AccountControl::accountIsForWorkstation()`
+- `AccountControl::accountIsForServer()`
+- `AccountControl::accountIsMnsLogon()`
+- `AccountControl::accountDoesNotRequirePreAuth()`
+- `AccountControl::accountRequiresSmartCard()`
+- `AccountControl::accountIsReadOnly()`
+- `AccountControl::homeFolderIsRequired()`
+- `AccountControl::passwordIsNotRequired()`
+- `AccountControl::passwordCannotBeChanged()`
+- `AccountControl::passwordDoesNotExpire()`
+- `AccountControl::passwordIsExpired()`
+- `AccountControl::allowEncryptedTextPassword()`
+- `AccountControl::trustForDelegation()`
+- `AccountControl::trustToAuthForDelegation()`
+- `AccountControl::doNotTrustForDelegation()`
+- `AccountControl::useDesKeyOnly()`
 
 #### Determining Set Account Control Flags {#determining-account-control-flags}
 
@@ -277,7 +277,7 @@ use LdapRecord\Models\Attributes\AccountControl;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
-$uac = new UserAccountControl($user->userAccountControl);
+$uac = new AccountControl($user->userAccountControl);
 
 if ($uac->has(AccountControl::LOCKOUT)) {
     // This account is locked out.
