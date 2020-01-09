@@ -160,10 +160,10 @@ try {
 
 ### Resetting Passwords {#resetting-passwords}
 
-To reset a user password, you must be bound to your LDAP directory with a user whom has permission to do so.
+To reset a users password, you must be bound to your LDAP directory with a user whom has permission to do so on your directory.
 
-This is done by setting the users `unicodepwd` attribute as a string, and then saving, similarly to how
-it is done during user creation:
+You can perform a password reset by simply setting the users `unicodepwd` attribute as a string,
+and then calling the `save()` method, similarly to how it is done during user creation:
 
 ```php
 <?php

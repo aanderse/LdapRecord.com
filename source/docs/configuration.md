@@ -24,9 +24,9 @@ Here is a list of all parameters.
 ```php
 $config = [
     // Mandatory Configuration Options
-    'hosts'            => ['corp-dc1.corp.acme.org', 'corp-dc2.corp.acme.org'],
-    'base_dn'          => 'dc=corp,dc=acme,dc=org',
-    'username'         => 'admin',
+    'hosts'            => ['192.168.1.1'],
+    'base_dn'          => 'dc=local,dc=com',
+    'username'         => 'cn=admin,dc=local,dc=com',
     'password'         => 'password',
 
     // Optional Configuration Options
@@ -59,7 +59,7 @@ You insert as many servers or as little as you'd like depending on your forest (
 
 The base distinguished name is the base distinguished name you'd like to perform operations on.
 
-An example base DN would be `DC=corp,DC=acme,DC=org`.
+An example base DN would be `DC=local,DC=com`.
 
 If one is not defined, you will not retrieve any search results.
 
@@ -69,10 +69,11 @@ If one is not defined, you will not retrieve any search results.
 
 To connect to your LDAP server, a username and password is required to be able to query and run operations on your server(s).
 
-You can use any account that has these permissions.
-
-> To run administration level operations, such as resetting passwords,
-> this account **must** have permissions to do so on your directory.
+> **Tips**:
+>  - The `username` option must be a users [Distinguished Name](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names). If you are connecting to an ActiveDirectory
+>    server, you may use a users [userPrincipalName](https://docs.microsoft.com/en-us/windows/win32/ad/naming-properties#userprincipalname) instead.
+>  - To run administration level operations, such as resetting passwords, this account **must** have
+>    the permissions to do so on your directory.
 
 ### Port {#port}
 

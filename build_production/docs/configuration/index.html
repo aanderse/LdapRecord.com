@@ -295,9 +295,9 @@
 <p>Here is a list of all parameters.</p>
 <pre><code class="language-php">$config = [
     // Mandatory Configuration Options
-    'hosts'            =&gt; ['corp-dc1.corp.acme.org', 'corp-dc2.corp.acme.org'],
-    'base_dn'          =&gt; 'dc=corp,dc=acme,dc=org',
-    'username'         =&gt; 'admin',
+    'hosts'            =&gt; ['192.168.1.1'],
+    'base_dn'          =&gt; 'dc=local,dc=com',
+    'username'         =&gt; 'cn=admin,dc=local,dc=com',
     'password'         =&gt; 'password',
 
     // Optional Configuration Options
@@ -324,17 +324,21 @@ $connection = new Connection($config);</code></pre>
 </blockquote>
 <h3 id="base-distinguished-name">Base Distinguished Name</h3>
 <p>The base distinguished name is the base distinguished name you'd like to perform operations on.</p>
-<p>An example base DN would be <code>DC=corp,DC=acme,DC=org</code>.</p>
+<p>An example base DN would be <code>DC=local,DC=com</code>.</p>
 <p>If one is not defined, you will not retrieve any search results.</p>
 <blockquote>
 <p>Your base DN is <strong>case insensitive</strong>. You do not need to worry about incorrect casing.</p>
 </blockquote>
 <h3 id="username-amp-password">Username &amp; Password</h3>
 <p>To connect to your LDAP server, a username and password is required to be able to query and run operations on your server(s).</p>
-<p>You can use any account that has these permissions.</p>
 <blockquote>
-<p>To run administration level operations, such as resetting passwords,
-this account <strong>must</strong> have permissions to do so on your directory.</p>
+<p><strong>Tips</strong>:</p>
+<ul>
+<li>The <code>username</code> option must be a users <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names">Distinguished Name</a>. If you are connecting to an ActiveDirectory
+server, you may use a users <a href="https://docs.microsoft.com/en-us/windows/win32/ad/naming-properties#userprincipalname">userPrincipalName</a> instead.</li>
+<li>To run administration level operations, such as resetting passwords, this account <strong>must</strong> have
+the permissions to do so on your directory.</li>
+</ul>
 </blockquote>
 <h3 id="port">Port</h3>
 <p>The port option is used for authenticating and binding to your LDAP server.</p>
