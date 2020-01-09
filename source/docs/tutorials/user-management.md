@@ -339,8 +339,8 @@ try {
 If you are utilizing the included `LdapRecord\Models\ActiveDirectory\User` model, the `groups()`
 relationship exists for easily removing / adding groups to users.
 
-> To attach or detach groups on users, you must locate the first locate the group
-> you wish to add or detach, and ensure the `member` attribute is selected.
+> To attach or detach groups on users, you must first locate the group you
+> wish to add or detach, and ensure the `member` attribute is selected.
 
 #### Adding Groups {#adding-groups}
 
