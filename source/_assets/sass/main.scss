@@ -47,17 +47,6 @@
     @apply .ml-8;
   }
 
-  blockquote {
-    @apply .bg-blue-100;
-    @apply .rounded;
-    @apply .py-2;
-    @apply .px-4;
-
-    p {
-      @apply .m-0;
-    }
-  }
-
   /* Hide scrollbars. */
   pre {
     scrollbar-width: none; /* Firefox */
