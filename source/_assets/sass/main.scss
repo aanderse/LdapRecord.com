@@ -1,12 +1,11 @@
 @tailwind base;
 @tailwind components;
 
+@import 'prism-theme';
+
 @import 'base';
 @import 'navigation';
-@import 'documentation';
 @import 'search';
-
-@import 'prism-theme';
 
 @tailwind utilities;
 
@@ -44,5 +43,32 @@
   pre {
     @apply .m-0;
     @apply .rounded-t-none;
+  }
+}
+
+.DocSearch-content {
+  ul {
+    @apply .ml-8;
+  }
+
+  blockquote {
+    @apply .bg-blue-100;
+    @apply .rounded;
+    @apply .py-2;
+    @apply .px-4;
+
+    p {
+      @apply .m-0;
+    }
+  }
+
+  /* Hide scrollbars. */
+  pre {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    ::-webkit-scrollbar { /* WebKit */
+      width: 0;
+      height: 0;
+    }
   }
 }
