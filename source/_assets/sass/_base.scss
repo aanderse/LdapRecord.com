@@ -15,6 +15,7 @@ a {
 blockquote {
     @apply .border-blue-400;
     @apply .bg-blue-100;
+    @apply .border-l-4;
     @apply .font-normal;
     @apply .italic;
     @apply .my-8;
