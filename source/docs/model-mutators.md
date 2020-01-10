@@ -217,12 +217,12 @@ format, also named 'Windows NT time format', 'Win32 FILETIME or
 SYSTEMTIME' or NTFS file time. An example of this would be
 the `accountexpires` attribute that exists on users:
 
-```
+```text
 132131246410000000
 ```
 
 Which equals:
 
-```
+```text
 Monday, September 16, 2019 4:24:01 PM
 ```

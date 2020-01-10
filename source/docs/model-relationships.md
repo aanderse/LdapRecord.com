@@ -115,7 +115,7 @@ be able to properly locate all of the groups.
 
 For example, this is the query filter that will be used in the search:
 
-```html
+```text
 (member=cn\3dJohn Doe\2cdc\3dacme\2cdc\3dorg)
 ```
 
@@ -187,7 +187,7 @@ This method is paramount to be able to properly utilize this relationship.
 
 When querying the above relationship, LdapRecord will construct the following filter:
 
-```html
+```text
 (memberof=cn\3dAccounting\2cdc\3dacme\2cdc\3dorg)
 ```
 
