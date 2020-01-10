@@ -9,10 +9,6 @@
 
 @tailwind utilities;
 
-.scrollbar-none::-webkit-scrollbar {
-  width: 0 !important;
-}
-
 .feature {
   @apply .flex;
   @apply .flex-col;
@@ -46,7 +42,7 @@
   }
 }
 
-.DocSearch-content {
+.content {
   ul {
     @apply .ml-8;
   }
