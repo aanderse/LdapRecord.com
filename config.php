@@ -15,6 +15,8 @@ return [
     // navigation menu
     'navigation' => require_once('navigation.php'),
 
+    'laravelNavigation' => require_once('laravel.navigation.php'),
+
     // helpers
     'getNextPage' => function ($page) {
         // Before: ['foo' => 'bar', 'baz' => ['children' => ['bob' => 'lob', 'law' => 'blog']]]
