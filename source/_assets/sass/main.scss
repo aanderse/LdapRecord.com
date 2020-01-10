@@ -1,12 +1,12 @@
 @tailwind base;
 @tailwind components;
 
-@import 'prism-theme';
-
 @import 'base';
 @import 'navigation';
 @import 'documentation';
 @import 'search';
+
+@import 'prism-theme';
 
 @tailwind utilities;
 
