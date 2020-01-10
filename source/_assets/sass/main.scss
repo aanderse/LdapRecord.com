@@ -1,9 +1,7 @@
 @tailwind base;
 @tailwind components;
 
-// Code syntax highlighting,
-// powered by https://highlightjs.org
-@import '~highlight.js/styles/vs2015.css';
+@import 'prism-theme';
 
 @import 'base';
 @import 'navigation';
@@ -11,6 +9,10 @@
 @import 'search';
 
 @tailwind utilities;
+
+.scrollbar-none::-webkit-scrollbar {
+  width: 0 !important;
+}
 
 .feature {
   @apply .flex;

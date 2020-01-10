@@ -17,7 +17,8 @@ return [
 
     'laravelNavigation' => require_once('laravel.navigation.php'),
 
-    // helpers
+    // Thanks to: Caleb Porzio for these methods
+    // https://github.com/livewire/docs
     'getNextPage' => function ($page) {
         // Before: ['foo' => 'bar', 'baz' => ['children' => ['bob' => 'lob', 'law' => 'blog']]]
         $flattenedArrayOfPagesAndTheirLables = $page->navigation->map(function ($value, $key) {

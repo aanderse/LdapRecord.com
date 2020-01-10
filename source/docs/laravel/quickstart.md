@@ -25,7 +25,7 @@ php artisan vendor:publish --provider LdapRecord\Laravel\LdapServiceProvider
 
 Paste these environment variables into your `.env` file, and configure each option as necessary:
 
-```plaintext
+```dotenv
 LDAP_LOGGING=true
 LDAP_CONNECTION=default
 LDAP_HOST=127.0.0.1
@@ -64,5 +64,3 @@ class LdapUserController extends Controller
 ```
 
 #### Creating your own model:
-
-

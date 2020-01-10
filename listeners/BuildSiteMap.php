@@ -9,6 +9,7 @@ class BuildSiteMap
 {
     protected $exclude = [
         '/assets/*',
+        '/components/*',
         '*/favicon.ico',
         '*/404'
     ];
