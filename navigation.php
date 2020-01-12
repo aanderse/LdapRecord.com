@@ -22,11 +22,12 @@ return [
             'Common Queries' => 'docs/tutorials/common-queries',
             'ActiveDirectory' => [
                 'children' => [
-                    'User Management' => 'docs/tutorials/user-management',
+                    'User Management' => 'docs/tutorials/activedirectory/user-management',
                 ],
             ]
         ],
     ],
     'Versioning' => 'docs/versioning',
+    'Credits' => 'docs/credits',
     'License' => 'docs/license',
 ];
