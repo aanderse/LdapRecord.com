@@ -429,6 +429,7 @@ try {
 and then calling the <code>save()</code> method, similarly to how it is done during user creation:</p>
 <pre><code class="language-php">&lt;?php
 
+use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
@@ -439,7 +440,7 @@ try {
     $user-&gt;save();
 
     // User password reset!
-} catch (\Exception $ex) {
+} catch (LdapRecordException $ex) {
     // Failed resetting password.
     $connection = $user-&gt;getConnection();
 
@@ -548,6 +549,7 @@ if ($uac-&gt;has(AccountControl::LOCKOUT)) {
 </ul>
 <pre><code class="language-php">&lt;?php
 
+use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
@@ -558,7 +560,7 @@ try {
     $user-&gt;save();
 
     // User password changed!
-} catch (\Exception $ex) {
+} catch (LdapRecordException $ex) {
     // Failed resetting password.
     $connection = $user-&gt;getConnection();
 

@@ -170,6 +170,7 @@ and then calling the `save()` method, similarly to how it is done during user cr
 ```php
 <?php
 
+use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
@@ -180,7 +181,7 @@ try {
     $user->save();
 
     // User password reset!
-} catch (\Exception $ex) {
+} catch (LdapRecordException $ex) {
     // Failed resetting password.
     $connection = $user->getConnection();
 
@@ -309,6 +310,7 @@ To determine the cause, you can check this diagnostic message to see if it conta
 ```php
 <?php
 
+use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
@@ -319,7 +321,7 @@ try {
     $user->save();
 
     // User password changed!
-} catch (\Exception $ex) {
+} catch (LdapRecordException $ex) {
     // Failed resetting password.
     $connection = $user->getConnection();
 
