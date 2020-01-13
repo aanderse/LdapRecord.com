@@ -401,6 +401,7 @@ password policy.</p>
 </blockquote>
 <pre><code class="language-php">&lt;?php
 
+use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
@@ -411,7 +412,7 @@ try {
     $user-&gt;save();
 
     // User password changed!
-} catch (\Exception $ex) {
+} catch (LdapRecordException $ex) {
     // Failed changing password.
     $connection = $user-&gt;getConnection();
 

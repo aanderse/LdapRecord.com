@@ -136,6 +136,7 @@ Let's walk through an example:
 ```php
 <?php
 
+use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
@@ -146,7 +147,7 @@ try {
     $user->save();
 
     // User password changed!
-} catch (\Exception $ex) {
+} catch (LdapRecordException $ex) {
     // Failed changing password.
     $connection = $user->getConnection();
 
