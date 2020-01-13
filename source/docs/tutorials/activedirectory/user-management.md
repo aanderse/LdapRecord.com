@@ -42,13 +42,13 @@ $user->samccountname = 'jdoe';
 $user->userPrincipalName = 'jdoe@acme.org';
 $user->unicodePwd = 'SecretPassword#123';
 
-// Save the user.
-$user->save();
+// Save the user inside our 'Users' OU:
+$user->inside('ou=Users,dc=acme,dc=org')->save();
 
 // Enable the user.
 $user->userAccountControl = 512;
 
-// Save the enablement.
+// Save the enablement of the user account:
 $user->save();
 ```
 
@@ -66,11 +66,12 @@ use LdapRecord\Models\ActiveDirectory\OrganizationalUnit;
 
 $ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
 
-$user = (new User())->inside($ou);
+$user = (new User)->inside($ou);
 
 $user->cn = 'John Doe';
 
-// User will be saved in the 'Users' OU.
+// User will be saved in the 'Users' OU with the Distinguished Name:
+// "cn=John Doe,ou=Users,dc=acme,dc=org"
 $user->save();
 ```
 

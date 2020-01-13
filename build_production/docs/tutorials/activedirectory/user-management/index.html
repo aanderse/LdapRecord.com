@@ -324,13 +324,13 @@ $user-&gt;samccountname = 'jdoe';
 $user-&gt;userPrincipalName = 'jdoe@acme.org';
 $user-&gt;unicodePwd = 'SecretPassword#123';
 
-// Save the user.
-$user-&gt;save();
+// Save the user inside our 'Users' OU:
+$user-&gt;inside('ou=Users,dc=acme,dc=org')-&gt;save();
 
 // Enable the user.
 $user-&gt;userAccountControl = 512;
 
-// Save the enablement.
+// Save the enablement of the user account:
 $user-&gt;save();</code></pre>
 <p>To create a user inside of a container or an organizational unit, you can
 use the <code>inside()</code> method to set the base DN the user must be located in.</p>
@@ -343,11 +343,12 @@ use LdapRecord\Models\ActiveDirectory\OrganizationalUnit;
 
 $ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
 
-$user = (new User())-&gt;inside($ou);
+$user = (new User)-&gt;inside($ou);
 
 $user-&gt;cn = 'John Doe';
 
-// User will be saved in the 'Users' OU.
+// User will be saved in the 'Users' OU with the Distinguished Name:
+// "cn=John Doe,ou=Users,dc=acme,dc=org"
 $user-&gt;save();</code></pre>
 <blockquote>
 <p>It is wise to encapsulate saving your user in a try / catch block, so if it
