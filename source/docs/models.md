@@ -768,6 +768,10 @@ class CompanyScope implements Scope
 } 
 ```
 
+> **Note:** If you are looking to select additional attributes in your
+> scope using the `select` method, use `addSelect` instead so your
+> query selects are not overwritten.
+
 #### Apply the global scope {#apply-global-scope}
 
 Now that we've written our global scope, we can apply it to our users model.
