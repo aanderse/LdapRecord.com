@@ -129,7 +129,7 @@ There are some prerequisites you must know for changing passwords:
 
 Let's walk through an example:
 
-> You must use a try / catch block upon saving. An LDAP exception will always be thrown
+> You must use a try / catch block upon saving. An `LdapRecord\LdapRecordException` will always be thrown
 > when an incorrect old password is given, or the new password does not abide by your
 > password policy.
 
