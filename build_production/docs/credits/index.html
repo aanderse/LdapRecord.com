@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="Configuring LdapRecord">
+        <meta name="description" content="Connecting to LDAP servers using LdapRecord">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Configuration | LdapRecord"/>
-        <meta property="og:description" content="Configuring LdapRecord"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/configuration"/>
+        <meta property="og:title" content="Credits | LdapRecord"/>
+        <meta property="og:description" content="Connecting to LDAP servers using LdapRecord"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/credits"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Configuration</title>
+        <title>LdapRecord | Credits</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -137,7 +137,7 @@
             <li class="pl-4">
             
         <a href="/docs/configuration"
-            class="lvl0  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Configuration
         </a>
@@ -269,7 +269,7 @@
             <li class="pl-4">
             
         <a href="/docs/credits"
-            class="lvl0   nav-menu__item hover:text-blue-500"
+            class="lvl0  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
         >
             Credits
         </a>
@@ -288,111 +288,31 @@
         </nav>
 
         <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-            <h1>Configuration</h1>
-<ul>
-<li><a href="#hosts">Hosts</a></li>
-<li><a href="#base-distinguished-name">Base DN</a></li>
-<li><a href="#username-amp-password">Username &amp; Password</a></li>
-<li><a href="#port">Port</a></li>
-<li><a href="#ssl-amp-tls">SSL &amp; TLS</a></li>
-<li><a href="#timeout">Timeout</a></li>
-<li><a href="#version">Version</a></li>
-<li><a href="#follow-referrals">Follow Referrals</a></li>
-<li><a href="#options">Options</a></li>
-</ul>
-<p>To configure your LDAP connections, provide an array with key-value pairs to set various parameters.</p>
-<p>Here is a list of all parameters.</p>
-<pre><code class="language-php">$config = [
-    // Mandatory Configuration Options
-    'hosts'            =&gt; ['192.168.1.1'],
-    'base_dn'          =&gt; 'dc=local,dc=com',
-    'username'         =&gt; 'cn=admin,dc=local,dc=com',
-    'password'         =&gt; 'password',
-
-    // Optional Configuration Options
-    'port'             =&gt; 389,
-    'follow_referrals' =&gt; false,
-    'use_ssl'          =&gt; false,
-    'use_tls'          =&gt; false,
-    'version'          =&gt; 3,
-    'timeout'          =&gt; 5,
-
-    // Custom LDAP Options
-    'options' =&gt; [
-        // See: http://php.net/ldap_set_option
-        LDAP_OPT_X_TLS_REQUIRE_CERT =&gt; LDAP_OPT_X_TLS_HARD
-    ]
-];
-
-$connection = new Connection($config);</code></pre>
-<h3 id="hosts">Hosts</h3>
-<p>The hosts option is an array of IP addresses or host names located on your network that serve an LDAP directory.</p>
-<p>You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).</p>
-<blockquote>
-<p>Do not append your port to your IP addresses or host names. Use the <code>port</code> configuration option instead.</p>
-</blockquote>
-<h3 id="base-distinguished-name">Base Distinguished Name</h3>
-<p>The base distinguished name is the base distinguished name you'd like to perform operations on.</p>
-<p>An example base DN would be <code>DC=local,DC=com</code>.</p>
-<p>If one is not defined, you will not retrieve any search results.</p>
-<blockquote>
-<p>Your base DN is <strong>case insensitive</strong>. You do not need to worry about incorrect casing.</p>
-</blockquote>
-<h3 id="username-amp-password">Username &amp; Password</h3>
-<p>To connect to your LDAP server, a username and password is required to be able to query and run operations on your server(s).</p>
-<blockquote>
-<p><strong>Tips</strong>:</p>
-<ul>
-<li>The <code>username</code> option must be a users <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names">Distinguished Name</a>. If you are connecting to an ActiveDirectory
-server, you may use a users <a href="https://docs.microsoft.com/en-us/windows/win32/ad/naming-properties#userprincipalname">userPrincipalName</a> instead.</li>
-<li>To run administration level operations, such as resetting passwords, this account <strong>must</strong> have
-the permissions to do so on your directory.</li>
-</ul>
-</blockquote>
-<h3 id="port">Port</h3>
-<p>The port option is used for authenticating and binding to your LDAP server.</p>
-<p>The default ports are already used for non SSL and SSL connections (389 and 636).</p>
-<p>Only insert a port if your LDAP server uses a unique port.</p>
-<h3 id="ssl-amp-tls">SSL &amp; TLS</h3>
-<p>These boolean options enable an SSL or TLS connection to your LDAP server.</p>
-<p>Only <strong>one</strong> can be set to <code>true</code>. You must chose either or.</p>
-<p>These options are definitely recommended if you have the ability to connect to your server securely.</p>
-<blockquote>
-<p><strong>Tips</strong>: </p>
-<ul>
-<li>You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</li>
-<li>TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.</li>
-</ul>
-</blockquote>
-<h3 id="timeout">Timeout</h3>
-<p>The timeout option allows you to configure the amount of seconds to wait until
-your application receives a response from your LDAP server.</p>
-<p>The default is 5 seconds.</p>
-<h3 id="version">Version</h3>
-<p>The LDAP version to use for your connection.</p>
-<p>Must be an integer and can either be <code>2</code> or <code>3</code>.</p>
-<h3 id="follow-referrals">Follow Referrals</h3>
-<p>The follow referrals option is a boolean to tell ActiveDirectory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.</p>
-<p>This option is defaulted to false.</p>
-<p>Disable this option if you're experiencing search / connectivity issues.</p>
-<p>For more information, visit: <a href="https://technet.microsoft.com/en-us/library/cc978014.aspx">https://technet.microsoft.com/en-us/library/cc978014.aspx</a></p>
-<h3 id="options">Options</h3>
-<p>Arbitrary options can be set for the connection to fine-tune TLS and connection behavior.</p>
-<p>Please note that <code>LDAP_OPT_PROTOCOL_VERSION</code>, <code>LDAP_OPT_NETWORK_TIMEOUT</code> and <code>LDAP_OPT_REFERRALS</code> will be ignored if set.</p>
-<p>These are set above with the <code>version</code>, <code>timeout</code> and <code>follow_referrals</code> keys respectively.</p>
-<p>Valid options are listed in the <a href="http://php.net/ldap_set_option">PHP documentation for ldap_set_option</a>.</p>
+            <h1>Credits</h1>
+<p>LdapRecord was based heavily on Laravel's fantastic ORM <a href="https://laravel.com/docs/eloquent">Eloquent</a>
+which was created by <a href="https://github.com/taylorotwell">Taylor Otwell</a>. Many of its features and
+documentation are direct ports to be used for LDAP.</p>
+<p>Without its battle tested infrastructure already built, this package would not have the stability and
+usability that was granted from his thousands of hours of hard work, and of course the hundreds to
+thousands of contributors that has brought continuous improvements to the Laravel framework.</p>
+<p>If you can, please support <a href="https://github.com/taylorotwell">Taylor Otwell's</a> work. He has made web
+development with PHP a fun and exciting experience - without costing developers a dime.</p>
+<p>I must also mention <a href="https://github.com/ChadSikorra">Chad Sikorra</a> and his library <a href="https://github.com/ldaptools/ldaptools">LdapTools</a>.
+His open source work with LDAP on GitHub and Stackoverflow has helped me tremendously in
+understanding nuances in the LDAP protocol and ActiveDirectory itself. Without his
+advanced expertise and knowledge, Adldap2 and LdapRecord would not be here today.</p>
             <div class="mt-12 pt-8 pb-6 border-t-2">
                 <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/installation">Installation</a>
+                <a href="/docs/versioning">Versioning</a>
             </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/connecting">Connecting</a>
+                <a href="/docs/license">License</a>
             </h4>
             </div>
 </div>

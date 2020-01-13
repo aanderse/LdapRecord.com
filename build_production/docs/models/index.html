@@ -34,7 +34,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=97339f9b1ef336930e49">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=5151ff40ac4aa1c71aba">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -246,7 +246,7 @@
         <ul class="list-none my-0">
             <li class="pl-4">
             
-        <a href="/docs/tutorials/user-management"
+        <a href="/docs/tutorials/activedirectory/user-management"
             class="lvl2   nav-menu__item hover:text-blue-500"
         >
             User Management
@@ -263,6 +263,15 @@
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Versioning
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/credits"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Credits
         </a>
     
     </li>
@@ -307,6 +316,7 @@
 </ul></li>
 <li><a href="#deleting-models">Deleting Models</a></li>
 <li><a href="#comparing-models">Comparing Models</a></li>
+<li><a href="#query-scopes">Query Scopes</a></li>
 <li><a href="#events">Events</a></li>
 <li><a href="#serialization">Serialization</a></li>
 </ul>
@@ -799,6 +809,116 @@ $user = User::find('cn=John Doe,ou=Accounting,ou=User Accounts,dc=acme,dc=org');
 if ($user-&gt;isDescendantOf($ou)) {
     // 
 }</code></pre>
+<h2 id="query-scopes">Query Scopes</h2>
+<h3 id="query-global-scopes">Global Scopes</h3>
+<p>Global scopes allow you to add constraints to all LDAP queries that are created on a particular model.
+Writing a query scope allows you to be certain that a particular filter is always applied, rather
+than adding constraints every time you query the model.</p>
+<h4 id="creating-global-scope">Creating a global scope</h4>
+<p>To create a global query scope, create a class in your application that implements
+the <code>LdapRecord\Models\Scope</code> interface. This interface will require you to add
+an <code>apply</code> method. The <code>apply</code> method accepts the query <code>Builder</code> in the first
+parameter, and the <code>Model</code> in second parameter.</p>
+<p>For an example, let's say our application must only retrieve user accounts whom
+are employees of a particular company. We will create a file in our application
+in the directory <code>app/Ldap/Scopes</code> with the file name <code>CompanyScope</code>:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace App\Ldap\Scopes;
+
+use LdapRecord\Models\Scope;
+use LdapRecord\Models\Model;
+use LdapRecord\Query\Model\Builder;
+
+class CompanyScope implements Scope
+{
+    /**
+     * Apply the scope to the query.
+     * 
+     * @param Builder $builder
+     * @param Model   $model
+     */
+    public function apply(Builder $builder, Model $model)
+    {
+        $builder-&gt;where('company', '=', 'Acme Company');
+    }
+} </code></pre>
+<blockquote>
+<p><strong>Note:</strong> If you are looking to select additional attributes in your
+scope using the <code>select</code> method, use <code>addSelect</code> instead so your
+query selects are not overwritten.</p>
+</blockquote>
+<h4 id="apply-global-scope">Apply the global scope</h4>
+<p>Now that we've written our global scope, we can apply it to our users model.</p>
+<p>We will do this by adding an override to the models <code>boot</code> method and using the <code>addGlobalScope</code> method:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace App\Ldap;
+
+use LdapRecord\Models\Model;
+use App\Ldap\Scopes\CompanyScope;
+
+class User extends Model
+{
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new CompanyScope);
+    }
+}</code></pre>
+<p>After adding the scope, queries ran on the <code>User</code> model will always add the filter:</p>
+<pre><code class="language-text">(company=\41\63\6d\65\20\43\6f\6d\70\61\6e\79)</code></pre>
+<p>Which your LDAP server will read as:</p>
+<pre><code class="language-text">(company=Acme Company)</code></pre>
+<p>This is due to all values being automatically escaped using the LdapRecord query builder.</p>
+<h4 id="anonymous-global-scope">Anonymous global scopes</h4>
+<p>Instead of creating a class scope, you may also define global scopes using Closures.
+This is useful for simple scopes that do not warrant a separate class:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace App\Ldap;
+
+use LdapRecord\Models\Model;
+use LdapRecord\Query\Model\Builder;
+
+class User extends Model
+{
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('manager', function (Builder $builder) {
+            $builder-&gt;where('manager', '=', 'cn=John Doe,dc=local,dc=com');
+        });
+    }
+}</code></pre>
+<h4 id="remove-global-scope">Removing Global Scopes</h4>
+<p>If you would like to remove a global scope for a particular query, you may use
+the <code>withoutGlobalScope</code> method. The method accepts the class name of the
+global scope as its argument:</p>
+<pre><code class="language-php">User::withoutGlobalScope(CompanyScope::class)-&gt;get();</code></pre>
+<p>Or, if you've defined a global scope using a Closure:</p>
+<pre><code class="language-php">User::withoutGlobalScope('manager')-&gt;get();</code></pre>
+<p>If you would like to remove several or even all of the global
+scopes, you may use the <code>withoutGlobalScopes</code> method:</p>
+<pre><code class="language-php">// Remove all of the global scopes:
+User::withoutGlobalScopes()-&gt;get();
+
+// Remove some of the global scopes:
+User::withoutGlobalScopes([
+    CompanyScope::class, 'manager'
+])-&gt;get();</code></pre>
 <h2 id="events">Events</h2>
 <p>LdapRecord models fire several different <a href="/docs/events">event</a> during the creation,
 updating and deletion. Here is a list of all the events you can listen for:</p>
