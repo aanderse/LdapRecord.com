@@ -788,6 +788,8 @@ use App\Ldap\Scopes\CompanyScope;
 
 class User extends Model
 {
+    public static $objectClasses = [ 'top', 'person', 'organizationalperson', 'user'];
+
     /**
      * The "booting" method of the model.
      *
@@ -831,6 +833,8 @@ use LdapRecord\Query\Model\Builder;
 
 class User extends Model
 {
+    public static $objectClasses = [ 'top', 'person', 'organizationalperson', 'user'];
+
     /**
      * The "booting" method of the model.
      *
