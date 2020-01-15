@@ -3,15 +3,19 @@
 @section('body')
 <section class="container max-w-6xl mx-auto px-6 py-0">
     <div class="mb-10 text-center">
-        <h1 id="intro-docs-template">Integrating LDAP is hard.</h1>
+        <h1 id="intro-docs-template" class="mb-0">Integrating LDAP is hard.</h1>
 
-        <h2 class="font-light hidden sm:block mt-4">
-            <strong>LdapRecord</strong> is a <strong>PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
-        </h2>
+        <hr class="my-2"/>
 
-        <h4 class="font-light block sm:hidden mt-4">
-            <strong>LdapRecord</strong> is a <strong>PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
-        </h4>
+        <div class="md:mx-24">
+            <h2 class="font-light hidden sm:block mt-4">
+                <strong class="font-extrabold">LdapRecord</strong> is a <strong class="font-extrabold">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+            </h2>
+
+            <h4 class="font-light block sm:hidden mt-4">
+                <strong class="font-extrabold">LdapRecord</strong> is a <strong class="font-extrabold">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+            </h4>
+        </div>
     </div>
 
     <div class="flex justify-center mb-8">
