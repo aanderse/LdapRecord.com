@@ -34,7 +34,7 @@
                     <!-- Insert analytics code here -->
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=5151ff40ac4aa1c71aba">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=a029d2a5021aa0f37647">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -563,23 +563,61 @@ try {
 }</code></pre>
 <h2 id="creating-amp-updating-models">Creating &amp; Updating Models</h2>
 <h3 id="creating">Creating</h3>
+<p>Before we begin it is paramount to know that LDAP objects require a Distinguished Name to be
+created successfully in your LDAP directory. LdapRecord will always attempt to generate a
+Distinguished Name for models that do not have one upon <code>save</code>. In addition, some LDAP
+objects require <strong>more</strong> attributes to be set for successful creation.</p>
+<p>For example, to create a <code>User</code> object in ActiveDirectory, the <code>cn</code> (Common Name) attribute is required.
+If you do not set this attribute, an exception will be thrown upon saving your LDAP model. For another
+example, <code>OrganizationlUnit</code>'s must have the <code>ou</code> attribute set.</p>
+<p>LdapRecord cannot validate this for you as LDAP objects differ widely in their attribute requirements.</p>
 <p>To create a new record in your directory, create a new model instance and call the <code>save()</code> method.
-Upon calling <code>save()</code>, if no distinguished name (dn) is set on a new model, one will be generated
+Upon calling <code>save()</code>, if no Distinguished Name is set on a new model, one will be generated
 based on your configured <code>base_dn</code> that you have set inside your connections configuration:</p>
 <pre><code class="language-php">&lt;?php
+$conn = new Connection([
+    // ...
+    'base_dn' =&gt; 'dc=local,dc=com',
+]);
+
+$conn-&gt;connect();
 
 $user = new User();
 
 $user-&gt;cn = 'John Doe';
 
+// User will be saved with the DN: 'cn=John Doe,dc=local,dc=com
 $user-&gt;save();</code></pre>
-<p>You may also set the base DN of where you would like the object to be created inside
-by using the <code>inside()</code> method, rather than your <code>base_dn</code> from your configuration:</p>
+<p>LdapRecord generates a models distinguished name via the model method <code>getCreatableRdn</code>.
+This method is responsible for generating the &quot;Relative Distinguished Name&quot; which is
+The true name of the object inside of your LDAP directory, that does not include
+your base Distinguished Name.</p>
+<p>Since <em>most</em> LDAP objects require a Common Name (<code>cn</code>) this is defaulted to:</p>
+<pre><code class="language-php">/**
+ * Get a creatable RDN for the model.
+ *
+ * @return string
+ */
+public function getCreatableRdn()
+{
+    return "cn={$this-&gt;getFirstAttribute('cn')}";
+}</code></pre>
+<p>You may override this method to allow your models Distinguished Name's to be dynamically generated
+rather than creating them yourself manually. For example, here is how we would set the Relative
+Distinguished Name (RDN) for an ActiveDirectory <code>OrganizationalUnit</code> model:</p>
+<pre><code class="language-php">public function getCreatableRdn()
+{
+    return "ou={$this-&gt;getFirstAttribute('ou')}";
+}</code></pre>
+<p>This then gets prepended onto your connections configured <code>base_dn</code>, for a resulting &quot;Full&quot; Distinguished Name:</p>
+<pre><code class="language-text">ou=MyOrganizationalUnitName,dc=local,dc=com</code></pre>
+<p>You may set the base DN of where you would like the object to be created inside by
+using the <code>inside()</code> method, rather than your <code>base_dn</code> from your configuration:</p>
 <pre><code class="language-php">&lt;?php
 
 $user = new User(['cn' =&gt; 'John Doe']);
 
-$user-&gt;inside('ou=Users,dc=acme,dc=org')-&gt;save();</code></pre>
+$user-&gt;inside('ou=Users,dc=local,dc=com')-&gt;save();</code></pre>
 <p>You may also pass in an LdapRecord <code>Model</code> instance. This is convenient so you
 know the container / organizational unit distinguished name is valid:</p>
 <pre><code class="language-php">&lt;?php
@@ -590,15 +628,6 @@ $user = new User(['cn' =&gt; 'John Doe']);
 
 $user-&gt;inside($ou)-&gt;save();</code></pre>
 <p>The above examples will save the user inside the <code>Users</code> OU.</p>
-<blockquote>
-<p>Depending on your directory, some attributes are required to be set for it
-to be created successfully. LdapRecord will not validate this for you and you will
-receive an exception if this occurs.</p>
-<p>For example, users must have a common name (cn) and organizational units must have an ou.</p>
-<p>In addition to the above, you cannot set attributes that do not exist in your directory's
-LDAP schema, as well as set attributes that the bound LDAP user does not have permission
-to modify.</p>
-</blockquote>
 <h4 id="setting-a-distinguished-name">Setting A Distinguished Name</h4>
 <p>To set the models distinguished name, call the <code>setDn()</code> method on your model and populate it
 with any organization unit or container that you would like it to be created inside:</p>
@@ -1009,7 +1038,7 @@ class User extends Model
 </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=7949324a83f43da56eb9"></script>
+        <script src="/assets/build/js/main.js?id=de0471cb3584ac0a93eb"></script>
 
         <script>
     const navMenu = {
