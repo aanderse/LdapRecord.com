@@ -588,9 +588,10 @@ $user-&gt;cn = 'John Doe';
 
 // User will be saved with the DN: 'cn=John Doe,dc=local,dc=com
 $user-&gt;save();</code></pre>
+<h4 id="dynamic-dn-generation">Dynamic Distinguished Name Generation</h4>
 <p>LdapRecord generates a models distinguished name via the model method <code>getCreatableRdn</code>.
 This method is responsible for generating the &quot;Relative Distinguished Name&quot; which is
-The true name of the object inside of your LDAP directory, that does not include
+the true name of the object inside of your LDAP directory that does not include
 your base Distinguished Name.</p>
 <p>Since <em>most</em> LDAP objects require a Common Name (<code>cn</code>) this is defaulted to:</p>
 <pre><code class="language-php">/**

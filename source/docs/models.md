@@ -384,9 +384,11 @@ $user->cn = 'John Doe';
 $user->save();
 ```
 
+#### Dynamic Distinguished Name Generation {#dynamic-dn-generation}
+
 LdapRecord generates a models distinguished name via the model method `getCreatableRdn`.
 This method is responsible for generating the "Relative Distinguished Name" which is
-The true name of the object inside of your LDAP directory, that does not include
+the true name of the object inside of your LDAP directory that does not include
 your base Distinguished Name.
 
 Since *most* LDAP objects require a Common Name (`cn`) this is defaulted to:
@@ -445,8 +447,6 @@ $user->inside($ou)->save();
 ```
 
 The above examples will save the user inside the `Users` OU.
-
-
 
 #### Setting A Distinguished Name {#setting-a-distinguished-name}
 
