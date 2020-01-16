@@ -26,7 +26,7 @@
 </section>
 
 <div class="md:mb-32 lg:w-2/3 mx-auto relative z-10 -mt-64">
-    <div class="feature shadow mx-12">
+    <div class="feature shadow mx-4 md:mx-12">
         <div class="top-bar">
             <div class="circles">
                 <div class="circle circle-red"></div>
@@ -48,14 +48,18 @@
             @endcomponent
         </div>
 
-        <div class="md:w-2/5 md:ml-8">
+        <div class="md:w-2/5 md:ml-8 flex flex-col items-center md:items-start">
             <div class="flex items-center">
                 <img src="/assets/img/stopwatch.svg" class="h-12 w-12" alt="window icon">
 
-                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic">Up and running within minutes</h3>
+                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
+                    Up and running within minutes
+                </h3>
             </div>
 
-            <p class="text-xl">Effortlessly connect to your LDAP servers and start running queries & operations in a matter of minutes.</p>
+            <p class="text-xl text-center md:text-left">
+                Effortlessly connect to your LDAP servers and start running queries & operations in a matter of minutes.
+            </p>
         </div>
     </div>
 
@@ -63,14 +67,19 @@
 
     <!-- Fluent Query Builder. -->
     <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32">
-        <div class="md:w-2/5 md:mr-8">
+        <div class="md:w-2/5 md:mr-8 flex flex-col items-center md:items-start">
             <div class="flex items-center">
                 <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="terminal icon">
 
-                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic">Fluent Query Builder</h3>
+                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
+                    Fluent Query Builder
+                </h3>
             </div>
 
-            <p class="text-xl">Building LDAP queries has never been so easy. Find the objects you're looking for in a couple lines or less with a fluent interface.</p>
+            <p class="text-xl text-center md:text-left">
+                Building LDAP queries has never been so easy. Find the objects you're
+                looking for in a couple lines or less with a fluent interface.
+            </p>
         </div>
 
         <div class="md:w-3/5">
@@ -90,14 +99,16 @@
             @endcomponent
         </div>
 
-        <div class="md:w-2/5 md:ml-8">
+        <div class="md:w-2/5 md:ml-8 flex flex-col items-center md:items-start">
             <div class="flex items-center">
                 <img src="/assets/img/volume-control.svg" class="h-12 w-12" alt="stack icon">
 
-                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic">Supercharged ActiveRecord</h3>
+                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
+                    Supercharged ActiveRecord
+                </h3>
             </div>
 
-            <p class="text-xl">
+            <p class="text-xl text-center md:text-left">
                 Create and modify LDAP objects with ease. All LDAP objects are individual models. Simply modify the
                 attributes on the model and save it to persist the changes to your LDAP server.
             </p>

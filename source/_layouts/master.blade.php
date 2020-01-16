@@ -87,7 +87,7 @@
                 </li>
 
                 <li>
-                    Home Background Image By <a href="https://www.deviantart.com/rafael-de-jongh">Rafael-De-Jongh</a>
+                    Home Background Image By <a href="https://www.deviantart.com/rafael-de-jongh">Rafael-De-Jongh</a>.
                 </li>
             </ul>
         </footer>
