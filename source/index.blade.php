@@ -52,7 +52,7 @@
             <div class="flex items-center">
                 <img src="/assets/img/stopwatch.svg" class="h-12 w-12" alt="window icon">
 
-                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow text-center md:text-left">
+                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
                     Up and running within minutes
                 </h3>
             </div>
@@ -71,7 +71,7 @@
             <div class="flex items-center">
                 <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="terminal icon">
 
-                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow text-center md:text-left">
+                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
                     Fluent Query Builder
                 </h3>
             </div>
@@ -103,7 +103,7 @@
             <div class="flex items-center">
                 <img src="/assets/img/volume-control.svg" class="h-12 w-12" alt="stack icon">
 
-                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow text-center md:text-left">
+                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
                     Supercharged ActiveRecord
                 </h3>
             </div>
