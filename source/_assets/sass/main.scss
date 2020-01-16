@@ -6,8 +6,13 @@
 @import 'base';
 @import 'navigation';
 @import 'search';
+@import 'hero';
 
 @tailwind utilities;
+
+.text-shadow {
+  text-shadow:1px 2px rgba(0,0,0,.1);
+}
 
 .feature {
   @apply .flex;

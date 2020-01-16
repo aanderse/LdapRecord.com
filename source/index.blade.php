@@ -1,45 +1,45 @@
 @extends('_layouts.master')
 
 @section('body')
-<section class="container max-w-6xl mx-auto px-6 py-0">
-    <div class="mb-10 text-center">
-        <h1 id="intro-docs-template" class="mb-0">Integrating LDAP is hard.</h1>
+<section class="retro-hero">
+    <div class="retro-hero-background" style="background-image:url('/assets/img/bg-retro.jpg');"></div>
 
-        <hr class="my-2"/>
+    <div class="retro-hero-content md:mx-48">
+        <h1 class="text-shadow text-2xl sm:text-3xl lg:text-5xl text-shadow text-white">
+            <em>Integrating LDAP is hard work.</em>
+        </h1>
 
-        <div class="md:mx-24">
-            <h2 class="font-light hidden sm:block mt-4">
-                <strong class="font-extrabold">LdapRecord</strong> is a <strong class="font-extrabold">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
-            </h2>
+        <h2 class="text-shadow font-light hidden sm:block mt-4 text-white">
+            <strong class="font-extrabold italic">LdapRecord</strong> is a <strong class="font-extrabold italic">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+        </h2>
 
-            <h4 class="font-light block sm:hidden mt-4">
-                <strong class="font-extrabold">LdapRecord</strong> is a <strong class="font-extrabold">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
-            </h4>
+        <h4 class="text-shadow font-light block sm:hidden mt-4 text-white">
+            <strong class="font-extrabold italic">LdapRecord</strong> is a <strong class="font-extrabold italic">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+        </h4>
+
+        <div class="flex justify-center mb-8">
+            <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="bg-purple-500 hover:bg-purple-600 font-normal text-white hover:text-white rounded mr-4 py-2 px-6">Get Started</a>
+
+            <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="bg-gray-400 hover:bg-gray-600 text-blue-900 font-normal hover:text-white rounded py-2 px-6">Source Code</a>
         </div>
     </div>
+</section>
 
-    <div class="flex justify-center mb-8">
-        <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="bg-purple-500 hover:bg-purple-600 font-normal text-white hover:text-white rounded mr-4 py-2 px-6">Get Started</a>
-
-        <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="bg-gray-400 hover:bg-gray-600 text-blue-900 font-normal hover:text-white rounded py-2 px-6">Source Code</a>
-    </div>
-
-    <div class="lg:mb-32 lg:w-2/3 mx-auto">
-        <div class="feature">
-            <div class="top-bar">
-                <div class="circles">
-                    <div class="circle circle-red"></div>
-                    <div class="circle circle-yellow"></div>
-                    <div class="circle circle-green"></div>
-                </div>
+<div class="md:mb-32 lg:w-2/3 mx-auto relative z-10 -mt-64">
+    <div class="feature shadow mx-12">
+        <div class="top-bar">
+            <div class="circles">
+                <div class="circle circle-red"></div>
+                <div class="circle circle-yellow"></div>
+                <div class="circle circle-green"></div>
             </div>
-
-            @include('docs.examples.landing')
         </div>
+
+        @include('docs.examples.landing')
     </div>
+</div>
 
-    <hr class="block my-8 border">
-
+<section class="container max-w-6xl mx-auto px-6 py-0 mt-16 md:mt-0">
     <!-- Fast Setup. -->
     <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32">
         <div class="md:w-3/5">
@@ -52,10 +52,10 @@
             <div class="flex items-center">
                 <img src="/assets/img/stopwatch.svg" class="h-12 w-12" alt="window icon">
 
-                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Up and running within minutes</h3>
+                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic">Up and running within minutes</h3>
             </div>
 
-            <p>Effortlessly connect to your LDAP servers and start running queries & operations in a matter of minutes.</p>
+            <p class="text-xl">Effortlessly connect to your LDAP servers and start running queries & operations in a matter of minutes.</p>
         </div>
     </div>
 
@@ -67,10 +67,10 @@
             <div class="flex items-center">
                 <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="terminal icon">
 
-                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Fluent Query Builder</h3>
+                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic">Fluent Query Builder</h3>
             </div>
 
-            <p>Building LDAP queries has never been so easy. Find the objects you're looking for in a couple lines or less with a fluent interface.</p>
+            <p class="text-xl">Building LDAP queries has never been so easy. Find the objects you're looking for in a couple lines or less with a fluent interface.</p>
         </div>
 
         <div class="md:w-3/5">
@@ -94,10 +94,10 @@
             <div class="flex items-center">
                 <img src="/assets/img/volume-control.svg" class="h-12 w-12" alt="stack icon">
 
-                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Supercharged ActiveRecord</h3>
+                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic">Supercharged ActiveRecord</h3>
             </div>
 
-            <p>
+            <p class="text-xl">
                 Create and modify LDAP objects with ease. All LDAP objects are individual models. Simply modify the
                 attributes on the model and save it to persist the changes to your LDAP server.
             </p>
