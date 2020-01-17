@@ -18,7 +18,7 @@ composer require directorytree/ldaprecord-laravel
 ### Step 2: Publish the LDAP configuration file {#publish-configuration}
 
 ```bash
-php artisan vendor:publish --provider LdapRecord\Laravel\LdapServiceProvider
+php artisan vendor:publish --provider="LdapRecord\Laravel\LdapServiceProvider"
 ```
 
 ### Step 3: Configure your LDAP connection {#configure-connection}

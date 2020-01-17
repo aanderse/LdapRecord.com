@@ -17,7 +17,7 @@ LdapRecord and configure your LDAP connection.
 > **Note**: You may skip this step if you are not utilizing database synchronization.
 
 ```bash
-php artisan vendor:publish --provider LdapRecord\Laravel\LdapAuthServiceProvider
+php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"
 ```
 
 Then, run the migrations via:
