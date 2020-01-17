@@ -5,7 +5,7 @@
     <div class="retro-hero-background" style="background-image:url('/assets/img/bg-retro.jpg');"></div>
 
     <div class="retro-hero-content md:mx-48">
-        <h1 class="text-shadow text-2xl sm:text-3xl lg:text-5xl text-shadow text-white">
+        <h1 class="retro-hero-heading sm:text-3xl lg:text-5xl">
             <em>Integrating LDAP is hard work.</em>
         </h1>
 
@@ -53,7 +53,7 @@
                 <img src="/assets/img/stopwatch.svg" class="h-12 w-12" alt="window icon">
 
                 <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
-                    Up and running within minutes
+                    Up and running fast
                 </h3>
             </div>
 

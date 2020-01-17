@@ -28,14 +28,11 @@ php artisan migrate
 
 ### Step 3: Configure the Authentication Driver {#configure-auth}
 
-Inside of your `config/auth.php` file, we must add a new `provider`:
+Inside of your `config/auth.php` file, we must add a new provider in the `providers` array:
 
 ```php
 'providers' => [
-    'users' => [
-        'driver' => 'eloquent',
-        'model' => App\User::class,
-    ],
+    // ...
 
     'ldap' => [
         'driver' => 'ldap',
@@ -50,3 +47,5 @@ Inside of your `config/auth.php` file, we must add a new `provider`:
     ],
 ],
 ```
+
+Then, 

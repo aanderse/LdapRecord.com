@@ -10,6 +10,13 @@
   background-image:linear-gradient(-280deg,#1b0e0e,#a832d7);
 }
 
+.retro-hero-heading {
+  @apply .text-shadow;
+  @apply .text-2xl;
+  color:#ffff00;
+  font-family: "Permanent Marker", "Nunito Sans", sans-serif;
+}
+
 .retro-hero-background {
   @apply .h-full;
   @apply .w-full;
