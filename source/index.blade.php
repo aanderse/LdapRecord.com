@@ -27,11 +27,17 @@
 
 <div class="md:mb-32 lg:w-2/3 mx-auto relative z-10 -mt-64">
     <div class="feature shadow mx-4 md:mx-12">
-        <div class="top-bar">
-            <div class="circles">
-                <div class="circle circle-red"></div>
-                <div class="circle circle-yellow"></div>
-                <div class="circle circle-green"></div>
+        <div class="top-bar flex items-center justify-between">
+            <div class="flex justify-start items-center">
+                <span class="mx-1">
+                    <img src="/assets/img/icon-only.svg" style="width:10px;height:10px;" alt="window icon">
+                </span>
+                <span class="text-white">LdapRecord</span>
+            </div>
+            <div class="flex justify-end circles">
+                <button type="button">_</button>
+                <button type="button">🗖</button>
+                <button type="button">X</button>
             </div>
         </div>
 
@@ -50,7 +56,7 @@
 
         <div class="md:w-2/5 md:ml-8 flex flex-col items-center md:items-start">
             <div class="flex items-center">
-                <img src="/assets/img/stopwatch.svg" class="h-12 w-12" alt="window icon">
+                <img src="/assets/img/clock.svg" class="h-12 w-12" alt="window icon">
 
                 <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
                     Up and running fast
@@ -58,7 +64,7 @@
             </div>
 
             <p class="text-xl text-center md:text-left">
-                Effortlessly connect to your LDAP servers and start running queries & operations in a matter of minutes.
+                Effortlessly connect to your LDAP servers and start running queries & operations faster than dial up.
             </p>
         </div>
     </div>
@@ -69,7 +75,7 @@
     <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32">
         <div class="md:w-2/5 md:mr-8 flex flex-col items-center md:items-start">
             <div class="flex items-center">
-                <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="terminal icon">
+                <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="window icon">
 
                 <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
                     Fluent Query Builder
