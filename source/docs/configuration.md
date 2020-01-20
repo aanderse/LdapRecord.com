@@ -93,7 +93,7 @@ These options are definitely recommended if you have the ability to connect to y
 
 > **Tips**: 
 > - You **must** enable SSL or TLS to reset passwords in ActiveDirectory.
-> - TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.
+> - TLS is recommended over SSL, as SSL is now labelled as a deprecated mechanism for securely running LDAP operations.
 
 ### Timeout {#timeout}
 

@@ -285,10 +285,19 @@ $user = User::find('cn=John Doe,dc=acme,dc=org');
 $allGroups = $user->groups()->recursive()->get();
 ```
 
-The `recursive()` method sets a flag on the LdapRecord relationship indicating
+> Be careful when calling `recursive` on large sets of group memberships.
+> If you are not careful, you could run out of memory due to thousands
+> of models being returned.
+
+The `recursive` method sets a flag on the LdapRecord relationship indicating
 you would like recursive results included (groups of groups).
 
-If you're using ActiveDirectory, the LdapRecord will use 
+Recursive results are gathered by first retrieving the groups that the user is
+a member of, then retrieving the groups that are members of each resulting
+parent group. This means a query an LDAP search query is executed for each
+group that your user is apart of.
+
+Circular group dependencies are rejected automatically to prevent infinite looping.
 
 ## Attaching & Detatching Relationships {#attaching-amp-detatching-relationships}
 
@@ -338,6 +347,11 @@ $user->groups()->detachAll();
 ## Checking Relationship Existence {#checking-relationship-existence}
 
 To check if a model exists inside of a relationship, use the `exists()` relationship method.
+
+> If you're using ActiveDirectory and are simply looking to check if a user is
+> inside of a particular group, utilize the `Model::whereMemberOf` method
+> that is available on all ActiveDirectory models to locate users
+> whom are members of that group.
 
 For example, lets determine if a `User` is a member of a `Group`:
 
