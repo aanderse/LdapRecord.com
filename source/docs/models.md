@@ -352,29 +352,85 @@ try {
 
 ### Creating {#creating}
 
+Before we begin it is paramount to know that LDAP objects require a Distinguished Name to be
+created successfully in your LDAP directory. LdapRecord will always attempt to generate a
+Distinguished Name for models that do not have one upon `save`. In addition, some LDAP
+objects require **more** attributes to be set for successful creation.
+
+For example, to create a `User` object in ActiveDirectory, the `cn` (Common Name) attribute is required.
+If you do not set this attribute, an exception will be thrown upon saving your LDAP model. For another
+example, `OrganizationlUnit`'s must have the `ou` attribute set.
+
+LdapRecord cannot validate this for you as LDAP objects differ widely in their attribute requirements.
+
 To create a new record in your directory, create a new model instance and call the `save()` method.
-Upon calling `save()`, if no distinguished name (dn) is set on a new model, one will be generated
+Upon calling `save()`, if no Distinguished Name is set on a new model, one will be generated
 based on your configured `base_dn` that you have set inside your connections configuration:
 
 ```php
 <?php
+$conn = new Connection([
+    // ...
+    'base_dn' => 'dc=local,dc=com',
+]);
+
+$conn->connect();
 
 $user = new User();
 
 $user->cn = 'John Doe';
 
+// User will be saved with the DN: 'cn=John Doe,dc=local,dc=com
 $user->save();
 ```
 
-You may also set the base DN of where you would like the object to be created inside
-by using the `inside()` method, rather than your `base_dn` from your configuration:
+#### Dynamic Distinguished Name Generation {#dynamic-dn-generation}
+
+LdapRecord generates a models distinguished name via the model method `getCreatableRdn`.
+This method is responsible for generating the "Relative Distinguished Name" which is
+the true name of the object inside of your LDAP directory that does not include
+your base Distinguished Name.
+
+Since *most* LDAP objects require a Common Name (`cn`) this is defaulted to:
+
+```php
+/**
+ * Get a creatable RDN for the model.
+ *
+ * @return string
+ */
+public function getCreatableRdn()
+{
+    return "cn={$this->getFirstAttribute('cn')}";
+}
+```
+
+You may override this method to allow your models Distinguished Name's to be dynamically generated
+rather than creating them yourself manually. For example, here is how we would set the Relative
+Distinguished Name (RDN) for an ActiveDirectory `OrganizationalUnit` model:
+
+```php
+public function getCreatableRdn()
+{
+    return "ou={$this->getFirstAttribute('ou')}";
+}
+```
+
+This then gets prepended onto your connections configured `base_dn`, for a resulting "Full" Distinguished Name:
+
+```text
+ou=MyOrganizationalUnitName,dc=local,dc=com
+```
+
+You may set the base DN of where you would like the object to be created inside by
+using the `inside()` method, rather than your `base_dn` from your configuration:
 
 ```php
 <?php
 
 $user = new User(['cn' => 'John Doe']);
 
-$user->inside('ou=Users,dc=acme,dc=org')->save();
+$user->inside('ou=Users,dc=local,dc=com')->save();
 ```
 
 You may also pass in an LdapRecord `Model` instance. This is convenient so you
@@ -391,18 +447,6 @@ $user->inside($ou)->save();
 ```
 
 The above examples will save the user inside the `Users` OU.
-
-> Depending on your directory, some attributes are required to be set for it
-> to be created successfully. LdapRecord will not validate this for you and you will
-> receive an exception if this occurs.
-> 
->
-> For example, users must have a common name (cn) and organizational units must have an ou.
->
->
-> In addition to the above, you cannot set attributes that do not exist in your directory's
-> LDAP schema, as well as set attributes that the bound LDAP user does not have permission
-> to modify.
 
 #### Setting A Distinguished Name {#setting-a-distinguished-name}
 

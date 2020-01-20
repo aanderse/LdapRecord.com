@@ -31,16 +31,15 @@
         <meta name="theme-color" content="#ffffff">
 
         
-                    <!-- Insert analytics code here -->
-        
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=5151ff40ac4aa1c71aba">
+        <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=7dee5c1bbd6bfed37d79">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
 
     <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
-        <header class="flex items-center bg-white border-b h-24 mb-8 py-4" role="banner">
+        <header class="flex items-center h-24 py-4 z-20 " role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
                     <a href="/" title="LdapRecord home" class="inline-flex items-center">
@@ -76,47 +75,58 @@
 </div>
 
                     
-                    <a href="/docs/" class="ml-6 text-blue-800 hidden md:inline" title="LdapRecord Documentation Link">Docs</a>
+                    <a href="/docs/" class="ml-6 hidden md:inline text-white" title="LdapRecord Documentation Link">Docs</a>
 
-                    <a href="https://github.com/DirectoryTree/LdapRecord" class="hidden sm:inline">
-                        <svg class="fill-current text-blue-800 w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
+                    <a href="https://github.com/DirectoryTree/LdapRecord" class="hidden sm:inline text-white">
+                        <svg class="fill-current w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
                     </a>
                 </div>
             </div>
 
                     </header>
 
-        <main role="main" class="w-full flex-auto">
-            <section class="container max-w-6xl mx-auto px-6 py-0">
-    <div class="mb-10 text-center">
-        <h1 id="intro-docs-template">Integrating LDAP is hard.</h1>
+        <main role="main" class="w-full">
+            <section class="retro-hero">
+    <div class="retro-hero-background" style="background-image:url('/assets/img/bg-retro.jpg');"></div>
 
-        <h2 class="font-light hidden sm:block mt-4">
-            <strong>LdapRecord</strong> is a <strong>PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+    <div class="retro-hero-content md:mx-48">
+        <h1 class="retro-hero-heading sm:text-3xl lg:text-5xl">
+            <em>Integrating LDAP is hard work.</em>
+        </h1>
+
+        <h2 class="text-shadow font-light hidden sm:block mt-4 text-white">
+            <strong class="font-extrabold italic">LdapRecord</strong> is a <strong class="font-extrabold italic">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
         </h2>
 
-        <h4 class="font-light block sm:hidden mt-4">
-            <strong>LdapRecord</strong> is a <strong>PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+        <h4 class="text-shadow font-light block sm:hidden mt-4 text-white">
+            <strong class="font-extrabold italic">LdapRecord</strong> is a <strong class="font-extrabold italic">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
         </h4>
+
+        <div class="flex justify-center mb-8">
+            <a href="/docs/installation" title="LdapRecord getting started" class="bg-purple-500 hover:bg-purple-600 font-normal text-white hover:text-white rounded mr-4 py-2 px-6">Get Started</a>
+
+            <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="bg-gray-400 hover:bg-gray-600 text-blue-900 font-normal hover:text-white rounded py-2 px-6">Source Code</a>
+        </div>
     </div>
+</section>
 
-    <div class="flex justify-center mb-8">
-        <a href="/docs/installation" title="LdapRecord getting started" class="bg-purple-500 hover:bg-purple-600 font-normal text-white hover:text-white rounded mr-4 py-2 px-6">Get Started</a>
-
-        <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="bg-gray-400 hover:bg-gray-600 text-blue-900 font-normal hover:text-white rounded py-2 px-6">Source Code</a>
-    </div>
-
-    <div class="lg:mb-32 lg:w-2/3 mx-auto">
-        <div class="feature">
-            <div class="top-bar">
-                <div class="circles">
-                    <div class="circle circle-red"></div>
-                    <div class="circle circle-yellow"></div>
-                    <div class="circle circle-green"></div>
-                </div>
+<div class="md:mb-32 lg:w-2/3 mx-auto relative z-10 -mt-64">
+    <div class="feature shadow mx-4 md:mx-12">
+        <div class="top-bar flex items-center justify-between">
+            <div class="flex justify-start items-center">
+                <span class="mx-1">
+                    <img src="/assets/img/icon-only.svg" style="width:10px;height:10px;" alt="window icon">
+                </span>
+                <span class="text-white">LdapRecord</span>
             </div>
+            <div class="flex justify-end circles">
+                <button type="button">_</button>
+                <button type="button">🗖</button>
+                <button type="button">X</button>
+            </div>
+        </div>
 
-            <pre><code class="language-php">$user = User::create([
+        <pre><code class="language-php">$user = User::create([
     'cn' =&gt; 'Steve Bauman',
     'company' =&gt; 'Acme',
     'password' =&gt; 'P@ssw0rd',
@@ -124,20 +134,25 @@
 
 $administrators = Group::find('cn=Administrators,dc=acme,dc=org');
 
-$user-&gt;groups()-&gt;attach($administrators);</code></pre>        </div>
-    </div>
+$user-&gt;groups()-&gt;attach($administrators);</code></pre>    </div>
+</div>
 
-    <hr class="block my-8 border">
-
+<section class="container max-w-6xl mx-auto px-6 py-0 mt-16 md:mt-0">
     <!-- Fast Setup. -->
     <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32">
         <div class="md:w-3/5">
             <div class="feature">
-    <div class="top-bar">
-        <div class="circles">
-            <div class="circle circle-red"></div>
-            <div class="circle circle-yellow"></div>
-            <div class="circle circle-green"></div>
+    <div class="top-bar flex items-center justify-between">
+        <div class="flex justify-start items-center">
+                <span class="mx-1">
+                    <img src="/assets/img/icon-only.svg" style="width:10px;height:10px;" alt="window icon">
+                </span>
+            <span class="text-white">LdapRecord</span>
+        </div>
+        <div class="flex justify-end circles">
+            <button type="button">_</button>
+            <button type="button">🗖</button>
+            <button type="button">X</button>
         </div>
     </div>
 
@@ -155,14 +170,18 @@ $connection-&gt;connect();
 $users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get();</code></pre>
 </div>        </div>
 
-        <div class="md:w-2/5 md:ml-8">
+        <div class="md:w-2/5 md:ml-8 flex flex-col items-center md:items-start">
             <div class="flex items-center">
-                <img src="/assets/img/stopwatch.svg" class="h-12 w-12" alt="window icon">
+                <img src="/assets/img/clock.svg" class="h-12 w-12" alt="window icon">
 
-                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Up and running within minutes</h3>
+                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
+                    Up and running fast
+                </h3>
             </div>
 
-            <p>Effortlessly connect to your LDAP servers and start running queries & operations in a matter of minutes.</p>
+            <p class="text-xl text-center md:text-left">
+                Effortlessly connect to your LDAP servers and start running queries & operations faster than dial up.
+            </p>
         </div>
     </div>
 
@@ -170,23 +189,34 @@ $users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get()
 
     <!-- Fluent Query Builder. -->
     <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32">
-        <div class="md:w-2/5 md:mr-8">
+        <div class="md:w-2/5 md:mr-8 flex flex-col items-center md:items-start">
             <div class="flex items-center">
-                <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="terminal icon">
+                <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="window icon">
 
-                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Fluent Query Builder</h3>
+                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
+                    Fluent Query Builder
+                </h3>
             </div>
 
-            <p>Building LDAP queries has never been so easy. Find the objects you're looking for in a couple lines or less with a fluent interface.</p>
+            <p class="text-xl text-center md:text-left">
+                Building LDAP queries has never been so easy. Find the objects you're
+                looking for in a couple lines or less with a fluent interface.
+            </p>
         </div>
 
         <div class="md:w-3/5">
             <div class="feature">
-    <div class="top-bar">
-        <div class="circles">
-            <div class="circle circle-red"></div>
-            <div class="circle circle-yellow"></div>
-            <div class="circle circle-green"></div>
+    <div class="top-bar flex items-center justify-between">
+        <div class="flex justify-start items-center">
+                <span class="mx-1">
+                    <img src="/assets/img/icon-only.svg" style="width:10px;height:10px;" alt="window icon">
+                </span>
+            <span class="text-white">LdapRecord</span>
+        </div>
+        <div class="flex justify-end circles">
+            <button type="button">_</button>
+            <button type="button">🗖</button>
+            <button type="button">X</button>
         </div>
     </div>
 
@@ -208,11 +238,17 @@ $users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get()
     <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-24">
         <div class="md:w-3/5">
             <div class="feature">
-    <div class="top-bar">
-        <div class="circles">
-            <div class="circle circle-red"></div>
-            <div class="circle circle-yellow"></div>
-            <div class="circle circle-green"></div>
+    <div class="top-bar flex items-center justify-between">
+        <div class="flex justify-start items-center">
+                <span class="mx-1">
+                    <img src="/assets/img/icon-only.svg" style="width:10px;height:10px;" alt="window icon">
+                </span>
+            <span class="text-white">LdapRecord</span>
+        </div>
+        <div class="flex justify-end circles">
+            <button type="button">_</button>
+            <button type="button">🗖</button>
+            <button type="button">X</button>
         </div>
     </div>
 
@@ -230,14 +266,16 @@ $user-&gt;password = 'Super-Secret';
 $user-&gt;save();</code></pre>
 </div>        </div>
 
-        <div class="md:w-2/5 md:ml-8">
+        <div class="md:w-2/5 md:ml-8 flex flex-col items-center md:items-start">
             <div class="flex items-center">
                 <img src="/assets/img/volume-control.svg" class="h-12 w-12" alt="stack icon">
 
-                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2">Supercharged ActiveRecord</h3>
+                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
+                    Supercharged ActiveRecord
+                </h3>
             </div>
 
-            <p>
+            <p class="text-xl text-center md:text-left">
                 Create and modify LDAP objects with ease. All LDAP objects are individual models. Simply modify the
                 attributes on the model and save it to persist the changes to your LDAP server.
             </p>
@@ -272,9 +310,13 @@ $user-&gt;save();</code></pre>
                     &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> 2020.
                 </li>
 
-                <li>
+                <li class="md:mr-2">
                     Built with <a href="http://jigsaw.tighten.co" title="Jigsaw by Tighten">Jigsaw</a>
                     and <a href="https://tailwindcss.com" title="Tailwind CSS, a utility-first CSS framework">Tailwind CSS</a>.
+                </li>
+
+                <li>
+                    Home Background Image By <a href="https://www.deviantart.com/rafael-de-jongh">Rafael-De-Jongh</a>.
                 </li>
             </ul>
         </footer>

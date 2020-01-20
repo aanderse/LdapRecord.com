@@ -3,7 +3,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [
-          'Nunito Sans'
+          'Nunito Sans',
         ],
         mono: [
           'monospace',

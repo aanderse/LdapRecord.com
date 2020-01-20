@@ -15,13 +15,13 @@ Require LdapRecord-Laravel via [composer](https://getcomposer.org/):
 composer require directorytree/ldaprecord-laravel
 ```
 
-### Step 2: Publish the LDAP configuration file
+### Step 2: Publish the LDAP configuration file {#publish-configuration}
 
 ```bash
-php artisan vendor:publish --provider LdapRecord\Laravel\LdapServiceProvider
+php artisan vendor:publish --provider="LdapRecord\Laravel\LdapServiceProvider"
 ```
 
-### Step 3: Configure your LDAP connection
+### Step 3: Configure your LDAP connection {#configure-connection}
 
 Paste these environment variables into your `.env` file, and configure each option as necessary:
 
@@ -38,7 +38,7 @@ LDAP_SSL=false
 LDAP_TLS=false
 ```
 
-### Step 4: Usage
+### Step 4: Usage {#usage}
 
 To begin, you may either use the built-in [models that LdapRecord comes with](/docs/models/#predefined-models),
 or you may create your own models that reference the connection you have created in your `ldap.php` file.
