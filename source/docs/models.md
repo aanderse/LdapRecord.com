@@ -103,7 +103,7 @@ Each below model references a type of object in ActiveDirectory.
 > Don't see a model for the LDAP server you're using? [Create a pull request!](https://github.com/DirectoryTree/LdapRecord/pulls)
 
 ### Connections {#connections}
-ALPHA_LDAP_HOST=127.0.0.1
+
 By default, all models you create will try to use your `default` LDAP connection that resides in the connection
 [container](/docs/connections#container). To set your model to use an alternate connection,
 define a `$connection` property equal to the name of your other connection.
