@@ -77,6 +77,8 @@
                     
                     <a href="/docs/" class="ml-6 hidden md:inline text-blue-800" title="LdapRecord Documentation Link">Docs</a>
 
+                    <a href="/docs/laravel" class="ml-6 hidden md:inline text-blue-800" title="LdapRecord-Laravel Documentation Link">Laravel</a>
+
                     <a href="https://github.com/DirectoryTree/LdapRecord" class="hidden sm:inline text-blue-800">
                         <svg class="fill-current w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
                     </a>
@@ -102,10 +104,10 @@
         </header>
 
         <main role="main" class="w-full">
-            <section class="container max-w-8xl mx-auto px-6 md:px-8 py-4">
-    <div class="flex flex-col lg:flex-row">
-        <nav id="js-nav-menu" class="nav-menu hidden lg:block">
-            <ul class="list-none my-0">
+                <section class="container max-w-8xl mx-auto px-6 md:px-8 py-4">
+        <div class="flex flex-col lg:flex-row">
+            <nav id="js-nav-menu" class="nav-menu hidden lg:block">
+                    <ul class="list-none my-0">
             <li class="pl-4">
             
         <a href="/docs/quickstart"
@@ -284,10 +286,10 @@
     
     </li>
     </ul>
-        </nav>
+            </nav>
 
-        <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-            <h1>Models: Getting Started</h1>
+            <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
+                <h1>Models: Getting Started</h1>
 <ul>
 <li><a href="#introduction">Introduction</a>
 <ul>
@@ -376,7 +378,8 @@ class User extends Model
 <p>Don't see a model for the LDAP server you're using? <a href="https://github.com/DirectoryTree/LdapRecord/pulls">Create a pull request!</a></p>
 </blockquote>
 <h3 id="connections">Connections</h3>
-<p>By default, all models you create will try to use your <code>default</code> LDAP connection that resides in the connection
+<p>ALPHA_LDAP_HOST=127.0.0.1
+By default, all models you create will try to use your <code>default</code> LDAP connection that resides in the connection
 <a href="/docs/connections#container">container</a>. To set your model to use an alternate connection,
 define a <code>$connection</code> property equal to the name of your other connection.</p>
 <pre><code class="language-php">&lt;?php
@@ -416,7 +419,7 @@ class User extends Model
 }</code></pre>
 <h2 id="retrieving-models">Retrieving Models</h2>
 <p>Once you've created an LdapRecord model you're ready to start retrieving data from your directory.
-If you've used an Laravel's <a href="https://laravel.com/docs/eloquent">Eloquent ORM</a>, you'll feel right at home.</p>
+If you've used Laravel's <a href="https://laravel.com/docs/eloquent">Eloquent ORM</a>, you'll feel right at home.</p>
 <p>You can think of a model as a powerful query builder allowing you to query your directory for objects
 fluently and easily.</p>
 <pre><code class="language-php">&lt;?php
@@ -453,28 +456,28 @@ model, which provides no <code>objectclass</code> constraints on queries.</p>
 </blockquote>
 <h5 id="ancestors">Ancestors</h5>
 <p>To retrieve the direct ancestors of a model, call the <code>ancestors()</code> constraint on a retrieved model:</p>
-<pre><code class="language-php">$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+<pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
-$ancestors = $user-&gt;ancestors()-&gt;get();</code></pre>
+$ancestors = $ou-&gt;ancestors()-&gt;get();</code></pre>
 <p>The above example will execute a <code>listing</code> on your LDAP directory in
-the distinguished name <code>dc=acme,dc=org</code>. This effectively pulls
+the distinguished name <code>dc=local,dc=com</code>. This effectively pulls
 the ancestors of the model.</p>
 <h5 id="siblings">Siblings</h5>
 <p>To retrieve the siblings of a model, call the <code>siblings()</code> constraint on a retrieved model:</p>
-<pre><code class="language-php">$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+<pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
-$siblings = $user-&gt;siblings()-&gt;get();</code></pre>
+$siblings = $ou-&gt;siblings()-&gt;get();</code></pre>
 <p>The above example will execute a <code>listing</code> on your LDAP directory in
-the distinguished name <code>ou=Users,dc=acme,dc=org</code>. This effectively
+the distinguished name <code>ou=Users,dc=local,dc=com</code>. This effectively
 pulls the siblings of the model. The current model will also be
 included in the resulting collection.</p>
 <h5 id="descendants">Descendants</h5>
 <p>To retrieve the descendants of a model, call the <code>descendants()</code> constraint on a retrieved model:</p>
-<pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Users,dc=acme,dc=org');
+<pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
 $descendants = $ou-&gt;descendants()-&gt;get();</code></pre>
 <p>The above example will execute a <code>listing</code> on your LDAP directory in
-the distinguished name <code>ou=Users,dc=acme,dc=org</code>. This effectively
+the distinguished name <code>ou=Accountants,ou=Users,dc=local,dc=com</code>. This effectively
 pulls the descendants of the model.</p>
 <h4 id="refreshing-models">Refreshing Models</h4>
 <p>To re-retrieve a new model from your directory, call the <code>fresh()</code> method.
@@ -1017,8 +1020,8 @@ class User extends Model
         return $attributes;
     }
 }</code></pre>
-            <div class="mt-12 pt-8 pb-6 border-t-2">
-                <div class="flex flex-col-reverse md:flex-row justify-between items-center">
+                <div class="mt-12 pt-8 pb-6 border-t-2">
+                        <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
             <h4 class="font-bold underline m-0 text-blue-700">
@@ -1032,13 +1035,13 @@ class User extends Model
             </h4>
             </div>
 </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=7949324a83f43da56eb9"></script>
+        <script src="/assets/build/js/main.js?id=7344cf2d854952fbcf38"></script>
 
         <script>
     const navMenu = {
