@@ -466,10 +466,7 @@ Paginating your search results will allow you to return more results than your L
 For example, if your LDAP server contains 10,000 records and you paginate by 1000, 10 queries will be executed.
 
 > Calling `paginate()` will retrieve **all** records from your LDAP server for the current query.
->
-> This **does not** operate the same way pagination occurs in a database. Pagination of
-> an LDAP query simply allows you to return a larger result set than your
-> LDAP servers configured maximum (usually 1000).
+> Be careful with large result sets, as you may run out of memory.
 
 ```php
 // Perform global "all" search, paginating by 1000 records:

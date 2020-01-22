@@ -1,3 +1,10 @@
+---
+title: Authentication Overview
+description: Authenticating LDAP users into your application
+extends: _layouts.documentation
+section: content
+---
+
 LdapRecord-Laravel comes with two ways to authenticate LDAP users into your application.
 
 The first and most common way of offering LDAP authentication is called **Synchronized Database LDAP Authentication**.
