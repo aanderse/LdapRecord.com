@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=7dee5c1bbd6bfed37d79">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=85a5d32b3402837bdfd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -211,6 +211,7 @@ locating and synchronizing your LDAP user to the database.</li>
 <li><code>domain</code> - This is for storing your LDAP users connection name. It is needed for
 storing your configured LDAP connection name of the user.</li>
 </ol>
+<p>Go ahead and publish the migration using the below command:</p>
 <pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"</code></pre>
 <p>Then, run the migrations with the <code>artisan migrate</code> command:</p>
 <pre><code class="language-bash">php artisan migrate</code></pre>
