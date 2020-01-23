@@ -25,6 +25,8 @@ LdapRecord requires you to have two additional user database columns.
 2. `domain` - This is for storing your LDAP users connection name. It is needed for
    storing your configured LDAP connection name of the user.
 
+Go ahead and publish the migration using the below command:
+
 ```bash
 php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"
 ```
