@@ -223,13 +223,13 @@ $results = $query->whereEndsWith('cn', 'Doe')->get();
 
 To search for records between two values, use the `whereBetween` method.
 
-For the example below, we'll retrieve all users who were created between two dates:
+For the example below, we'll retrieve all records that were created between two dates:
 
 ```php
 $from = (new DateTime('October 1st 2016'))->format('YmdHis.0\Z');
 $to = (new DateTime('January 1st 2017'))->format('YmdHis.0\Z');
 
-$users = $query->users()->whereBetween('whencreated', [$from, $to])->get();
+$users = $query->whereBetween('whencreated', [$from, $to])->get();
 ```
 
 #### Where Contains

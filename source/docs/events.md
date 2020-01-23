@@ -93,7 +93,9 @@ You can register listeners using the `*` as a wildcard parameter to catch multip
 Wildcard listeners will receive the event name as their first argument, and the entire event data array as their second argument:
 
 ```php
-$dispatcher = \LdapRecord\Container::getEventDispatcher();
+use LdapRecord\Container;
+
+$dispatcher = Container::getEventDispatcher();
 
 // Listen for all model events.
 $dispatcher->listen('LdapRecord\Models\Events\*', function ($eventName, array $data) {
@@ -101,11 +103,13 @@ $dispatcher->listen('LdapRecord\Models\Events\*', function ($eventName, array $d
     var_dump($data); // Returns [0] => (object) LdapRecord\Models\Events\Updating;
 });
 
-$user = $provider->search()->users()->find('jdoe');
+$connection = Container::getDefaultConnection();
 
-$user->setTelephoneNumber('555 555-5555');
+$object = $connection->query()->findByAnr('jdoe');
 
-$user->save();
+$object->company = 'New Company';
+
+$object->save();
 ```
 
 ## Determining the Connection {#determining-the-connection}
