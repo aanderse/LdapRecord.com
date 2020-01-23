@@ -9,6 +9,8 @@ return [
         'children' => [
             'Quickstart' => 'docs/laravel/auth/quickstart',
             'Overview' => 'docs/laravel/auth',
+            'Configuration' => 'docs/laravel/auth/configuration',
+            'Usage' => 'docs/laravel/auth/usage',
         ]
     ]
 ];
