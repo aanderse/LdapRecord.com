@@ -153,7 +153,7 @@ class User extends Model
 ## Retrieving Models {#retrieving-models}
 
 Once you've created an LdapRecord model you're ready to start retrieving data from your directory.
-If you've used an Laravel's [Eloquent ORM](https://laravel.com/docs/eloquent), you'll feel right at home.
+If you've used Laravel's [Eloquent ORM](https://laravel.com/docs/eloquent), you'll feel right at home.
 
 You can think of a model as a powerful query builder allowing you to query your directory for objects
 fluently and easily.
@@ -204,13 +204,13 @@ Models come with some built in constraint methods that you may find useful.
 To retrieve the direct ancestors of a model, call the `ancestors()` constraint on a retrieved model:
 
 ```php
-$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
-$ancestors = $user->ancestors()->get();
+$ancestors = $ou->ancestors()->get();
 ```
 
 The above example will execute a `listing` on your LDAP directory in
-the distinguished name `dc=acme,dc=org`. This effectively pulls
+the distinguished name `dc=local,dc=com`. This effectively pulls
 the ancestors of the model.
 
 ##### Siblings {#siblings}
@@ -218,13 +218,13 @@ the ancestors of the model.
 To retrieve the siblings of a model, call the `siblings()` constraint on a retrieved model:
 
 ```php
-$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
-$siblings = $user->siblings()->get();
+$siblings = $ou->siblings()->get();
 ```
 
 The above example will execute a `listing` on your LDAP directory in
-the distinguished name `ou=Users,dc=acme,dc=org`. This effectively
+the distinguished name `ou=Users,dc=local,dc=com`. This effectively
 pulls the siblings of the model. The current model will also be
 included in the resulting collection.
 
@@ -233,13 +233,13 @@ included in the resulting collection.
 To retrieve the descendants of a model, call the `descendants()` constraint on a retrieved model:
 
 ```php
-$ou = OrganizationalUnit::find('ou=Users,dc=acme,dc=org');
+$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
 $descendants = $ou->descendants()->get();
 ```
 
 The above example will execute a `listing` on your LDAP directory in
-the distinguished name `ou=Users,dc=acme,dc=org`. This effectively
+the distinguished name `ou=Accountants,ou=Users,dc=local,dc=com`. This effectively
 pulls the descendants of the model.
 
 #### Refreshing Models {#refreshing-models}

@@ -44,6 +44,8 @@ Inside of your `config/auth.php` file, we must add a new provider in the `provid
 In this example, we will create a provider named `ldap`:
 
 ```php
+// config/auth.php
+
 'providers' => [
     // ...
 
@@ -71,9 +73,21 @@ LdapRecord\Models\OpenLDAP\User::class
 If you are using a different LDAP type, you will need to [define your own LDAP model](/docs/models/#defining-models)
 and insert it there. This model is used for locating the authenticating user in your LDAP directory.
 
-Be sure to update the other configuration options that suit your applications needs.
+Once you have setup your `ldap` provider, you must update the `provider` value in the `web` guard:
 
-### Step 3: Add the trait and interface to your `User` model {#add-trait-and-interface}
+```php
+// config/auth.php
+
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'ldap', // Changed to 'ldap'
+    ],
+    
+    // ...
+```
+
+### Step 3: Add the trait and interface to your user model {#add-trait-and-interface}
 
 Now, we must add the following to our `User` Eloquent model:
 
@@ -81,7 +95,6 @@ Now, we must add the following to our `User` Eloquent model:
 - Trait: `LdapRecord\Laravel\Auth\AuthenticatesWithLdap`
 
 ```php
-
 <?php
 
 namespace App;
@@ -99,14 +112,22 @@ class User extends Authenticatable implements LdapAuthenticatable
 }
 ```
 
-These are required so LdapRecord can set and retrieve your users `domain` and `guid`.
+These are required so LdapRecord can set and retrieve your users `domain` and `guid` database columns.
 
 This also allows you to configure the columns that LdapRecord uses for this by an override on the following methods:
 
 - `getLdapDomainColumn`
 - `getLdapGuidColumn`
 
-### Step 4: Override the `credentials` method in your `Auth\LoginController.php` file:
+### Step 4: Setting up your LoginController:
+
+For LdapRecord to properly locate users that attempt to login to your application, you must
+override the `credentials` method in your `Auth\LoginController.php` file.
+ 
+Then, you must set an array key of the LDAP attribute that will be used for looking up the user
+in your LDAP directory.
+
+In the example below, we will lookup LDAP users by their `mail` attribute:
 
 ```php
 namespace App\Http\Controllers\Auth;
@@ -129,12 +150,14 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         return [
-            'userprincipalname' => $request->get($this->username()),
+            'mail' => $request->get('email'),
             'password' => $request->get('password'),
         ];
     }
 }
 ```
+
+## Step 5: Changing your 
 
 ## Plain LDAP Authentication {#plain}
 

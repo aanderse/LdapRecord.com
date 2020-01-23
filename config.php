@@ -19,9 +19,9 @@ return [
 
     // Thanks to: Caleb Porzio for these methods
     // https://github.com/livewire/docs
-    'getNextPage' => function ($page) {
+    'getNextPage' => function ($page, $navigation = 'navigation') {
         // Before: ['foo' => 'bar', 'baz' => ['children' => ['bob' => 'lob', 'law' => 'blog']]]
-        $flattenedArrayOfPagesAndTheirLables = $page->navigation->map(function ($value, $key) {
+        $flattenedArrayOfPagesAndTheirLables = $page->{$navigation}->map(function ($value, $key) {
             $links = is_iterable($value) ? $value['children']->toArray() : [$key => $value];
             return collect($links)->map(function ($path, $label) {
                 return ['path' => $path, 'label' => $label];
@@ -34,9 +34,9 @@ return [
         $nextIndex = $currentIndex + 1;
         return $flattenedArrayOfPagesAndTheirLables[$nextIndex] ?? null;
     },
-    'getPreviousPage' => function ($page) {
+    'getPreviousPage' => function ($page, $navigation = 'navigation') {
         // Before: ['foo' => 'bar', 'baz' => ['children' => ['bob' => 'lob', 'law' => 'blog']]]
-        $flattenedArrayOfPagesAndTheirLables = $page->navigation->map(function ($value, $key) {
+        $flattenedArrayOfPagesAndTheirLables = $page->{$navigation}->map(function ($value, $key) {
             $links = is_iterable($value) ? $value['children']->toArray() : [$key => $value];
             return collect($links)->map(function ($path, $label) {
                 return ['path' => $path, 'label' => $label];
@@ -58,6 +58,9 @@ return [
                 return trimPath($page->getPath()) == trimPath($child);
             });
         }
+    },
+    'isHomePage' => function ($page) {
+        return $page->isActive('/');
     },
     'url' => function ($page, $path) {
         return Str::startsWith($path, 'http') ? $path : '/' . trimPath($path);

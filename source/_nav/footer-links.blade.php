@@ -1,8 +1,3 @@
-<?php
-$next = $page->getNextPage();
-$prev = $page->getPreviousPage();
-?>
-
 <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
         @if ($prev)
