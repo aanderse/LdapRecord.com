@@ -1,7 +1,7 @@
 ---
 title: Authentication Overview
 description: Authenticating LDAP users into your application
-extends: _layouts.documentation
+extends: _layouts.laravel-documentation
 section: content
 ---
 
