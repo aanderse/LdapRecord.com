@@ -16,8 +16,6 @@ Let's walk through configuring both LDAP authentication mechanisms.
 To create a plain LDAP authentication provider, navigate to the `providers` array,
 and paste the following `ldap` provider:
 
-> If your application is requiring two or more LDAP connections, you must create a new user provider for each connection.
-
 ```php
 'providers' => [
     // ...
@@ -30,6 +28,11 @@ and paste the following `ldap` provider:
 ],
 ```
 
+If your application requires more than one LDAP connection, you must create a new provider for each connection.
+
+This new provider must have its own unique `model` class set which must use your [alternate configured connection](/docs/models#connections)
+using the `$connection` property.
+
 ### Driver
 
 The `driver` option must be `ldap` as this is what indicates to Laravel the proper authentication driver to use.
@@ -41,7 +44,7 @@ for fetching users from your directory.
 
 ### Rules
 
-The `rules` option must be an array of class names of [authentication rules](#).
+The `rules` option must be an array of class names of [authentication rules](/docs/laravel/auth/rules).
 
 ## Synchronized Database LDAP Authentication
 
@@ -84,9 +87,10 @@ the users password upon login if they pass LDAP authentication. This helps in si
 provide a "back up" option in case your LDAP server is unreachable, as well as a way of determining if a
 users password is valid without having to call to your LDAP server and validate it for you.
 
-> If you do not define the `sync_passwords` key or have it set false, a user is always applied a random 16 character password.
+> If you do not define the `sync_passwords` key or have it set false, a user is always applied a
+> random 16 character hashed password.
 
 ### Database Sync Attributes
 
-The `sync_attributes` array defines a set of key-value pairs. The key of the array is the column of your `users`
+The `sync_attributes` array defines a set of key-value pairs. The key of each array item is the column of your `users`
 database table and the value is the name of the users LDAP attribute.
