@@ -40,7 +40,7 @@ LDAP_TLS=false
 
 ### Step 4: Usage {#usage}
 
-To begin, you may either use the built-in [models that LdapRecord comes with](/docs/models/#predefined-models),
+To begin, you may either use the built-in [models that LdapRecord comes with](/docs/models#predefined-models),
 or you may create your own models that reference the connection you have created in your `ldap.php` file.
 
 #### Controller example with built-in model:

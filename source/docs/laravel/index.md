@@ -12,7 +12,7 @@ search your LDAP directory, perform operations, and authenticate
 LDAP users into your Laravel application.
 
 It uses the core LdapRecord package under the hood, so be sure to look at its
-[documentation](/docs/) so you have an understanding of how everything works.
+[documentation](/docs) so you have an understanding of how everything works.
 It was created with the mindset of porting Laravel's fantastic Eloquent
 database ORM to an LDAP equivalent.
 

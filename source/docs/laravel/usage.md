@@ -16,7 +16,7 @@ section: content
 ## Models {#models}
 
 > This usage documentation is intentionally kept short and sweet to prevent duplication.
-> Be sure to review the core [LdapRecord documentation](/docs/) as it explains
+> Be sure to review the core [LdapRecord documentation](/docs) as it explains
 > all of LdapRecord's features in-depth.
 
 Once you've configured your connections in your `config/ldap.php` file,

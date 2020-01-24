@@ -99,22 +99,6 @@ try {
 }
 ```
 
-#### Finding by ANR
-
-If you'd like to locate a record by a generic attribute search, use the `findByAnr()` method:
-
-```php
-$record = $query->findByAnr('jdoe');
-```
-
-You can also use `findByAnrOrFail()` to generate an exception when a record is not found.
-
-> ActiveDirectory is the only LDAP distribution that supports ANR.
-> An equivalent query will be created for other LDAP distributions
-> that are not compatible.
->
-> For a more fine-tuned search, use the `findBy()` method below.
-
 #### Finding a record by a specific attribute
 
 If you're looking for a single record with a specific attribute, use the `findBy()` method:

@@ -20,7 +20,7 @@ Utilizing LdapRecord's built in models allow you to easily query specific types 
 
 ### ActiveDirectory
 
-##### Generic Queries
+#### Generic Queries
 
 ```php
 // All ActiveDirectory objects:
@@ -49,15 +49,17 @@ $computers = \LdapRecord\Models\ActiveDirectory\Computer::get();
 $foreignPrincipals = \LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal::get();
 ```
 
-##### Users Created After a Date
+#### Users Created After a Date
 
 ```php
-$users = User::where();
+$date = (new DateTime('October 1st 2016'))->format('YmdHis.0\Z');
+
+$users = User::where('whencreated', '>=', $date)->get();
 ```
 
 ### OpenLDAP
 
-##### Generic Queries
+#### Generic Queries
 
 ```php
 // All OpenLDAP objects:

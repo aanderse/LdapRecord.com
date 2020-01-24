@@ -105,11 +105,11 @@ $dispatcher->listen('LdapRecord\Models\Events\*', function ($eventName, array $d
 
 $connection = Container::getDefaultConnection();
 
-$object = $connection->query()->findByAnr('jdoe');
+$user = $connection->query()->find('cn=User,dc=local,dc=com');
 
-$object->company = 'New Company';
+$user->company = 'New Company';
 
-$object->save();
+$user->save();
 ```
 
 ## Determining the Connection {#determining-the-connection}
