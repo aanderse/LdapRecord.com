@@ -359,16 +359,6 @@ it hasn't been found, use the <code>findOrFail()</code> method:</p>
 } catch (LdapRecord\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }</code></pre>
-<h4>Finding by ANR</h4>
-<p>If you'd like to locate a record by a generic attribute search, use the <code>findByAnr()</code> method:</p>
-<pre><code class="language-php">$record = $query-&gt;findByAnr('jdoe');</code></pre>
-<p>You can also use <code>findByAnrOrFail()</code> to generate an exception when a record is not found.</p>
-<blockquote>
-<p>ActiveDirectory is the only LDAP distribution that supports ANR.
-An equivalent query will be created for other LDAP distributions
-that are not compatible.</p>
-<p>For a more fine-tuned search, use the <code>findBy()</code> method below.</p>
-</blockquote>
 <h4>Finding a record by a specific attribute</h4>
 <p>If you're looking for a single record with a specific attribute, use the <code>findBy()</code> method:</p>
 <pre><code class="language-php">// We're looking for a record with the 'samaccountname' of 'jdoe'.

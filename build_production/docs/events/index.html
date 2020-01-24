@@ -359,11 +359,11 @@ $dispatcher-&gt;listen('LdapRecord\Models\Events\*', function ($eventName, array
 
 $connection = Container::getDefaultConnection();
 
-$object = $connection-&gt;query()-&gt;findByAnr('jdoe');
+$user = $connection-&gt;query()-&gt;find('cn=User,dc=local,dc=com');
 
-$object-&gt;company = 'New Company';
+$user-&gt;company = 'New Company';
 
-$object-&gt;save();</code></pre>
+$user-&gt;save();</code></pre>
 <h2 id="determining-the-connection">Determining the Connection</h2>
 <p>If you're using multiple LDAP connections and you require the ability to determine which events belong
 to a certain connection, you can do so by verifying the host of the LDAP connection.</p>
