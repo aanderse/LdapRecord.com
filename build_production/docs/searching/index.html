@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=62c4a0765a139bf73c08">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=85a5d32b3402837bdfd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -425,11 +425,11 @@ $results = $query-&gt;whereStartsWith('cn', 'John')-&gt;get();</code></pre>
 $results = $query-&gt;whereEndsWith('cn', 'Doe')-&gt;get();</code></pre>
 <h4>Where Between</h4>
 <p>To search for records between two values, use the <code>whereBetween</code> method.</p>
-<p>For the example below, we'll retrieve all users who were created between two dates:</p>
+<p>For the example below, we'll retrieve all records that were created between two dates:</p>
 <pre><code class="language-php">$from = (new DateTime('October 1st 2016'))-&gt;format('YmdHis.0\Z');
 $to = (new DateTime('January 1st 2017'))-&gt;format('YmdHis.0\Z');
 
-$users = $query-&gt;users()-&gt;whereBetween('whencreated', [$from, $to])-&gt;get();</code></pre>
+$users = $query-&gt;whereBetween('whencreated', [$from, $to])-&gt;get();</code></pre>
 <h4>Where Contains</h4>
 <p>We can also search for all objects with a common name that contains <code>John Doe</code> using the <code>contains</code> operator:</p>
 <pre><code class="language-php">$results = $query-&gt;where('cn', 'contains', 'John Doe')-&gt;get();

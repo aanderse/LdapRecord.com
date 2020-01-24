@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=62c4a0765a139bf73c08">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=85a5d32b3402837bdfd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -347,7 +347,9 @@ $dispatcher-&gt;listen(Saving::class, function (Saving $event) {
 <h2 id="wildcard-event-listeners">Wildcard Event Listeners</h2>
 <p>You can register listeners using the <code>*</code> as a wildcard parameter to catch multiple events with the same listener.</p>
 <p>Wildcard listeners will receive the event name as their first argument, and the entire event data array as their second argument:</p>
-<pre><code class="language-php">$dispatcher = \LdapRecord\Container::getEventDispatcher();
+<pre><code class="language-php">use LdapRecord\Container;
+
+$dispatcher = Container::getEventDispatcher();
 
 // Listen for all model events.
 $dispatcher-&gt;listen('LdapRecord\Models\Events\*', function ($eventName, array $data) {
@@ -355,11 +357,13 @@ $dispatcher-&gt;listen('LdapRecord\Models\Events\*', function ($eventName, array
     var_dump($data); // Returns [0] =&gt; (object) LdapRecord\Models\Events\Updating;
 });
 
-$user = $provider-&gt;search()-&gt;users()-&gt;find('jdoe');
+$connection = Container::getDefaultConnection();
 
-$user-&gt;setTelephoneNumber('555 555-5555');
+$object = $connection-&gt;query()-&gt;findByAnr('jdoe');
 
-$user-&gt;save();</code></pre>
+$object-&gt;company = 'New Company';
+
+$object-&gt;save();</code></pre>
 <h2 id="determining-the-connection">Determining the Connection</h2>
 <p>If you're using multiple LDAP connections and you require the ability to determine which events belong
 to a certain connection, you can do so by verifying the host of the LDAP connection.</p>

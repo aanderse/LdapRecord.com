@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="LdapRecord-Laravel Overview">
+        <meta name="description" content="Configuring the LDAP authentication provider">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Overview | LdapRecord"/>
-        <meta property="og:description" content="LdapRecord-Laravel Overview"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/laravel"/>
+        <meta property="og:title" content="Authentication Configuration | LdapRecord"/>
+        <meta property="og:description" content="Configuring the LDAP authentication provider"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/configuration"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Overview</title>
+        <title>LdapRecord | Authentication Configuration</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -120,7 +120,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel"
-            class="lvl0  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Overview
         </a>
@@ -171,7 +171,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel/auth/configuration"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
         >
             Configuration
         </a>
@@ -192,30 +192,81 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Overview</h1>
-<p>LdapRecord-Laravel is a package that provides you the ability to
-search your LDAP directory, perform operations, and authenticate
-LDAP users into your Laravel application.</p>
-<p>It uses the core LdapRecord package under the hood, so be sure to look at its
-<a href="/docs/">documentation</a> so you have an understanding of how everything works.
-It was created with the mindset of porting Laravel's fantastic Eloquent
-database ORM to an LDAP equivalent.</p>
-<p>If you ever encounter issues or simply need some help getting up and running,
-please feel free to <a href="https://github.com/DirectoryTree/LdapRecord/issues/new">create an issue</a>
-and I would be happy to help you out.</p>
-<p>Let's get started!</p>
+                <h1>Configuration</h1>
+<p>All LDAP authentication configuration is done inside of your <code>config/auth.php</code> file.</p>
+<p>Let's walk through configuring both LDAP authentication mechanisms.</p>
+<h2>Plain LDAP Authentication</h2>
+<p>To create a plain LDAP authentication provider, navigate to the <code>providers</code> array,
+and paste the following <code>ldap</code> provider:</p>
+<blockquote>
+<p>If your application is requiring two or more LDAP connections, you must create a new user provider for each connection.</p>
+</blockquote>
+<pre><code class="language-php">'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        'driver' =&gt; 'ldap',
+        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
+        'rules' =&gt; [],
+    ],
+],</code></pre>
+<h3>Driver</h3>
+<p>The <code>driver</code> option must be <code>ldap</code> as this is what indicates to Laravel the proper authentication driver to use.</p>
+<h3>Model</h3>
+<p>The <code>model</code> option must be the class name of your <a href="/docs/models">LdapRecord model</a>. This model will be used
+for fetching users from your directory.</p>
+<h3>Rules</h3>
+<p>The <code>rules</code> option must be an array of class names of <a href="#">authentication rules</a>.</p>
+<h2>Synchronized Database LDAP Authentication</h2>
+<p>To create a synchronized database LDAP authentication provider, navigate to the <code>providers</code> array,
+and paste the following <code>ldap</code> provider:</p>
+<blockquote>
+<p>If your application is requiring two or more LDAP connections, you must create a new user provider for each connection.</p>
+</blockquote>
+<pre><code class="language-php">'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        'driver' =&gt; 'ldap',
+        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
+        'rules' =&gt; [],
+        'database' =&gt; [
+            'model' =&gt; App\User::class,
+            'sync_passwords' =&gt; false,
+            'sync_attributes' =&gt; [
+                'name' =&gt; 'cn',
+                'email' =&gt; 'mail',
+            ],
+        ],
+    ],
+],</code></pre>
+<p>As you can see above, a <code>database</code> array is used to configure the association between your LDAP user and your Eloquent user.</p>
+<h3>Database Model</h3>
+<p>The <code>database.model</code> key is the class name of the Eloquent model that will be used for creating and
+retrieving LDAP users from your applications database.</p>
+<h3>Database Password Sync</h3>
+<p>The <code>database.sync_passwords</code> option enables password synchronization. Password synchronization captures and hashes
+the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
+provide a &quot;back up&quot; option in case your LDAP server is unreachable, as well as a way of determining if a
+users password is valid without having to call to your LDAP server and validate it for you.</p>
+<blockquote>
+<p>If you do not define the <code>sync_passwords</code> key or have it set false, a user is always applied a random 16 character password.</p>
+</blockquote>
+<h3>Database Sync Attributes</h3>
+<p>The <code>sync_attributes</code> array defines a set of key-value pairs. The key of the array is the column of your <code>users</code>
+database table and the value is the name of the users LDAP attribute.</p>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/quickstart">Quickstart</a>
+                <a href="/docs/laravel/auth">Overview</a>
             </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/installation">Installation</a>
+                <a href="/docs/laravel/auth/usage">Usage</a>
             </h4>
             </div>
 </div>
