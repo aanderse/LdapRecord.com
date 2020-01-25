@@ -11,10 +11,10 @@ section: content
 > the [LdapRecord-Laravel quickstart guide](/docs/laravel/quickstart) to
 > install LdapRecord and configure your LDAP connection.
 
-- [Synchronized Database LDAP Authentication](#database-sync)
-- [Plain LDAP Authentication](#plain)
+- [Synchronized Database Authentication](#database-sync)
+- [Plain Authentication](#plain)
 
-## Synchronized Database LDAP Authentication {#database-sync}
+## Synchronized Database Authentication {#database-sync}
 
 ### Step 1: Publish the Migration {#publish-migration}
 

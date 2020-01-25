@@ -31,7 +31,7 @@ If you would like to create your own models, you can generate one via the `make:
 php artisan make:ldap-model User
 ```
 
-This will create a new LdapRecord model inside of your application in the `app\Ldap` folder.
+This will create a new LdapRecord model inside of your application in the `app/Ldap` folder.
 
 > If the `Ldap` folder does not exist, it will be created automatically.
 
@@ -107,7 +107,7 @@ $user->save();
 Similarly, to update an object, modify a model that was returned from a query and call the `save` method:
 
 ```php
-$user = User::find('cn=Steve Bauman,dc=local,dc=org');
+$user = User::find('cn=Steve Bauman,dc=local,dc=com');
 
 $user->company = 'Acme';
 
@@ -205,9 +205,8 @@ use LdapRecord\Container;
 $connection = Container::getConnection('default');
 ```
 
-By default, the first connection that appears in your `ldap.php` configuration
-file will be set to your default connection. If you only have one connection
-or would like to retrieve the default connection, call the `getDefaultConnection` method:
+To retrieve your `default` connection that you have set in your `ldap.php` configuration
+file, call the `getDefaultConnection` method:
 
 ```php
 use LdapRecord\Container;
@@ -223,7 +222,7 @@ use LdapRecord\Container;
 
 $connection = Container::getConnection('default');
 
-if ($connection->auth()->attempt('cn=User,dc=local,com', 'SuperSecret')) {
+if ($connection->auth()->attempt('cn=user,dc=local,dc=com', 'SuperSecret')) {
     // Credentials are valid!
 }
 ```

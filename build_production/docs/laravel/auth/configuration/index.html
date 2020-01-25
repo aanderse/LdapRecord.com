@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=85a5d32b3402837bdfd4">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=1794837444473310f990">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -170,10 +170,28 @@
     </li>
             <li class="pl-4">
             
+        <a href="/docs/laravel/auth/installation"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Installation
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
         <a href="/docs/laravel/auth/configuration"
             class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
         >
             Configuration
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/laravel/auth/rules"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Rules
         </a>
     
     </li>
@@ -193,14 +211,15 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Configuration</h1>
+<ul>
+<li><a href="#plain">Plain Authentication</a></li>
+<li><a href="#database">Synchronized Database Authentication</a></li>
+</ul>
 <p>All LDAP authentication configuration is done inside of your <code>config/auth.php</code> file.</p>
 <p>Let's walk through configuring both LDAP authentication mechanisms.</p>
-<h2>Plain LDAP Authentication</h2>
+<h2 id="plain">Plain Authentication</h2>
 <p>To create a plain LDAP authentication provider, navigate to the <code>providers</code> array,
 and paste the following <code>ldap</code> provider:</p>
-<blockquote>
-<p>If your application is requiring two or more LDAP connections, you must create a new user provider for each connection.</p>
-</blockquote>
 <pre><code class="language-php">'providers' =&gt; [
     // ...
 
@@ -210,14 +229,23 @@ and paste the following <code>ldap</code> provider:</p>
         'rules' =&gt; [],
     ],
 ],</code></pre>
+<p>If your application requires more than one LDAP connection, you must create a new provider for each connection.</p>
+<p>This new provider must have its own unique <code>model</code> class set which must use your <a href="/docs/models#connections">alternate configured connection</a>
+using the <code>$connection</code> property.</p>
+<blockquote>
+<p>In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
+you create with the desired connection. For example: <br/></p>
+<pre><code class="language-text">App\Ldap\DomainAlpha\User</code></pre>
+<p>This will allow you to segregate scopes, rules and other classes to their relating connection.</p>
+</blockquote>
 <h3>Driver</h3>
 <p>The <code>driver</code> option must be <code>ldap</code> as this is what indicates to Laravel the proper authentication driver to use.</p>
 <h3>Model</h3>
 <p>The <code>model</code> option must be the class name of your <a href="/docs/models">LdapRecord model</a>. This model will be used
 for fetching users from your directory.</p>
 <h3>Rules</h3>
-<p>The <code>rules</code> option must be an array of class names of <a href="#">authentication rules</a>.</p>
-<h2>Synchronized Database LDAP Authentication</h2>
+<p>The <code>rules</code> option must be an array of class names of <a href="/docs/laravel/auth/rules">authentication rules</a>.</p>
+<h2 id="database">Synchronized Database Authentication</h2>
 <p>To create a synchronized database LDAP authentication provider, navigate to the <code>providers</code> array,
 and paste the following <code>ldap</code> provider:</p>
 <blockquote>
@@ -244,29 +272,31 @@ and paste the following <code>ldap</code> provider:</p>
 <h3>Database Model</h3>
 <p>The <code>database.model</code> key is the class name of the Eloquent model that will be used for creating and
 retrieving LDAP users from your applications database.</p>
+<p>Once you have added your model into this configuration option</p>
 <h3>Database Password Sync</h3>
 <p>The <code>database.sync_passwords</code> option enables password synchronization. Password synchronization captures and hashes
 the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
 provide a &quot;back up&quot; option in case your LDAP server is unreachable, as well as a way of determining if a
 users password is valid without having to call to your LDAP server and validate it for you.</p>
 <blockquote>
-<p>If you do not define the <code>sync_passwords</code> key or have it set false, a user is always applied a random 16 character password.</p>
+<p>If you do not define the <code>sync_passwords</code> key or have it set false, a user is always applied a
+random 16 character hashed password.</p>
 </blockquote>
 <h3>Database Sync Attributes</h3>
-<p>The <code>sync_attributes</code> array defines a set of key-value pairs. The key of the array is the column of your <code>users</code>
+<p>The <code>sync_attributes</code> array defines a set of key-value pairs. The key of each array item is the column of your <code>users</code>
 database table and the value is the name of the users LDAP attribute.</p>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth">Overview</a>
+                <a href="/docs/laravel/auth/installation">Installation</a>
             </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth/usage">Usage</a>
+                <a href="/docs/laravel/auth/rules">Rules</a>
             </h4>
             </div>
 </div>

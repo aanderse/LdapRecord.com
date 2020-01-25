@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=85a5d32b3402837bdfd4">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=1794837444473310f990">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -170,10 +170,28 @@
     </li>
             <li class="pl-4">
             
+        <a href="/docs/laravel/auth/installation"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Installation
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
         <a href="/docs/laravel/auth/configuration"
             class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Configuration
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/laravel/auth/rules"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Rules
         </a>
     
     </li>
@@ -194,25 +212,29 @@
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1 id="overview">Overview</h1>
 <p>LdapRecord-Laravel comes with two ways to authenticate LDAP users into your application.</p>
-<h2>Plain LDAP Authentication</h2>
+<h2 id="plain">Plain Authentication</h2>
 <p>If you have an application that doesn't require any user data to be synchronized to your database,
 then you can utilize plain LDAP authentication.</p>
 <p>When a user is successfully authenticated, the Laravel <code>Auth::user()</code> method will return an instance
-of your configured LdapRecord model.</p>
-<h2>Synchronized Database LDAP Authentication</h2>
+of your configured <strong>LdapRecord</strong> model.</p>
+<p>It is paramount to understand that upon every request a logged in user makes to your application,
+an LDAP search request will be made to retrieve them. If you do not want this to occur, you must
+use synchronized database authentication.</p>
+<h2 id="database">Synchronized Database Authentication</h2>
 <p>Synchronized Database LDAP Authentication means that an LDAP user that has successfully passed LDAP authentication
 is created &amp; synchronized to your local applications database. This is helpful as you can attach typical
 relational database information to them, such as blog posts, attachments, etc.</p>
+<p>When a user is successfully authenticated, the Laravel <code>Auth::user()</code> method will return an instance of
+your configured database <strong>Eloquent</strong> model. Subsequent requests to your application with logged in
+users will retrieve the logged in user from your database, rather than your LDAP directory.</p>
 <p>This works via the following process:</p>
 <ol>
-<li>An LDAP user attempts to login to your application</li>
+<li>A user attempts to login to your application</li>
 <li>LdapRecord attempts to locate the user in your LDAP directory</li>
 <li>If a user is found, LDAP authentication now occurs and the users password is sent to your directory and validated</li>
 <li>If authentication passes, a local database record is created in your <code>users</code> database table with the users attributes synchronized</li>
 <li>The user is logged into your application</li>
 </ol>
-<p>When a user is successfully authenticated, the Laravel <code>Auth::user()</code> method will return an instance of
-your configured database Eloquent model.</p>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
@@ -224,7 +246,7 @@ your configured database Eloquent model.</p>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth/configuration">Configuration</a>
+                <a href="/docs/laravel/auth/installation">Installation</a>
             </h4>
             </div>
 </div>

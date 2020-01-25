@@ -7,11 +7,14 @@ section: content
 
 # Configuration
 
+- [Plain Authentication](#plain)
+- [Synchronized Database Authentication](#database)
+
 All LDAP authentication configuration is done inside of your `config/auth.php` file.
 
 Let's walk through configuring both LDAP authentication mechanisms.
 
-## Plain LDAP Authentication
+## Plain Authentication {#plain}
 
 To create a plain LDAP authentication provider, navigate to the `providers` array,
 and paste the following `ldap` provider:
@@ -33,6 +36,13 @@ If your application requires more than one LDAP connection, you must create a ne
 This new provider must have its own unique `model` class set which must use your [alternate configured connection](/docs/models#connections)
 using the `$connection` property.
 
+> In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
+> you create with the desired connection. For example: <br/>
+> ```text
+> App\Ldap\DomainAlpha\User
+> ```
+> This will allow you to segregate scopes, rules and other classes to their relating connection.
+
 ### Driver
 
 The `driver` option must be `ldap` as this is what indicates to Laravel the proper authentication driver to use.
@@ -46,7 +56,7 @@ for fetching users from your directory.
 
 The `rules` option must be an array of class names of [authentication rules](/docs/laravel/auth/rules).
 
-## Synchronized Database LDAP Authentication
+## Synchronized Database Authentication {#database}
 
 To create a synchronized database LDAP authentication provider, navigate to the `providers` array,
 and paste the following `ldap` provider:
@@ -79,6 +89,8 @@ As you can see above, a `database` array is used to configure the association be
 
 The `database.model` key is the class name of the Eloquent model that will be used for creating and
 retrieving LDAP users from your applications database.
+
+Once you have added your model into this configuration option
 
 ### Database Password Sync
 

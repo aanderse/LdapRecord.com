@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=85a5d32b3402837bdfd4">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=1794837444473310f990">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -170,10 +170,28 @@
     </li>
             <li class="pl-4">
             
+        <a href="/docs/laravel/auth/installation"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Installation
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
         <a href="/docs/laravel/auth/configuration"
             class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Configuration
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/laravel/auth/rules"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Rules
         </a>
     
     </li>
@@ -214,7 +232,7 @@ you're ready to start running queries and operations on your LDAP server.</p>
 <a href="/docs/models#predefined-models">built-in models</a> to get up and running right away.</p>
 <p>If you would like to create your own models, you can generate one via the <code>make:ldap-model</code> command:</p>
 <pre><code class="language-bash">php artisan make:ldap-model User</code></pre>
-<p>This will create a new LdapRecord model inside of your application in the <code>app\Ldap</code> folder.</p>
+<p>This will create a new LdapRecord model inside of your application in the <code>app/Ldap</code> folder.</p>
 <blockquote>
 <p>If the <code>Ldap</code> folder does not exist, it will be created automatically.</p>
 </blockquote>
@@ -266,7 +284,7 @@ $user-&gt;company = 'Acme';
 
 $user-&gt;save();</code></pre>
 <p>Similarly, to update an object, modify a model that was returned from a query and call the <code>save</code> method:</p>
-<pre><code class="language-php">$user = User::find('cn=Steve Bauman,dc=local,dc=org');
+<pre><code class="language-php">$user = User::find('cn=Steve Bauman,dc=local,dc=com');
 
 $user-&gt;company = 'Acme';
 
@@ -337,9 +355,8 @@ your connection that appears in your <code>config/ldap.php</code> file:</p>
 <pre><code class="language-php">use LdapRecord\Container;
 
 $connection = Container::getConnection('default');</code></pre>
-<p>By default, the first connection that appears in your <code>ldap.php</code> configuration
-file will be set to your default connection. If you only have one connection
-or would like to retrieve the default connection, call the <code>getDefaultConnection</code> method:</p>
+<p>To retrieve your <code>default</code> connection that you have set in your <code>ldap.php</code> configuration
+file, call the <code>getDefaultConnection</code> method:</p>
 <pre><code class="language-php">use LdapRecord\Container;
 
 $connection = Container::getDefaultConnection();</code></pre>
@@ -349,7 +366,7 @@ Distinguished Name and their password:</p>
 
 $connection = Container::getConnection('default');
 
-if ($connection-&gt;auth()-&gt;attempt('cn=User,dc=local,com', 'SuperSecret')) {
+if ($connection-&gt;auth()-&gt;attempt('cn=user,dc=local,dc=com', 'SuperSecret')) {
     // Credentials are valid!
 }</code></pre>
 <p>If you don't want your user to have to enter in their Distinguished Name, locate the

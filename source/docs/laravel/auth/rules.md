@@ -49,6 +49,8 @@ In the authentication rule, there are two properties made available to us.
 - A `user` property that is the **LdapRecord** model of the authenticating user
 - A `model` property that is the **Eloquent** model of the authenticating user
 
+> The `model` property will be `null` if you are not using database synchronization.
+
 Now, we will update the `isValid` method to check the LDAP users `groups` relationship to see if they are a member:
 
 ```php
@@ -78,7 +80,7 @@ class OnlyAdministrators extends Rule
 > We call the `recurisve` method on the relationship to make sure that we load groups of
 > groups in case the user is not an immediate member of the `Administrators` group.
 
-Once we have the rule setup, we can add it into our authentication provider in the `config/auth.php` file:
+Once we have our rule defined, we will add it into our authentication provider in the `config/auth.php` file:
 
 ```php
 'providers' => [

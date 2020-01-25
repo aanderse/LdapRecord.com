@@ -46,6 +46,5 @@ For example:
 
 ```dotenv
 ALPHA_LDAP_HOST=127.0.0.1
-
-BRAVO_LDAP_HOST=127.0.0.1
+BRAVO_LDAP_HOST=192.168.0.1
 ```
