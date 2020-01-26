@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=1794837444473310f990">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=85a5d32b3402837bdfd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -211,6 +211,12 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Usage</h1>
+<ul>
+<li><a href="#logging-in">Logging In</a></li>
+<li><a href="#using-usernames">Using Usernames</a></li>
+<li><a href="#passthrough-authentication">Pass-Through Authentication</a></li>
+</ul>
+<h2 id="logging-in">Logging In</h2>
 <p>Once you have finished configuring your authentication provider, you are ready to start authenticating users.</p>
 <p>Before you get started, make sure you have either created a new authentication guard that uses your new provider,
 or change the default guard to use your new provider. For now, let's change our default <code>web</code> guard to use
@@ -250,6 +256,71 @@ to the entered <code>email</code> that the user has submitted on your login form
 automatically bypassed and will not be used in the search.</p>
 <p>If a user is not found in your directory, or they fail authentication, they will be redirected to the
 login page normally with the &quot;Invalid credentials&quot; error message.</p>
+<h2 id="using-usernames">Using Usernames</h2>
+<p>In corporate environments, users are often used to signing into their computers with their username.
+You can certainly keep this flow easy for your users - we just need to change a couple things.</p>
+<p>First, you will need to change the <code>email</code> column in the database migration that creates your <code>users</code>
+table to <code>username</code>, as this represents what it will now contain:</p>
+<pre><code class="language-php">Schema::create('users', function (Blueprint $table) {
+    // ...
+
+    // Before...
+    $table-&gt;string('email')-&gt;unique(); 
+
+    // After...
+    $table-&gt;string('username')-&gt;unique(); 
+});</code></pre>
+<blockquote>
+<p>Make sure you run your migrations using <code>php artisan migrate</code>.</p>
+</blockquote>
+<p>Once we've changed the name of the column, we'll jump into the <code>config/auth.php</code> configuration and modify
+our LDAP user providers <code>sync_attributes</code> to synchronize this changed column. In this example, we will
+use the users <code>sAMAccountName</code> as their username, which is used in ActiveDirectory environments:</p>
+<pre><code class="language-php">// config/auth.php
+
+'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        // ...
+
+        'database' =&gt; [
+            // ...
+
+            'sync_attributes' =&gt; [
+                'name' =&gt; 'cn',
+                'username' =&gt; 'samaccountname',
+            ],
+        ],
+    ],
+],</code></pre>
+<p>Now, since we have changed the way our users sign into our application from the default <code>email</code> field,
+we need to modify our HTML login form to reflect this. Let's jump into our <code>auth/login.blade.php</code>:</p>
+<pre><code class="language-blade">&lt;!-- resources/views/auth/login.blade.php --&gt;
+
+&lt;!-- Before... --&gt;
+&lt;input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus&gt;
+
+&lt;!-- After... --&gt;
+&lt;input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus&gt;</code></pre>
+<p>After changing the HTML input, we now must modify our <code>LoginController</code> to use this new field.
+We do this by overriding the <code>username</code> method, and updating our <code>credentials</code> method:</p>
+<pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
+
+public function username()
+{
+    return 'username';
+}
+
+protected function credentials(Request $request)
+{
+    return [
+        'samaccountname' =&gt; $request-&gt;username,
+        'password' =&gt; $request-&gt;password,
+    ];
+}</code></pre>
+<p>You can now sign into your application using usernames instead of email addresses.</p>
+<h2 id="passthrough-authentication">Pass-through Authentication</h2>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

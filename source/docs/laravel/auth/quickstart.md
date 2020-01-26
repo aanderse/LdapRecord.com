@@ -139,14 +139,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 class LoginController extends Controller
 {
     // Methods above removed for brevity...
-
-    /**
-     * Get the needed authorization credentials from the request.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return array
-     */
+    
     protected function credentials(Request $request)
     {
         return [
