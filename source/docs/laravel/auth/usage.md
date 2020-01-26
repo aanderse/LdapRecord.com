@@ -9,7 +9,8 @@ section: content
 
 - [Logging In](#logging-in)
 - [Using Usernames](#using-usernames)
-- [Pass-Through Authentication](#passthrough-authentication)
+- [Eloquent Model Binding](#model-binding)
+- [Pass-Through Authentication / SSO](#passthrough-authentication)
 
 ## Logging In {#logging-in}
 
@@ -41,12 +42,6 @@ To have LdapRecord properly locate the user in your directory, we will override 
 ```php
 // app/Http/Controllers/Auth/LoginController.php
 
-/**
- * Get the needed authorization credentials from the request.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return array
- */
 protected function credentials(Request $request)
 {
     return [
@@ -68,7 +63,7 @@ login page normally with the "Invalid credentials" error message.
 ## Using Usernames {#using-usernames}
 
 In corporate environments, users are often used to signing into their computers with their username.
-You can certainly keep this flow easy for your users - we just need to change a couple things.
+You can certainly keep this flow easy for them - we just need to change a couple things.
 
 First, you will need to change the `email` column in the database migration that creates your `users`
 table to `username`, as this represents what it will now contain:
@@ -89,7 +84,7 @@ Schema::create('users', function (Blueprint $table) {
 
 Once we've changed the name of the column, we'll jump into the `config/auth.php` configuration and modify 
 our LDAP user providers `sync_attributes` to synchronize this changed column. In this example, we will
-use the users `sAMAccountName` as their username, which is used in ActiveDirectory environments:
+use the users `sAMAccountName` as their username which is common in ActiveDirectory environments:
 
 ```php
 // config/auth.php
@@ -115,7 +110,7 @@ use the users `sAMAccountName` as their username, which is used in ActiveDirecto
 Now, since we have changed the way our users sign into our application from the default `email` field,
 we need to modify our HTML login form to reflect this. Let's jump into our `auth/login.blade.php`:
 
-```blade
+```html
 <!-- resources/views/auth/login.blade.php -->
 
 <!-- Before... -->
@@ -147,5 +142,57 @@ protected function credentials(Request $request)
 
 You can now sign into your application using usernames instead of email addresses.
 
-## Pass-through Authentication {#passthrough-authentication}
+## Eloquent Model Binding {#model-binding}
 
+If you are using [database synchronization](/docs/laravel/auth#database), model binding allows
+you to attach the users LdapRecord model to their Eloquent model so their LDAP data is
+available on every request automatically.
+
+> Enabling this option will perform a single query on your LDAP server for a logged in user per request.
+> This could lead to slightly longer load times depending on your LDAP server and network speed.
+
+To begin, insert the `LdapRecord\Laravel\Auth\HasLdapUser` trait onto your User model:
+
+```php
+namespace App;
+
+use LdapRecord\Laravel\Auth\HasLdapUser;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+    use HasLdapUser;
+```
+
+Now, after an LDAP user signs into your application, their LdapRecord model will be available on their User model:
+
+## Pass-through Authentication / SSO {#passthrough-authentication}
+
+Pass-through authentication allows your users to be automatically signed in when they access your
+application on a Windows domain joined computer. This feature is ideal for in-house corporate
+environments.
+
+However, this feature assumes that you have enabled Windows Authentication in IIS, or have enabled
+it in some other means with Apache. LdapRecord does not set this up for you. To enable Windows
+Authentication, visit the [IIS configuration guide](https://www.iis.net/configreference/system.webserver/security/authentication/windowsauthentication/providers/add).
+
+When you have it enabled on your server and a user visits your application from a domain joined computer,
+the users `sAMAccountName` becomes available on a PHP server variable (`$_SERVER['AUTH_USER']`).
+
+LdapRecord provides a middleware that you apply to your stack which retrieves this username
+from the request, attempts to locate the user in your directory, then logs the user in.
+
+To use the middleware, insert it on your middleware stack inside your `app/Http/Kernel.php` file:
+
+```php
+protected $middlewareGroups = [
+    'web' => [
+        // ...
+        \LdapRecord\Laravel\Middleware\WindowsAuthenticate::class,
+    ],
+];
+```
+
+> The `WindowsAuthenticate` middleware uses the rules you have configured inside your `config/auth.php` file.
+> A user may successfully authenticate against your LDAP server when visiting your site, but depending
+> on your rules, may not be imported or logged in.

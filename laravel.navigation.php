@@ -11,7 +11,6 @@ return [
             'Overview' => 'docs/laravel/auth',
             'Installation' => 'docs/laravel/auth/installation',
             'Configuration' => 'docs/laravel/auth/configuration',
-            'Rules' => 'docs/laravel/auth/rules',
             'Usage' => 'docs/laravel/auth/usage',
         ]
     ]

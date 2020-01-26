@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=85a5d32b3402837bdfd4">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=1794837444473310f990">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -188,15 +188,6 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/auth/rules"
-            class="lvl1   nav-menu__item hover:text-blue-500"
-        >
-            Rules
-        </a>
-    
-    </li>
-            <li class="pl-4">
-            
         <a href="/docs/laravel/auth/usage"
             class="lvl1   nav-menu__item hover:text-blue-500"
         >
@@ -214,6 +205,7 @@
 <ul>
 <li><a href="#plain">Plain Authentication</a></li>
 <li><a href="#database">Synchronized Database Authentication</a></li>
+<li><a href="#rules">Authentication Rules</a></li>
 </ul>
 <p>All LDAP authentication configuration is done inside of your <code>config/auth.php</code> file.</p>
 <p>Let's walk through configuring both LDAP authentication mechanisms.</p>
@@ -285,6 +277,85 @@ random 16 character hashed password.</p>
 <h3>Database Sync Attributes</h3>
 <p>The <code>sync_attributes</code> array defines a set of key-value pairs. The key of each array item is the column of your <code>users</code>
 database table and the value is the name of the users LDAP attribute.</p>
+<h2 id="rules">Authentication Rules</h2>
+<p>LDAP authentication rules give you the ability to allow or deny users from signing into your
+application using a condition you would like to apply. These rules are executed <strong>after</strong>
+a user successfully passes LDAP authentication against your configured server.</p>
+<p>Think of them as a final authorization gate before they are allowed in.</p>
+<blockquote>
+<p>Authentication rules are never executed if a user fails LDAP authentication.</p>
+</blockquote>
+<p>Let's create an LDAP rule that only allows members of our domain <code>Administrators</code> group.</p>
+<p>To create an authentication rule, call the <code>make:ldap-rule</code> command:</p>
+<pre><code class="language-bash">php artisan make:ldap-rule OnlyAdministrators</code></pre>
+<p>A rule will then be created in your applications <code>app/Ldap/Rules</code> directory:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace App\Ldap\Rules;
+
+use LdapRecord\Laravel\Validation\Rules\Rule;
+
+class OnlyAdministrators extends Rule
+{
+    /**
+     * Check if the rule passes validation.
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        //
+    }
+}</code></pre>
+<p>In the authentication rule, there are two properties made available to us.</p>
+<ul>
+<li>A <code>user</code> property that is the <strong>LdapRecord</strong> model of the authenticating user</li>
+<li>A <code>model</code> property that is the <strong>Eloquent</strong> model of the authenticating user</li>
+</ul>
+<blockquote>
+<p>The <code>model</code> property will be <code>null</code> if you are not using database synchronization.</p>
+</blockquote>
+<p>Now, we will update the <code>isValid</code> method to check the LDAP users <code>groups</code> relationship to see if they are a member:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace App\Ldap\Rules;
+
+use LdapRecord\Models\ActiveDirectory\Group;
+use LdapRecord\Laravel\Validation\Rules\Rule;
+
+class OnlyAdministrators extends Rule
+{
+    /**
+     * Check if the rule passes validation.
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        $administrators = Group::find('cn=Administrators,dc=local,dc=com');
+
+        return $this-&gt;user-&gt;groups()-&gt;recursive()-&gt;exists($administrators);
+    }
+}</code></pre>
+<blockquote>
+<p>We call the <code>recurisve</code> method on the relationship to make sure that we load groups of
+groups in case the user is not an immediate member of the <code>Administrators</code> group.</p>
+</blockquote>
+<p>Once we have our rule defined, we will add it into our authentication provider in the <code>config/auth.php</code> file:</p>
+<pre><code class="language-php">'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        'driver' =&gt; 'ldap',
+        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
+        'rules' =&gt; [
+            App\Ldap\Rules\OnlyAdministrators::class,
+        ],
+    ],
+],</code></pre>
+<p>Now when you attempt to login to your application with a LDAP user that successfully passes
+LDAP authentication, they will need to be a member of the <code>Administrators</code> group.</p>
+<p>If you are caching your configuration, make sure you re-run <code>config:cache</code> to re-cache your modifications.</p>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
@@ -296,7 +367,7 @@ database table and the value is the name of the users LDAP attribute.</p>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth/rules">Rules</a>
+                <a href="/docs/laravel/auth/usage">Usage</a>
             </h4>
             </div>
 </div>

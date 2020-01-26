@@ -43,14 +43,20 @@ LDAP_TLS=false
 To begin, you may either use the built-in [models that LdapRecord comes with](/docs/models#predefined-models),
 or you may create your own models that reference the connection you have created in your `ldap.php` file.
 
-#### Controller example with built-in model:
+Call the below command to create a new LdapRecord model:
+
+```bash
+php artisan make:ldap-model User
+```
+
+Then use it in your application:
 
 ```php
 <?php
 
 namespace App\Http\Controllers;
 
-use LdapRecord\Models\ActiveDirectory\User;
+use App\Ldap\User;
 
 class LdapUserController extends Controller
 {
@@ -63,4 +69,3 @@ class LdapUserController extends Controller
 }
 ```
 
-#### Creating your own model:
