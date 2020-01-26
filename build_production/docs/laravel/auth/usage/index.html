@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=1794837444473310f990">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=e6d95f181e9f6d9b23ed">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -205,6 +205,7 @@
 <ul>
 <li><a href="#logging-in">Logging In</a></li>
 <li><a href="#using-usernames">Using Usernames</a></li>
+<li><a href="#model-binding">Eloquent Model Binding</a></li>
 <li><a href="#passthrough-authentication">Pass-Through Authentication / SSO</a></li>
 </ul>
 <h2 id="logging-in">Logging In</h2>
@@ -305,6 +306,24 @@ protected function credentials(Request $request)
     ];
 }</code></pre>
 <p>You can now sign into your application using usernames instead of email addresses.</p>
+<h2 id="model-binding">Eloquent Model Binding</h2>
+<p>If you are using <a href="/docs/laravel/auth#database">database synchronization</a>, model binding allows
+you to attach the users LdapRecord model to their Eloquent model so their LDAP data is
+available on every request automatically.</p>
+<blockquote>
+<p>Enabling this option will perform a single query on your LDAP server for a logged in user per request.
+This could lead to slightly longer load times depending on your LDAP server and network speed.</p>
+</blockquote>
+<p>To begin, insert the <code>LdapRecord\Laravel\Auth\HasLdapUser</code> trait onto your User model:</p>
+<pre><code class="language-php">namespace App;
+
+use LdapRecord\Laravel\Auth\HasLdapUser;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+    use HasLdapUser;</code></pre>
+<p>Now, after an LDAP user signs into your application, their LdapRecord model will be available on their User model:</p>
 <h2 id="passthrough-authentication">Pass-through Authentication / SSO</h2>
 <p>Pass-through authentication allows your users to be automatically signed in when they access your
 application on a Windows domain joined computer. This feature is ideal for in-house corporate
