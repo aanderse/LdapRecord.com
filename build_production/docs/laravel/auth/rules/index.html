@@ -211,10 +211,13 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Authentication Rules</h1>
-<p>LDAP authentication rules allow you to allow or deny users from signing into your application
-using a condition you would like to apply. These rules are executed <strong>after</strong> a user
-successfully passes LDAP authentication against your configured server.</p>
+<p>LDAP authentication rules give you the ability to allow or deny users from signing into your
+application using a condition you would like to apply. These rules are executed <strong>after</strong>
+a user successfully passes LDAP authentication against your configured server.</p>
 <p>Think of them as a final authorization gate before they are allowed in.</p>
+<blockquote>
+<p>Authentication rules are never executed if a user fails LDAP authentication.</p>
+</blockquote>
 <p>Let's create an LDAP rule that only allows members of our domain <code>Administrators</code> group.</p>
 <p>To create an authentication rule, call the <code>make:ldap-rule</code> command:</p>
 <pre><code class="language-bash">php artisan make:ldap-rule OnlyAdministrators</code></pre>

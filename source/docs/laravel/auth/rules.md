@@ -7,11 +7,13 @@ section: content
 
 # Authentication Rules
 
-LDAP authentication rules allow you to allow or deny users from signing into your application
-using a condition you would like to apply. These rules are executed **after** a user
-successfully passes LDAP authentication against your configured server.
+LDAP authentication rules give you the ability to allow or deny users from signing into your
+application using a condition you would like to apply. These rules are executed **after**
+a user successfully passes LDAP authentication against your configured server.
 
 Think of them as a final authorization gate before they are allowed in.
+
+> Authentication rules are never executed if a user fails LDAP authentication.
 
 Let's create an LDAP rule that only allows members of our domain `Administrators` group.
 
