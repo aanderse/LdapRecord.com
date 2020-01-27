@@ -55,7 +55,7 @@ for fetching users from your directory.
 
 ### Rules
 
-The `rules` option must be an array of class names of [authentication rules](/docs/laravel/auth/rules).
+The `rules` option must be an array of class names of [authentication rules](/docs/laravel/auth/configuration#rules).
 
 ## Synchronized Database Authentication {#database}
 
