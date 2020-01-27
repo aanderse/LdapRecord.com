@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="LdapRecord-Laravel Auth Quickstart Guide">
+        <meta name="description" content="Setting up multi-domain authentication using LdapRecord-Laravel">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Authentication Quickstart | LdapRecord"/>
-        <meta property="og:description" content="LdapRecord-Laravel Auth Quickstart Guide"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/quickstart"/>
+        <meta property="og:title" content="Multi-Domain Authentication Guide | LdapRecord"/>
+        <meta property="og:description" content="Setting up multi-domain authentication using LdapRecord-Laravel"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/multi-domain"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Authentication Quickstart</title>
+        <title>LdapRecord | Multi-Domain Authentication Guide</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -153,7 +153,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel/auth/quickstart"
-            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Quickstart
         </a>
@@ -198,7 +198,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel/auth/multi-domain"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
         >
             Multi-Domain
         </a>
@@ -210,130 +210,131 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Authentication Quickstart</h1>
-<blockquote>
-<p>Before you get started with the LDAP authentication driver please complete
-the <a href="/docs/laravel/quickstart">LdapRecord-Laravel quickstart guide</a> to
-install LdapRecord and configure your LDAP connection.</p>
-</blockquote>
+                <h1 id="multi-domain-authentication">Multi-Domain Authentication</h1>
 <ul>
-<li><a href="#database-sync">Synchronized Database Authentication</a></li>
-<li><a href="#plain">Plain Authentication</a></li>
+<li><a href="#configuration">Configuration</a></li>
+<li><a href="#authenticating">Authenticating</a></li>
+<li><a href="#routes">Routes</a></li>
 </ul>
-<h2 id="database-sync">Synchronized Database Authentication</h2>
-<h3 id="publish-migration">Step 1: Publish the Migration</h3>
-<p>LdapRecord requires you to have two additional user database columns.</p>
-<ol>
-<li><code>guid</code> - This is for storing your LDAP users <code>objectguid</code>. It is needed for
-locating and synchronizing your LDAP user to the database.</li>
-<li><code>domain</code> - This is for storing your LDAP users connection name. It is needed for
-storing your configured LDAP connection name of the user.</li>
-</ol>
-<p>Go ahead and publish the migration using the below command:</p>
-<pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"</code></pre>
-<p>Then, run the migrations with the <code>artisan migrate</code> command:</p>
-<pre><code class="language-bash">php artisan migrate</code></pre>
-<h3 id="configure-auth">Step 2: Configure the Authentication Driver</h3>
-<p>Inside of your <code>config/auth.php</code> file, we must add a new provider in the <code>providers</code> array.</p>
-<p>In this example, we will create a provider named <code>ldap</code>:</p>
+<p>LdapRecord-Laravel allows you to authenticate users from two or more LDAP directories.</p>
+<h2 id="configuration">Configuration</h2>
+<p>To begin, you must create two separate LdapRecord models for each of your domains.</p>
+<p>For this guide, we will have two example domains named <code>Alpha</code> and <code>Bravo</code>. We first
+need to setup these domains in our <code>ldap.php</code> configuration file:</p>
+<pre><code class="language-php">// config/ldap.php
+
+// ...
+
+'connections' =&gt; [
+
+    'alpha' =&gt; [
+        // ...
+    ],
+
+    'bravo' =&gt; [
+        // ...
+    ],
+],</code></pre>
+<p>Now that we have our connections configured, let's go ahead and create their models:</p>
+<pre><code class="language-bash">php artisan make:ldap-model Alpha\User
+
+php artisan make:ldap-model Bravo\User</code></pre>
+<p>And then edit their connections:</p>
+<pre><code class="language-php">// app/Ldap/Alpha/User.php
+
+class User extends Model
+{
+    // ...
+
+    protected $connection = 'alpha';
+}</code></pre>
+<pre><code class="language-php">// app/Ldap/Bravo/User.php
+
+class User extends Model
+{
+    // ...
+
+    protected $connection = 'bravo';
+}</code></pre>
+<p>Once that's done, we need to setup a new <a href="/docs/laravel/auth/configuration">authentication provider</a>
+in our <code>auth.php</code> file for each of them, as well as their own guard:</p>
 <pre><code class="language-php">// config/auth.php
+
+'guards' =&gt; [
+    'alpha' =&gt; [
+        // ...
+        'provider' =&gt; 'alpha',
+    ],
+
+    'bravo' =&gt; [
+        // ...
+        'provider' =&gt; 'bravo',
+    ],
+],
 
 'providers' =&gt; [
     // ...
 
-    'ldap' =&gt; [
-        'driver' =&gt; 'ldap',
-        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
-        'database' =&gt; [
-            'model' =&gt; App\User::class,
-            'sync_passwords' =&gt; false,
-            'sync_attributes' =&gt; [
-                'name' =&gt; 'cn',
-                'email' =&gt; 'mail',
-            ],
-        ],
+    'alpha' =&gt; [
+        // ...
+        'model' =&gt; App\Ldap\Alpha\User::class,        
+    ],
+
+    'bravo' =&gt; [
+        // ...
+        'model' =&gt; App\Ldap\Bravo\User::class,        
     ],
 ],</code></pre>
-<p>If you are using OpenLDAP, you must switch the <code>ldap.model</code> entry to:</p>
-<pre><code class="language-php">LdapRecord\Models\OpenLDAP\User::class</code></pre>
-<p>If you are using a different LDAP type, you will need to <a href="/docs/models/#defining-models">define your own LDAP model</a>
-and insert it there. This model is used for locating the authenticating user in your LDAP directory.</p>
-<p>Once you have setup your <code>ldap</code> provider, you must update the <code>provider</code> value in the <code>web</code> guard:</p>
-<pre><code class="language-php">// config/auth.php
+<h2>Authenticating</h2>
+<p>To start authenticating users from both of your LDAP domains, we need to modify our <code>LoginController</code>.</p>
+<p>LdapRecord-Laravel comes with a built-in trait that makes this easier for you. Go ahead and add it:</p>
+<pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
 
-'guards' =&gt; [
-    'web' =&gt; [
-        'driver' =&gt; 'session',
-        'provider' =&gt; 'ldap', // Changed to 'ldap'
-    ],
-
-    // ...</code></pre>
-<h3 id="add-trait-and-interface">Step 3: Add the trait and interface to your user model</h3>
-<p>Now, we must add the following to our <code>User</code> Eloquent model:</p>
-<ul>
-<li>Interface: <code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></li>
-<li>Trait: <code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></li>
-</ul>
-<pre><code class="language-php">&lt;?php
-
-namespace App;
-
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
-use LdapRecord\Laravel\Auth\LdapAuthenticatable;
-
-class User extends Authenticatable implements LdapAuthenticatable
-{
-    use Notifiable, AuthenticatesWithLdap;
-
-    // ...
-}</code></pre>
-<p>These are required so LdapRecord can set and retrieve your users <code>domain</code> and <code>guid</code> database columns.</p>
-<p>This also allows you to configure the columns that LdapRecord uses for this by an override on the following methods:</p>
-<ul>
-<li><code>getLdapDomainColumn</code></li>
-<li><code>getLdapGuidColumn</code></li>
-</ul>
-<h3>Step 4: Setting up your LoginController:</h3>
-<p>For LdapRecord to properly locate users that attempt to login to your application, you must
-override the <code>credentials</code> method in your <code>Auth\LoginController.php</code> file.</p>
-<p>Then, you must set an array key of the LDAP attribute that will be used for looking up the user
-in your LDAP directory.</p>
-<p>In the example below, we will lookup LDAP users by their <code>mail</code> attribute:</p>
-<pre><code class="language-php">namespace App\Http\Controllers\Auth;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use LdapRecord\Laravel\Auth\MultiDomainAuthentication;
 
 class LoginController extends Controller
 {
-    // Methods above removed for brevity...
-
-    protected function credentials(Request $request)
-    {
-        return [
-            'mail' =&gt; $request-&gt;get('email'),
-            'password' =&gt; $request-&gt;get('password'),
-        ];
-    }
+    use AuthenticatesUsers, MultiDomainAuthentication;
 }</code></pre>
-<h2>Step 5: Changing your</h2>
-<h2 id="plain">Plain LDAP Authentication</h2>
+<p>Due to each provider requiring it's own <code>guard</code> that we've configured in our <code>auth.php</code> file,
+we need to be able to determine which domain the user who is attempting to login in is from.</p>
+<p>This could vary widely in each application, so in this guide we will be determining their domain from their
+email addresses host name (<code>@alpha.com</code> and <code>bravo.com</code>).</p>
+<p>We must override the <code>guard</code> method in our <code>LoginController</code> and let the included trait handle
+retrieving it for simplicity. We will also override the <code>getLdapGuardFromRequest</code> method
+to dynamically determine the <code>guard</code> to use based on the users email address they are
+signing into our application with:</p>
+<pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
+
+// ...
+
+public function guard()
+{
+    return $this-&gt;getLdapGuard();
+}
+
+public function getLdapGuardFromRequest()
+{
+    $guards = [
+        'alpha.com' =&gt; 'alpha',
+        'bravo.com' =&gt; 'bravo',
+    ];
+
+    $domain = explode('@', request('email'))[1];
+
+    return $guards[$domain] ?? 'alpha'; 
+}</code></pre>
+<p>If the user enters an email that is not available in our array lookup, we will return the <code>alpha</code> guard by default.</p>
+<h2>Routes</h2>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/usage">Usage</a>
+                <a href="/docs/laravel/auth/usage">Usage</a>
             </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
-                    <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
-            <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth">Overview</a>
-            </h4>
             </div>
 </div>
                 </div>
