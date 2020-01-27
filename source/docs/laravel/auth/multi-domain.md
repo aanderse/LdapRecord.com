@@ -153,7 +153,9 @@ public function getLdapGuardFromRequest()
 }
 ````
 
-If the user enters an email that is not available in our array lookup, we will return the `alpha` guard by default.
+If the user enters an email that is not available in our guard array lookup, we will
+return the `alpha` guard by default. You may wish to add a validation rule instead
+to prevent users from signing in with invalid email domain. This is up to you.
 
 ## Routes
 
