@@ -123,7 +123,7 @@ Due to each provider requiring it's own `guard` that we've configured in our `au
 we need to be able to determine which domain the user who is attempting to login in is from.
 
 This could vary widely in each application, so in this guide we will be determining their domain from their
-email addresses host name (`@alpha.com` and `bravo.com`).
+email addresses host name (`@alpha.com` and `@bravo.com`).
 
 We must override the `guard` method in our `LoginController` and let the included trait handle 
 retrieving it for simplicity. We will also override the `getLdapGuardFromRequest` method
