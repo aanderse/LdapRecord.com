@@ -12,6 +12,7 @@ return [
             'Installation' => 'docs/laravel/auth/installation',
             'Configuration' => 'docs/laravel/auth/configuration',
             'Usage' => 'docs/laravel/auth/usage',
+            'Multi-Domain' => 'docs/laravel/auth/multi-domain',
         ]
     ]
 ];
