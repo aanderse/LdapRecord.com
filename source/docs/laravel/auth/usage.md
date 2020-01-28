@@ -164,7 +164,18 @@ class User extends Authenticatable
     use HasLdapUser;
 ```
 
-Now, after an LDAP user signs into your application, their LdapRecord model will be available on their User model:
+Now, after an LDAP user logs into your application, their LdapRecord model will be available on
+their model via the `ldap` property:
+
+```php
+// Instance of App\User
+$user = Auth::user();
+
+// Instance of App\Ldap\User
+$ldap = $user->ldap;
+
+echo $ldap->getFirstAttribute('cn');
+```
 
 ## Pass-through Authentication / SSO {#passthrough-authentication}
 
