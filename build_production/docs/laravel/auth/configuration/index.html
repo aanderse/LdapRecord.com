@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=e6d95f181e9f6d9b23ed">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=dd6c55552c60000de8fc">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -107,7 +107,7 @@
                 <section class="container max-w-8xl mx-auto px-6 md:px-8 py-4">
         <div class="flex flex-col lg:flex-row">
             <nav id="js-nav-menu" class="nav-menu hidden lg:block">
-                    <ul class="list-none my-0">
+                    <ul class="list-none my-0 ">
             <li class="pl-4">
             
         <a href="/docs/laravel/quickstart"
@@ -149,7 +149,7 @@
         <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Authentication</p>
     
             
-        <ul class="list-none my-0">
+        <ul class="list-none my-0 border-l-2 border-indigo-200">
             <li class="pl-4">
             
         <a href="/docs/laravel/auth/quickstart"
@@ -205,6 +205,15 @@
     
     </li>
     </ul>
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/laravel/license"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            License
+        </a>
+    
     </li>
     </ul>
             </nav>
@@ -302,7 +311,7 @@ a user successfully passes LDAP authentication against your configured server.</
 
 namespace App\Ldap\Rules;
 
-use LdapRecord\Laravel\Validation\Rules\Rule;
+use LdapRecord\Laravel\Auth\Rule;
 
 class OnlyAdministrators extends Rule
 {
@@ -329,16 +338,11 @@ class OnlyAdministrators extends Rule
 
 namespace App\Ldap\Rules;
 
+use LdapRecord\Laravel\Auth\Rule;
 use LdapRecord\Models\ActiveDirectory\Group;
-use LdapRecord\Laravel\Validation\Rules\Rule;
 
 class OnlyAdministrators extends Rule
 {
-    /**
-     * Check if the rule passes validation.
-     *
-     * @return bool
-     */
     public function isValid()
     {
         $administrators = Group::find('cn=Administrators,dc=local,dc=com');
@@ -347,7 +351,7 @@ class OnlyAdministrators extends Rule
     }
 }</code></pre>
 <blockquote>
-<p>We call the <code>recurisve</code> method on the relationship to make sure that we load groups of
+<p>We call the <code>recursive</code> method on the relationship to make sure that we load groups of
 groups in case the user is not an immediate member of the <code>Administrators</code> group.</p>
 </blockquote>
 <p>Once we have our rule defined, we will add it into our authentication provider in the <code>config/auth.php</code> file:</p>
