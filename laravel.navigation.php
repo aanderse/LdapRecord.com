@@ -14,5 +14,6 @@ return [
             'Usage' => 'docs/laravel/auth/usage',
             'Multi-Domain' => 'docs/laravel/auth/multi-domain',
         ]
-    ]
+    ],
+    'License' => 'docs/laravel/license',
 ];

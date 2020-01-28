@@ -133,7 +133,7 @@ A rule will then be created in your applications `app/Ldap/Rules` directory:
 
 namespace App\Ldap\Rules;
 
-use LdapRecord\Laravel\Validation\Rules\Rule;
+use LdapRecord\Laravel\Auth\Rule;
 
 class OnlyAdministrators extends Rule
 {
@@ -163,16 +163,11 @@ Now, we will update the `isValid` method to check the LDAP users `groups` relati
 
 namespace App\Ldap\Rules;
 
+use LdapRecord\Laravel\Auth\Rule;
 use LdapRecord\Models\ActiveDirectory\Group;
-use LdapRecord\Laravel\Validation\Rules\Rule;
 
 class OnlyAdministrators extends Rule
 {
-    /**
-     * Check if the rule passes validation.
-     *
-     * @return bool
-     */
     public function isValid()
     {
         $administrators = Group::find('cn=Administrators,dc=local,dc=com');
@@ -182,7 +177,7 @@ class OnlyAdministrators extends Rule
 }
 ```
 
-> We call the `recurisve` method on the relationship to make sure that we load groups of
+> We call the `recursive` method on the relationship to make sure that we load groups of
 > groups in case the user is not an immediate member of the `Administrators` group.
 
 Once we have our rule defined, we will add it into our authentication provider in the `config/auth.php` file:

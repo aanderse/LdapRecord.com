@@ -52,10 +52,9 @@ And then edit their connections:
 
 class User extends Model
 {
-    // ...
-   
     protected $connection = 'alpha';
-}
+
+    // ...
 ```
 
 ```php
@@ -63,10 +62,9 @@ class User extends Model
 
 class User extends Model
 {
-    // ...
-   
     protected $connection = 'bravo';
-}
+
+    // ...
 ```
 
 Once that's done, we need to setup a new [authentication provider](/docs/laravel/auth/configuration)
@@ -106,7 +104,8 @@ in our `auth.php` file for each of them, as well as their own guard:
 
 To start authenticating users from both of your LDAP domains, we need to modify our `LoginController`.
 
-LdapRecord-Laravel comes with a built-in trait that makes this easier for you. Go ahead and add it:
+LdapRecord-Laravel comes with a built-in trait that makes this easier for you.
+Go ahead and add it to the controller:
 
 ```php
 // app/Http/Controllers/Auth/LoginController.php
@@ -116,7 +115,8 @@ use LdapRecord\Laravel\Auth\MultiDomainAuthentication;
 class LoginController extends Controller
 {
     use AuthenticatesUsers, MultiDomainAuthentication;
-}
+
+    // ...
 ```
 
 Due to each provider requiring it's own `guard` that we've configured in our `auth.php` file,
@@ -154,8 +154,37 @@ public function getLdapGuardFromRequest()
 ````
 
 If the user enters an email that is not available in our guard array lookup, we will
-return the `alpha` guard by default. You may wish to add a validation rule instead
-to prevent users from signing in with invalid email domain. This is up to you.
+return the `alpha` guard by default, and the authentication attempt will be made
+to our `alpha` domain.
+
+> You may wish to add a request validation rule instead to prevent users from signing
+> in with invalid email domain. The way you implement this is totally up to you.
 
 ## Routes
 
+Having multiple authentication guards means that we need to update the `auth` middleware
+that is covering our protected application routes.
+
+Luckily, this middleware accepts a list of guards you would like to use. You will need to add
+both of the guards you created above for both LDAP domains to be able to access the same
+protected routes:
+
+```php
+<?php
+// routes/web.php
+
+Route::group(function () {
+    // Both alpha and bravo domains can access these routes...
+})->middleware('auth:alpha,bravo');
+```
+
+If you would like to restrict one of your domains to certain routes, only include one of them `auth` middleware:
+
+```php
+<?php
+// routes/web.php
+
+Route::group(function () {
+    // Only alpha domain users can access these routes...
+})->middleware('auth:alpha');
+```
