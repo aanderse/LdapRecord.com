@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,8 +43,10 @@
         @endif
     </head>
 
-    <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
-        <header class="flex items-center h-24 py-4 z-20 {{ $page->isHomePage() ? null : 'bg-white border-b mb-2' }}" role="banner">
+
+
+    <body class="flex flex-col h-full bg-gray-100 text-gray-800 leading-normal font-sans">
+        <header class="flex items-center h-24 py-4 z-20 {{ $page->isHomePage() ? null : 'bg-white border-b mb-2' }}" style="{{ $page->isHomePage() ? null : 'background-image: linear-gradient(-90deg,#c73bff,#ffffff 65%);' }}" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
                     <a href="/" title="{{ $page->siteName }} home" class="inline-flex items-center">
@@ -78,7 +80,7 @@
 
         @stack('scripts')
 
-        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
+        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo" style="margin-top:auto!important;">
             <ul class="flex flex-col md:flex-row justify-center list-none">
                 <li class="md:mr-2">
                     &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> {{ date('Y') }}.
