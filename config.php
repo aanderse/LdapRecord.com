@@ -62,6 +62,9 @@ return [
     'isHomePage' => function ($page) {
         return $page->isActive('/');
     },
+    'isOnParent' => function ($page, $path) {
+        return Str::startsWith(Str::start($page->getPath(), '/'), $path);
+    },
     'url' => function ($page, $path) {
         return Str::startsWith($path, 'http') ? $path : '/' . trimPath($path);
     },
