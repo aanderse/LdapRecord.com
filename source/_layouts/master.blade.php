@@ -46,7 +46,7 @@
 
 
     <body class="flex flex-col h-full bg-gray-100 text-gray-800 leading-normal font-sans">
-        <header class="flex items-center h-24 py-4 z-20 {{ $page->isHomePage() ? null : 'bg-white border-b mb-2' }}" style="{{ $page->isHomePage() ? null : 'background-image: linear-gradient(-90deg,#c73bff,#ffffff 65%);' }}" role="banner">
+        <header class="flex items-center h-24 py-4 z-20 {{ $page->isHomePage() ? null : 'bg-white border-b mb-2' }}" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
                     <a href="/" title="{{ $page->siteName }} home" class="inline-flex items-center">
