@@ -13,7 +13,9 @@ return [
             'Configuration' => 'docs/laravel/auth/configuration',
             'Usage' => 'docs/laravel/auth/usage',
             'Multi-Domain' => 'docs/laravel/auth/multi-domain',
+            'Importing Users' => 'docs/laravel/auth/importing',
         ]
     ],
+    'Versioning' => 'docs/laravel/versioning',
     'License' => 'docs/laravel/license',
 ];
