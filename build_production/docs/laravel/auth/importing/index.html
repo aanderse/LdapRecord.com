@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="Configuring the LDAP authentication provider">
+        <meta name="description" content="Running the import command">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Authentication Configuration | LdapRecord"/>
-        <meta property="og:description" content="Configuring the LDAP authentication provider"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/configuration"/>
+        <meta property="og:title" content="Importing Users | LdapRecord"/>
+        <meta property="og:description" content="Running the import command"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/importing"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Authentication Configuration</title>
+        <title>LdapRecord | Importing Users</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -182,7 +182,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel/auth/configuration"
-            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Configuration
         </a>
@@ -209,7 +209,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel/auth/importing"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
         >
             Importing Users
         </a>
@@ -261,168 +261,160 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Configuration</h1>
+                <h1>Importing Users</h1>
 <ul>
-<li><a href="#plain">Plain Authentication</a></li>
-<li><a href="#database">Synchronized Database Authentication</a></li>
-<li><a href="#rules">Authentication Rules</a></li>
+<li><a href="#running-the-command">Running the command</a></li>
+<li><a href="#scheduling-the-command">Scheduling the command</a></li>
+<li><a href="#single-users">Single Users</a></li>
+<li><a href="#command-options">Command Options</a></li>
+<li><a href="#tips-and-information">Tips and Information</a></li>
 </ul>
-<p>All LDAP authentication configuration is done inside of your <code>config/auth.php</code> file.</p>
-<p>Let's walk through configuring both LDAP authentication mechanisms.</p>
-<h2 id="plain">Plain Authentication</h2>
-<p>To create a plain LDAP authentication provider, navigate to the <code>providers</code> array,
-and paste the following <code>ldap</code> provider:</p>
+<p>LdapRecord-Laravel allows you to import users from your LDAP directories into your local database.
+This is done from the <code>ldap:import</code> command and only available when you configure
+<a href="/docs/laravel/auth/configuration/#database">database synchronization</a>.</p>
+<h2 id="running-the-command">Running the command</h2>
+<p>To run the command you must insert the <code>provider</code> name that you have setup for LDAP database synchronization
+inside of your <code>config/auth.php</code> file. Let's walk through an example.</p>
+<p>In our application we have a configured authentication provider named <code>ldap</code>:</p>
 <pre><code class="language-php">'providers' =&gt; [
     // ...
 
     'ldap' =&gt; [
-        'driver' =&gt; 'ldap',
-        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
-        'rules' =&gt; [],
-    ],
-],</code></pre>
-<p>If your application requires more than one LDAP connection, you must create a new provider for each connection.</p>
-<p>This new provider must have its own unique <code>model</code> class set which must use your <a href="/docs/models#connections">alternate configured connection</a>
-using the <code>$connection</code> property.</p>
-<blockquote>
-<p>In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
-you create with the desired connection. For example: <br/></p>
-<pre><code class="language-text">App\Ldap\DomainAlpha\User</code></pre>
-<p>This will allow you to segregate scopes, rules and other classes to their relating connection.</p>
-</blockquote>
-<h3>Driver</h3>
-<p>The <code>driver</code> option must be <code>ldap</code> as this is what indicates to Laravel the proper authentication driver to use.</p>
-<h3>Model</h3>
-<p>The <code>model</code> option must be the class name of your <a href="/docs/models">LdapRecord model</a>. This model will be used
-for fetching users from your directory.</p>
-<h3>Rules</h3>
-<p>The <code>rules</code> option must be an array of class names of <a href="/docs/laravel/auth/configuration#rules">authentication rules</a>.</p>
-<h2 id="database">Synchronized Database Authentication</h2>
-<p>To create a synchronized database LDAP authentication provider, navigate to the <code>providers</code> array,
-and paste the following <code>ldap</code> provider:</p>
-<blockquote>
-<p>If your application is requiring two or more LDAP connections, you must create a new user provider for each connection.</p>
-</blockquote>
-<pre><code class="language-php">'providers' =&gt; [
-    // ...
-
-    'ldap' =&gt; [
-        'driver' =&gt; 'ldap',
-        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
-        'rules' =&gt; [],
+        // ...
         'database' =&gt; [
-            'model' =&gt; App\User::class,
-            'sync_passwords' =&gt; false,
-            'sync_attributes' =&gt; [
-                'name' =&gt; 'cn',
-                'email' =&gt; 'mail',
-            ],
+            // ...
         ],
     ],
 ],</code></pre>
-<p>As you can see above, a <code>database</code> array is used to configure the association between your LDAP user and your Eloquent user.</p>
-<h3>Database Model</h3>
-<p>The <code>database.model</code> key is the class name of the Eloquent model that will be used for creating and
-retrieving LDAP users from your applications database.</p>
-<p>Once you have added your model into this configuration option</p>
-<h3>Database Password Sync</h3>
-<p>The <code>database.sync_passwords</code> option enables password synchronization. Password synchronization captures and hashes
-the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
-provide a &quot;back up&quot; option in case your LDAP server is unreachable, as well as a way of determining if a
-users password is valid without having to call to your LDAP server and validate it for you.</p>
-<blockquote>
-<p>If you do not define the <code>sync_passwords</code> key or have it set false, a user is always applied a
-random 16 character hashed password.</p>
-</blockquote>
-<h3>Database Sync Attributes</h3>
-<p>The <code>sync_attributes</code> array defines a set of key-value pairs. The key of each array item is the column of your <code>users</code>
-database table and the value is the name of the users LDAP attribute.</p>
-<h2 id="rules">Authentication Rules</h2>
-<p>LDAP authentication rules give you the ability to allow or deny users from signing into your
-application using a condition you would like to apply. These rules are executed <strong>after</strong>
-a user successfully passes LDAP authentication against your configured server.</p>
-<p>Think of them as a final authorization gate before they are allowed in.</p>
-<blockquote>
-<p>Authentication rules are never executed if a user fails LDAP authentication.</p>
-</blockquote>
-<p>Let's create an LDAP rule that only allows members of our domain <code>Administrators</code> group.</p>
-<p>To create an authentication rule, call the <code>make:ldap-rule</code> command:</p>
-<pre><code class="language-bash">php artisan make:ldap-rule OnlyAdministrators</code></pre>
-<p>A rule will then be created in your applications <code>app/Ldap/Rules</code> directory:</p>
-<pre><code class="language-php">&lt;?php
+<p>We will then insert the providers name into our import command and execute it:</p>
+<pre><code class="language-bash">php artisan ldap:import ldap</code></pre>
+<p>You will then be asked after a successful search in your directory:</p>
+<pre><code class="language-text">Found 2 user(s).
 
-namespace App\Ldap\Rules;
+Would you like to display the user(s) to be imported / synchronized? (yes/no) [no]:
+&gt; y</code></pre>
+<p>A table will then be shown so you can confirm the import of the located users:</p>
+<pre><code class="language-text">+------------------------------+----------------------+----------------------------------------------+
+| Name                         | Account Name         | UPN                                          |
++------------------------------+----------------------+----------------------------------------------+
+| John Doe                     | johndoe              | johndoe@local.com                            |
+| Jane Doe                     | janedoe              | janedoe@local.com                            |
++------------------------------+----------------------+----------------------------------------------+</code></pre>
+<p>Then, you will be asked to import the users shown and the import will begin:</p>
+<pre><code class="language-text"> Would you like these users to be imported / synchronized? (yes/no) [no]:
+ &gt; y
 
-use LdapRecord\Laravel\Auth\Rule;
+  2/2 [============================] 100%
 
-class OnlyAdministrators extends Rule
+Successfully imported / synchronized 2 user(s).</code></pre>
+<h2 id="scheduling-the-command">Scheduling the command</h2>
+<p>To run the import as a scheduled job, place the following in your <code>app/Console/Kernel.php</code> in the command scheduler:</p>
+<pre><code class="language-php">/**
+ * Define the application's command schedule.
+ *
+ * @param \Illuminate\Console\Scheduling\Schedule $schedule
+ *
+ * @return void
+ */
+protected function schedule(Schedule $schedule)
 {
-    /**
-     * Check if the rule passes validation.
-     *
-     * @return bool
-     */
-    public function isValid()
-    {
-        //
-    }
+    // Import LDAP users hourly.
+    $schedule-&gt;command('ldap:import ldap', [
+        '--no-interaction',
+        '--restore',
+        '--delete',
+        '--filter' =&gt; '(objectclass=user)',
+    ])-&gt;hourly();
 }</code></pre>
-<p>In the authentication rule, there are two properties made available to us.</p>
+<p>The above scheduled import command will:</p>
 <ul>
-<li>A <code>user</code> property that is the <strong>LdapRecord</strong> model of the authenticating user</li>
-<li>A <code>model</code> property that is the <strong>Eloquent</strong> model of the authenticating user</li>
+<li>Run without interaction and import new users as well as synchronize already imported users</li>
+<li>Restore user models who have been re-activated in your LDAP directory (if you're using <a href="https://laravel.com/docs/eloquent#soft-deleting">Eloquent Soft Deletes</a>)</li>
+<li>Soft-Delete user models who have been deactived in your LDAP directory (if you're using <a href="https://laravel.com/docs/eloquent#soft-deleting">Eloquent Soft Deletes</a>)</li>
+<li>Only import users that have an <code>objectclass</code> equal to user</li>
 </ul>
 <blockquote>
-<p>The <code>model</code> property will be <code>null</code> if you are not using database synchronization.</p>
+<p>It's recommended to use <a href="/docs/models#query-scopes">model query scopes</a> instead of the <code>--filter</code>
+option on your configured authentication LdapRecord model so LDAP users signing into your
+application are applied the same search filter.</p>
 </blockquote>
-<p>Now, we will update the <code>isValid</code> method to check the LDAP users <code>groups</code> relationship to see if they are a member:</p>
-<pre><code class="language-php">&lt;?php
+<h2 id="single-users">Single Users</h2>
+<p>To import or synchronize a single user, insert one of their attributes and LdapRecord will
+try to locate the user for you using Ambiguous Name Resolution. If your LDAP server
+does not support ANR, an equivalent query will be created automatically.</p>
+<pre><code class="language-text">php artisan ldap:import ldap jdoe@email.com
 
-namespace App\Ldap\Rules;
+Found user 'John Doe'.
 
-use LdapRecord\Laravel\Auth\Rule;
-use LdapRecord\Models\ActiveDirectory\Group;
-
-class OnlyAdministrators extends Rule
-{
-    public function isValid()
-    {
-        $administrators = Group::find('cn=Administrators,dc=local,dc=com');
-
-        return $this-&gt;user-&gt;groups()-&gt;recursive()-&gt;exists($administrators);
-    }
-}</code></pre>
+Would you like to display the user(s) to be imported / synchronized? (yes/no) [no]:
+&gt; y</code></pre>
+<h2 id="command-options">Command Options</h2>
+<h3>Filter</h3>
+<p>The --filter (or -f) option allows you to enter in a raw filter to further narrow down the users who are imported:</p>
+<pre><code class="language-text">php artisan ldap:import ldap --filter "(cn=John Doe)"</code></pre>
+<h3>No Logging</h3>
+<p>The --no-log option allows you to disable logging during the command.</p>
+<pre><code class="language-text">php artisan ldap:import ldap --no-log</code></pre>
+<p>By default, this is enabled.</p>
+<h3>Delete</h3>
 <blockquote>
-<p>We call the <code>recursive</code> method on the relationship to make sure that we load groups of
-groups in case the user is not an immediate member of the <code>Administrators</code> group.</p>
+<p>This option is only available on ActiveDirectory models.</p>
 </blockquote>
-<p>Once we have our rule defined, we will add it into our authentication provider in the <code>config/auth.php</code> file:</p>
-<pre><code class="language-php">'providers' =&gt; [
-    // ...
+<p>The --delete (or -d) option allows you to soft-delete deactivated LDAP users. No users
+will be deleted if your <code>User</code> Eloquent model does not have soft-deletes enabled.</p>
+<pre><code class="language-text">php artisan ldap:import ldap --delete</code></pre>
+<h3>Restore</h3>
+<blockquote>
+<p>This option is only available on ActiveDirectory models.</p>
+</blockquote>
+<p>The --restore (or -r) option allows you to restore soft-deleted re-activated LDAP users.</p>
+<pre><code class="language-text">php artisan ldap:import ldap --restore</code></pre>
+<blockquote>
+<p>Usually the <code>--restore</code> and <code>--delete</code> options are used in tandem to allow full synchronization.</p>
+</blockquote>
+<h3>No Interaction</h3>
+<p>To run the import command via a schedule, use the <code>--no-interaction</code> flag:</p>
+<pre><code class="language-text">php artisan ldap:import ldap --no-interaction</code></pre>
+<p>Users will be imported automatically with no prompts.</p>
+<p>You can also call the command from the Laravel Scheduler, or other commands:</p>
+<pre><code class="language-php">// Importing one user
+$schedule-&gt;command('ldap:import ldap sbauman', ['--no-interaction'])
+            -&gt;everyMinute();
 
-    'ldap' =&gt; [
-        'driver' =&gt; 'ldap',
-        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
-        'rules' =&gt; [
-            App\Ldap\Rules\OnlyAdministrators::class,
-        ],
-    ],
-],</code></pre>
-<p>Now when you attempt to login to your application with a LDAP user that successfully passes
-LDAP authentication, they will need to be a member of the <code>Administrators</code> group.</p>
-<p>If you are caching your configuration, make sure you re-run <code>config:cache</code> to re-cache your modifications.</p>
+// Importing all users
+$schedule-&gt;command('ldap:import ldap', ['--no-interaction'])
+            -&gt;everyMinute();
+
+// Importing users with a filter
+$dn = 'CN=Accounting,OU=SecurityGroups,DC=local,DC=com';
+
+$filter = sprintf('(memberof:1.2.840.113556.1.4.1941:=%s)', $dn);
+
+$schedule-&gt;command('ldap:import ldap', ['--no-interaction', '--filter' =&gt; $filter])
+    -&gt;everyMinute();</code></pre>
+<h3 id="tips-and-information">Tips and Information</h3>
+<ul>
+<li>Users who already exist inside your database will be updated with your configured providers <code>sync_attributes</code></li>
+<li>Users are never deleted from the import command, you will need to delete users regularly through your Eloquent model</li>
+<li>Successfully imported (new) users are reported in your log files with:
+<pre><code class="language-text">[2020-01-29 14:51:51] local.INFO: Imported user johndoe</code></pre></li>
+<li>Unsuccessful imported users are also reported in your log files, with the message of the exception:
+<pre><code class="language-text">[2020-01-29 14:51:51] local.ERROR: Unable to import user janedoe. SQLSTATE[23000]: Integrity constraint violation: 1048</code></pre></li>
+<li>If you have a password mutator (setter) on your User Eloquent model, it will not override it. This way, you can
+hash the random 16 character passwords any way you prefer.</li>
+</ul>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth/installation">Installation</a>
+                <a href="/docs/laravel/auth/multi-domain">Multi-Domain</a>
             </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth/usage">Usage</a>
+                <a href="/docs/laravel/versioning">Versioning</a>
             </h4>
             </div>
 </div>

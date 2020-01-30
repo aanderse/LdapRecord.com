@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,12 +33,14 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=dd6c55552c60000de8fc">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d43d8222c4039c0eb67e">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
 
-    <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
+
+
+    <body class="flex flex-col h-full bg-gray-100 text-gray-800 leading-normal font-sans">
         <header class="flex items-center h-24 py-4 z-20 bg-white border-b mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -69,20 +71,20 @@
     >
 
     <button
-        class="md:hidden absolute pin-t pin-r h-full font-light text-3xl text-blue-500 hover:text-blue-600 focus:outline-none -mt-px"
+        class="md:hidden absolute right-0 mr-8 h-full font-light text-3xl text-blue-500 hover:text-blue-600 focus:outline-none -mt-px"
         onclick="searchInput.toggle()"
     >&times;</button>
 </div>
 
                     
-                    <a href="/docs/" class="ml-6 hidden md:inline text-blue-800" title="LdapRecord Documentation Link">Docs</a>
+                                            <a href="/docs/" class="ml-6 hidden md:inline whitespace-no-wrap text-blue-800" title="LdapRecord Documentation Link">
+                            Core Docs
+                        </a>
 
-                    <a href="/docs/laravel" class="ml-6 hidden md:inline text-blue-800" title="LdapRecord-Laravel Documentation Link">Laravel</a>
-
-                    <a href="https://github.com/DirectoryTree/LdapRecord" class="hidden sm:inline text-blue-800">
-                        <svg class="fill-current w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
-                    </a>
-                </div>
+                        <a href="https://github.com/DirectoryTree/LdapRecord-Laravel" class="hidden sm:inline text-blue-800">
+                            <svg class="fill-current w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
+                        </a>
+                                    </div>
             </div>
 
                 <button class="flex justify-center items-center bg-purple-500 border border-purple-500 h-10 mr-4 px-5 rounded-full lg:hidden focus:outline-none"
@@ -204,7 +206,25 @@
         </a>
     
     </li>
+            <li class="pl-4">
+            
+        <a href="/docs/laravel/auth/importing"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Importing Users
+        </a>
+    
+    </li>
     </ul>
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/laravel/versioning"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Versioning
+        </a>
+    
     </li>
             <li class="pl-4">
             
@@ -216,6 +236,28 @@
     
     </li>
     </ul>
+
+    <div class="block sm:hidden">
+        <hr class="my-4"/>
+
+        <ul class="list-none my-0">
+            <li class="pl-4">
+                <a href="/docs/"
+                   class="nav-menu__item hover:text-blue-500"
+                >
+                    Core Documentation
+                </a>
+            </li>
+
+            <li class="pl-4">
+                <a href="https://github.com/DirectoryTree/LdapRecord-Laravel"
+                   class="nav-menu__item hover:text-blue-500"
+                >
+                    Source Code
+                </a>
+            </li>
+        </ul>
+    </div>
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
@@ -296,7 +338,7 @@ users will retrieve the logged in user from your database, rather than your LDAP
             }
         </script>
     
-        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
+        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo" style="margin-top:auto!important;">
             <ul class="flex flex-col md:flex-row justify-center list-none">
                 <li class="md:mr-2">
                     &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> 2020.
