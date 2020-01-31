@@ -38,7 +38,7 @@ use LdapRecord\Models\ActiveDirectory\User;
 $user = new User();
 
 $user->cn = 'John Doe';
-$user->samccountname = 'jdoe';
+$user->samaccountname = 'jdoe';
 $user->userPrincipalName = 'jdoe@acme.org';
 $user->unicodePwd = 'SecretPassword#123';
 
