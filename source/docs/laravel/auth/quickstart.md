@@ -58,7 +58,12 @@ Once you have setup your `ldap` provider, you must update the `provider` value i
 
 ### Step 2: Setting up your LoginController {#plain-controller-setup}
 
-Now we must change our 
+Now we must change our `LoginController` to allow LdapRecord to properly
+locate users who are attempting to sign into our application.
+
+We do this by changing the `credentials` method and returns an array
+that contains the users username and password. The username in this
+example will be the LDAP users `mail` attribute:
 
 ```php
 class LoginController extends Controller
@@ -75,7 +80,29 @@ class LoginController extends Controller
 }
 ```
 
+### Step 3: Modifying The Layout Blade View {#plain-view-setup}
 
+When we use plain LDAP authentication, an instance the LdapRecord `model` you have
+configured for authentication will be returned when calling the `Auth::user()`
+method. This means that our currently published blade views will throw an
+exception due to using `Auth::user()->name` inside of the view file
+`views/layouts/app.blade.php`.
+
+You must change the syntax to the following:
+
+```html
+// resources/views/layouts/app.blade.php
+
+// From...
+<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+    {{ Auth::user()->name }} <span class="caret"></span>
+</a>
+
+// To...
+<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+    {{ Auth::user()->getFirstAttribute('cn') }} <span class="caret"></span>
+</a>
+```
 
 ## Synchronized Database Authentication {#database-sync}
 
