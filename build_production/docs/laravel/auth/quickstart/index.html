@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=a8b748589e2466271480">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=8e1a3a8eb29cd0be4c7c">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -265,9 +265,51 @@ the <a href="/docs/laravel/quickstart">LdapRecord-Laravel quickstart guide</a> t
 install LdapRecord and configure your LDAP connection.</p>
 </blockquote>
 <ul>
-<li><a href="#database-sync">Synchronized Database Authentication</a></li>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#plain">Plain Authentication</a></li>
+<li><a href="#database-sync">Synchronized Database Authentication</a></li>
 </ul>
+<h2>Introduction</h2>
+<p>Before you begin, this guide assumes you have published Laravel's default authentication scaffolding.</p>
+<p>If you have not yet done so, please follow Laravel's <a href="https://laravel.com/docs/authentication#introduction">documented guide</a>
+to get started, and head back here once done.</p>
+<h2 id="plain">Plain LDAP Authentication</h2>
+<h3 id="configure-plain-auth">Step 1: Configure the Authentication Driver</h3>
+<p>Inside of your <code>config/auth.php</code> file, we must add a new provider in the <code>providers</code> array.</p>
+<p>In this example, we will create a provider named <code>ldap</code>:</p>
+<pre><code class="language-php">// config/auth.php
+
+'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        'driver' =&gt; 'ldap',
+        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
+    ],</code></pre>
+<p>Once you have setup your <code>ldap</code> provider, you must update the <code>provider</code> value in the <code>web</code> guard:</p>
+<pre><code class="language-php">// config/auth.php
+
+'guards' =&gt; [
+    'web' =&gt; [
+        'driver' =&gt; 'session',
+        'provider' =&gt; 'ldap', // Changed to 'ldap'
+    ],
+
+    // ...</code></pre>
+<h3 id="plain-controller-setup">Step 2: Setting up your LoginController</h3>
+<p>Now we must change our </p>
+<pre><code class="language-php">class LoginController extends Controller
+{
+    // ...
+
+    protected function credentials(Request $request)
+    {
+        return [
+            'mail' =&gt; $request-&gt;get('email'),
+            'password' =&gt; $request-&gt;get('password'),
+        ];
+    }
+}</code></pre>
 <h2 id="database-sync">Synchronized Database Authentication</h2>
 <h3 id="publish-migration">Step 1: Publish the Migration</h3>
 <p>LdapRecord requires you to have two additional user database columns.</p>
@@ -281,7 +323,7 @@ storing your configured LDAP connection name of the user.</li>
 <pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"</code></pre>
 <p>Then, run the migrations with the <code>artisan migrate</code> command:</p>
 <pre><code class="language-bash">php artisan migrate</code></pre>
-<h3 id="configure-auth">Step 2: Configure the Authentication Driver</h3>
+<h3 id="configure-database-auth">Step 2: Configure the Authentication Driver</h3>
 <p>Inside of your <code>config/auth.php</code> file, we must add a new provider in the <code>providers</code> array.</p>
 <p>In this example, we will create a provider named <code>ldap</code>:</p>
 <pre><code class="language-php">// config/auth.php
@@ -349,15 +391,9 @@ override the <code>credentials</code> method in your <code>Auth\LoginController.
 <p>Then, you must set an array key of the LDAP attribute that will be used for looking up the user
 in your LDAP directory.</p>
 <p>In the example below, we will lookup LDAP users by their <code>mail</code> attribute:</p>
-<pre><code class="language-php">namespace App\Http\Controllers\Auth;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
-class LoginController extends Controller
+<pre><code class="language-php">class LoginController extends Controller
 {
-    // Methods above removed for brevity...
+    // ...
 
     protected function credentials(Request $request)
     {
@@ -367,8 +403,7 @@ class LoginController extends Controller
         ];
     }
 }</code></pre>
-<h2>Step 5: Changing your</h2>
-<h2 id="plain">Plain LDAP Authentication</h2>
+<p>You are now ready to authenticate LDAP users into your application.</p>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
@@ -421,7 +456,7 @@ class LoginController extends Controller
             }
         </script>
     
-        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo" style="margin-top:auto!important;">
+        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-none">
                 <li class="md:mr-2">
                     &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> 2020.

@@ -134,8 +134,8 @@ public function username()
 protected function credentials(Request $request)
 {
     return [
-        'samaccountname' => $request->username,
-        'password' => $request->password,
+        'samaccountname' => $request->get('username'),
+        'password' => $request->get('password'),
     ];
 }
 ```

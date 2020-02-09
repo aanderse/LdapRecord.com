@@ -11,8 +11,71 @@ section: content
 > the [LdapRecord-Laravel quickstart guide](/docs/laravel/quickstart) to
 > install LdapRecord and configure your LDAP connection.
 
-- [Synchronized Database Authentication](#database-sync)
+- [Introduction](#introduction)
 - [Plain Authentication](#plain)
+- [Synchronized Database Authentication](#database-sync)
+
+## Introduction
+
+Before you begin, this guide assumes you have published Laravel's default authentication scaffolding.
+
+If you have not yet done so, please follow Laravel's [documented guide](https://laravel.com/docs/authentication#introduction) 
+to get started, and head back here once done.
+
+## Plain LDAP Authentication {#plain}
+
+### Step 1: Configure the Authentication Driver {#configure-plain-auth}
+
+Inside of your `config/auth.php` file, we must add a new provider in the `providers` array.
+
+In this example, we will create a provider named `ldap`:
+
+```php
+// config/auth.php
+
+'providers' => [
+    // ...
+
+    'ldap' => [
+        'driver' => 'ldap',
+        'model' => LdapRecord\Models\ActiveDirectory\User::class,
+    ],
+```
+
+Once you have setup your `ldap` provider, you must update the `provider` value in the `web` guard:
+
+```php
+// config/auth.php
+
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'ldap', // Changed to 'ldap'
+    ],
+    
+    // ...
+```
+
+### Step 2: Setting up your LoginController {#plain-controller-setup}
+
+Now we must change our 
+
+```php
+class LoginController extends Controller
+{
+    // ...
+    
+    protected function credentials(Request $request)
+    {
+        return [
+            'mail' => $request->get('email'),
+            'password' => $request->get('password'),
+        ];
+    }
+}
+```
+
+
 
 ## Synchronized Database Authentication {#database-sync}
 
@@ -37,7 +100,7 @@ Then, run the migrations with the `artisan migrate` command:
 php artisan migrate
 ```
 
-### Step 2: Configure the Authentication Driver {#configure-auth}
+### Step 2: Configure the Authentication Driver {#configure-database-auth}
 
 Inside of your `config/auth.php` file, we must add a new provider in the `providers` array.
 
@@ -123,22 +186,16 @@ This also allows you to configure the columns that LdapRecord uses for this by a
 
 For LdapRecord to properly locate users that attempt to login to your application, you must
 override the `credentials` method in your `Auth\LoginController.php` file.
- 
+
 Then, you must set an array key of the LDAP attribute that will be used for looking up the user
 in your LDAP directory.
 
 In the example below, we will lookup LDAP users by their `mail` attribute:
 
 ```php
-namespace App\Http\Controllers\Auth;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
 class LoginController extends Controller
 {
-    // Methods above removed for brevity...
+    // ...
     
     protected function credentials(Request $request)
     {
@@ -150,7 +207,4 @@ class LoginController extends Controller
 }
 ```
 
-## Step 5: Changing your 
-
-## Plain LDAP Authentication {#plain}
-
+You are now ready to authenticate LDAP users into your application.

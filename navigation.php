@@ -16,6 +16,7 @@ return [
     ],
     'Events' => 'docs/events',
     'Logging' => 'docs/logging',
+    'Testing' => 'docs/testing',
     'Tutorials' => [
         'children' => [
             'Authentication' => 'docs/tutorials/authentication',

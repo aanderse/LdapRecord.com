@@ -6,7 +6,7 @@
 
     <div class="retro-hero-content md:mx-48">
         <h1 class="retro-hero-heading sm:text-3xl lg:text-5xl">
-            <em>Integrating LDAP is hard work.</em>
+            <em>Integrating LDAP is hard work</em>
         </h1>
 
         <h2 class="text-shadow font-light hidden sm:block mt-4 text-white">
