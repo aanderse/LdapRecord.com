@@ -43,7 +43,7 @@
         @endif
     </head>
     <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
-        <header class="flex items-center h-24 py-12 z-20 relative {{ $page->isHomePage() ? null : 'bg-white border-b mb-2' }}" role="banner">
+        <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 {{ $page->isHomePage() ? : 'bg-white mb-2' }}" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
                     <a href="/" title="{{ $page->siteName }} home" class="inline-flex items-center">
@@ -102,10 +102,6 @@
                 <li class="md:mr-2">
                     Built with <a href="http://jigsaw.tighten.co" title="Jigsaw by Tighten">Jigsaw</a>
                     and <a href="https://tailwindcss.com" title="Tailwind CSS, a utility-first CSS framework">Tailwind CSS</a>.
-                </li>
-
-                <li>
-                    Home Background Image By <a href="https://www.deviantart.com/rafael-de-jongh">Rafael-De-Jongh</a>.
                 </li>
             </ul>
         </footer>

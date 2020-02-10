@@ -2,9 +2,9 @@
 
 @section('body')
 <section class="retro-hero">
-    <div class="retro-hero-background" style="background-image:url('/assets/img/bg-retro.jpg');"></div>
+    <div class="retro-hero-background" style="height: 80%;width: 145%;transform: rotate(140deg);offset-rotate: 90%;background-color: #6f296f;"></div>
 
-    <div class="retro-hero-content md:mx-48">
+    <div class="retro-hero-content md:mx-48 my-auto">
         <h1 class="retro-hero-heading sm:text-3xl lg:text-5xl">
             <em>Integrating LDAP is hard work</em>
         </h1>
@@ -18,9 +18,13 @@
         </h4>
 
         <div class="flex justify-center mb-8">
-            <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="bg-purple-500 hover:bg-purple-600 font-normal text-white hover:text-white rounded mr-4 py-2 px-6">Get Started</a>
+            <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="uppercase tracking-wide italic bg-purple-500 hover:bg-purple-600 font-extrabold text-white hover:text-white rounded mr-4 py-2 px-6">
+                Get Started
+            </a>
 
-            <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="bg-gray-400 hover:bg-gray-600 text-blue-900 font-normal hover:text-white rounded py-2 px-6">Source Code</a>
+            <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="uppercase tracking-wide italic bg-gray-400 hover:bg-gray-600 text-blue-900 font-extrabold hover:text-white rounded py-2 px-6">
+                Source Code
+            </a>
         </div>
     </div>
 </section>
