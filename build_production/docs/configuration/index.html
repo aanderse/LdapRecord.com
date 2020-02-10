@@ -389,13 +389,25 @@ the permissions to do so on your directory.</li>
 <p>These boolean options enable an SSL or TLS connection to your LDAP server.</p>
 <p>Only <strong>one</strong> can be set to <code>true</code>. You must chose either or.</p>
 <p>These options are definitely recommended if you have the ability to connect to your server securely.</p>
-<blockquote>
-<p><strong>Tips</strong>: </p>
+<p>You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</p>
+<p>TLS is recommended over SSL, as SSL is now labelled as a deprecated mechanism for securely running LDAP operations.</p>
+<p>When using TLS you may have to configure an <code>ldap.conf</code> file and add the following inside:</p>
+<pre><code>TLS_REQCERT never</code></pre>
+<p>The <code>ldap.conf</code> file is located in the following default locations:</p>
 <ul>
-<li>You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</li>
-<li>TLS is recommended over SSL, as SSL is now labelled as a deprecated mechanism for securely running LDAP operations.</li>
+<li>Windows: <code>C:\OpenLDAP\sysconf\ldap.conf</code> (The directories will not exist, create them and add the file)</li>
+<li>Linux: <code>/etc/ldap/ldap.conf</code></li>
 </ul>
-</blockquote>
+<p>However, using <code>TLS_REQCERT never</code> can be a bit of a security risk as it will ignore invalid certificates.</p>
+<p>It's recommended to copy your domain CA cert to:</p>
+<ul>
+<li>Windows: <code>C:\OpenLDAP\sysconf</code></li>
+<li>Linux: <code>/etc/ssl/certs</code> </li>
+</ul>
+<p>Then, reference it in your <code>ldap.conf</code> with the full file path using (replace 'my-custom-path' with
+the location of the file):</p>
+<pre><code>TLS_CACERT my-custom-path/ca.pem
+TLS_REQCERT hard</code></pre>
 <h3 id="timeout">Timeout</h3>
 <p>The timeout option allows you to configure the amount of seconds to wait until
 your application receives a response from your LDAP server.</p>

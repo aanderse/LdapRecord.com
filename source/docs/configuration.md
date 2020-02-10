@@ -91,9 +91,35 @@ Only **one** can be set to `true`. You must chose either or.
 
 These options are definitely recommended if you have the ability to connect to your server securely.
 
-> **Tips**: 
-> - You **must** enable SSL or TLS to reset passwords in ActiveDirectory.
-> - TLS is recommended over SSL, as SSL is now labelled as a deprecated mechanism for securely running LDAP operations.
+You **must** enable SSL or TLS to reset passwords in ActiveDirectory.
+
+TLS is recommended over SSL, as SSL is now labelled as a deprecated mechanism for securely running LDAP operations.
+
+When using TLS you may have to configure an `ldap.conf` file and add the following inside:
+
+```
+TLS_REQCERT never
+```
+
+The `ldap.conf` file is located in the following default locations:
+
+- Windows: `C:\OpenLDAP\sysconf\ldap.conf` (The directories will not exist, create them and add the file)
+- Linux: `/etc/ldap/ldap.conf`
+
+However, using `TLS_REQCERT never` can be a bit of a security risk as it will ignore invalid certificates.
+
+It's recommended to copy your domain CA cert to:
+
+- Windows: `C:\OpenLDAP\sysconf`
+- Linux: `/etc/ssl/certs` 
+
+Then, reference it in your `ldap.conf` with the full file path using (replace 'my-custom-path' with
+the location of the file):
+
+```
+TLS_CACERT my-custom-path/ca.pem
+TLS_REQCERT hard
+```
 
 ### Timeout {#timeout}
 

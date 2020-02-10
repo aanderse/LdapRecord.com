@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="LdapRecord-Laravel Auth Quickstart Guide">
+        <meta name="description" content="LdapRecord-Laravel testing guide">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Authentication Quickstart | LdapRecord"/>
-        <meta property="og:description" content="LdapRecord-Laravel Auth Quickstart Guide"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/quickstart"/>
+        <meta property="og:title" content="Testing Authentication | LdapRecord"/>
+        <meta property="og:description" content="LdapRecord-Laravel testing guide"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/testing"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Authentication Quickstart</title>
+        <title>LdapRecord | Testing Authentication</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -152,7 +152,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel/auth/quickstart"
-            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Quickstart
         </a>
@@ -258,186 +258,15 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Authentication Quickstart</h1>
-<blockquote>
-<p>Before you get started with the LDAP authentication driver please complete
-the <a href="/docs/laravel/quickstart">LdapRecord-Laravel quickstart guide</a> to
-install LdapRecord and configure your LDAP connection.</p>
-</blockquote>
-<ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#plain">Plain Authentication</a></li>
-<li><a href="#database-sync">Synchronized Database Authentication</a></li>
-</ul>
-<h2>Introduction</h2>
-<p>Before you begin, this guide assumes you have published Laravel's default authentication scaffolding.</p>
-<p>If you have not yet done so, please follow Laravel's <a href="https://laravel.com/docs/authentication#introduction">documented guide</a>
-to get started, and head back here once done.</p>
-<h2 id="plain">Plain LDAP Authentication</h2>
-<h3 id="configure-plain-auth">Step 1: Configure the Authentication Driver</h3>
-<p>Inside of your <code>config/auth.php</code> file, we must add a new provider in the <code>providers</code> array.</p>
-<p>In this example, we will create a provider named <code>ldap</code>:</p>
-<pre><code class="language-php">// config/auth.php
-
-'providers' =&gt; [
-    // ...
-
-    'ldap' =&gt; [
-        'driver' =&gt; 'ldap',
-        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
-    ],</code></pre>
-<p>Once you have setup your <code>ldap</code> provider, you must update the <code>provider</code> value in the <code>web</code> guard:</p>
-<pre><code class="language-php">// config/auth.php
-
-'guards' =&gt; [
-    'web' =&gt; [
-        'driver' =&gt; 'session',
-        'provider' =&gt; 'ldap', // Changed to 'ldap'
-    ],
-
-    // ...</code></pre>
-<h3 id="plain-controller-setup">Step 2: Setting up your LoginController</h3>
-<p>Now we must change our <code>LoginController</code> to allow LdapRecord to properly
-locate users who are attempting to sign into our application.</p>
-<p>We do this by changing the <code>credentials</code> method and returns an array
-that contains the users username and password. The username in this
-example will be the LDAP users <code>mail</code> attribute:</p>
-<pre><code class="language-php">class LoginController extends Controller
-{
-    // ...
-
-    protected function credentials(Request $request)
-    {
-        return [
-            'mail' =&gt; $request-&gt;get('email'),
-            'password' =&gt; $request-&gt;get('password'),
-        ];
-    }
-}</code></pre>
-<h3 id="plain-view-setup">Step 3: Modifying The Layout Blade View</h3>
-<p>When we use plain LDAP authentication, an instance of the LdapRecord <code>model</code> you have
-configured for authentication will be returned when calling the <code>Auth::user()</code>
-method. This means that our currently published blade views will throw an
-exception due to using <code>Auth::user()-&gt;name</code> inside of the view file
-<code>views/layouts/app.blade.php</code>.</p>
-<p>You must change the syntax to the following:</p>
-<pre><code class="language-html">// resources/views/layouts/app.blade.php
-
-// From...
-&lt;a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre&gt;
-    {{ Auth::user()-&gt;name }} &lt;span class="caret"&gt;&lt;/span&gt;
-&lt;/a&gt;
-
-// To...
-&lt;a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre&gt;
-    {{ Auth::user()-&gt;getFirstAttribute('cn') }} &lt;span class="caret"&gt;&lt;/span&gt;
-&lt;/a&gt;</code></pre>
-<h2 id="database-sync">Synchronized Database Authentication</h2>
-<h3 id="publish-migration">Step 1: Publish the Migration</h3>
-<p>LdapRecord requires you to have two additional user database columns.</p>
-<ol>
-<li><code>guid</code> - This is for storing your LDAP users <code>objectguid</code>. It is needed for
-locating and synchronizing your LDAP user to the database.</li>
-<li><code>domain</code> - This is for storing your LDAP users connection name. It is needed for
-storing your configured LDAP connection name of the user.</li>
-</ol>
-<p>Go ahead and publish the migration using the below command:</p>
-<pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"</code></pre>
-<p>Then, run the migrations with the <code>artisan migrate</code> command:</p>
-<pre><code class="language-bash">php artisan migrate</code></pre>
-<h3 id="configure-database-auth">Step 2: Configure the Authentication Driver</h3>
-<p>Inside of your <code>config/auth.php</code> file, we must add a new provider in the <code>providers</code> array.</p>
-<p>In this example, we will create a provider named <code>ldap</code>:</p>
-<pre><code class="language-php">// config/auth.php
-
-'providers' =&gt; [
-    // ...
-
-    'ldap' =&gt; [
-        'driver' =&gt; 'ldap',
-        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
-        'database' =&gt; [
-            'model' =&gt; App\User::class,
-            'sync_passwords' =&gt; false,
-            'sync_attributes' =&gt; [
-                'name' =&gt; 'cn',
-                'email' =&gt; 'mail',
-            ],
-        ],
-    ],
-],</code></pre>
-<p>If you are using OpenLDAP, you must switch the <code>ldap.model</code> entry to:</p>
-<pre><code class="language-php">LdapRecord\Models\OpenLDAP\User::class</code></pre>
-<p>If you are using a different LDAP type, you will need to <a href="/docs/models/#defining-models">define your own LDAP model</a>
-and insert it there. This model is used for locating the authenticating user in your LDAP directory.</p>
-<p>Once you have setup your <code>ldap</code> provider, you must update the <code>provider</code> value in the <code>web</code> guard:</p>
-<pre><code class="language-php">// config/auth.php
-
-'guards' =&gt; [
-    'web' =&gt; [
-        'driver' =&gt; 'session',
-        'provider' =&gt; 'ldap', // Changed to 'ldap'
-    ],
-
-    // ...</code></pre>
-<h3 id="add-trait-and-interface">Step 3: Add the trait and interface to your user model</h3>
-<p>Now, we must add the following to our <code>User</code> Eloquent model:</p>
-<ul>
-<li>Interface: <code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></li>
-<li>Trait: <code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></li>
-</ul>
-<pre><code class="language-php">&lt;?php
-
-namespace App;
-
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
-use LdapRecord\Laravel\Auth\LdapAuthenticatable;
-
-class User extends Authenticatable implements LdapAuthenticatable
-{
-    use Notifiable, AuthenticatesWithLdap;
-
-    // ...
-}</code></pre>
-<p>These are required so LdapRecord can set and retrieve your users <code>domain</code> and <code>guid</code> database columns.</p>
-<p>This also allows you to configure the columns that LdapRecord uses for this by an override on the following methods:</p>
-<ul>
-<li><code>getLdapDomainColumn</code></li>
-<li><code>getLdapGuidColumn</code></li>
-</ul>
-<h3>Step 4: Setting up your LoginController:</h3>
-<p>For LdapRecord to properly locate users that attempt to login to your application, you must
-override the <code>credentials</code> method in your <code>Auth\LoginController.php</code> file.</p>
-<p>Then, you must set an array key of the LDAP attribute that will be used for looking up the user
-in your LDAP directory.</p>
-<p>In the example below, we will lookup LDAP users by their <code>mail</code> attribute:</p>
-<pre><code class="language-php">class LoginController extends Controller
-{
-    // ...
-
-    protected function credentials(Request $request)
-    {
-        return [
-            'mail' =&gt; $request-&gt;get('email'),
-            'password' =&gt; $request-&gt;get('password'),
-        ];
-    }
-}</code></pre>
-<p>You are now ready to authenticate LDAP users into your application.</p>
+                <h1>Testing</h1>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
-                    <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
-            <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/usage">Usage</a>
-            </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth">Overview</a>
+                <a href="/docs/laravel">Overview</a>
             </h4>
             </div>
 </div>

@@ -82,7 +82,7 @@ class LoginController extends Controller
 
 ### Step 3: Modifying The Layout Blade View {#plain-view-setup}
 
-When we use plain LDAP authentication, an instance the LdapRecord `model` you have
+When we use plain LDAP authentication, an instance of the LdapRecord `model` you have
 configured for authentication will be returned when calling the `Auth::user()`
 method. This means that our currently published blade views will throw an
 exception due to using `Auth::user()->name` inside of the view file
