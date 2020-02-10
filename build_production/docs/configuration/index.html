@@ -392,7 +392,7 @@ the permissions to do so on your directory.</li>
 <p>You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</p>
 <p>TLS is recommended over SSL, as SSL is now labelled as a deprecated mechanism for securely running LDAP operations.</p>
 <p>When using TLS you may have to configure an <code>ldap.conf</code> file and add the following inside:</p>
-<pre><code>TLS_REQCERT never</code></pre>
+<pre><code class="language-text">TLS_REQCERT never</code></pre>
 <p>The <code>ldap.conf</code> file is located in the following default locations:</p>
 <ul>
 <li>Windows: <code>C:\OpenLDAP\sysconf\ldap.conf</code> (The directories will not exist, create them and add the file)</li>
@@ -406,7 +406,7 @@ the permissions to do so on your directory.</li>
 </ul>
 <p>Then, reference it in your <code>ldap.conf</code> with the full file path using (replace 'my-custom-path' with
 the location of the file):</p>
-<pre><code>TLS_CACERT my-custom-path/ca.pem
+<pre><code class="language-text">TLS_CACERT my-custom-path/ca.pem
 TLS_REQCERT hard</code></pre>
 <h3 id="timeout">Timeout</h3>
 <p>The timeout option allows you to configure the amount of seconds to wait until

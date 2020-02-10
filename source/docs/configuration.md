@@ -97,7 +97,7 @@ TLS is recommended over SSL, as SSL is now labelled as a deprecated mechanism fo
 
 When using TLS you may have to configure an `ldap.conf` file and add the following inside:
 
-```
+```text
 TLS_REQCERT never
 ```
 
@@ -116,7 +116,7 @@ It's recommended to copy your domain CA cert to:
 Then, reference it in your `ldap.conf` with the full file path using (replace 'my-custom-path' with
 the location of the file):
 
-```
+```text
 TLS_CACERT my-custom-path/ca.pem
 TLS_REQCERT hard
 ```
