@@ -12,15 +12,22 @@ section: content
 > install LdapRecord and configure your LDAP connection.
 
 - [Introduction](#introduction)
+- [Debugging](#debugging)
 - [Plain Authentication](#plain)
 - [Synchronized Database Authentication](#database-sync)
 
-## Introduction
+## Introduction {#introduction}
 
 Before you begin, this guide assumes you have published Laravel's default authentication scaffolding.
 
 If you have not yet done so, please follow Laravel's [documented guide](https://laravel.com/docs/authentication#introduction) 
 to get started, and head back here once done.
+
+## Debugging {#debugging}
+
+Inside of your `config/ldap.php` file, ensure you have `logging` enabled during setup.
+
+This is a major asset in debugging connectivity and authentication issues.
 
 ## Plain LDAP Authentication {#plain}
 
@@ -93,12 +100,12 @@ You must change the syntax to the following:
 ```html
 <!-- resources/views/layouts/app.blade.php -->
 
-// From...
+<!-- From... -->
 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
     {{ Auth::user()->name }} <span class="caret"></span>
 </a>
 
-// To...
+<!-- To... -->
 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
     {{ Auth::user()->getFirstAttribute('cn') }} <span class="caret"></span>
 </a>
@@ -154,7 +161,7 @@ In this example, we will create a provider named `ldap`:
 ],
 ```
 
-If you are using OpenLDAP, you must switch the `ldap.model` entry to:
+If you are using OpenLDAP, you must switch the providers `model` option to:
 
 ```php
 LdapRecord\Models\OpenLDAP\User::class
@@ -185,12 +192,7 @@ Now, we must add the following to our `User` Eloquent model:
 - Trait: `LdapRecord\Laravel\Auth\AuthenticatesWithLdap`
 
 ```php
-<?php
-
-namespace App;
-
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+// ...
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 
