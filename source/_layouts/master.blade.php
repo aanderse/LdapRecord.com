@@ -85,7 +85,7 @@
             @yield('nav-toggle')
         </header>
 
-        <main role="main" class="w-full h-full">
+        <main role="main" class="w-full">
             @yield('body')
         </main>
 
@@ -93,7 +93,7 @@
 
         @stack('scripts')
 
-        <footer class="bg-white text-center text-sm mt-12 py-4 border-t-8 border-purple-600" role="contentinfo">
+        <footer class="bg-white text-center text-sm mt-12 py-4 border-t-8 border-purple-600 mt-auto" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-none">
                 <li class="md:mr-2">
                     &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> {{ date('Y') }}.

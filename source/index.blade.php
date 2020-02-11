@@ -30,7 +30,7 @@
 </section>
 
 <div class="md:mb-32 lg:w-2/3 max-w-5xl mx-auto relative z-10 -mt-32">
-    <div class="feature shadow-2xl mx-8">
+    <div class="feature shadow-2xl mx-12">
         <div class="top-bar">
             <div class="circles">
                 <div class="circle circle-red"></div>
