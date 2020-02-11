@@ -91,7 +91,7 @@ exception due to using `Auth::user()->name` inside of the view file
 You must change the syntax to the following:
 
 ```html
-// resources/views/layouts/app.blade.php
+<!-- resources/views/layouts/app.blade.php -->
 
 // From...
 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
