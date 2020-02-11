@@ -154,7 +154,7 @@ In this example, we will create a provider named `ldap`:
 ],
 ```
 
-If you are using OpenLDAP, you must switch the `ldap.model` entry to:
+If you are using OpenLDAP, you must switch the providers `model` option to:
 
 ```php
 LdapRecord\Models\OpenLDAP\User::class
