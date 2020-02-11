@@ -194,7 +194,7 @@ Models come with some built in constraint methods that you may find useful.
 >  The below constraints will only retrieve the models that are equal
 > to the type you have retrieved. For example, retrieving the descendants
 > of an organizational unit will only return organizational units that
-> are direct descendants.
+> are direct descendants. <br/><br/>
 >
 > If you would like to avoid this, use the default `LdapRecord\Models\Entry`
 > model, which provides no `objectclass` constraints on queries.
