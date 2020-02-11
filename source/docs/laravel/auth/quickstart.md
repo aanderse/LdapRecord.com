@@ -12,15 +12,22 @@ section: content
 > install LdapRecord and configure your LDAP connection.
 
 - [Introduction](#introduction)
+- [Debugging](#debugging)
 - [Plain Authentication](#plain)
 - [Synchronized Database Authentication](#database-sync)
 
-## Introduction
+## Introduction {#introduction}
 
 Before you begin, this guide assumes you have published Laravel's default authentication scaffolding.
 
 If you have not yet done so, please follow Laravel's [documented guide](https://laravel.com/docs/authentication#introduction) 
 to get started, and head back here once done.
+
+## Debugging {#debugging}
+
+Inside of your `config/ldap.php` file, ensure you have `logging` enabled during setup.
+
+This is a major asset in debugging connectivity and authentication issues.
 
 ## Plain LDAP Authentication {#plain}
 
