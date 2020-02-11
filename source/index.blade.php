@@ -2,10 +2,10 @@
 
 @section('body')
 <section class="retro-hero">
-    <div class="retro-hero-background w-3/4 md:w-1/2 h-screen bg-purple-900" style="transform: skew(45deg);"></div>
+    <div class="retro-hero-background w-11/12 md:w-1/2 h-screen bg-purple-900" style="transform: skew(45deg);"></div>
 
     <div class="retro-hero-content md:mx-48 my-auto">
-        <h1 class="retro-hero-heading sm:text-3xl lg:text-5xl">
+        <h1 class="retro-hero-heading sm:text-4xl lg:text-5xl">
             <em>Integrate LDAP into your PHP application</em>
         </h1>
 
