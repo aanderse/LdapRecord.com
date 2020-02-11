@@ -99,7 +99,7 @@ h6 {
 
 hr {
     @apply .border-b;
-    @apply .border-blue-200;
+    @apply .border-purple-700;
     @apply .my-12;
     @apply .rounded-full;
 }
@@ -137,8 +137,7 @@ pre {
     @apply .leading-loose;
     @apply .my-6;
     @apply .overflow-x-auto;
-    @apply .py-2;
-    @apply .px-3;
+    @apply .p-4;
     @apply .rounded;
     @apply .shadow;
     @apply .text-base;

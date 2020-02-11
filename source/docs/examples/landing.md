@@ -5,7 +5,7 @@ $user = User::create([
     'password' => 'P@ssw0rd',
 ]);
 
-$administrators = Group::find('cn=Administrators,dc=acme,dc=org');
+$administrators = Group::find('cn=Admins,dc=acme,dc=org');
 
 $user->groups()->attach($administrators);
 ```

@@ -2,19 +2,19 @@
 
 @section('body')
 <section class="retro-hero">
-    <div class="retro-hero-background" style="height: 80%;width: 145%;transform: rotate(140deg);offset-rotate: 90%;background-color: #6f296f;"></div>
+    <div class="retro-hero-background w-11/12 md:w-1/2 h-screen bg-purple-900" style="transform: skew(45deg);"></div>
 
     <div class="retro-hero-content md:mx-48 my-auto">
-        <h1 class="retro-hero-heading sm:text-3xl lg:text-5xl">
-            <em>Integrating LDAP is hard work</em>
+        <h1 class="retro-hero-heading sm:text-4xl lg:text-5xl">
+            <em>Integrate LDAP into your PHP applications</em>
         </h1>
 
-        <h2 class="text-shadow font-light hidden sm:block mt-4 text-white">
-            <strong class="font-extrabold italic">LdapRecord</strong> is a <strong class="font-extrabold italic">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+        <h2 class="text-shadow font-light hidden sm:block mt-4 text-white max-w-5xl">
+            No hair-pulling necessary.
         </h2>
 
         <h4 class="text-shadow font-light block sm:hidden mt-4 text-white">
-            <strong class="font-extrabold italic">LdapRecord</strong> is a <strong class="font-extrabold italic">PHP</strong> package that helps you integrate LDAP into your applications. No hair-pulling necessary.
+            No hair-pulling necessary.
         </h4>
 
         <div class="flex justify-center mb-8">
@@ -29,19 +29,13 @@
     </div>
 </section>
 
-<div class="md:mb-32 lg:w-2/3 mx-auto relative z-10 -mt-64">
-    <div class="feature shadow mx-4 md:mx-12">
-        <div class="top-bar flex items-center justify-between">
-            <div class="flex justify-start items-center">
-                <span class="mx-1">
-                    <img src="/assets/img/icon-only.svg" style="width:10px;height:10px;" alt="window icon">
-                </span>
-                <span class="text-white">LdapRecord</span>
-            </div>
-            <div class="flex justify-end circles">
-                <button type="button">_</button>
-                <button type="button">🗖</button>
-                <button type="button">X</button>
+<div class="md:mb-32 lg:w-2/3 max-w-5xl mx-auto relative z-10 -mt-32">
+    <div class="feature shadow-2xl mx-12">
+        <div class="top-bar">
+            <div class="circles">
+                <div class="circle circle-red"></div>
+                <div class="circle circle-yellow"></div>
+                <div class="circle circle-green"></div>
             </div>
         </div>
 
@@ -49,9 +43,9 @@
     </div>
 </div>
 
-<section class="container max-w-6xl mx-auto px-6 py-0 mt-16 md:mt-0">
+<section class="mx-auto py-0 mt-16 md:mt-0">
     <!-- Fast Setup. -->
-    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32">
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32 p-12">
         <div class="md:w-3/5">
             @component('components.feature')
                 @include('docs.examples.fast-setup')
@@ -59,13 +53,9 @@
         </div>
 
         <div class="md:w-2/5 md:ml-8 flex flex-col items-center md:items-start">
-            <div class="flex items-center">
-                <img src="/assets/img/clock.svg" class="h-12 w-12" alt="window icon">
-
-                <h3 id="intro-laravel" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
-                    Up and running fast
-                </h3>
-            </div>
+            <h3 class="text-center md:text-left text-5xl text-purple-800 my-0 font-extrabold italic text-shadow">
+                Up and running fast
+            </h3>
 
             <p class="text-xl text-center md:text-left">
                 Effortlessly connect to your LDAP servers and start running queries & operations faster than dial up.
@@ -73,20 +63,14 @@
         </div>
     </div>
 
-    <hr class="block my-8 border lg:hidden">
-
     <!-- Fluent Query Builder. -->
-    <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32">
+    <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32 p-12 bg-purple-800">
         <div class="md:w-2/5 md:mr-8 flex flex-col items-center md:items-start">
-            <div class="flex items-center">
-                <img src="/assets/img/repeat.svg" class="h-12 w-12" alt="window icon">
+            <h3 class="text-center md:text-left text-5xl text-white my-0 font-extrabold italic">
+                Fluent Query Builder
+            </h3>
 
-                <h3 id="intro-markdown" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
-                    Fluent Query Builder
-                </h3>
-            </div>
-
-            <p class="text-xl text-center md:text-left">
+            <p class="text-xl text-white text-center md:text-left">
                 Building LDAP queries has never been so easy. Find the objects you're
                 looking for in a couple lines or less with a fluent interface.
             </p>
@@ -99,10 +83,8 @@
         </div>
     </div>
 
-    <hr class="block my-8 border lg:hidden">
-
     <!-- ActiveRecord. -->
-    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-24">
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-24 p-12">
         <div class="md:w-3/5">
             @component('components.feature')
                 @include('docs.examples.active-record')
@@ -110,13 +92,9 @@
         </div>
 
         <div class="md:w-2/5 md:ml-8 flex flex-col items-center md:items-start">
-            <div class="flex items-center">
-                <img src="/assets/img/volume-control.svg" class="h-12 w-12" alt="stack icon">
-
-                <h3 id="intro-mix" class="text-2xl text-blue-900 mb-0 mt-0 ml-2 font-extrabold italic text-shadow">
-                    Supercharged ActiveRecord
-                </h3>
-            </div>
+            <h3 class="text-center md:text-left text-5xl text-purple-800 my-0 font-extrabold italic text-shadow">
+                Supercharged Active Record
+            </h3>
 
             <p class="text-xl text-center md:text-left">
                 Create and modify LDAP objects with ease. All LDAP objects are individual models. Simply modify the
