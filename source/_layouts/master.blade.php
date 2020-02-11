@@ -85,7 +85,7 @@
             @yield('nav-toggle')
         </header>
 
-        <main role="main" class="w-full">
+        <main role="main" class="w-full h-full">
             @yield('body')
         </main>
 
