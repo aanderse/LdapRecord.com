@@ -17,44 +17,36 @@
 .feature {
   @apply .flex;
   @apply .flex-col;
-  padding:1px;
-  background:#C0C0C0;
-  border-width:1px;
-  border-color:#FFFFFF #808080 #808080 #FFFFFF;
-  border-style:solid;
 
   pre {
-    border-radius:0;
+    @apply .my-0;
+    @apply .rounded-t-none;
   }
 
   .top-bar {
-    padding:3px;
-    background:#000080;
-    border-bottom:1px solid #808080;
-    font-family:Tahoma, Verdana, "Nunito Sans", sans-serif;
-    font-size:8px;
-    font-weight: bold;
+    height: 35px;
+    @apply .bg-gray-700;
+    @apply .rounded-t-lg;
 
-    button {
-      width:15px;
-      height:15px;
-      background:#C0C0C0;
-      border-width:1px;
-      border-color:#FFFFFF #808080 #808080 #FFFFFF;
-      padding:0;
-      font-weight:bold;
-      margin:2px 2px 2px 0;
-      text-align:center;
-    }:focus {
-      outline:none;
-    }:active {
-      border-style:inset;
+    .circles {
+      @apply .pt-1;
+      @apply .pl-3;
+      .circle {
+        @apply .rounded-full;
+        @apply .inline-block;
+        height: 12px;
+        width: 12px;
+      }
+      .circle-red {
+        @apply .bg-red-500;
+      }
+      .circle-yellow {
+        @apply .bg-yellow-500;
+      }
+      .circle-green {
+        @apply .bg-green-500;
+      }
     }
-  }
-
-  pre {
-    @apply .m-0;
-    @apply .rounded-t-none;
   }
 }
 

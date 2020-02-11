@@ -6,15 +6,16 @@
   @apply .flex-col;
   @apply .content-center;
   @apply .items-center;
+  @apply .border-purple-600;
+  @apply .border-b-8;
   margin-top:-100px;
-  background-image:linear-gradient(-280deg,#1b0e0e,#a832d7);
+  background-image:linear-gradient(-90deg,theme('colors.purple.500'),theme('colors.purple.900'));
 }
 
 .retro-hero-heading {
   @apply .text-shadow;
   @apply .text-2xl;
-  color:#ffff00;
-  font-family: "Permanent Marker", "Nunito Sans", sans-serif;
+  color:white;
 }
 
 .retro-hero-background {
