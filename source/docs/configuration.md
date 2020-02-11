@@ -113,7 +113,7 @@ It's recommended to copy your domain CA cert to:
 - Windows: `C:\OpenLDAP\sysconf`
 - Linux: `/etc/ssl/certs` 
 
-Then, reference it in your `ldap.conf` with the full file path using (replace 'my-custom-path' with
+Then, reference it in your `ldap.conf` with the full file path using (replace `my-custom-path` with
 the location of the file):
 
 ```text
