@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=807e19533618eda357a3">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=63de17a8db3c7739b1a0">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -266,13 +266,17 @@ install LdapRecord and configure your LDAP connection.</p>
 </blockquote>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
+<li><a href="#debugging">Debugging</a></li>
 <li><a href="#plain">Plain Authentication</a></li>
 <li><a href="#database-sync">Synchronized Database Authentication</a></li>
 </ul>
-<h2>Introduction</h2>
+<h2 id="introduction">Introduction</h2>
 <p>Before you begin, this guide assumes you have published Laravel's default authentication scaffolding.</p>
 <p>If you have not yet done so, please follow Laravel's <a href="https://laravel.com/docs/authentication#introduction">documented guide</a>
 to get started, and head back here once done.</p>
+<h2 id="debugging">Debugging</h2>
+<p>Inside of your <code>config/ldap.php</code> file, ensure you have <code>logging</code> enabled during setup.</p>
+<p>This is a major asset in debugging connectivity and authentication issues.</p>
 <h2 id="plain">Plain LDAP Authentication</h2>
 <h3 id="configure-plain-auth">Step 1: Configure the Authentication Driver</h3>
 <p>Inside of your <code>config/auth.php</code> file, we must add a new provider in the <code>providers</code> array.</p>
@@ -323,12 +327,12 @@ exception due to using <code>Auth::user()-&gt;name</code> inside of the view fil
 <p>You must change the syntax to the following:</p>
 <pre><code class="language-html">&lt;!-- resources/views/layouts/app.blade.php --&gt;
 
-// From...
+&lt;!-- From... --&gt;
 &lt;a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre&gt;
     {{ Auth::user()-&gt;name }} &lt;span class="caret"&gt;&lt;/span&gt;
 &lt;/a&gt;
 
-// To...
+&lt;!-- To... --&gt;
 &lt;a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre&gt;
     {{ Auth::user()-&gt;getFirstAttribute('cn') }} &lt;span class="caret"&gt;&lt;/span&gt;
 &lt;/a&gt;</code></pre>
@@ -366,7 +370,7 @@ storing your configured LDAP connection name of the user.</li>
         ],
     ],
 ],</code></pre>
-<p>If you are using OpenLDAP, you must switch the <code>ldap.model</code> entry to:</p>
+<p>If you are using OpenLDAP, you must switch the providers <code>model</code> option to:</p>
 <pre><code class="language-php">LdapRecord\Models\OpenLDAP\User::class</code></pre>
 <p>If you are using a different LDAP type, you will need to <a href="/docs/models/#defining-models">define your own LDAP model</a>
 and insert it there. This model is used for locating the authenticating user in your LDAP directory.</p>
@@ -386,12 +390,7 @@ and insert it there. This model is used for locating the authenticating user in 
 <li>Interface: <code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></li>
 <li>Trait: <code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></li>
 </ul>
-<pre><code class="language-php">&lt;?php
-
-namespace App;
-
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+<pre><code class="language-php">// ...
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 
