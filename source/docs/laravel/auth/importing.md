@@ -11,7 +11,7 @@ section: content
 - [Scheduling the command](#scheduling-the-command)
 - [Single Users](#single-users)
 - [Command Options](#command-options)
-- [Tips and Information](#tips-and-information)
+- [Additional Tips](#tips)
 
 LdapRecord-Laravel allows you to import users from your LDAP directories into your local database.
 This is done from the `ldap:import` command and only available when you configure
@@ -55,12 +55,12 @@ Would you like to display the user(s) to be imported / synchronized? (yes/no) [n
 A table will then be shown so you can confirm the import of the located users:
 
 ```text
-+------------------------------+----------------------+----------------------------------------------+
-| Name                         | Account Name         | UPN                                          |
-+------------------------------+----------------------+----------------------------------------------+
-| John Doe                     | johndoe              | johndoe@local.com                            |
-| Jane Doe                     | janedoe              | janedoe@local.com                            |
-+------------------------------+----------------------+----------------------------------------------+
++-------------+-------------------+---------------------+
+| Name        | Account Name      | UPN                 |
++-------------+-------------------+---------------------+
+| John Doe    | johndoe           | johndoe@local.com   |
+| Jane Doe    | janedoe           | janedoe@local.com   |
++-------------+-------------------+---------------------+
 ```
 
 Then, you will be asked to import the users shown and the import will begin:
@@ -79,13 +79,6 @@ Successfully imported / synchronized 2 user(s).
 To run the import as a scheduled job, place the following in your `app/Console/Kernel.php` in the command scheduler:
 
 ```php
-/**
- * Define the application's command schedule.
- *
- * @param \Illuminate\Console\Scheduling\Schedule $schedule
- *
- * @return void
- */
 protected function schedule(Schedule $schedule)
 {
     // Import LDAP users hourly.
@@ -142,7 +135,7 @@ The --no-log option allows you to disable logging during the command.
 php artisan ldap:import ldap --no-log
 ```
 
-By default, this is enabled.
+By default this is enabled, regardless if `logging` is disabled in your `config/ldap.php` file.
 
 ### Delete
 
@@ -165,8 +158,8 @@ The --restore (or -r) option allows you to restore soft-deleted re-activated LDA
 php artisan ldap:import ldap --restore
 ```
 
-> Usually the `--restore` and `--delete` options are used in tandem to allow full synchronization.
-
+> Usually the `--restore` and `--delete` options are used in tandem to allow
+> full synchronization of user disablements and restoration.
 
 ### No Interaction
 
@@ -198,7 +191,7 @@ $schedule->command('ldap:import ldap', ['--no-interaction', '--filter' => $filte
     ->everyMinute();
 ```
 
-### Tips and Information {#tips-and-information}
+### Additional Tips {#tips}
 
 - Users who already exist inside your database will be updated with your configured providers `sync_attributes`
 - Users are never deleted from the import command, you will need to delete users regularly through your Eloquent model
@@ -210,5 +203,5 @@ $schedule->command('ldap:import ldap', ['--no-interaction', '--filter' => $filte
   ```text
   [2020-01-29 14:51:51] local.ERROR: Unable to import user janedoe. SQLSTATE[23000]: Integrity constraint violation: 1048
   ```
-- If you have a password mutator (setter) on your User Eloquent model, it will not override it. This way, you can
-  hash the random 16 character passwords any way you prefer.
+- If you have a password mutator (setter) on your `User` Eloquent model, it will not override it.
+  This allows you to hash the random 16 character passwords any way you prefer.

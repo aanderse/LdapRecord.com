@@ -410,7 +410,7 @@ failure.</p>
             return "Your password is valid!";   
         }
 
-        $error = $connection-&gt;getLdapConnection-&gt;getDiagnosticMessage()();
+        $error = $connection-&gt;getLdapConnection()-&gt;getDiagnosticMessage();
 
         if (strpos($error, '532') !== false) {
             return "Your password has expired.";

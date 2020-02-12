@@ -118,7 +118,7 @@ class AuthController
             return "Your password is valid!";   
         }
 
-        $error = $connection->getLdapConnection->getDiagnosticMessage()();
+        $error = $connection->getLdapConnection()->getDiagnosticMessage();
 
         if (strpos($error, '532') !== false) {
             return "Your password has expired.";

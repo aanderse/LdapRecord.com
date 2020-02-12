@@ -35,10 +35,11 @@ This will create a new LdapRecord model inside of your application in the `app/L
 
 > If the `Ldap` folder does not exist, it will be created automatically.
 
-By default, the generated model will not have any `$objectClasses` set. LdapRecord requires this attribute
-to be set for objects to be created properly in your directory. If no `$objectClasses` are set, queries
-will not be scoped to the object you are querying and you will have to set the models `$objectClasses`
-manually before creating new objects.
+By default, the generated model will not have any `$objectClasses` set. LdapRecord requires
+this attribute to be set for objects to be created properly in your directory.
+
+If no `$objectClasses` are set, queries will not be scoped to the object you are querying
+and you will have to set the models `$objectClasses` manually before creating new objects.
 
 ```php
 namespace App\Ldap;
@@ -58,6 +59,7 @@ class User extends Model
 
 > You may want to extend from the `LdapRecord\Models\ActiveDirectory\Entry` class to
 > utilize some helper methods that are limited to the use of ActiveDirectory.
+> </br></br>
 > This can save you time from having to implement functionality manually.
 
 ### Searching {#searching}
@@ -114,6 +116,9 @@ $user->company = 'Acme';
 $user->save();
 ```
 
+> If you need help understanding user creation and management, take a look at the ActiveDirectory 
+> [user management tutorial](http://localhost:3000/docs/tutorials/activedirectory/user-management/).
+
 ### Scopes {#scopes}
 
 Sometimes you may need to utilize several of the same query filters around your application.
@@ -140,12 +145,6 @@ use LdapRecord\Query\Model\Builder;
 
 class OnlyAccountants implements Scope
 {
-    /**
-     * Prevent computer objects from being included in results.
-     *
-     * @param Builder $query
-     * @param Model   $model
-     */
     public function apply(Builder $query, Model $model)
     {
         $query->where('title', '=', 'Accountant');
@@ -193,8 +192,8 @@ As you may have noticed above, you must provide a named string for the scope you
 ## Plain Authentication {#plain-auth}
 
 Sometimes you simply want to know if a users LDAP credentials are valid.
-To do this, you must retrieve the your LDAP connection from the LdapRecord
-connection container.
+To do this, you must retrieve your LDAP connection from the LdapRecord
+[connection container](/docs/connecting/#container).
 
 To do so, you must call the `getConnection` method on the `Container` and pass in the name of
 your connection that appears in your `config/ldap.php` file:
@@ -241,5 +240,21 @@ $user = User::findByOrFail('samaccountname', 'sbauman');
 
 if ($connection->auth()->attempt($user->getDn(), 'SuperSecret')) {
     // Credentials are valid!
+}
+```
+
+If you need to determine why the users authentication is failing (for example, if their password has expired),
+you can retrieve the last message that was generated from your LDAP server. This message will usually
+contain a code that you can use to determine the cause of failure:
+
+```php
+if ($connection->auth()->attempt($user->getDn(), 'SuperSecret')) {
+    // Credentials are valid!
+} else {
+    $message = $connection->getLdapConnection()->getDiagnosticMessage();
+
+    if (strpos($message, '532') !== false) {
+        return "Your password has expired.";
+    }
 }
 ```

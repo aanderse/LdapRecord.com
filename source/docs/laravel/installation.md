@@ -39,12 +39,18 @@ LDAP_TLS=false
 The `default` connection you specify is the LDAP connection that will be used for
 models you define that do not have a [configured connection](/docs/models#connections).
 
-If you're using multiple LDAP connections, you will have to create unique `.env` variables
-for the above keys and then update the `config/ldap.php` with the new variables.
+If you're using multiple LDAP connections, you will have to manually create and assign
+unique `.env` variables for the above keys and then update the `config/ldap.php`
+with the new variables.
 
 For example:
 
 ```dotenv
-ALPHA_LDAP_HOST=127.0.0.1
-BRAVO_LDAP_HOST=192.168.0.1
+#...
+
+ALPHA_LDAP_HOST=192.160.0.1
+ALPHA_LDAP_USERNAME="cn=user,dc=alpha,dc=com"
+
+BRAVO_LDAP_HOST=192.170.0.1
+BRAVO_LDAP_USERNAME="cn=user,dc=bravo,dc=com"
 ```

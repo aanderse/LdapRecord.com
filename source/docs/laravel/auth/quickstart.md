@@ -25,9 +25,9 @@ to get started, and head back here once done.
 
 ## Debugging {#debugging}
 
-Inside of your `config/ldap.php` file, ensure you have `logging` enabled during setup.
+Inside of your `config/ldap.php` file, ensure you have `logging` enabled during the setup of authentication.
 
-This is a major asset in debugging connectivity and authentication issues.
+Doing this will help you immensely in debugging connectivity and authentication issues.
 
 ## Plain LDAP Authentication {#plain}
 

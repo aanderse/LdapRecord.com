@@ -264,7 +264,7 @@
 <li><a href="#scheduling-the-command">Scheduling the command</a></li>
 <li><a href="#single-users">Single Users</a></li>
 <li><a href="#command-options">Command Options</a></li>
-<li><a href="#tips-and-information">Tips and Information</a></li>
+<li><a href="#tips">Additional Tips</a></li>
 </ul>
 <p>LdapRecord-Laravel allows you to import users from your LDAP directories into your local database.
 This is done from the <code>ldap:import</code> command and only available when you configure
@@ -291,12 +291,12 @@ inside of your <code>config/auth.php</code> file. Let's walk through an example.
 Would you like to display the user(s) to be imported / synchronized? (yes/no) [no]:
 &gt; y</code></pre>
 <p>A table will then be shown so you can confirm the import of the located users:</p>
-<pre><code class="language-text">+------------------------------+----------------------+----------------------------------------------+
-| Name                         | Account Name         | UPN                                          |
-+------------------------------+----------------------+----------------------------------------------+
-| John Doe                     | johndoe              | johndoe@local.com                            |
-| Jane Doe                     | janedoe              | janedoe@local.com                            |
-+------------------------------+----------------------+----------------------------------------------+</code></pre>
+<pre><code class="language-text">+-------------+-------------------+---------------------+
+| Name        | Account Name      | UPN                 |
++-------------+-------------------+---------------------+
+| John Doe    | johndoe           | johndoe@local.com   |
+| Jane Doe    | janedoe           | janedoe@local.com   |
++-------------+-------------------+---------------------+</code></pre>
 <p>Then, you will be asked to import the users shown and the import will begin:</p>
 <pre><code class="language-text"> Would you like these users to be imported / synchronized? (yes/no) [no]:
  &gt; y
@@ -306,14 +306,7 @@ Would you like to display the user(s) to be imported / synchronized? (yes/no) [n
 Successfully imported / synchronized 2 user(s).</code></pre>
 <h2 id="scheduling-the-command">Scheduling the command</h2>
 <p>To run the import as a scheduled job, place the following in your <code>app/Console/Kernel.php</code> in the command scheduler:</p>
-<pre><code class="language-php">/**
- * Define the application's command schedule.
- *
- * @param \Illuminate\Console\Scheduling\Schedule $schedule
- *
- * @return void
- */
-protected function schedule(Schedule $schedule)
+<pre><code class="language-php">protected function schedule(Schedule $schedule)
 {
     // Import LDAP users hourly.
     $schedule-&gt;command('ldap:import ldap', [
@@ -352,7 +345,7 @@ Would you like to display the user(s) to be imported / synchronized? (yes/no) [n
 <h3>No Logging</h3>
 <p>The --no-log option allows you to disable logging during the command.</p>
 <pre><code class="language-text">php artisan ldap:import ldap --no-log</code></pre>
-<p>By default, this is enabled.</p>
+<p>By default this is enabled, regardless if <code>logging</code> is disabled in your <code>config/ldap.php</code> file.</p>
 <h3>Delete</h3>
 <blockquote>
 <p>This option is only available on ActiveDirectory models.</p>
@@ -367,7 +360,8 @@ will be deleted if your <code>User</code> Eloquent model does not have soft-dele
 <p>The --restore (or -r) option allows you to restore soft-deleted re-activated LDAP users.</p>
 <pre><code class="language-text">php artisan ldap:import ldap --restore</code></pre>
 <blockquote>
-<p>Usually the <code>--restore</code> and <code>--delete</code> options are used in tandem to allow full synchronization.</p>
+<p>Usually the <code>--restore</code> and <code>--delete</code> options are used in tandem to allow
+full synchronization of user disablements and restoration.</p>
 </blockquote>
 <h3>No Interaction</h3>
 <p>To run the import command via a schedule, use the <code>--no-interaction</code> flag:</p>
@@ -389,7 +383,7 @@ $filter = sprintf('(memberof:1.2.840.113556.1.4.1941:=%s)', $dn);
 
 $schedule-&gt;command('ldap:import ldap', ['--no-interaction', '--filter' =&gt; $filter])
     -&gt;everyMinute();</code></pre>
-<h3 id="tips-and-information">Tips and Information</h3>
+<h3 id="tips">Additional Tips</h3>
 <ul>
 <li>Users who already exist inside your database will be updated with your configured providers <code>sync_attributes</code></li>
 <li>Users are never deleted from the import command, you will need to delete users regularly through your Eloquent model</li>
@@ -397,8 +391,8 @@ $schedule-&gt;command('ldap:import ldap', ['--no-interaction', '--filter' =&gt; 
 <pre><code class="language-text">[2020-01-29 14:51:51] local.INFO: Imported user johndoe</code></pre></li>
 <li>Unsuccessful imported users are also reported in your log files, with the message of the exception:
 <pre><code class="language-text">[2020-01-29 14:51:51] local.ERROR: Unable to import user janedoe. SQLSTATE[23000]: Integrity constraint violation: 1048</code></pre></li>
-<li>If you have a password mutator (setter) on your User Eloquent model, it will not override it. This way, you can
-hash the random 16 character passwords any way you prefer.</li>
+<li>If you have a password mutator (setter) on your <code>User</code> Eloquent model, it will not override it.
+This allows you to hash the random 16 character passwords any way you prefer.</li>
 </ul>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">

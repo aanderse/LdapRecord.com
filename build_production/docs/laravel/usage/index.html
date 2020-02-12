@@ -284,10 +284,10 @@ you're ready to start running queries and operations on your LDAP server.</p>
 <blockquote>
 <p>If the <code>Ldap</code> folder does not exist, it will be created automatically.</p>
 </blockquote>
-<p>By default, the generated model will not have any <code>$objectClasses</code> set. LdapRecord requires this attribute
-to be set for objects to be created properly in your directory. If no <code>$objectClasses</code> are set, queries
-will not be scoped to the object you are querying and you will have to set the models <code>$objectClasses</code>
-manually before creating new objects.</p>
+<p>By default, the generated model will not have any <code>$objectClasses</code> set. LdapRecord requires
+this attribute to be set for objects to be created properly in your directory.</p>
+<p>If no <code>$objectClasses</code> are set, queries will not be scoped to the object you are querying
+and you will have to set the models <code>$objectClasses</code> manually before creating new objects.</p>
 <pre><code class="language-php">namespace App\Ldap;
 
 use LdapRecord\Models\Model;
@@ -304,6 +304,7 @@ class User extends Model
 <blockquote>
 <p>You may want to extend from the <code>LdapRecord\Models\ActiveDirectory\Entry</code> class to
 utilize some helper methods that are limited to the use of ActiveDirectory.
+</br></br>
 This can save you time from having to implement functionality manually.</p>
 </blockquote>
 <h3 id="searching">Searching</h3>
@@ -337,6 +338,10 @@ $user-&gt;save();</code></pre>
 $user-&gt;company = 'Acme';
 
 $user-&gt;save();</code></pre>
+<blockquote>
+<p>If you need help understanding user creation and management, take a look at the ActiveDirectory
+<a href="http://localhost:3000/docs/tutorials/activedirectory/user-management/">user management tutorial</a>.</p>
+</blockquote>
 <h3 id="scopes">Scopes</h3>
 <p>Sometimes you may need to utilize several of the same query filters around your application.
 Model scopes are a perfect for this, as you can extract these filters into its own class
@@ -356,12 +361,6 @@ use LdapRecord\Query\Model\Builder;
 
 class OnlyAccountants implements Scope
 {
-    /**
-     * Prevent computer objects from being included in results.
-     *
-     * @param Builder $query
-     * @param Model   $model
-     */
     public function apply(Builder $query, Model $model)
     {
         $query-&gt;where('title', '=', 'Accountant');
@@ -396,8 +395,8 @@ class User extends Model
 <p>As you may have noticed above, you must provide a named string for the scope you are passing in.</p>
 <h2 id="plain-auth">Plain Authentication</h2>
 <p>Sometimes you simply want to know if a users LDAP credentials are valid.
-To do this, you must retrieve the your LDAP connection from the LdapRecord
-connection container.</p>
+To do this, you must retrieve your LDAP connection from the LdapRecord
+<a href="/docs/connecting/#container">connection container</a>.</p>
 <p>To do so, you must call the <code>getConnection</code> method on the <code>Container</code> and pass in the name of
 your connection that appears in your <code>config/ldap.php</code> file:</p>
 <pre><code class="language-php">use LdapRecord\Container;
@@ -429,6 +428,18 @@ $user = User::findByOrFail('samaccountname', 'sbauman');
 
 if ($connection-&gt;auth()-&gt;attempt($user-&gt;getDn(), 'SuperSecret')) {
     // Credentials are valid!
+}</code></pre>
+<p>If you need to determine why the users authentication is failing (for example, if their password has expired),
+you can retrieve the last message that was generated from your LDAP server. This message will usually
+contain a code that you can use to determine the cause of failure:</p>
+<pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt($user-&gt;getDn(), 'SuperSecret')) {
+    // Credentials are valid!
+} else {
+    $message = $connection-&gt;getLdapConnection()-&gt;getDiagnosticMessage();
+
+    if (strpos($message, '532') !== false) {
+        return "Your password has expired.";
+    }
 }</code></pre>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">

@@ -38,6 +38,8 @@ LDAP_SSL=false
 LDAP_TLS=false
 ```
 
+View the core [configuration](/docs/configuration) documentation for more information.
+
 ### Step 4: Usage {#usage}
 
 To begin, you may either use the built-in [models that LdapRecord comes with](/docs/models#predefined-models),
@@ -68,4 +70,3 @@ class LdapUserController extends Controller
     }
 }
 ```
-
