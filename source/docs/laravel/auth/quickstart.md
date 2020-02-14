@@ -29,6 +29,8 @@ Inside of your `config/ldap.php` file, ensure you have `logging` enabled during 
 
 Doing this will help you immensely in debugging connectivity and authentication issues.
 
+If you encounter issues along the way, be sure to open your `storage/logs` directory and see what may be occurring.
+
 ## Plain LDAP Authentication {#plain}
 
 ### Step 1: Configure the Authentication Driver {#configure-plain-auth}
@@ -110,6 +112,8 @@ You must change the syntax to the following:
     {{ Auth::user()->getFirstAttribute('cn') }} <span class="caret"></span>
 </a>
 ```
+
+Your application is now ready to authenticate LDAP users.
 
 ## Synchronized Database Authentication {#database-sync}
 
@@ -236,4 +240,4 @@ class LoginController extends Controller
 }
 ```
 
-You are now ready to authenticate LDAP users into your application.
+Your application is now ready to authenticate LDAP users.

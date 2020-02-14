@@ -446,7 +446,11 @@ $user = new User(['cn' => 'John Doe']);
 $user->inside($ou)->save();
 ```
 
-The above examples will save the user inside the `Users` OU.
+The above examples will save the user inside the `Users` OU resulting in the full distinguished name:
+
+```text
+cn=John Doe,ou=Users,dc=acme,dc=org
+```
 
 #### Setting A Distinguished Name {#setting-a-distinguished-name}
 

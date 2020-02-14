@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=63de17a8db3c7739b1a0">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d7df6a7888100125ff9a">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -148,7 +148,7 @@
         <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Authentication</p>
     
             
-        <ul class="list-none my-0 border-l-4 border-purple-400">
+        <ul class="list-none my-0 border-l-4 border-purple-200">
             <li class="pl-4">
             
         <a href="/docs/laravel/auth/quickstart"
@@ -216,6 +216,15 @@
     </li>
             <li class="pl-4">
             
+        <a href="/docs/laravel/testing"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Testing
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
         <a href="/docs/laravel/versioning"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
@@ -277,6 +286,7 @@ to get started, and head back here once done.</p>
 <h2 id="debugging">Debugging</h2>
 <p>Inside of your <code>config/ldap.php</code> file, ensure you have <code>logging</code> enabled during the setup of authentication.</p>
 <p>Doing this will help you immensely in debugging connectivity and authentication issues.</p>
+<p>If you encounter issues along the way, be sure to open your <code>storage/logs</code> directory and see what may be occurring.</p>
 <h2 id="plain">Plain LDAP Authentication</h2>
 <h3 id="configure-plain-auth">Step 1: Configure the Authentication Driver</h3>
 <p>Inside of your <code>config/auth.php</code> file, we must add a new provider in the <code>providers</code> array.</p>
@@ -336,6 +346,7 @@ exception due to using <code>Auth::user()-&gt;name</code> inside of the view fil
 &lt;a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre&gt;
     {{ Auth::user()-&gt;getFirstAttribute('cn') }} &lt;span class="caret"&gt;&lt;/span&gt;
 &lt;/a&gt;</code></pre>
+<p>Your application is now ready to authenticate LDAP users.</p>
 <h2 id="database-sync">Synchronized Database Authentication</h2>
 <h3 id="publish-migration">Step 1: Publish the Migration</h3>
 <p>LdapRecord requires you to have two additional user database columns.</p>
@@ -424,7 +435,7 @@ in your LDAP directory.</p>
         ];
     }
 }</code></pre>
-<p>You are now ready to authenticate LDAP users into your application.</p>
+<p>Your application is now ready to authenticate LDAP users.</p>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

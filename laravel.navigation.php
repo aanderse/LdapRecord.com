@@ -16,6 +16,7 @@ return [
             'Importing Users' => 'docs/laravel/auth/importing',
         ]
     ],
+    'Testing' => 'docs/laravel/testing',
     'Versioning' => 'docs/laravel/versioning',
     'License' => 'docs/laravel/license',
 ];

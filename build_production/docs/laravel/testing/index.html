@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=63de17a8db3c7739b1a0">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d7df6a7888100125ff9a">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -148,7 +148,7 @@
         <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Authentication</p>
     
             
-        <ul class="list-none my-0 border-l-4 border-purple-400">
+        <ul class="list-none my-0 border-l-4 border-purple-200">
             <li class="pl-4">
             
         <a href="/docs/laravel/auth/quickstart"
@@ -216,6 +216,15 @@
     </li>
             <li class="pl-4">
             
+        <a href="/docs/laravel/testing"
+            class="lvl0  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+        >
+            Testing
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
         <a href="/docs/laravel/versioning"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
@@ -259,22 +268,157 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Testing</h1>
-<h2>Introduction</h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#directory-emulator">Directory Emulator</a></li>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#emulated-queries">Emulated Queries</a></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
 <p>Testing LDAP integration for PHP has always been quite difficult. Any type of integration
 that is needed, you either need a real LDAP server to test against, or you mock
 every response given and assume the logic you have in place will work until
-you do live testing with a real LDAP server.</p>
-<p>LdapRecord-Laravel comes with an LDAP directory emulator.</p>
-<h2>Directory Emulator</h2>
-<p>LdapRecord-Laravel</p>
+you do live testing with a real LDAP server. This is finicky and hard to
+test in an easy way.</p>
+<p>That's where the LdapRecord <strong>Directory Emulator</strong> comes in.</p>
+<h2 id="directory-emulator">Directory Emulator</h2>
+<p>The Directory Emulator dynamically replaces the LDAP connection you specify with a fake
+one. This fake connection sets up an SQLite database that resembles an LDAP directory
+and allows you to store, update, delete, move, rename, and query LDAP objects through LdapRecord.</p>
+<p>The SQLite database can be stored as file so you can utilize it in your application,
+or you can use an in-memory database for running unit tests. It's the perfect
+suite for testing the LDAP integration in your Laravel applications.</p>
+<p>When you query a model that uses the connection you have setup with the Directory Emulator,
+LdapRecord dynamically swaps query filters with Eloquent SQL queries, effectively
+allowing you to query objects you create inside of your emulated directory.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>To begin, let's say we have an application that lists LDAP users inside of your configured directory.</p>
+<p>Inside of our <code>config/ldap.php</code> file, we have defined our single <code>default</code> connection:</p>
+<pre><code class="language-php">// config/ldap.php
+
+'default' =&gt; env('LDAP_CONNECTION', 'default'),
+
+'connections' =&gt; [
+    'default' =&gt; [
+        // ...
+        'base_dn' =&gt; 'dc=local,dc=com',
+    ],
+],</code></pre>
+<p>We have a <code>UsersController</code> that displays the LDAP users:</p>
+<pre><code class="language-php">use App\Ldap\User;
+
+public class UsersController extends Controller
+{
+    public function index()
+    {
+        $users = User::get();
+
+        return view('ldap.users', ['users' =&gt; $users]);
+    }
+}</code></pre>
+<p>And our view that simply lists all the users:</p>
+<pre><code class="language-html">&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Username&lt;/th&gt;      
+            &lt;th&gt;Full Name&lt;/th&gt;      
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach($users as $user)
+            &lt;tr&gt;
+                 &lt;td&gt;{{ $user-&gt;getFirstAttribute('samaccountname') }}&lt;/td&gt;       
+                 &lt;td&gt;{{ $user-&gt;getFirstAttribute('cn') }}&lt;/td&gt;       
+            &lt;/tr&gt;
+        @endforeach
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+<p>To test this would involve a ton of mocking - which we want to avoid. With the Directory Emulator,
+we can populate a fake LDAP server with objects utilizing our actual connection configuration.</p>
+<p>Let's create a test for the <code>UserController@index</code> method. We'll create a Laravel test running the following command:</p>
+<pre><code class="language-bash">php artisan make:test LdapUserControllerTest</code></pre>
+<p>Now that we have our test, let's attempt to test our <code>index</code> method:</p>
+<pre><code class="language-php">use App\Ldap\User;
+use LdapRecord\Laravel\Testing\DirectoryEmulator;
+
+class LdapUserControllerTest extends TestCase
+{
+    public function test_index_works()
+    {
+        DirectoryEmulator::setup('default');
+
+        $user = User::create([
+            'cn' =&gt; 'John Doe',
+            'samaccountname' =&gt; 'jdoe',
+        ]);
+
+        $this-&gt;assertEquals('cn=John Doe,dc=local,dc=com', $user-&gt;getDn());
+
+        $this-&gt;visit('/ldap/users')
+            -&gt;assertSee($user-&gt;getFirstAttribute('cn'))
+            -&gt;assertSee($user-&gt;getFirstAttribute('samaccountname'));
+    }
+}</code></pre>
+<p>As with actual LDAP objects created in a live directory using LdapRecord models, when you create
+LDAP objects in the emulated directory, they will use your connections configured <code>base_dn</code>
+to create distinguished names.</p>
+<h2 id="emulated-queries">Emulated Queries</h2>
+<p>The Directory Emulator also emulates LDAP queries. All queries are supported, except for <code>raw</code> filters and virtual attributes.</p>
+<blockquote>
+<p>You must use LdapRecord models to perform queries. You cannot use a plain LdapRecord <code>Connection</code> to retrieve objects.</p>
+</blockquote>
+<p>This means you can create a diverse LDAP object tree in your unit tests and ensure your application is querying the proper objects.</p>
+<p>Let's update our example controller to retrieve users inside of a specific OU and a company name:</p>
+<pre><code class="language-php">public class UsersController extends Controller
+{
+    public function index()
+    {
+        $ou = OrganizationalUnit::find('ou=Accounting,dc=local,dc=com');
+
+        $users = User::in($ou)-&gt;where('company', '=', 'Acme')-&gt;get();
+
+        return view('ldap.users', ['users' =&gt; $users]);
+    }
+}</code></pre>
+<p>Now we can update our test by creating an Organizational Unit and then creating a user
+inside of that OU and assert that we only see the proper user:</p>
+<pre><code class="language-php">public function test_index_works()
+{
+    DirectoryEmulator::setup('default');
+
+    $user = User::create([
+        'cn' =&gt; 'John Doe',
+        'samaccountname' =&gt; 'johndoe',
+    ]);
+
+    $ou = OrganizationalUnit::create([
+        'ou' =&gt; 'Accounting',
+    ]);
+
+    $accountant = (new User)-&gt;inside($ou)-&gt;save([
+        'cn' =&gt; 'Jane Doe',
+        'samaccountname' =&gt; 'janedoe',
+    ]);
+
+    $this-&gt;visit('/ldap/users')
+        -&gt;assertSee($accountant-&gt;getFirstAttribute('cn'))
+        -&gt;assertSee($accountant-&gt;getFirstAttribute('samaccountname'))
+        -&gt;assertDontSee($user-&gt;getFirstAttribute('cn'))
+        -&gt;assertDontSee($user-&gt;getFirstAttribute('samaccountname'));
+}</code></pre>
+<p>As you can see, this is extremely effective for testing your LDAP query integrations.</p>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
+                    <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
+            <h4 class="font-bold underline m-0 text-blue-700">
+                <a href="/docs/laravel/auth/importing">Importing Users</a>
+            </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel">Overview</a>
+                <a href="/docs/laravel/versioning">Versioning</a>
             </h4>
             </div>
 </div>

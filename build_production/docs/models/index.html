@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=63de17a8db3c7739b1a0">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d7df6a7888100125ff9a">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -167,7 +167,7 @@
         <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Models</p>
     
             
-        <ul class="list-none my-0 border-l-4 border-purple-400">
+        <ul class="list-none my-0 border-l-4 border-purple-200">
             <li class="pl-4">
             
         <a href="/docs/models"
@@ -229,7 +229,7 @@
         <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Tutorials</p>
     
             
-        <ul class="list-none my-0 border-l-4 border-purple-400">
+        <ul class="list-none my-0 border-l-4 border-purple-200">
             <li class="pl-4">
             
         <a href="/docs/tutorials/authentication"
@@ -660,7 +660,8 @@ $ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
 $user = new User(['cn' =&gt; 'John Doe']);
 
 $user-&gt;inside($ou)-&gt;save();</code></pre>
-<p>The above examples will save the user inside the <code>Users</code> OU.</p>
+<p>The above examples will save the user inside the <code>Users</code> OU resulting in the full distinguished name:</p>
+<pre><code class="language-text">cn=John Doe,ou=Users,dc=acme,dc=org</code></pre>
 <h4 id="setting-a-distinguished-name">Setting A Distinguished Name</h4>
 <p>To set the models distinguished name, call the <code>setDn()</code> method on your model and populate it
 with any organization unit or container that you would like it to be created inside:</p>
