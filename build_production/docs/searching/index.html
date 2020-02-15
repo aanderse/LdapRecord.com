@@ -487,22 +487,13 @@ $results = $query-&gt;whereNotHas($field)-&gt;get();</code></pre>
 server in your query results, use the <code>withDeleted</code> method:</p>
 <pre><code class="language-php">$results = $query-&gt;withDeleted()-&gt;get();</code></pre>
 <h2>Or Wheres</h2>
-<p>To perform an <code>or where</code> clause on the search object, use the <code>orWhere()</code> method. However,
-please be aware this function performs differently than it would on a database.</p>
+<p>To perform an <code>or where</code> clause on the search object, use the <code>orWhere()</code> method.</p>
 <p>For example:</p>
 <pre><code class="language-php">$results = $query
             -&gt;where('cn', '=', 'John Doe')
             -&gt;orWhere('cn', '=', 'Suzy Doe')
             -&gt;get();</code></pre>
-<p>This query would return no results. Since we're already defining that the common name (<code>cn</code>) must equal <code>John Doe</code>, applying
-the <code>orWhere()</code> does not amount to 'Look for an object with the common name as &quot;John Doe&quot; OR &quot;Suzy Doe&quot;'. This query would
-actually amount to 'Look for an object with the common name that <b>equals</b> &quot;John Doe&quot; OR &quot;Suzy Doe&quot;</p>
-<p>To solve the above problem, we would use <code>orWhere()</code> for both fields. For example:</p>
-<pre><code class="language-php">$results = $query
-        -&gt;orWhere('cn', '=', 'John Doe')
-        -&gt;orWhere('cn', '=', 'Suzy Doe')
-        -&gt;get();</code></pre>
-<p>Now, we'll retrieve both John and Suzy's LDAP records, because the common name can equal either.</p>
+<p>This query will return objects that have the common name of <code>John Doe</code> or <code>Suzy Doe</code>.</p>
 <blockquote>
 <p>You can also use all <code>where</code> methods as an or where, for example:
 <code>orWhereHas()</code>, <code>orWhereContains()</code>, <code>orWhereStartsWith()</code>, <code>orWhereEndsWith()</code></p>

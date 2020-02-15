@@ -7,8 +7,8 @@ section: content
 
 # Installation
 
-If you are using [database synchronization](/docs/laravel/auth#database), you must publish the included migrations
-to add the following database columns to your `users` table:
+If you are using [database synchronization](/docs/laravel/auth#database), you must publish the
+included migrations to add the following database columns to your `users` table:
 
 1. `guid` - This is for storing your LDAP users `objectguid`. It is needed for
    locating and synchronizing your LDAP user to the database.

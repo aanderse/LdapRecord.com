@@ -11,6 +11,7 @@ section: content
 - [Directory Emulator](#directory-emulator)
 - [Getting Started](#getting-started)
 - [Emulated Queries](#emulated-queries)
+- [Working with Relationships](#working-with-relationships)
 
 ## Introduction {#introduction}
 
@@ -186,3 +187,82 @@ public function test_index_works()
 ```
 
 As you can see, this is extremely effective for testing your LDAP query integrations.
+
+## Working with Relationships {##working-with-relationships}
+
+### Has One
+
+A `hasOne` relationship is easy to test. In this example, we will set the `manager` of another user:
+
+```php
+$manager = User::create(['cn' => 'John']);
+$user = User::create(['cn' => 'Jane']);
+
+$user->manager()->attach($manager);
+```
+
+Then, you can retrieve the users manager:
+
+```php
+$manager = $user->manager()->first();
+```
+
+### Has Many
+
+Since some attributes are virtual in LDAP (such as the the `memberof` attribute on User
+objects in ActiveDirectory), you will have to populate some attributes manually
+to mimic these virtual attributes. Let's walk through an example.
+
+In our application, we want to test that a user is a member of a particular group.
+
+First, we will create our group and user and add the user to the group:
+
+```php
+$group = Group::create(['cn' => 'Accounting']);
+
+$user = User::create(['cn' => 'John']);
+
+$user->groups()->attach($group);
+```
+
+Now, if we attempt to retrieve the `$group->members()` relationship, we won't receive
+any results, but we will when using the `$user->groups()` relationship:
+
+```php
+// Empty collection returned!
+$users = $group->members()->get();
+
+// A collection containing 'Accounting' group returned.
+$groups = $user->group()->get();
+```
+
+The `$user->groups()` relationship works because it queries for groups that contain a `member`
+attribute equal to the users distinguished name. This `member` attribute is set on the 
+`$group` instance that you pass into the `attach()` method.
+
+The `$group->members()` relationship **does not work** because it queries for objects that contain
+a `memberof` attribute to locate objects that are members. The `memberof` attribute is virtual,
+so we must populate it manually to get our relationships working on both directions:
+
+```php
+$group = Group::create(['cn' => 'Accounting']);
+
+$user = User::create([
+    'cn' => 'John',
+    'memberof' => [$group->getDn()],
+]);
+
+$user->groups()->attach($group);
+
+// Returns the user 'John'.
+$users = $group->members()->first();
+
+// Returns 'Accounting' group.
+$groups = $user->groups()->first();
+```
+
+### Has Many In
+
+Similarly with the `hasMany` relationship, when using a `hasManyIn` relationship,
+you must pre-populate a users virtual attribute for queries to properly locate
+members of a group.

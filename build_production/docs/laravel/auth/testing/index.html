@@ -212,6 +212,15 @@
         </a>
     
     </li>
+            <li class="pl-4">
+            
+        <a href="/docs/laravel/auth/testing"
+            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+        >
+            Testing
+        </a>
+    
+    </li>
     </ul>
     </li>
             <li class="pl-4">
@@ -268,15 +277,110 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Testing</h1>
-<p>Documentation is being constructed... Please stay tuned.</p>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#creating-the-test">Creating the test</a></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>LdapRecord-Laravel prides itself on giving you a great and easy testing experience using
+the <a href="/docs/laravel/testing#directory-emulator">Directory Emulator</a>. Using it, we can
+test authentication <a href="/docs/laravel/auth/configuration#rules">rules</a>,
+<a href="/docs/models#query-scopes">scopes</a> and group memberships. </p>
+<h2 id="getting-started">Getting Started</h2>
+<p>Before we begin, you must require the <code>doctrine/dbal</code> into your composers <code>require-dev</code> for testing.
+This is due to the <code>$table-&gt;dropColumns(['guid', 'domain'])</code> call inside of the additional
+LdapRecord auth migration and that we are using SQLite in our test environment.</p>
+<p>This package is required for modifying columns - as described in the
+<a href="https://laravel.com/docs/migrations#modifying-columns">Laravel documentation</a>.</p>
+<p>To do so, run the following command:</p>
+<pre><code class="language-bash">composer require doctrine/dbal --dev</code></pre>
+<h2 id="creating-the-test">Creating the test</h2>
+<p>Let's whip up a test by running the following command:</p>
+<pre><code class="language-bash">php artisan make:test TestLdapAuthentication</code></pre>
+<p>Inside of our generated test, we'll make use of the following traits:</p>
+<p><strong>DatabaseMigrations</strong></p>
+<pre><code class="language-text">Illuminate\Foundation\Testing\DatabaseMigrations</code></pre>
+<p>Using this trait will execute our migrations and ensure our database is to import our LDAP user.</p>
+<p><strong>WithFaker</strong></p>
+<pre><code class="language-text">Illuminate\Foundation\Testing\WithFaker</code></pre>
+<p>Using this trait provides us with generating fake UUID's (great for creating mock &quot;guids&quot;), names and emails.</p>
+<p>Let's add a <code>test_auth_works</code> method into the generated test:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Tests\Feature;
+
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
+use LdapRecord\Laravel\Testing\DirectoryEmulator;
+use LdapRecord\Models\ActiveDirectory\User;
+use Tests\TestCase;
+
+class TestLdapAuthentication extends TestCase
+{
+    use DatabaseMigrations, WithFaker;
+
+    public function test_auth_works()
+    {
+        $fake = DirectoryEmulator::setup('default');
+
+        $ldapUser = User::create([
+            'mail' =&gt; $this-&gt;faker-&gt;email,
+            'cn' =&gt; $this-&gt;faker-&gt;name,
+            'objectguid' =&gt; $this-&gt;faker-&gt;uuid,
+        ]);
+
+        $fake-&gt;actingAs($ldapUser);
+
+        $this-&gt;post('/login', [
+            'email' =&gt; $ldapUser-&gt;mail[0],
+            'password' =&gt; 'secret',
+        ])-&gt;assertRedirect('/home');
+
+        $user = Auth::user();
+
+        $this-&gt;assertInstanceOf(\App\User::class, $user);
+        $this-&gt;assertEquals($ldapUser-&gt;mail[0], $user-&gt;email);
+        $this-&gt;assertEquals($ldapUser-&gt;cn[0], $ldapUser-&gt;name);
+    }
+}</code></pre>
+<p>Let's deconstruct what's going on here.</p>
+<p>The first line creates a new Directory Emulator for our LDAP connection named <code>default</code> inside
+of our <code>config/ldap.php</code> file. It returns a fake LDAP connection that we can use to indicate
+that the user we insert will successfully pass LDAP authentication:</p>
+<pre><code class="language-php">$fake = DirectoryEmulator::setup('default');</code></pre>
+<p>On the second line, we're creating a fake LDAP user who will be signing into our application.
+You'll notice that we assign the attributes that are inside of our <code>sync_attributes</code>
+specified inside of our <code>config/auth.php</code> file, as well as the users <code>objectguid</code>:</p>
+<pre><code class="language-php">$user = User::create([
+    'mail' =&gt; $this-&gt;faker-&gt;email,
+    'cn' =&gt; $this-&gt;faker-&gt;name,
+    'objectguid' =&gt; $this-&gt;faker-&gt;uuid,
+]);</code></pre>
+<p>Third line, we are asserting that the user we have created will automatically pass
+LDAP authentication:</p>
+<pre><code class="language-php">$fake-&gt;actingAs($user);</code></pre>
+<p>Fourth, we are sending a post request to our <code>login</code> page, with our LDAP users email address.
+The password can be anything, since we asserted above that the user <strong>will</strong> pass:</p>
+<pre><code class="language-php"> $this-&gt;post('/login', [
+    'email' =&gt; $user-&gt;mail[0],
+    'password' =&gt; 'secret',
+])-&gt;assertRedirect('/home');</code></pre>
+<p>Finally, we check to make sure we can retrieve the successfully authenticated
+user and that their attributes were successfully synchronized.</p>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
+                    <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
+            <h4 class="font-bold underline m-0 text-blue-700">
+                <a href="/docs/laravel/auth/importing">Importing Users</a>
+            </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel">Overview</a>
+                <a href="/docs/laravel/testing">Testing</a>
             </h4>
             </div>
 </div>
