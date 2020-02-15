@@ -14,6 +14,7 @@ return [
             'Usage' => 'docs/laravel/auth/usage',
             'Multi-Domain' => 'docs/laravel/auth/multi-domain',
             'Importing Users' => 'docs/laravel/auth/importing',
+            'Testing' => 'docs/laravel/auth/testing',
         ]
     ],
     'Testing' => 'docs/laravel/testing',
