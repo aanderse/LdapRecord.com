@@ -283,8 +283,7 @@ $results = $query->withDeleted()->get();
 
 ## Or Wheres
 
-To perform an `or where` clause on the search object, use the `orWhere()` method. However,
-please be aware this function performs differently than it would on a database.
+To perform an `or where` clause on the search object, use the `orWhere()` method.
 
 For example:
 
@@ -294,21 +293,8 @@ $results = $query
             ->orWhere('cn', '=', 'Suzy Doe')
             ->get();
 ```
-    
-This query would return no results. Since we're already defining that the common name (`cn`) must equal `John Doe`, applying
-the `orWhere()` does not amount to 'Look for an object with the common name as "John Doe" OR "Suzy Doe"'. This query would
-actually amount to 'Look for an object with the common name that <b>equals</b> "John Doe" OR "Suzy Doe"
 
-To solve the above problem, we would use `orWhere()` for both fields. For example:
-
-```php
-$results = $query
-        ->orWhere('cn', '=', 'John Doe')
-        ->orWhere('cn', '=', 'Suzy Doe')
-        ->get();
-```
-
-Now, we'll retrieve both John and Suzy's LDAP records, because the common name can equal either.
+This query will return objects that have the common name of `John Doe` or `Suzy Doe`.
 
 > You can also use all `where` methods as an or where, for example:
 > `orWhereHas()`, `orWhereContains()`, `orWhereStartsWith()`, `orWhereEndsWith()`
