@@ -98,10 +98,6 @@ You must add your LDAP connections into the container if you would
 like to use LdapRecord models. Models pull the connection that
 they use from this container by their name.
 
-> Ensure you connect to your LDAP server with each
-> `Connection` you add into the container, otherwise
-> you will not receive any results from queries.
-
 #### Adding Connections
 
 ```php
@@ -114,6 +110,10 @@ $connection->connect();
 
 Container::addConnection($connection);
 ```
+
+> If you do not call `connect` on your connection prior to adding
+> it into the `Container`, it will be connected to automatically
+> when you attempt to retrieve query results.
 
 Each connection you add can have it's own name. This is
 required for connecting to multiple LDAP servers at
