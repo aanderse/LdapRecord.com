@@ -134,11 +134,17 @@ to create distinguished names.
 
 ## Emulated Queries {#emulated-queries}
 
-The Directory Emulator also emulates LDAP queries. All queries are supported, except for `raw` filters and virtual attributes.
+The Directory Emulator also emulates LDAP queries. However, there are limitations. The
+following features are not supported using the emulator:
+
+- `raw` filters
+- `anr` (Ambiguous Name Resolution) filters
+- Virtual attributes (such as `memberof`, `entryUUID` and more)
 
 > You must use LdapRecord models to perform queries. You cannot use a plain LdapRecord `Connection` to retrieve objects.
 
-This means you can create a diverse LDAP object tree in your unit tests and ensure your application is querying the proper objects.
+Using the emulator, you can create a diverse LDAP object tree in your unit tests and ensure your
+application is querying the proper objects.
 
 Let's update our example controller to retrieve users inside of a specific OU and a company name:
 
