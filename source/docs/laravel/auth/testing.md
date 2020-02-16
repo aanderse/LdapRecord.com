@@ -371,4 +371,5 @@ public function test_auth_fails()
 }
 ```
 
-We have now successfully tested our LDAP authentication rule.
+The above test passes because we have not added our LDAP user into any groups -
+so the `exists()` check inside of our rule returns `false`.

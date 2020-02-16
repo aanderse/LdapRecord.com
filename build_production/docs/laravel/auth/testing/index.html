@@ -554,7 +554,8 @@ attribute (due to this field being virtual) and have attached them to the group.
 
     $this-&gt;assertFalse(Auth::check());
 }</code></pre>
-<p>We have now successfully tested our LDAP authentication rule.</p>
+<p>The above test passes because we have not added our LDAP user into any groups -
+so the <code>exists()</code> check inside of our rule returns <code>false</code>.</p>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
