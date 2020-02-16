@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=d7df6a7888100125ff9a">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=fd3e85050bc0cec2d319">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -373,11 +373,18 @@ class LdapUserControllerTest extends TestCase
 LDAP objects in the emulated directory, they will use your connections configured <code>base_dn</code>
 to create distinguished names.</p>
 <h2 id="emulated-queries">Emulated Queries</h2>
-<p>The Directory Emulator also emulates LDAP queries. All queries are supported, except for <code>raw</code> filters and virtual attributes.</p>
+<p>The Directory Emulator also emulates LDAP queries. However, there are limitations. The
+following features are not supported using the emulator:</p>
+<ul>
+<li><code>raw</code> filters</li>
+<li><code>anr</code> (Ambiguous Name Resolution) filters</li>
+<li>Virtual attributes (such as <code>memberof</code>, <code>entryUUID</code> and more)</li>
+</ul>
 <blockquote>
 <p>You must use LdapRecord models to perform queries. You cannot use a plain LdapRecord <code>Connection</code> to retrieve objects.</p>
 </blockquote>
-<p>This means you can create a diverse LDAP object tree in your unit tests and ensure your application is querying the proper objects.</p>
+<p>Using the emulator, you can create a diverse LDAP object tree in your unit tests and ensure your
+application is querying the proper objects.</p>
 <p>Let's update our example controller to retrieve users inside of a specific OU and a company name:</p>
 <pre><code class="language-php">public class UsersController extends Controller
 {

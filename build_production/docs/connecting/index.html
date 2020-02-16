@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=d7df6a7888100125ff9a">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=fd3e85050bc0cec2d319">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -388,11 +388,6 @@ the third parameter in the <code>attempt()</code> method:</p>
 <p>You must add your LDAP connections into the container if you would
 like to use LdapRecord models. Models pull the connection that
 they use from this container by their name.</p>
-<blockquote>
-<p>Ensure you connect to your LDAP server with each
-<code>Connection</code> you add into the container, otherwise
-you will not receive any results from queries.</p>
-</blockquote>
 <h4>Adding Connections</h4>
 <pre><code class="language-php">use LdapRecord\Container;                         
 use LdapRecord\Connection;
@@ -402,6 +397,11 @@ $connection = new Connection(['...']);
 $connection-&gt;connect();
 
 Container::addConnection($connection);</code></pre>
+<blockquote>
+<p>If you do not call <code>connect</code> on your connection prior to adding
+it into the <code>Container</code>, it will be connected to automatically
+when you attempt to retrieve query results.</p>
+</blockquote>
 <p>Each connection you add can have it's own name. This is
 required for connecting to multiple LDAP servers at
 one time. To set the name of a connection in the
