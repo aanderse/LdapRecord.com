@@ -372,7 +372,7 @@ The password can be anything, since we asserted above that the user <strong>will
 ])-&gt;assertRedirect('/home');</code></pre>
 <p>Finally, we check to make sure we can retrieve the successfully authenticated
 user and that their attributes were successfully synchronized.</p>
-<h2>Scopes</h2>
+<h2 id="scopes">Scopes</h2>
 <p>To test scopes that you apply to the LdapRecord model you are using for authentication,
 you will need to apply the attributes to the fake user you create to test that
 they can be properly located during authentication.</p>
@@ -467,7 +467,7 @@ authentication will fail due to the user not being able to be located due to our
 created.</p>
 <p>We have also modified our redirect assertion to instead validate that the <code>email</code> session
 key contains errors. This key will contain the <code>Invalid credentials</code> message.</p>
-<h2>Rules</h2>
+<h2 id="rules">Rules</h2>
 <p>As with testing scopes, to test rules we must either apply or omit data on
 our fake user to test our LDAP authentication rules.</p>
 <p>An authentication rule is great for checking if a user is a member of a certain group

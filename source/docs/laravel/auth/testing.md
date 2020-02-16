@@ -148,7 +148,7 @@ The password can be anything, since we asserted above that the user **will** pas
 Finally, we check to make sure we can retrieve the successfully authenticated
 user and that their attributes were successfully synchronized.
 
-## Scopes
+## Scopes {#scopes}
 
 To test scopes that you apply to the LdapRecord model you are using for authentication,
 you will need to apply the attributes to the fake user you create to test that
@@ -264,7 +264,7 @@ created.
 We have also modified our redirect assertion to instead validate that the `email` session
 key contains errors. This key will contain the `Invalid credentials` message.
 
-## Rules
+## Rules {#rules}
 
 As with testing scopes, to test rules we must either apply or omit data on
 our fake user to test our LDAP authentication rules.
