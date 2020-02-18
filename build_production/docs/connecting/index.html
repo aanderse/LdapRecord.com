@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=fd3e85050bc0cec2d319">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=ddd2d41afe8e3be50aa7">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -331,9 +331,9 @@
 a connection and insert your configuration into it:</p>
 <pre><code class="language-php">use LdapRecord\Connection;
 
-$connection = Connection([
-     'hosts' =&gt; ['192.168.1.1'],
-     'port' =&gt; 389,
+$connection = new Connection([
+     'hosts'    =&gt; ['192.168.1.1'],
+     'port'     =&gt; 389,
      'username' =&gt; 'cn=user,dc=local,dc=com',
      'password' =&gt; 'secret',
 ]);</code></pre>
@@ -354,9 +354,9 @@ server, simply set your <code>username</code> and <code>password</code>
 configuration parameters to <code>null</code>:</p>
 <pre><code class="language-php">use LdapRecord\Connection;
 
-$connection = Connection([
-     'hosts' =&gt; ['192.168.1.1'],
-     'port' =&gt; 389,
+$connection = new Connection([
+     'hosts'    =&gt; ['192.168.1.1'],
+     'port'     =&gt; 389,
      'username' =&gt; null,
      'password' =&gt; null,
 ]);
@@ -366,7 +366,10 @@ $connection-&gt;connect();</code></pre>
 <p>Using the connection instance, you can execute a bind request
 to perform LDAP authentication to see if a username and
 password is valid.</p>
-<pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt('cn=user,dc=local,dc=com', 'secret'))
+<pre><code class="language-php">$user = 'cn=user,dc=local,dc=com';
+$password = 'secret';
+
+if ($connection-&gt;auth()-&gt;attempt($user, $password))
 {
     echo "Username and password are correct!";
 }</code></pre>
@@ -378,7 +381,10 @@ user during the same request.</p>
 <p>If you would like to run all further LDAP operations
 underneath the authenticated user, pass in <code>true</code> in
 the third parameter in the <code>attempt()</code> method:</p>
-<pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt('cn=user,dc=local,dc=com', 'secret', $bindAsUser = true))
+<pre><code class="language-php">$user = 'cn=user,dc=local,dc=com';
+$password = 'secret';
+
+if ($connection-&gt;auth()-&gt;attempt($user, $password, $bindAsUser = true))
 {
     echo "Username and password are correct!";
 

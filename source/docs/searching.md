@@ -163,8 +163,8 @@ We can also supply an array of key - value pairs to quickly add multiple wheres:
 
 ```php
 $wheres = [
-    'cn' => 'John Doe',
-    'samaccountname' => 'jdoe',
+    'givenname' => 'John',
+    'company'   => 'Acme',
 ];
 
 $query->where($wheres);
