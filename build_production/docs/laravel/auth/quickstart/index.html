@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=05f38c153780f44820fc">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=5beefd21dd4b51ca0cd9">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -359,12 +359,24 @@ exception due to using <code>Auth::user()-&gt;name</code> inside of the view fil
 <h2 id="database-sync">Synchronized Database Authentication</h2>
 <h3 id="publish-migration">Step 1: Publish the Migration</h3>
 <p>LdapRecord requires you to have two additional user database columns.</p>
-<ol>
-<li><code>guid</code> - This is for storing your LDAP users <code>objectguid</code>. It is needed for
-locating and synchronizing your LDAP user to the database.</li>
-<li><code>domain</code> - This is for storing your LDAP users connection name. It is needed for
-storing your configured LDAP connection name of the user.</li>
-</ol>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>guid</code></td>
+<td>This is for storing your LDAP users <code>objectguid</code>. It is needed for locating and synchronizing your LDAP user to the database.</td>
+</tr>
+<tr>
+<td><code>domain</code></td>
+<td>This is for storing your LDAP users connection name. It is needed for storing your configured LDAP connection name of the user.</td>
+</tr>
+</tbody>
+</table>
 <p>Go ahead and publish the migration using the below command:</p>
 <pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"</code></pre>
 <p>Then, run the migrations with the <code>artisan migrate</code> command:</p>

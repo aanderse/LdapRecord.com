@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=05f38c153780f44820fc">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=5beefd21dd4b51ca0cd9">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -279,12 +279,24 @@
                 <h1>Installation</h1>
 <p>If you are using <a href="/docs/laravel/auth#database">database synchronization</a>, you must publish the
 included migrations to add the following database columns to your <code>users</code> table:</p>
-<ol>
-<li><code>guid</code> - This is for storing your LDAP users <code>objectguid</code>. It is needed for
-locating and synchronizing your LDAP user to the database.</li>
-<li><code>domain</code> - This is for storing your LDAP users connection name. It is needed for
-storing your configured LDAP connection name of the user.</li>
-</ol>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>guid</code></td>
+<td>This is for storing your LDAP users <code>objectguid</code>. It is needed for locating and synchronizing your LDAP user to the database.</td>
+</tr>
+<tr>
+<td><code>domain</code></td>
+<td>This is for storing your LDAP users connection name. It is needed for storing your configured LDAP connection name of the user.</td>
+</tr>
+</tbody>
+</table>
 <p>Publish the migration using the below command:</p>
 <pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"</code></pre>
 <p>Then, add the following interface and trait to your <code>app/User.php</code> model:</p>

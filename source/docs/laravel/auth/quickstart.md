@@ -121,10 +121,10 @@ Your application is now ready to authenticate LDAP users.
 
 LdapRecord requires you to have two additional user database columns.
 
-1. `guid` - This is for storing your LDAP users `objectguid`. It is needed for
-   locating and synchronizing your LDAP user to the database.
-2. `domain` - This is for storing your LDAP users connection name. It is needed for
-   storing your configured LDAP connection name of the user.
+Column | Reason |
+--- | --- |
+`guid` | This is for storing your LDAP users `objectguid`. It is needed for locating and synchronizing your LDAP user to the database. |
+`domain` | This is for storing your LDAP users connection name. It is needed for storing your configured LDAP connection name of the user. |
 
 Go ahead and publish the migration using the below command:
 
