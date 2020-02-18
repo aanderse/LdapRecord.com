@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=ddd2d41afe8e3be50aa7">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=05f38c153780f44820fc">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -333,13 +333,30 @@
 <h2 id="creation">Creation</h2>
 <p>Let's walk through the basics of user creation for ActiveDirectory. There
 are some prerequisites you must know prior to creation:</p>
-<ul>
-<li>You must connect to your server via TLS or SSL if you set the <code>unicodepwd</code> attribute</li>
-<li>You must connect to your server with an account that has permission to create users</li>
-<li>You must set a common name (<code>cn</code>) for the user</li>
-<li>You must set the <code>unicodePwd</code> attribute as a non-encoded string (more on this below)</li>
-<li>To set the users <code>userAccountControl</code>, it must be set <strong>after</strong> the user has been saved</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You must connect to your server via TLS or SSL if you set the <code>unicodepwd</code> attribute</td>
+</tr>
+<tr>
+<td>You must connect to your server with an account that has permission to create users</td>
+</tr>
+<tr>
+<td>You must set a common name (<code>cn</code>) for the user</td>
+</tr>
+<tr>
+<td>You must set the <code>unicodePwd</code> attribute as a non-encoded string (more on this below)</td>
+</tr>
+<tr>
+<td>To set the users <code>userAccountControl</code>, it must be set <strong>after</strong> the user has been saved</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p>Attributes that are set below can be cased in <em>any</em> manor. They
 can be uppercase, lowercase, camel-cased, etc. Use whichever casing
@@ -420,11 +437,24 @@ calling <code>save()</code>, it will be sent to your LDAP server.</p>
 that has permissions to reset passwords, or bind as the user whose
 password you are trying to change.</p>
 <p>There are some prerequisites you must know for changing passwords:</p>
-<ul>
-<li>You must provide the correct users old password</li>
-<li>You must provide a new password that abides by your password policy, such as history, complexity and length</li>
-<li>You must set the <code>unicodepwd</code> attribute with an array containing two (2) values (old &amp; new password)</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You must provide the correct users <strong>old</strong> password</td>
+</tr>
+<tr>
+<td>You must provide a new password that abides by your <strong>password policy</strong>, such as: <ul><li>History</li><li>Complexity</li><li>Length</li></ul></td>
+</tr>
+<tr>
+<td>You must set the <code>unicodepwd</code> attribute with an array containing <strong>two</strong> (2) values (old &amp; new password)</td>
+</tr>
+</tbody>
+</table>
 <p>Let's walk through an example:</p>
 <blockquote>
 <p>You must use a try / catch block upon saving. An <code>LdapRecord\LdapRecordException</code> will always be thrown
@@ -522,30 +552,81 @@ $user-&gt;userAccountControl = $uac;
 
 $user-&gt;save();</code></pre>
 <p>Here is a list of all account control methods that are available on the <code>AccountControl</code> builder:</p>
-<ul>
-<li><code>AccountControl::runLoginScript()</code></li>
-<li><code>AccountControl::accountIsLocked()</code></li>
-<li><code>AccountControl::accountIsDisabled()</code></li>
-<li><code>AccountControl::accountIsTemporary()</code></li>
-<li><code>AccountControl::accountIsNormal()</code></li>
-<li><code>AccountControl::accountIsForInterdomain()</code></li>
-<li><code>AccountControl::accountIsForWorkstation()</code></li>
-<li><code>AccountControl::accountIsForServer()</code></li>
-<li><code>AccountControl::accountIsMnsLogon()</code></li>
-<li><code>AccountControl::accountDoesNotRequirePreAuth()</code></li>
-<li><code>AccountControl::accountRequiresSmartCard()</code></li>
-<li><code>AccountControl::accountIsReadOnly()</code></li>
-<li><code>AccountControl::homeFolderIsRequired()</code></li>
-<li><code>AccountControl::passwordIsNotRequired()</code></li>
-<li><code>AccountControl::passwordCannotBeChanged()</code></li>
-<li><code>AccountControl::passwordDoesNotExpire()</code></li>
-<li><code>AccountControl::passwordIsExpired()</code></li>
-<li><code>AccountControl::allowEncryptedTextPassword()</code></li>
-<li><code>AccountControl::trustForDelegation()</code></li>
-<li><code>AccountControl::trustToAuthForDelegation()</code></li>
-<li><code>AccountControl::doNotTrustForDelegation()</code></li>
-<li><code>AccountControl::useDesKeyOnly()</code></li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AccountControl::runLoginScript()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountIsLocked()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountIsDisabled()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountIsTemporary()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountIsNormal()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountIsForInterdomain()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountIsForWorkstation()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountIsForServer()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountIsMnsLogon()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountDoesNotRequirePreAuth()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountRequiresSmartCard()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::accountIsReadOnly()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::homeFolderIsRequired()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::passwordIsNotRequired()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::passwordCannotBeChanged()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::passwordDoesNotExpire()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::passwordIsExpired()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::allowEncryptedTextPassword()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::trustForDelegation()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::trustToAuthForDelegation()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::doNotTrustForDelegation()</code></td>
+</tr>
+<tr>
+<td><code>AccountControl::useDesKeyOnly()</code></td>
+</tr>
+</tbody>
+</table>
 <h4 id="determining-account-control-flags">Determining Set Account Control Flags</h4>
 <p>To determine what controls an existing user already has, create an <code>AccountControl</code> object
 with the users <code>userAccountControl</code> value and use the <code>has()</code> method:</p>
@@ -568,17 +649,52 @@ if ($uac-&gt;has(AccountControl::LOCKOUT)) {
 <h3 id="password-policy-errors">Password Policy Errors</h3>
 <p>ActiveDirectory will return diagnostic error codes when a password modification fails.</p>
 <p>To determine the cause, you can check this diagnostic message to see if it contains any of the following codes:</p>
-<ul>
-<li><code>525</code> - user not found</li>
-<li><code>52e</code> - invalid credentials</li>
-<li><code>530</code> - not permitted to logon at this time</li>
-<li><code>531</code> - not permitted to logon at this workstation</li>
-<li><code>532</code> - password expired</li>
-<li><code>533</code> - account disabled</li>
-<li><code>701</code> - account expired</li>
-<li><code>773</code> - user must reset password</li>
-<li><code>775</code> - user account locked</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>525</code></td>
+<td>User not found</td>
+</tr>
+<tr>
+<td><code>52e</code></td>
+<td>Invalid credentials</td>
+</tr>
+<tr>
+<td><code>530</code></td>
+<td>Not permitted to logon at this time</td>
+</tr>
+<tr>
+<td><code>531</code></td>
+<td>Not permitted to logon at this workstation</td>
+</tr>
+<tr>
+<td><code>532</code></td>
+<td>Password expired</td>
+</tr>
+<tr>
+<td><code>533</code></td>
+<td>Account disabled</td>
+</tr>
+<tr>
+<td><code>701</code></td>
+<td>Account expired</td>
+</tr>
+<tr>
+<td><code>773</code></td>
+<td>User must reset password</td>
+</tr>
+<tr>
+<td><code>775</code></td>
+<td>User account locked</td>
+</tr>
+</tbody>
+</table>
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\LdapRecordException;

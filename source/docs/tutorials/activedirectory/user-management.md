@@ -20,11 +20,13 @@ section: content
 Let's walk through the basics of user creation for ActiveDirectory. There
 are some prerequisites you must know prior to creation:
 
-- You must connect to your server via TLS or SSL if you set the `unicodepwd` attribute
-- You must connect to your server with an account that has permission to create users
-- You must set a common name (`cn`) for the user
-- You must set the `unicodePwd` attribute as a non-encoded string (more on this below)
-- To set the users `userAccountControl`, it must be set **after** the user has been saved
+Requirement |
+--- |
+You must connect to your server via TLS or SSL if you set the `unicodepwd` attribute |
+You must connect to your server with an account that has permission to create users |
+You must set a common name (`cn`) for the user |
+You must set the `unicodePwd` attribute as a non-encoded string (more on this below) |
+To set the users `userAccountControl`, it must be set **after** the user has been saved |
 
 > Attributes that are set below can be cased in *any* manor. They
 > can be uppercase, lowercase, camel-cased, etc. Use whichever casing
@@ -123,9 +125,11 @@ password you are trying to change.
 
 There are some prerequisites you must know for changing passwords:
 
-- You must provide the correct users old password
-- You must provide a new password that abides by your password policy, such as history, complexity and length
-- You must set the `unicodepwd` attribute with an array containing two (2) values (old & new password)
+Requirement |
+--- |
+You must provide the correct users **old** password |
+You must provide a new password that abides by your **password policy**, such as: <ul><li>History</li><li>Complexity</li><li>Length</li></ul> |
+You must set the `unicodepwd` attribute with an array containing **two** (2) values (old & new password) |
 
 Let's walk through an example:
 
@@ -244,28 +248,30 @@ $user->save();
 
 Here is a list of all account control methods that are available on the `AccountControl` builder:
 
-- `AccountControl::runLoginScript()`
-- `AccountControl::accountIsLocked()`
-- `AccountControl::accountIsDisabled()`
-- `AccountControl::accountIsTemporary()`
-- `AccountControl::accountIsNormal()`
-- `AccountControl::accountIsForInterdomain()`
-- `AccountControl::accountIsForWorkstation()`
-- `AccountControl::accountIsForServer()`
-- `AccountControl::accountIsMnsLogon()`
-- `AccountControl::accountDoesNotRequirePreAuth()`
-- `AccountControl::accountRequiresSmartCard()`
-- `AccountControl::accountIsReadOnly()`
-- `AccountControl::homeFolderIsRequired()`
-- `AccountControl::passwordIsNotRequired()`
-- `AccountControl::passwordCannotBeChanged()`
-- `AccountControl::passwordDoesNotExpire()`
-- `AccountControl::passwordIsExpired()`
-- `AccountControl::allowEncryptedTextPassword()`
-- `AccountControl::trustForDelegation()`
-- `AccountControl::trustToAuthForDelegation()`
-- `AccountControl::doNotTrustForDelegation()`
-- `AccountControl::useDesKeyOnly()`
+Method |
+--- |
+`AccountControl::runLoginScript()` |
+`AccountControl::accountIsLocked()` |
+`AccountControl::accountIsDisabled()` |
+`AccountControl::accountIsTemporary()` |
+`AccountControl::accountIsNormal()` |
+`AccountControl::accountIsForInterdomain()` |
+`AccountControl::accountIsForWorkstation()` |
+`AccountControl::accountIsForServer()` |
+`AccountControl::accountIsMnsLogon()` |
+`AccountControl::accountDoesNotRequirePreAuth()` |
+`AccountControl::accountRequiresSmartCard()` |
+`AccountControl::accountIsReadOnly()` |
+`AccountControl::homeFolderIsRequired()` |
+`AccountControl::passwordIsNotRequired()` |
+`AccountControl::passwordCannotBeChanged()` |
+`AccountControl::passwordDoesNotExpire()` |
+`AccountControl::passwordIsExpired()` |
+`AccountControl::allowEncryptedTextPassword()` |
+`AccountControl::trustForDelegation()` |
+`AccountControl::trustToAuthForDelegation()` |
+`AccountControl::doNotTrustForDelegation()` |
+`AccountControl::useDesKeyOnly()` |
 
 #### Determining Set Account Control Flags {#determining-account-control-flags}
 
@@ -297,15 +303,17 @@ ActiveDirectory will return diagnostic error codes when a password modification 
 
 To determine the cause, you can check this diagnostic message to see if it contains any of the following codes:
 
-- `525` - user not found
-- `52e` - invalid credentials
-- `530` - not permitted to logon at this time
-- `531` - not permitted to logon at this workstation
-- `532` - password expired
-- `533` - account disabled
-- `701` - account expired
-- `773` - user must reset password
-- `775` - user account locked
+Code | Meaning |
+--- | --- |
+`525` | User not found |
+`52e` | Invalid credentials |
+`530` | Not permitted to logon at this time |
+`531` | Not permitted to logon at this workstation |
+`532` | Password expired |
+`533` | Account disabled |
+`701` | Account expired |
+`773` | User must reset password |
+`775` | User account locked |
 
 ```php
 <?php

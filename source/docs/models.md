@@ -83,22 +83,26 @@ Use the `LdapRecord\Models\Entry` model for retrieving all objects from your dir
 
 Each below model references a type of object in ActiveDirectory.
 
-- `LdapRecord\Models\ActiveDirectory\Entry`
-- `LdapRecord\Models\ActiveDirectory\User`
-- `LdapRecord\Models\ActiveDirectory\Group`
-- `LdapRecord\Models\ActiveDirectory\Computer`
-- `LdapRecord\Models\ActiveDirectory\Contact`
-- `LdapRecord\Models\ActiveDirectory\Container`
-- `LdapRecord\Models\ActiveDirectory\OrganizationalUnit`
-- `LdapRecord\Models\ActiveDirectory\Printer`
-- `LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal`
+Model |
+--- | 
+`LdapRecord\Models\ActiveDirectory\Entry` |
+`LdapRecord\Models\ActiveDirectory\User` |
+`LdapRecord\Models\ActiveDirectory\Group` |
+`LdapRecord\Models\ActiveDirectory\Computer` |
+`LdapRecord\Models\ActiveDirectory\Contact` |
+`LdapRecord\Models\ActiveDirectory\Container` |
+`LdapRecord\Models\ActiveDirectory\OrganizationalUnit` |
+`LdapRecord\Models\ActiveDirectory\Printer` |
+`LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal` |
 
 #### OpenLDAP Models
 
-- `LdapRecord\Models\OpenLdap\Entry`
-- `LdapRecord\Models\OpenLdap\User`
-- `LdapRecord\Models\OpenLdap\Group`
-- `LdapRecord\Models\OpenLdap\OrganizationalUnit`
+Model |
+--- | 
+`LdapRecord\Models\OpenLdap\Entry` |
+`LdapRecord\Models\OpenLdap\User` |
+`LdapRecord\Models\OpenLdap\Group` |
+`LdapRecord\Models\OpenLdap\OrganizationalUnit` |
 
 > Don't see a model for the LDAP server you're using? [Create a pull request!](https://github.com/DirectoryTree/LdapRecord/pulls)
 
@@ -288,11 +292,13 @@ $usersWithEmail = $users->filter(function (User $user) {
 If you would like to retrieve a single model from your directory, you can utilize
 a variety of methods. Here is a list and usage of each:
 
-- `first()`
-- `find($distinguishedName)`
-- `findBy($attributeName, $attributeValue)`
-- `findByAnr($attributeValue)`
-- `findByGuid($objectGuid)`
+Method |
+--- |
+`first()` |
+`find($distinguishedName)` |
+`findBy($attributeName, $attributeValue)` |
+`findByAnr($attributeValue)` |
+`findByGuid($objectGuid)` |
 
 ```php
 <?php
@@ -317,13 +323,15 @@ $user = User::findByGuid('bf9679e7-0de6-11d0-a285-00aa003049e2');
 
 Occasionally you may want to throw an exception if a specific record you're looking
 for cannot be found on your directory. You can substitute the above methods
-with `OrFail()` variants. Here is a list and usage of each:
+with `OrFail()` variants:
 
-- `firstOrFail()`
-- `findOrFail($distinguishedName)`
-- `findByOrFail($attributeName, $attributeValue)`
-- `findByAnrOrFail($attributeValue)`
-- `findByGuidOrFail($objectGuid)`
+Method |
+--- |
+`firstOrFail()` |
+`findOrFail($distinguishedName)` |
+`findByOrFail($attributeName, $attributeValue)` |
+`findByAnrOrFail($attributeValue)` |
+`findByGuidOrFail($objectGuid)` |
 
 ```php
 <?php

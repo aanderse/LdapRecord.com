@@ -157,3 +157,19 @@ pre {
     @apply .bg-blue-500;
     @apply .text-white;
 }
+
+table {
+    @apply w-full text-left rounded-lg overflow-hidden shadow;
+
+    th {
+        @apply text-sm font-semibold text-gray-700 p-2 bg-gray-300;
+    }
+
+    tr:first-child td {
+        @apply border-0;
+    }
+
+    td {
+        @apply p-2 border-t text-sm bg-white border-gray-400;
+    }
+}

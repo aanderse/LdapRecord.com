@@ -7,10 +7,13 @@ section: content
 
 # Installation {#installation}
 
-> **Heads up!** Before you get started, LdapRecord requires the following:
-> - PHP >= 7.2
-> - PHP LDAP extension enabled
-> - An LDAP server (ActiveDirectory, OpenLDAP, FreeIPA etc.)
+**Heads up!** Before you get started, LdapRecord requires the following:
+
+Requirements |
+--- |
+PHP >= 7.2 |
+PHP LDAP extension enabled |
+An LDAP server (ActiveDirectory, OpenLDAP, FreeIPA etc.) |
 
 LdapRecord uses [Composer](https://getcomposer.org) for installation.
 

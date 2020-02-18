@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=ddd2d41afe8e3be50aa7">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=05f38c153780f44820fc">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -428,47 +428,81 @@ $dispatcher-&gt;listen(Binding::class, function ($event) {
 <h3>Authentication Events</h3>
 <p>There are several events that are fired during initial and subsequent binds
 to your configured LDAP server. Here is a list of all events that are fired:</p>
-<h3><code>LdapRecord\Auth\Events\Attempting</code></h3>
-<p>When any authentication attempt is called via: <code>$connection-&gt;auth()-&gt;attempt()</code>.</p>
-<h3><code>LdapRecord\Auth\Events\Passed</code></h3>
-<p>When any authentication attempts pass via: <code>$connection-&gt;auth()-&gt;attempt()</code>.</p>
-<h3><code>LdapRecord\Auth\Events\Failed</code></h3>
-<p>When any authentication attempts fail via:</p>
-<ul>
-<li><code>$connection-&gt;auth()-&gt;attempt()</code></li>
-<li><code>$connection-&gt;auth()-&gt;bind()</code></li>
-</ul>
-<h3><code>LdapRecord\Auth\Events\Binding</code></h3>
-<p>When any LDAP bind attempts occur via:</p>
-<ul>
-<li><code>$connection-&gt;auth()-&gt;attempt()</code></li>
-<li><code>$connection-&gt;auth()-&gt;bind()</code></li>
-</ul>
-<h3><code>LdapRecord\Auth\Events\Bound</code></h3>
-<p>When any LDAP bind attempts are successful via:</p>
-<ul>
-<li><code>$connection-&gt;auth()-&gt;attempt()</code></li>
-<li><code>$connection-&gt;auth()-&gt;bind()</code></li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Fired</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LdapRecord\Auth\Events\Attempting</code></td>
+<td>When any authentication attempt is called via: <br/><ul><li><code>$connection-&gt;auth()-&gt;attempt()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Auth\Events\Passed</code></td>
+<td>When any authentication attempts pass via: </br><ul><li><code>$connection-&gt;auth()-&gt;attempt()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Auth\Events\Failed</code></td>
+<td>When any authentication attempts fail via: <br/><ul><li><code>$connection-&gt;auth()-&gt;attempt()</code></li><li><code>$connection-&gt;auth()-&gt;bind()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Auth\Events\Binding</code></td>
+<td>When any LDAP bind attempts occur via: </br><ul><li><code>$connection-&gt;auth()-&gt;attempt()</code></li><li><code>$connection-&gt;auth()-&gt;bind()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Auth\Events\Bound</code></td>
+<td>When any LDAP bind attempts are successful via: </br><ul><li><code>$connection-&gt;auth()-&gt;attempt()</code></li><li><code>$connection-&gt;auth()-&gt;bind()</code></li></ul></td>
+</tr>
+</tbody>
+</table>
 <h3>Model Events</h3>
 <p>There are several events that are fired during the creation, updating and deleting of all models.</p>
 <p>Here is a list of all events that are fired:</p>
-<h3><code>LdapRecord\Models\Events\Saving</code></h3>
-<p>When a model is in the process of being saved via: <code>$model-&gt;save()</code>.</p>
-<h3><code>LdapRecord\Models\Events\Saved</code></h3>
-<p>When a model has been successfully saved via: <code>$model-&gt;save()</code>.</p>
-<h3><code>LdapRecord\Models\Events\Creating</code></h3>
-<p>When a model is being created via: <code>$model-&gt;save()</code> <em>Or</em> <code>$model-&gt;create()</code>.</p>
-<h3><code>LdapRecord\Models\Events\Created</code></h3>
-<p>When a model has been successfully created via: <code>$model-&gt;save()</code> <em>Or</em> <code>$model-&gt;create()</code>.</p>
-<h3><code>LdapRecord\Models\Events\Updating</code></h3>
-<p>When a model is being updated via: <code>$model-&gt;save()</code> <em>Or</em> <code>$model-&gt;update()</code>.</p>
-<h3><code>LdapRecord\Models\Events\Updated</code></h3>
-<p>When a model has been successfully updated via: <code>$model-&gt;save()</code> <em>Or</em> <code>$model-&gt;update()</code>.</p>
-<h3><code>LdapRecord\Models\Events\Deleting</code></h3>
-<p>When a model is being deleted via: <code>$model-&gt;delete()</code>.</p>
-<h3><code>LdapRecord\Models\Events\Deleted</code></h3>
-<p>When a model has been successfully deleted via: <code>$model-&gt;delete()</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Fired</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LdapRecord\Models\Events\Saving</code></td>
+<td>When a model is in the process of being saved via: </br><ul><li><code>$model-&gt;save()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\Events\Saved</code></td>
+<td>When a model has been successfully saved via: </br><ul><li><code>$model-&gt;save()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\Events\Creating</code></td>
+<td>When a model is being created via: </br><ul><li><code>$model-&gt;save()</code></li><li><code>$model-&gt;create()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\Events\Created</code></td>
+<td>When a model has been successfully created via: </br><ul><li><code>$model-&gt;save()</code></li><li><code>$model-&gt;create()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\Events\Updating</code></td>
+<td>When a model is being updated via: </br><ul><li><code>$model-&gt;save()</code></li><li><code>$model-&gt;update()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\Events\Updated</code></td>
+<td>When a model has been successfully updated via: </br><ul><li><code>$model-&gt;save()</code></li><li><code>$model-&gt;update()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\Events\Deleting</code></td>
+<td>When a model is being deleted via: </br><ul><li><code>$model-&gt;delete()</code></li></ul></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\Events\Deleted</code></td>
+<td>When a model has been successfully deleted via: </br><ul><li><code>$model-&gt;delete()</code></li></ul></td>
+</tr>
+</tbody>
+</table>
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

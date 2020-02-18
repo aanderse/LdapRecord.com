@@ -158,34 +158,14 @@ $dispatcher->listen(Binding::class, function ($event) {
 There are several events that are fired during initial and subsequent binds
 to your configured LDAP server. Here is a list of all events that are fired:
 
-### `LdapRecord\Auth\Events\Attempting`
+Event | Fired |
+--- | --- |
+`LdapRecord\Auth\Events\Attempting` | When any authentication attempt is called via: <br/><ul><li>`$connection->auth()->attempt()`</li></ul> | 
+`LdapRecord\Auth\Events\Passed` |  When any authentication attempts pass via: </br><ul><li>`$connection->auth()->attempt()`</li></ul> |
+`LdapRecord\Auth\Events\Failed` | When any authentication attempts fail via: <br/><ul><li>`$connection->auth()->attempt()`</li><li>`$connection->auth()->bind()`</li></ul> |
+`LdapRecord\Auth\Events\Binding` | When any LDAP bind attempts occur via: </br><ul><li>`$connection->auth()->attempt()`</li><li>`$connection->auth()->bind()`</li></ul>
+`LdapRecord\Auth\Events\Bound` | When any LDAP bind attempts are successful via: </br><ul><li>`$connection->auth()->attempt()`</li><li>`$connection->auth()->bind()`</li></ul>
 
-When any authentication attempt is called via: `$connection->auth()->attempt()`.
-
-### `LdapRecord\Auth\Events\Passed`
-
- When any authentication attempts pass via: `$connection->auth()->attempt()`.
-
-### `LdapRecord\Auth\Events\Failed`
-
-When any authentication attempts fail via:
-
-- `$connection->auth()->attempt()`
-- `$connection->auth()->bind()`
-
-### `LdapRecord\Auth\Events\Binding`
-
-When any LDAP bind attempts occur via:
-
-- `$connection->auth()->attempt()`
-- `$connection->auth()->bind()`
-
-### `LdapRecord\Auth\Events\Bound`
-
-When any LDAP bind attempts are successful via:
-
-- `$connection->auth()->attempt()`
-- `$connection->auth()->bind()`
 
 ### Model Events
 
@@ -193,34 +173,13 @@ There are several events that are fired during the creation, updating and deleti
 
 Here is a list of all events that are fired:
 
-### `LdapRecord\Models\Events\Saving`
-
-When a model is in the process of being saved via: `$model->save()`.
-
-### `LdapRecord\Models\Events\Saved`
-
-When a model has been successfully saved via: `$model->save()`.
-
-### `LdapRecord\Models\Events\Creating`
-
-When a model is being created via: `$model->save()` *Or* `$model->create()`.
-
-### `LdapRecord\Models\Events\Created`
-
-When a model has been successfully created via: `$model->save()` *Or* `$model->create()`.
-
-### `LdapRecord\Models\Events\Updating`
-
-When a model is being updated via: `$model->save()` *Or* `$model->update()`.
-
-### `LdapRecord\Models\Events\Updated`
- 
-When a model has been successfully updated via: `$model->save()` *Or* `$model->update()`.
-
-### `LdapRecord\Models\Events\Deleting`
-
-When a model is being deleted via: `$model->delete()`.
-
-### `LdapRecord\Models\Events\Deleted`
-
-When a model has been successfully deleted via: `$model->delete()`.
+Event | Fired |
+--- | --- |
+`LdapRecord\Models\Events\Saving` | When a model is in the process of being saved via: </br><ul><li>`$model->save()`</li></ul> |
+`LdapRecord\Models\Events\Saved` | When a model has been successfully saved via: </br><ul><li>`$model->save()`</li></ul> |
+`LdapRecord\Models\Events\Creating` | When a model is being created via: </br><ul><li>`$model->save()`</li><li>`$model->create()`</li></ul> |
+`LdapRecord\Models\Events\Created` | When a model has been successfully created via: </br><ul><li>`$model->save()`</li><li>`$model->create()`</li></ul> |
+`LdapRecord\Models\Events\Updating` | When a model is being updated via: </br><ul><li>`$model->save()`</li><li>`$model->update()`</li></ul> |
+`LdapRecord\Models\Events\Updated` | When a model has been successfully updated via: </br><ul><li>`$model->save()`</li><li>`$model->update()`</li></ul> |
+`LdapRecord\Models\Events\Deleting` | When a model is being deleted via: </br><ul><li>`$model->delete()`</li></ul> |
+`LdapRecord\Models\Events\Deleted` | When a model has been successfully deleted via: </br><ul><li>`$model->delete()`</li></ul> |

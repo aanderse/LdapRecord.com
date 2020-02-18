@@ -7,12 +7,14 @@ section: content
 
 # Installation
 
-> Heads up! Before you get started, LdapRecord-Laravel requires the following:
->
-> - Laravel >= 5.6
-> - PHP >= 7.2
-> - PHP LDAP extension enabled
-> - An LDAP server (ActiveDirectory, OpenLDAP, FreeIPA etc.)
+**Heads up!** Before you get started, LdapRecord-Laravel requires the following:
+
+Requirements |
+--- |
+Laravel >= 5.6 |
+PHP >= 7.2 |
+PHP LDAP extension enabled |
+An LDAP server (ActiveDirectory, OpenLDAP, FreeIPA etc.) |
 
 Require LdapRecord-Laravel via [composer](https://getcomposer.org/):
 

@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=ddd2d41afe8e3be50aa7">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=05f38c153780f44820fc">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -387,24 +387,64 @@ class User extends Model
 <p>Use the <code>LdapRecord\Models\Entry</code> model for retrieving all objects from your directory - regardless of type.</p>
 <h4>ActiveDirectory Models</h4>
 <p>Each below model references a type of object in ActiveDirectory.</p>
-<ul>
-<li><code>LdapRecord\Models\ActiveDirectory\Entry</code></li>
-<li><code>LdapRecord\Models\ActiveDirectory\User</code></li>
-<li><code>LdapRecord\Models\ActiveDirectory\Group</code></li>
-<li><code>LdapRecord\Models\ActiveDirectory\Computer</code></li>
-<li><code>LdapRecord\Models\ActiveDirectory\Contact</code></li>
-<li><code>LdapRecord\Models\ActiveDirectory\Container</code></li>
-<li><code>LdapRecord\Models\ActiveDirectory\OrganizationalUnit</code></li>
-<li><code>LdapRecord\Models\ActiveDirectory\Printer</code></li>
-<li><code>LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal</code></li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LdapRecord\Models\ActiveDirectory\Entry</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\ActiveDirectory\User</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\ActiveDirectory\Group</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\ActiveDirectory\Computer</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\ActiveDirectory\Contact</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\ActiveDirectory\Container</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\ActiveDirectory\OrganizationalUnit</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\ActiveDirectory\Printer</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal</code></td>
+</tr>
+</tbody>
+</table>
 <h4>OpenLDAP Models</h4>
-<ul>
-<li><code>LdapRecord\Models\OpenLdap\Entry</code></li>
-<li><code>LdapRecord\Models\OpenLdap\User</code></li>
-<li><code>LdapRecord\Models\OpenLdap\Group</code></li>
-<li><code>LdapRecord\Models\OpenLdap\OrganizationalUnit</code></li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LdapRecord\Models\OpenLdap\Entry</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\OpenLdap\User</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\OpenLdap\Group</code></td>
+</tr>
+<tr>
+<td><code>LdapRecord\Models\OpenLdap\OrganizationalUnit</code></td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p>Don't see a model for the LDAP server you're using? <a href="https://github.com/DirectoryTree/LdapRecord/pulls">Create a pull request!</a></p>
 </blockquote>
@@ -539,13 +579,30 @@ $usersWithEmail = $users-&gt;filter(function (User $user) {
 <h2 id="retrieving-single-models">Retrieving Single Models</h2>
 <p>If you would like to retrieve a single model from your directory, you can utilize
 a variety of methods. Here is a list and usage of each:</p>
-<ul>
-<li><code>first()</code></li>
-<li><code>find($distinguishedName)</code></li>
-<li><code>findBy($attributeName, $attributeValue)</code></li>
-<li><code>findByAnr($attributeValue)</code></li>
-<li><code>findByGuid($objectGuid)</code></li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>first()</code></td>
+</tr>
+<tr>
+<td><code>find($distinguishedName)</code></td>
+</tr>
+<tr>
+<td><code>findBy($attributeName, $attributeValue)</code></td>
+</tr>
+<tr>
+<td><code>findByAnr($attributeValue)</code></td>
+</tr>
+<tr>
+<td><code>findByGuid($objectGuid)</code></td>
+</tr>
+</tbody>
+</table>
 <pre><code class="language-php">&lt;?php
 
 // Retrieve the first model of a global LDAP search...
@@ -565,14 +622,31 @@ $user = User::findByGuid('bf9679e7-0de6-11d0-a285-00aa003049e2');</code></pre>
 <h4 id="not-found-exceptions">Not Found Exceptions</h4>
 <p>Occasionally you may want to throw an exception if a specific record you're looking
 for cannot be found on your directory. You can substitute the above methods
-with <code>OrFail()</code> variants. Here is a list and usage of each:</p>
-<ul>
-<li><code>firstOrFail()</code></li>
-<li><code>findOrFail($distinguishedName)</code></li>
-<li><code>findByOrFail($attributeName, $attributeValue)</code></li>
-<li><code>findByAnrOrFail($attributeValue)</code></li>
-<li><code>findByGuidOrFail($objectGuid)</code></li>
-</ul>
+with <code>OrFail()</code> variants:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>firstOrFail()</code></td>
+</tr>
+<tr>
+<td><code>findOrFail($distinguishedName)</code></td>
+</tr>
+<tr>
+<td><code>findByOrFail($attributeName, $attributeValue)</code></td>
+</tr>
+<tr>
+<td><code>findByAnrOrFail($attributeValue)</code></td>
+</tr>
+<tr>
+<td><code>findByGuidOrFail($objectGuid)</code></td>
+</tr>
+</tbody>
+</table>
 <pre><code class="language-php">&lt;?php
 
 try {
