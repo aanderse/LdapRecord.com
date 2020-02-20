@@ -303,7 +303,7 @@ LdapRecord auth migration and that we are using SQLite in our test environment.<
 <p>Inside of our generated test, we'll make use of the following traits:</p>
 <p><strong>DatabaseMigrations</strong></p>
 <pre><code class="language-text">Illuminate\Foundation\Testing\DatabaseMigrations</code></pre>
-<p>Using this trait will execute our migrations and ensure our database is to import our LDAP user.</p>
+<p>Using this trait will execute our migrations and ensure our database is ready to import our LDAP user.</p>
 <p><strong>WithFaker</strong></p>
 <pre><code class="language-text">Illuminate\Foundation\Testing\WithFaker</code></pre>
 <p>Using this trait provides us with generating fake UUID's (great for creating mock &quot;guids&quot;), names and emails.</p>
@@ -348,28 +348,28 @@ class TestLdapAuthentication extends TestCase
     }
 }</code></pre>
 <p>Let's deconstruct what's going on here.</p>
-<p>The first line creates a new Directory Emulator for our LDAP connection named <code>default</code> inside
+<pre><code class="language-php">$fake = DirectoryEmulator::setup('default');</code></pre>
+<p>This first line creates a new Directory Emulator for our LDAP connection named <code>default</code> inside
 of our <code>config/ldap.php</code> file. It returns a fake LDAP connection that we can use to indicate
 that the user we insert will successfully pass LDAP authentication:</p>
-<pre><code class="language-php">$fake = DirectoryEmulator::setup('default');</code></pre>
-<p>On the second line, we're creating a fake LDAP user who will be signing into our application.
-You'll notice that we assign the attributes that are inside of our <code>sync_attributes</code>
-specified inside of our <code>config/auth.php</code> file, as well as the users <code>objectguid</code>:</p>
 <pre><code class="language-php">$user = User::create([
     'mail' =&gt; $this-&gt;faker-&gt;email,
     'cn' =&gt; $this-&gt;faker-&gt;name,
     'objectguid' =&gt; $this-&gt;faker-&gt;uuid,
 ]);</code></pre>
-<p>Third line, we are asserting that the user we have created will automatically pass
+<p>On the second line, we're creating a fake LDAP user who will be signing into our application.
+You'll notice that we assign the attributes that are inside of our <code>sync_attributes</code>
+specified inside of our <code>config/auth.php</code> file, as well as the users <code>objectguid</code>.</p>
+<pre><code class="language-php">$fake-&gt;actingAs($user);</code></pre>
+<p>This third line, we are asserting that the user we have created will automatically pass
 LDAP authentication. If we remove this line, attempting to authenticate as the
 user will fail, as they are not authorized inside of your fake:</p>
-<pre><code class="language-php">$fake-&gt;actingAs($user);</code></pre>
-<p>Fourth, we are sending a post request to our <code>login</code> page, with our LDAP users email address.
-The password can be anything, since we asserted above that the user <strong>will</strong> pass:</p>
 <pre><code class="language-php"> $this-&gt;post('/login', [
     'email' =&gt; $user-&gt;mail[0],
     'password' =&gt; 'secret',
 ])-&gt;assertRedirect('/home');</code></pre>
+<p>Fourth, we are sending a post request to our <code>login</code> page, with our LDAP users email address.
+The password can be anything, since we asserted above that the user <strong>will</strong> pass:</p>
 <p>Finally, we check to make sure we can retrieve the successfully authenticated
 user and that their attributes were successfully synchronized.</p>
 <h2 id="scopes">Scopes</h2>

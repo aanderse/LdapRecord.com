@@ -51,7 +51,7 @@ Inside of our generated test, we'll make use of the following traits:
 Illuminate\Foundation\Testing\DatabaseMigrations
 ```
 
-Using this trait will execute our migrations and ensure our database is to import our LDAP user.
+Using this trait will execute our migrations and ensure our database is ready to import our LDAP user.
 
 **WithFaker**
 
@@ -107,17 +107,13 @@ class TestLdapAuthentication extends TestCase
 
 Let's deconstruct what's going on here.
 
-The first line creates a new Directory Emulator for our LDAP connection named `default` inside
-of our `config/ldap.php` file. It returns a fake LDAP connection that we can use to indicate
-that the user we insert will successfully pass LDAP authentication:
-
 ```php
 $fake = DirectoryEmulator::setup('default');
 ```
 
-On the second line, we're creating a fake LDAP user who will be signing into our application.
-You'll notice that we assign the attributes that are inside of our `sync_attributes`
-specified inside of our `config/auth.php` file, as well as the users `objectguid`:
+This first line creates a new Directory Emulator for our LDAP connection named `default` inside
+of our `config/ldap.php` file. It returns a fake LDAP connection that we can use to indicate
+that the user we insert will successfully pass LDAP authentication:
 
 ```php
 $user = User::create([
@@ -127,16 +123,17 @@ $user = User::create([
 ]);
 ```
 
-Third line, we are asserting that the user we have created will automatically pass
-LDAP authentication. If we remove this line, attempting to authenticate as the
-user will fail, as they are not authorized inside of your fake:
+On the second line, we're creating a fake LDAP user who will be signing into our application.
+You'll notice that we assign the attributes that are inside of our `sync_attributes`
+specified inside of our `config/auth.php` file, as well as the users `objectguid`.
 
 ```php
 $fake->actingAs($user);
 ```
 
-Fourth, we are sending a post request to our `login` page, with our LDAP users email address.
-The password can be anything, since we asserted above that the user **will** pass:
+This third line, we are asserting that the user we have created will automatically pass
+LDAP authentication. If we remove this line, attempting to authenticate as the
+user will fail, as they are not authorized inside of your fake:
 
 ```php
  $this->post('/login', [
@@ -144,6 +141,9 @@ The password can be anything, since we asserted above that the user **will** pas
     'password' => 'secret',
 ])->assertRedirect('/home');
 ```
+
+Fourth, we are sending a post request to our `login` page, with our LDAP users email address.
+The password can be anything, since we asserted above that the user **will** pass:
 
 Finally, we check to make sure we can retrieve the successfully authenticated
 user and that their attributes were successfully synchronized.

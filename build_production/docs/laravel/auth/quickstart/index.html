@@ -417,12 +417,28 @@ and insert it there. This model is used for locating the authenticating user in 
 
     // ...</code></pre>
 <h3 id="add-trait-and-interface">Step 3: Add the trait and interface to your user model</h3>
-<p>Now, we must add the following to our <code>User</code> Eloquent model:</p>
-<ul>
-<li>Interface: <code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></li>
-<li>Trait: <code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></li>
-</ul>
-<pre><code class="language-php">// ...
+<p>Now, we must add the following trait and interface to our <code>User</code> Eloquent model:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Interface</td>
+<td><code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></td>
+</tr>
+<tr>
+<td>Trait</td>
+<td><code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-php">// app/User.php
+
+// ...
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 
@@ -433,18 +449,32 @@ class User extends Authenticatable implements LdapAuthenticatable
     // ...
 }</code></pre>
 <p>These are required so LdapRecord can set and retrieve your users <code>domain</code> and <code>guid</code> database columns.</p>
-<p>This also allows you to configure the columns that LdapRecord uses for this by an override on the following methods:</p>
-<ul>
-<li><code>getLdapDomainColumn</code></li>
-<li><code>getLdapGuidColumn</code></li>
-</ul>
+<p>If you would like to override the database column names that are used, you can override the following methods:</p>
+<table>
+<thead>
+<tr>
+<th>Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>User::getLdapDomainColumn()</code></td>
+</tr>
+<tr>
+<td><code>User::getLdapGuidColumn()</code></td>
+</tr>
+</tbody>
+</table>
 <h3>Step 4: Setting up your LoginController:</h3>
 <p>For LdapRecord to properly locate users that attempt to login to your application, you must
 override the <code>credentials</code> method in your <code>Auth\LoginController.php</code> file.</p>
 <p>Then, you must set an array key of the LDAP attribute that will be used for looking up the user
 in your LDAP directory.</p>
 <p>In the example below, we will lookup LDAP users by their <code>mail</code> attribute:</p>
-<pre><code class="language-php">class LoginController extends Controller
+<pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
+
+// ...
+class LoginController extends Controller
 {
     // ...
 

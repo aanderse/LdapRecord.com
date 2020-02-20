@@ -190,12 +190,17 @@ Once you have setup your `ldap` provider, you must update the `provider` value i
 
 ### Step 3: Add the trait and interface to your user model {#add-trait-and-interface}
 
-Now, we must add the following to our `User` Eloquent model:
+Now, we must add the following trait and interface to our `User` Eloquent model:
 
-- Interface: `LdapRecord\Laravel\Auth\LdapAuthenticatable`
-- Trait: `LdapRecord\Laravel\Auth\AuthenticatesWithLdap`
+Type | Name |
+--- |
+Interface | `LdapRecord\Laravel\Auth\LdapAuthenticatable` |
+Trait | `LdapRecord\Laravel\Auth\AuthenticatesWithLdap` |
+
 
 ```php
+// app/User.php
+
 // ...
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
@@ -210,10 +215,12 @@ class User extends Authenticatable implements LdapAuthenticatable
 
 These are required so LdapRecord can set and retrieve your users `domain` and `guid` database columns.
 
-This also allows you to configure the columns that LdapRecord uses for this by an override on the following methods:
+If you would like to override the database column names that are used, you can override the following methods:
 
-- `getLdapDomainColumn`
-- `getLdapGuidColumn`
+Methods |
+--- |
+`User::getLdapDomainColumn()` |
+`User::getLdapGuidColumn()` |
 
 ### Step 4: Setting up your LoginController:
 
@@ -226,6 +233,9 @@ in your LDAP directory.
 In the example below, we will lookup LDAP users by their `mail` attribute:
 
 ```php
+// app/Http/Controllers/Auth/LoginController.php
+
+// ...
 class LoginController extends Controller
 {
     // ...
