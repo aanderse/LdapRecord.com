@@ -241,7 +241,7 @@ foreach ($users as $user) {
 }
 ```
 
-#### Adding Constraints {#adding-constraints}
+### Adding Constraints {#adding-constraints}
 
 Each model serves as a query builder for the object classes you've defined inside.
 You can add constraints to your queries and then call `get()` to retrieve the
@@ -260,7 +260,7 @@ $users = User::whereStartsWith('cn', 'John')
 > [query builder](/docs/searching) methods so you can utilize
 > them to their full potential.
 
-#### Model Constraints {#model-constraints}
+### Model Constraints {#model-constraints}
 
 Models come with some built in constraint methods that you may find useful.
 
@@ -272,7 +272,7 @@ Models come with some built in constraint methods that you may find useful.
 > If you would like to avoid this, use the default `LdapRecord\Models\Entry`
 > model, which provides no `objectclass` constraints on queries.
 
-##### Ancestors {#ancestors}
+#### Ancestors {#anscestors}
 
 To retrieve the direct ancestors of a model, call the `ancestors()` constraint on a retrieved model:
 
@@ -286,7 +286,7 @@ The above example will execute a `listing` on your LDAP directory in
 the distinguished name `dc=local,dc=com`. This effectively pulls
 the ancestors of the model.
 
-##### Siblings {#siblings}
+#### Siblings {#siblings}
 
 To retrieve the siblings of a model, call the `siblings()` constraint on a retrieved model:
 
@@ -301,7 +301,7 @@ the distinguished name `ou=Users,dc=local,dc=com`. This effectively
 pulls the siblings of the model. The current model will also be
 included in the resulting collection.
 
-##### Descendants {#descendants}
+#### Descendants {#descendants}
 
 To retrieve the descendants of a model, call the `descendants()` constraint on a retrieved model:
 
@@ -568,7 +568,7 @@ $user->save();
 
 There are several built-in methods on models you may like to utilize:
 
-### `getAttributes()`
+`Model::getAttributes()`
 
 The `getAttributes` method returns all of the values on the model:
 
@@ -582,7 +582,7 @@ foreach ($attributes as $name => $value) {
 }
 ```
 
-### `getAttribute()`
+`Model::getAttribute($attribute)`
 
 The `getAttribute` method returns all of the values inside the given key. This will return an `array` if the attribute exists:
 
@@ -598,7 +598,7 @@ if ($members) {
 }
 ```
 
-### `getFirstAttribute()`
+`Model::getFirstAttribute()`
 
 The `getFirstAttribute` method returns the first value of the given key. This will always return `null` or `string`:
 
@@ -608,7 +608,7 @@ $group = Group::first();
 $firstMember = $group->getFirstAttribute('member');
 ```
 
-### `hasAttribute()`
+`Model::hasAttribute()`
 
 The `hasAttribute` method determines whether the model contains the key in the models attributes:
 
@@ -620,7 +620,7 @@ if ($user->hasAttribute('company')) {
 }
 ```
 
-### `countAttributes()`
+`Model::countAttributes()`
 
 The `countAttributes` method returns the number of attributes the model contains:
 

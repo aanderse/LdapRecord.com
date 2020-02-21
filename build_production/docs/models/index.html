@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=5beefd21dd4b51ca0cd9">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=05f38c153780f44820fc">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -540,7 +540,7 @@ $users = User::get();
 foreach ($users as $user) {
     $user-&gt;getFirstAttribute('cn');
 }</code></pre>
-<h4 id="adding-constraints">Adding Constraints</h4>
+<h3 id="adding-constraints">Adding Constraints</h3>
 <p>Each model serves as a query builder for the object classes you've defined inside.
 You can add constraints to your queries and then call <code>get()</code> to retrieve the
 results.</p>
@@ -555,7 +555,7 @@ $users = User::whereStartsWith('cn', 'John')
 <a href="/docs/searching">query builder</a> methods so you can utilize
 them to their full potential.</p>
 </blockquote>
-<h4 id="model-constraints">Model Constraints</h4>
+<h3 id="model-constraints">Model Constraints</h3>
 <p>Models come with some built in constraint methods that you may find useful.</p>
 <blockquote>
 <p>The below constraints will only retrieve the models that are equal
@@ -565,7 +565,7 @@ are direct descendants. <br/><br/></p>
 <p>If you would like to avoid this, use the default <code>LdapRecord\Models\Entry</code>
 model, which provides no <code>objectclass</code> constraints on queries.</p>
 </blockquote>
-<h5 id="ancestors">Ancestors</h5>
+<h4 id="anscestors">Ancestors</h4>
 <p>To retrieve the direct ancestors of a model, call the <code>ancestors()</code> constraint on a retrieved model:</p>
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
@@ -573,7 +573,7 @@ $ancestors = $ou-&gt;ancestors()-&gt;get();</code></pre>
 <p>The above example will execute a <code>listing</code> on your LDAP directory in
 the distinguished name <code>dc=local,dc=com</code>. This effectively pulls
 the ancestors of the model.</p>
-<h5 id="siblings">Siblings</h5>
+<h4 id="siblings">Siblings</h4>
 <p>To retrieve the siblings of a model, call the <code>siblings()</code> constraint on a retrieved model:</p>
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
@@ -582,7 +582,7 @@ $siblings = $ou-&gt;siblings()-&gt;get();</code></pre>
 the distinguished name <code>ou=Users,dc=local,dc=com</code>. This effectively
 pulls the siblings of the model. The current model will also be
 included in the resulting collection.</p>
-<h5 id="descendants">Descendants</h5>
+<h4 id="descendants">Descendants</h4>
 <p>To retrieve the descendants of a model, call the <code>descendants()</code> constraint on a retrieved model:</p>
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
@@ -803,7 +803,7 @@ $user-&gt;save();</code></pre>
 <h2 id="attributes">Attributes</h2>
 <h3 id="methods">Methods</h3>
 <p>There are several built-in methods on models you may like to utilize:</p>
-<h3><code>getAttributes()</code></h3>
+<p><code>Model::getAttributes()</code></p>
 <p>The <code>getAttributes</code> method returns all of the values on the model:</p>
 <pre><code class="language-php">$user = User::first();
 
@@ -812,7 +812,7 @@ $attributes = $user-&gt;getAttributes();
 foreach ($attributes as $name =&gt; $value) {
     //
 }</code></pre>
-<h3><code>getAttribute()</code></h3>
+<p><code>Model::getAttribute($attribute)</code></p>
 <p>The <code>getAttribute</code> method returns all of the values inside the given key. This will return an <code>array</code> if the attribute exists:</p>
 <pre><code class="language-php">$group = Group::first();
 
@@ -823,19 +823,19 @@ if ($members) {
         echo $member;
     }
 }</code></pre>
-<h3><code>getFirstAttribute()</code></h3>
+<p><code>Model::getFirstAttribute()</code></p>
 <p>The <code>getFirstAttribute</code> method returns the first value of the given key. This will always return <code>null</code> or <code>string</code>:</p>
 <pre><code class="language-php">$group = Group::first();
 
 $firstMember = $group-&gt;getFirstAttribute('member');</code></pre>
-<h3><code>hasAttribute()</code></h3>
+<p><code>Model::hasAttribute()</code></p>
 <p>The <code>hasAttribute</code> method determines whether the model contains the key in the models attributes:</p>
 <pre><code class="language-php">$user = User::first();
 
 if ($user-&gt;hasAttribute('company')) {
     //
 }</code></pre>
-<h3><code>countAttributes()</code></h3>
+<p><code>Model::countAttributes()</code></p>
 <p>The <code>countAttributes</code> method returns the number of attributes the model contains:</p>
 <pre><code class="language-php">$user = User::first();
 
