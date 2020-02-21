@@ -327,6 +327,8 @@
 <li><a href="#defining-models">Defining Models</a></li>
 <li><a href="#predefined-models">Predefined Models</a></li>
 <li><a href="#connections">Connections</a></li>
+<li><a href="#distinguished-names">Distinguished Names</a></li>
+<li><a href="#object-guids">Object GUIDs</a></li>
 <li><a href="#default-attribute-values">Default Attribute Values</a></li>
 </ul></li>
 <li><a href="#retrieving-models">Retrieving Models</a>
@@ -467,6 +469,45 @@ class User extends Model
 
     protected $connection = 'domain-b';
 }</code></pre>
+<h3 id="distinguished-names">Distinguished Names</h3>
+<p>To get an objects full distinguished name call the <code>getDn</code> method:</p>
+<pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
+
+// Returns 'cn=user,dc=local,dc=com'
+$user-&gt;getDn();</code></pre>
+<p>To get an objects relative distinguished name, call the <code>getRdn</code> method:</p>
+<pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
+
+// Returns 'cn=user'
+$user-&gt;getRdn();</code></pre>
+<p>To get an objects parent distinguished name, call the <code>getParentDn</code> method:</p>
+<pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
+
+// Returns 'dc=local,dc=com'
+$user-&gt;getParentDn();</code></pre>
+<p>To get an objects name, call the <code>getName</code> method:</p>
+<pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
+
+// Returns 'user'
+$user-&gt;getName();</code></pre>
+<h3 id="object-guids">Object GUIDs</h3>
+<p>To retrieve a models Object GUID (globally unique identifier) call the <code>getConvertedGuid</code> method.</p>
+<p>This method will return the string variant of your models GUID. Some LDAP directories
+(namely Active Directory) use hexadecimal byte arrays to store these, so conversion
+is necessary.</p>
+<pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
+
+$user-&gt;getConvertedGuid();</code></pre>
+<p>To retrieve the raw GUID value, use the <code>getObjectGuid</code> method.</p>
+<p>By default, LdapRecord models will use the <code>objectguid</code> attribute in the
+above methods. If your directory stores GUIDs in a different attribute,
+define a <code>$guidKey</code> attribute inside of your model:</p>
+<pre><code class="language-php">// ...
+
+class User extends Model
+{
+
+    protected $guidKey = 'entryuuid';</code></pre>
 <h3 id="default-attribute-values">Default Attribute Values</h3>
 <p>If you would like to define the default values for some of your model's attributes,
 you may define an <code>$attributes</code> property on your model. This helps you to assign

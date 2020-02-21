@@ -11,6 +11,8 @@ section: content
  - [Defining Models](#defining-models)
  - [Predefined Models](#predefined-models)
  - [Connections](#connections)
+ - [Distinguished Names](#distinguished-names)
+ - [Object GUIDs](#object-guids)
  - [Default Attribute Values](#default-attribute-values)
 - [Retrieving Models](#retrieving-models)
  - [Collections](#collections)
@@ -128,6 +130,73 @@ class User extends Model
 
     protected $connection = 'domain-b';
 }
+```
+
+### Distinguished Names {#distinguished-names}
+
+To get an objects full distinguished name call the `getDn` method:
+
+```php
+$user = User::find('cn=user,dc=local,dc=com');
+
+// Returns 'cn=user,dc=local,dc=com'
+$user->getDn();
+```
+
+To get an objects relative distinguished name, call the `getRdn` method:
+
+```php
+$user = User::find('cn=user,dc=local,dc=com');
+
+// Returns 'cn=user'
+$user->getRdn();
+```
+
+To get an objects parent distinguished name, call the `getParentDn` method:
+
+```php
+$user = User::find('cn=user,dc=local,dc=com');
+
+// Returns 'dc=local,dc=com'
+$user->getParentDn();
+```
+
+To get an objects name, call the `getName` method:
+
+```php
+$user = User::find('cn=user,dc=local,dc=com');
+
+// Returns 'user'
+$user->getName();
+```
+
+### Object GUIDs {#object-guids}
+
+To retrieve a models Object GUID (globally unique identifier) call the `getConvertedGuid` method.
+
+This method will return the string variant of your models GUID. Some LDAP directories
+(namely Active Directory) use hexadecimal byte arrays to store these, so conversion
+is necessary.
+
+```php
+$user = User::find('cn=user,dc=local,dc=com');
+
+$user->getConvertedGuid();
+```
+
+To retrieve the raw GUID value, use the `getObjectGuid` method.
+
+By default, LdapRecord models will use the `objectguid` attribute in the
+above methods. If your directory stores GUIDs in a different attribute,
+define a `$guidKey` attribute inside of your model:
+
+```php
+// ...
+
+class User extends Model
+{
+
+    protected $guidKey = 'entryuuid';
 ```
 
 ### Default Attribute Values {#default-attribute-values}
