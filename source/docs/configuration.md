@@ -111,17 +111,21 @@ Linux / macOS | `/etc/ldap/ldap.conf` |
 
 The above directories will likely not exist. You will need to create each of them.
 
-However, using `TLS_REQCERT never` can be a bit of a security risk as it will ignore invalid certificates.
+Once you've completed the above, you should be able to connect successfully.
 
-It's recommended to copy your domain CA cert to:
+If you can connect using `TLS_REQCERT never` inside of your `ldap.conf` file,
+you may want to copy your domain CA certificate to your web server, as it
+can be a bit of a security risk as it will ignore invalid certificates.
+
+Copy your domain CA certificate to the following location:
 
 OS | Location |
 --- | --- |
 Windows | `C:\OpenLDAP\sysconf` | 
 Linux / macOS | `/etc/ssl/certs` |
 
-Then, reference it in your `ldap.conf` with the full file path using (replace `my-custom-path` with
-the location of the file):
+Then, reference it in your `ldap.conf` with the full file path using (replace
+`my-custom-path` with the location of the file):
 
 ```text
 TLS_CACERT my-custom-path/ca.pem
