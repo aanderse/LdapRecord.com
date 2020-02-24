@@ -87,37 +87,58 @@ Only insert a port if your LDAP server uses a unique port.
 
 These boolean options enable an SSL or TLS connection to your LDAP server.
 
-Only **one** can be set to `true`. You must chose either or.
+It is recommended to use one of these options if you have the ability to. This ensures secure connectivity.
 
-These options are definitely recommended if you have the ability to connect to your server securely.
+Requirements & Tips |
+--- |
+Only **one** can be set to `true`. You must chose either or. |
+You **must** enable SSL or TLS to set / change / reset passwords in ActiveDirectory. |
+TLS is recommended over SSL. SSL is labelled as a deprecated mechanism for securely running LDAP operations. |
 
-You **must** enable SSL or TLS to reset passwords in ActiveDirectory.
-
-TLS is recommended over SSL, as SSL is now labelled as a deprecated mechanism for securely running LDAP operations.
-
-When using TLS you may have to configure an `ldap.conf` file and add the following inside:
+If you're having connectivity issues over SSL or TLS, you may have to
+configure an `ldap.conf` file and add the following inside:
 
 ```text
 TLS_REQCERT never
 ```
 
-The `ldap.conf` file is located in the following default locations:
+The `ldap.conf` file will likely not exist by default. Create it inside the location for your OS:
 
-- Windows: `C:\OpenLDAP\sysconf\ldap.conf` (The directories will not exist, create them and add the file)
-- Linux: `/etc/ldap/ldap.conf`
+OS | Location |
+--- | --- |
+Windows | `C:\OpenLDAP\sysconf\ldap.conf` | 
+Linux / macOS | `/etc/ldap/ldap.conf` |
+
+The above directories will likely not exist. You will need to create each of them.
 
 However, using `TLS_REQCERT never` can be a bit of a security risk as it will ignore invalid certificates.
 
 It's recommended to copy your domain CA cert to:
 
-- Windows: `C:\OpenLDAP\sysconf`
-- Linux: `/etc/ssl/certs` 
+OS | Location |
+--- | --- |
+Windows | `C:\OpenLDAP\sysconf` | 
+Linux / macOS | `/etc/ssl/certs` |
 
 Then, reference it in your `ldap.conf` with the full file path using (replace `my-custom-path` with
 the location of the file):
 
 ```text
 TLS_CACERT my-custom-path/ca.pem
+TLS_REQCERT hard
+```
+
+Windows Example:
+
+```text
+TLS_CACERT C:\OpenLDAP\sysconf\ca.pem
+TLS_REQCERT hard
+```
+
+Linux Example:
+
+```text
+TLS_CACERT /etc/ssl/certs/ca.pem
 TLS_REQCERT hard
 ```
 
