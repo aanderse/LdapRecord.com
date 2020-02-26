@@ -33,7 +33,7 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=05f38c153780f44820fc">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -135,7 +135,7 @@
     'password' =&gt; 'P@ssw0rd',
 ]);
 
-$administrators = Group::find('cn=Admins,dc=acme,dc=org');
+$administrators = Group::find('cn=Admins,dc=local,dc=com');
 
 $user-&gt;groups()-&gt;attach($administrators);</code></pre>    </div>
 </div>
@@ -203,7 +203,7 @@ $users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get()
     </div>
 
     <pre><code class="language-php">User::whereEnabled()
-    -&gt;whereMemberOf('cn=Managers,ou=Groups,dc=acme,dc=org')
+    -&gt;whereMemberOf('cn=Managers,ou=Groups,dc=local,dc=com')
     -&gt;whereNotContains('company', 'Acme')
     -&gt;get()
     -&gt;each(function ($user) {

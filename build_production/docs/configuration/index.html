@@ -33,12 +33,12 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=05f38c153780f44820fc">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
     <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
-        <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white mb-2" role="banner">
+        <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
                     <a href="/" title="LdapRecord home" class="inline-flex items-center">
@@ -372,41 +372,101 @@ $connection = new Connection($config);</code></pre>
 </blockquote>
 <h3 id="username-amp-password">Username &amp; Password</h3>
 <p>To connect to your LDAP server, a username and password is required to be able to query and run operations on your server(s).</p>
-<blockquote>
-<p><strong>Tips</strong>:</p>
-<ul>
-<li>The <code>username</code> option must be a users <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names">Distinguished Name</a>. If you are connecting to an ActiveDirectory
-server, you may use a users <a href="https://docs.microsoft.com/en-us/windows/win32/ad/naming-properties#userprincipalname">userPrincipalName</a> instead.</li>
-<li>To run administration level operations, such as resetting passwords, this account <strong>must</strong> have
-the permissions to do so on your directory.</li>
-</ul>
-</blockquote>
+<table>
+<thead>
+<tr>
+<th>Additional Tips</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The <code>username</code> option must be a users <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names">Distinguished Name</a>. If you are connecting to an ActiveDirectory server, you may use a users <a href="https://docs.microsoft.com/en-us/windows/win32/ad/naming-properties#userprincipalname">userPrincipalName</a> instead.</td>
+</tr>
+<tr>
+<td>To run administration level operations, such as resetting passwords, this account <strong>must</strong> have the permissions to do so on your directory.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="port">Port</h3>
 <p>The port option is used for authenticating and binding to your LDAP server.</p>
 <p>The default ports are already used for non SSL and SSL connections (389 and 636).</p>
 <p>Only insert a port if your LDAP server uses a unique port.</p>
 <h3 id="ssl-amp-tls">SSL &amp; TLS</h3>
 <p>These boolean options enable an SSL or TLS connection to your LDAP server.</p>
-<p>Only <strong>one</strong> can be set to <code>true</code>. You must chose either or.</p>
-<p>These options are definitely recommended if you have the ability to connect to your server securely.</p>
-<p>You <strong>must</strong> enable SSL or TLS to reset passwords in ActiveDirectory.</p>
-<p>TLS is recommended over SSL, as SSL is now labelled as a deprecated mechanism for securely running LDAP operations.</p>
-<p>When using TLS you may have to configure an <code>ldap.conf</code> file and add the following inside:</p>
+<p>It is recommended to use one of these options if you have the ability to. This ensures secure connectivity.</p>
+<table>
+<thead>
+<tr>
+<th>Requirements &amp; Tips</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Only <strong>one</strong> can be set to <code>true</code>. You must chose either or.</td>
+</tr>
+<tr>
+<td>You <strong>must</strong> enable SSL or TLS to set / change / reset passwords in ActiveDirectory.</td>
+</tr>
+<tr>
+<td>TLS is recommended over SSL. SSL is labelled as a deprecated mechanism for securely running LDAP operations.</td>
+</tr>
+</tbody>
+</table>
+<p>If you're having connectivity issues over SSL or TLS, you may have to
+configure an <code>ldap.conf</code> file and add the following inside:</p>
 <pre><code class="language-text">TLS_REQCERT never</code></pre>
-<p>The <code>ldap.conf</code> file is located in the following default locations:</p>
-<ul>
-<li>Windows: <code>C:\OpenLDAP\sysconf\ldap.conf</code> (The directories will not exist, create them and add the file)</li>
-<li>Linux: <code>/etc/ldap/ldap.conf</code></li>
-</ul>
-<p>However, using <code>TLS_REQCERT never</code> can be a bit of a security risk as it will ignore invalid certificates.</p>
-<p>It's recommended to copy your domain CA cert to:</p>
-<ul>
-<li>Windows: <code>C:\OpenLDAP\sysconf</code></li>
-<li>Linux: <code>/etc/ssl/certs</code> </li>
-</ul>
-<p>Then, reference it in your <code>ldap.conf</code> with the full file path using (replace <code>my-custom-path</code> with
-the location of the file):</p>
+<p>The <code>ldap.conf</code> file will likely not exist by default. Create it inside the location for your OS:</p>
+<table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td><code>C:\OpenLDAP\sysconf\ldap.conf</code></td>
+</tr>
+<tr>
+<td>Linux / macOS</td>
+<td><code>/etc/ldap/ldap.conf</code></td>
+</tr>
+</tbody>
+</table>
+<p>The above directories will likely not exist. You will need to create each of them.</p>
+<p>Once you've completed the above, you should be able to connect successfully.</p>
+<p>If you can connect using <code>TLS_REQCERT never</code> inside of your <code>ldap.conf</code> file,
+you may want to copy your domain CA certificate to your web server, as it
+can be a bit of a security risk as it will ignore invalid certificates.</p>
+<p>Copy your domain CA certificate to the following location:</p>
+<table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td><code>C:\OpenLDAP\sysconf</code></td>
+</tr>
+<tr>
+<td>Linux / macOS</td>
+<td><code>/etc/ssl/certs</code></td>
+</tr>
+</tbody>
+</table>
+<p>Then, reference it in your <code>ldap.conf</code> with the full file path using (replace
+<code>my-custom-path</code> with the location of the file):</p>
 <pre><code class="language-text">TLS_CACERT my-custom-path/ca.pem
+TLS_REQCERT hard</code></pre>
+<p>Windows Example:</p>
+<pre><code class="language-text">TLS_CACERT C:\OpenLDAP\sysconf\ca.pem
+TLS_REQCERT hard</code></pre>
+<p>Linux Example:</p>
+<pre><code class="language-text">TLS_CACERT /etc/ssl/certs/ca.pem
 TLS_REQCERT hard</code></pre>
 <h3 id="timeout">Timeout</h3>
 <p>The timeout option allows you to configure the amount of seconds to wait until
