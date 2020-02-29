@@ -14,6 +14,7 @@ return [
             'Accessors & Mutators' => 'docs/model-mutators',
         ],
     ],
+    'Caching' => 'docs/caching',
     'Events' => 'docs/events',
     'Logging' => 'docs/logging',
     'Testing' => 'docs/testing',
