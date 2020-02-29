@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -277,8 +277,10 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Usage</h1>
+
 <ul>
 <li><a href="#models">Models</a>
+
 <ul>
 <li><a href="#searching">Searching</a></li>
 <li><a href="#crud">Creating &amp; Updating</a></li>
@@ -286,26 +288,38 @@
 </ul></li>
 <li><a href="#plain-auth">Plain Authentication</a></li>
 </ul>
+
 <h2 id="models">Models</h2>
+
 <blockquote>
-<p>This usage documentation is intentionally kept short and sweet to prevent duplication.
-Be sure to review the core <a href="/docs">LdapRecord documentation</a> as it explains
-all of LdapRecord's features in-depth.</p>
+  <p>This usage documentation is intentionally kept short and sweet to prevent duplication.
+  Be sure to review the core <a href="/docs">LdapRecord documentation</a> as it explains
+  all of LdapRecord's features in-depth.</p>
 </blockquote>
+
 <p>Once you've configured your connections in your <code>config/ldap.php</code> file,
 you're ready to start running queries and operations on your LDAP server.</p>
+
 <p>If you're connecting to an ActiveDirectory or OpenLDAP server, you may utilize the
 <a href="/docs/models#predefined-models">built-in models</a> to get up and running right away.</p>
+
 <p>If you would like to create your own models, you can generate one via the <code>make:ldap-model</code> command:</p>
-<pre><code class="language-bash">php artisan make:ldap-model User</code></pre>
+
+<pre><code class="language-bash">php artisan make:ldap-model User
+</code></pre>
+
 <p>This will create a new LdapRecord model inside of your application in the <code>app/Ldap</code> folder.</p>
+
 <blockquote>
-<p>If the <code>Ldap</code> folder does not exist, it will be created automatically.</p>
+  <p>If the <code>Ldap</code> folder does not exist, it will be created automatically.</p>
 </blockquote>
+
 <p>By default, the generated model will not have any <code>$objectClasses</code> set. LdapRecord requires
 this attribute to be set for objects to be created properly in your directory.</p>
+
 <p>If no <code>$objectClasses</code> are set, queries will not be scoped to the object you are querying
 and you will have to set the models <code>$objectClasses</code> manually before creating new objects.</p>
+
 <pre><code class="language-php">namespace App\Ldap;
 
 use LdapRecord\Models\Model;
@@ -318,30 +332,46 @@ class User extends Model
         'organizationalperson',
         'user',
     ];
-}</code></pre>
+}
+</code></pre>
+
 <blockquote>
-<p>You may want to extend from the <code>LdapRecord\Models\ActiveDirectory\Entry</code> class to
-utilize some helper methods that are limited to the use of ActiveDirectory.
-</br></br>
-This can save you time from having to implement functionality manually.</p>
+  <p>You may want to extend from the <code>LdapRecord\Models\ActiveDirectory\Entry</code> class to
+  utilize some helper methods that are limited to the use of ActiveDirectory.
+  </br></br>
+  This can save you time from having to implement functionality manually.</p>
 </blockquote>
+
 <h3 id="searching">Searching</h3>
+
 <p>To begin querying your model, you can statically call <a href="/docs/searching">query methods</a> off of the model:</p>
-<pre><code class="language-php">$users = User::where('company', '=', 'Acme')-&gt;get();</code></pre>
+
+<pre><code class="language-php">$users = User::where('company', '=', 'Acme')-&gt;get();
+</code></pre>
+
 <p>When using the above example model for searching your LDAP directory, the following filter will be used:</p>
-<pre><code class="language-text">(&amp;(objectclass=top)(objectclass=person)(objectclass=organizationalperson)(objectclass=user)(company=Acme))</code></pre>
+
+<pre><code class="language-text">(&amp;(objectclass=top)(objectclass=person)(objectclass=organizationalperson)(objectclass=user)(company=Acme))
+</code></pre>
+
 <h3 id="creating-and-updating">Creating / Updating</h3>
+
 <p>To create a new object in your directory, call the <code>create</code> method:</p>
+
 <pre><code class="language-php">$user = User::create([
     'cn'        =&gt; 'Steve Bauman',
     'givenname' =&gt; 'Steve',
     'sn'        =&gt; 'Bauman',
     'company'   =&gt; 'Acme',
-]);</code></pre>
+]);
+</code></pre>
+
 <p>When creating the above example model, the <code>objectclass</code> attribute will automatically be
 sent with all other attributes you have set for the user creation. This effectively
 creates the proper object in your directory.</p>
+
 <p>You may also create a new model instance, set its attributes, and call the <code>save</code> method:</p>
+
 <pre><code class="language-php">$user = new User;
 
 $user-&gt;cn = 'Steve Bauman';
@@ -349,28 +379,41 @@ $user-&gt;givenname = 'Steve';
 $user-&gt;sn = 'Bauman';
 $user-&gt;company = 'Acme';
 
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
+
 <p>Similarly, to update an object, modify a model that was returned from a query and call the <code>save</code> method:</p>
+
 <pre><code class="language-php">$user = User::find('cn=Steve Bauman,dc=local,dc=com');
 
 $user-&gt;company = 'Acme';
 
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
+
 <blockquote>
-<p>If you need help understanding user creation and management, take a look at the ActiveDirectory
-<a href="http://localhost:3000/docs/tutorials/activedirectory/user-management/">user management tutorial</a>.</p>
+  <p>If you need help understanding user creation and management, take a look at the ActiveDirectory 
+  <a href="http://localhost:3000/docs/tutorials/activedirectory/user-management/">user management tutorial</a>.</p>
 </blockquote>
+
 <h3 id="scopes">Scopes</h3>
+
 <p>Sometimes you may need to utilize several of the same query filters around your application.
 Model scopes are a perfect for this, as you can extract these filters into its own class
 and apply it to a model query.</p>
+
 <blockquote>
-<p>Be sure to take a peek at the <a href="/docs/models#query-scopes">query scopes</a>
-documentation for a more in-depth look.</p>
+  <p>Be sure to take a peek at the <a href="/docs/models#query-scopes">query scopes</a>
+  documentation for a more in-depth look.</p>
 </blockquote>
+
 <p>To create a new model scope, call the command <code>php artisan make:ldap-scope</code>:</p>
-<pre><code class="language-bash">php artisan make:ldap-scope OnlyAccountants</code></pre>
+
+<pre><code class="language-bash">php artisan make:ldap-scope OnlyAccountants
+</code></pre>
+
 <p>This will create a new model scope in your applications <code>app\Ldap\Scopes</code> directory.</p>
+
 <pre><code class="language-php">namespace App\Ldap\Scopes;
 
 use LdapRecord\Models\Model;
@@ -383,11 +426,15 @@ class OnlyAccountants implements Scope
     {
         $query-&gt;where('title', '=', 'Accountant');
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>Now, you can either apply this scope globally so the query filter is applied on every
 query of your model, or apply it when you need it. Let's walk through both.</p>
+
 <p>To apply your scope globally, override your models protected static <code>boot</code>
 method, and then call the <code>addGlobalScope</code> method:</p>
+
 <pre><code class="language-php">namespace App\Ldap;
 
 use LdapRecord\Models\Model;
@@ -403,40 +450,60 @@ class User extends Model
 
         static::addGlobalScope(new OnlyAccountants);
     }
-}</code></pre>
+}
+</code></pre>
+
 <blockquote>
-<p>You must pass a <strong>new</strong> instance of your scope into the <code>addGlobalScope</code> method, not the class name.</p>
+  <p>You must pass a <strong>new</strong> instance of your scope into the <code>addGlobalScope</code> method, not the class name.</p>
 </blockquote>
+
 <p>Any search queries that are performed on your <code>User</code> model will now be properly scoped.</p>
+
 <p>If you wish to apply a scope in certain situations, you may use the <code>withGlobalScope</code> method:</p>
-<pre><code class="language-php">$accountants = User::withGlobalScope('accountants', new OnlyAccountants)-&gt;get();</code></pre>
+
+<pre><code class="language-php">$accountants = User::withGlobalScope('accountants', new OnlyAccountants)-&gt;get();
+</code></pre>
+
 <p>As you may have noticed above, you must provide a named string for the scope you are passing in.</p>
+
 <h2 id="plain-auth">Plain Authentication</h2>
+
 <p>Sometimes you simply want to know if a users LDAP credentials are valid.
 To do this, you must retrieve your LDAP connection from the LdapRecord
 <a href="/docs/connecting/#container">connection container</a>.</p>
+
 <p>To do so, you must call the <code>getConnection</code> method on the <code>Container</code> and pass in the name of
 your connection that appears in your <code>config/ldap.php</code> file:</p>
+
 <pre><code class="language-php">use LdapRecord\Container;
 
-$connection = Container::getConnection('default');</code></pre>
+$connection = Container::getConnection('default');
+</code></pre>
+
 <p>To retrieve your <code>default</code> connection that you have set in your <code>ldap.php</code> configuration
 file, call the <code>getDefaultConnection</code> method:</p>
+
 <pre><code class="language-php">use LdapRecord\Container;
 
-$connection = Container::getDefaultConnection();</code></pre>
+$connection = Container::getDefaultConnection();
+</code></pre>
+
 <p>Once you have your connection, call the <code>auth()-&gt;attempt</code> method with your users
 Distinguished Name and their password:</p>
+
 <pre><code class="language-php">use LdapRecord\Container;
 
 $connection = Container::getConnection('default');
 
 if ($connection-&gt;auth()-&gt;attempt('cn=user,dc=local,dc=com', 'SuperSecret')) {
     // Credentials are valid!
-}</code></pre>
+}
+</code></pre>
+
 <p>If you don't want your user to have to enter in their Distinguished Name, locate the
 user in your directory first who is attempting to authenticate, and then pass in
 their Distinguished Name:</p>
+
 <pre><code class="language-php">use LdapRecord\Container;
 use LdapRecord\Models\ActiveDirectory\User;
 
@@ -446,10 +513,13 @@ $user = User::findByOrFail('samaccountname', 'sbauman');
 
 if ($connection-&gt;auth()-&gt;attempt($user-&gt;getDn(), 'SuperSecret')) {
     // Credentials are valid!
-}</code></pre>
+}
+</code></pre>
+
 <p>If you need to determine why the users authentication is failing (for example, if their password has expired),
 you can retrieve the last message that was generated from your LDAP server. This message will usually
 contain a code that you can use to determine the cause of failure:</p>
+
 <pre><code class="language-php">if ($connection-&gt;auth()-&gt;attempt($user-&gt;getDn(), 'SuperSecret')) {
     // Credentials are valid!
 } else {
@@ -458,7 +528,9 @@ contain a code that you can use to determine the cause of failure:</p>
     if (strpos($message, '532') !== false) {
         return "Your password has expired.";
     }
-}</code></pre>
+}
+</code></pre>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

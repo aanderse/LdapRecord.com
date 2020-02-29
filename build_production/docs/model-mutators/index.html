@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -321,13 +321,16 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Models: Accessors &amp; Mutators</h1>
+
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#accessors-amp-mutators">Accessors &amp; Mutators</a>
+
 <ul>
 <li><a href="#defining-an-accessor">Defining Accessors</a></li>
 <li><a href="#defining-a-mutator">Defining Mutators</a></li>
 <li><a href="#date-mutators">Date Mutators</a>
+
 <ul>
 <li><a href="#ldap-date-type">LDAP Timestamp</a></li>
 <li><a href="#windows-date-type">Windows Timestamp</a></li>
@@ -335,18 +338,25 @@
 </ul></li>
 </ul></li>
 </ul>
+
 <h2 id="introduction">Introduction</h2>
+
 <p>Accessors and mutators allow you to modify attribute values when you
-retrieve or set them on model instances. If you'd ever used
+retrieve or set them on model instances. If you'd ever used 
 <a href="https://laravel.com/docs/eloquent-mutators">Laravel accessors or mutators</a>,
 you'll feel right at home.</p>
+
 <h2 id="accessors-amp-mutators">Accessors &amp; Mutators</h2>
+
 <h3 id="defining-an-accessor">Defining An Accessor</h3>
+
 <p>For an example, lets say we are working with ActiveDirectory and we
 want to encode the <code>thumbnailPhoto</code> attribute whenever we retrieve it
 from our <code>User</code> model.</p>
+
 <p>To define an accessor for this attribute, we define a method named
 <code>getThumbnailphotoAttribute()</code>:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -373,17 +383,22 @@ class User extends Model
             return "data:$mime;base64,$image";
         }
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>As you can see from the above, the attribute name we want to create
 an accessor for, must be between <code>get</code> and <code>Attribute</code>.</p>
+
 <blockquote>
-<p>The casing of <code>get</code> and <code>Attribute</code> are very important.
-This casing difference is how LdapRecord detects accessor
-and mutator methods.</p>
+  <p>The casing of <code>get</code> and <code>Attribute</code> are very important.
+  This casing difference is how LdapRecord detects accessor
+  and mutator methods.</p>
 </blockquote>
+
 <p>If your attribute contains a hyphen, use must use alternate casing
 to indicate this. For example, lets create an accessor for the
 <code>apple-user-homeurl</code> attribute:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -395,16 +410,23 @@ class User extends Model
         // Do something with its value.
         return $value;
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>As you can see, alternate casing indicates to LdapRecord that
 the attribute we are looking for contains hyphens.</p>
+
 <h3 id="defining-a-mutator">Defining A Mutator</h3>
+
 <p>A mutator does the opposite of an accessor. A mutator is a function
 you define that accepts the value of the attribute you are setting
 so you can transform it before it is set onto the model.</p>
+
 <p>To define a mutator, we use the above accessor syntax with <code>set</code> instead of <code>get</code>.</p>
+
 <p>For example, let's define a <code>unicodepwd</code> mutator that automatically
 encodes a password by setting the attribute:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Utilities;
@@ -416,33 +438,44 @@ class User extends Model
     {
         $this-&gt;attributes['unicodepwd'] = [Utilities::encodePassword($password)];
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>Now once we set the attribute, it will automatically encode the
 password we are setting on the <code>User</code> model:</p>
+
 <pre><code class="language-php">$user = new User();
 
-$user-&gt;unicodepwd = 'secret';</code></pre>
+$user-&gt;unicodepwd = 'secret';
+</code></pre>
+
 <h3 id="date-mutators">Date Mutators</h3>
+
 <p>By default, LdapRecord will convert the attributes <code>createtimestamp</code> and
 <code>modifytimestamp</code> to instances of <a href="https://github.com/briannesbitt/Carbon">Carbon</a>.</p>
+
 <blockquote>
-<p>If you extend from <code>ActiveDirectory</code> models, the attributes
-<code>whenchanged</code> and <code>whencreated</code> will be converted instead.</p>
+  <p>If you extend from <code>ActiveDirectory</code> models, the attributes
+  <code>whenchanged</code> and <code>whencreated</code> will be converted instead.</p>
 </blockquote>
+
 <p>When you define an attribute as a date, you can set its value to an
 instance of <code>DateTime</code> / <code>Carbon</code> instance, a UNIX timestamp, or
 a date string (<code>Y-m-d</code>). Upon saving your model, these will
 be converted properly to be stored in your directory.</p>
+
 <p>To define a mutator for an attribute that contains a timestamp,
 we must set the <code>$dates</code> property on the model. However, since
 LDAP directories have different timestamp formats for
 some attributes, we must tell LdapRecord what kind
 of format to use for proper conversion.</p>
+
 <p>For example, let's define a date mutator for the <code>accountexpires</code>
 attribute that exists on ActiveDirectory. To do so, we must set
 the <code>$dates</code> property to a key / value pair, where the key is
 the attribute that contains the timestamp and the value is
 the type of LDAP format to convert to and from:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -452,46 +485,68 @@ class User extends Model
     protected $dates = [
         'accountexpires' =&gt; 'windows-int',
     ];
-}</code></pre>
+}
+</code></pre>
+
 <p>Now lets have our user's account expire at the same time tomorrow:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
 $user-&gt;accountexpires = new \DateTime('+1 day');
 
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
+
 <p>Once we've saved the model, the attribute will now automatically
 be converted to a <a href="https://github.com/briannesbitt/Carbon">Carbon</a>
 instance so you can use any of Carbon's methods on the attribute:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
 if ($user-&gt;accountexpires-&gt;isPast()) {
     // The user account is expired.
-}</code></pre>
+}
+</code></pre>
+
 <h4 id="available-date-types">Available Types</h4>
+
 <p>Currently, there are 3 built-in date mutator types. They are:</p>
+
 <ul>
 <li><code>ldap</code></li>
 <li><code>windows</code></li>
 <li><code>windows-int</code></li>
 </ul>
+
 <h5 id="ldap-date-type">LDAP Type</h5>
+
 <p>The <code>ldap</code> type is the most common format for LDAP timestamps -
 outside of ActiveDirectory. This format converts LDAP timestamps
 in the format of <code>YYYYMMDDHHMMSST</code>. T is the time zone which
 is usually 'Z' (Zulu Time Zone = UTC/GMT).</p>
+
 <h5 id="windows-date-type">Windows Type</h5>
+
 <p>The <code>windows</code> type is similar to the <code>ldap</code> type, however it
 differs slightly so it requires its own conversion type. Its
 timestamp is in the format of <code>YYYYMMDDHHMMSS.0T</code>. T is the
 time zone which is usually 'Z' (Zulu Time Zone = UTC/GMT).</p>
+
 <h5 id="windows-int-date-type">Windows Integer Type</h5>
+
 <p>The <code>windows-int</code> type handles the 18-digit ActiveDirectory timestamp
 format, also named 'Windows NT time format', 'Win32 FILETIME or
 SYSTEMTIME' or NTFS file time. An example of this would be
 the <code>accountexpires</code> attribute that exists on users:</p>
-<pre><code class="language-text">132131246410000000</code></pre>
+
+<pre><code class="language-text">132131246410000000
+</code></pre>
+
 <p>Which equals:</p>
-<pre><code class="language-text">Monday, September 16, 2019 4:24:01 PM</code></pre>
+
+<pre><code class="language-text">Monday, September 16, 2019 4:24:01 PM
+</code></pre>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

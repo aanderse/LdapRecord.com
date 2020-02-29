@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -321,30 +321,38 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Authentication</h1>
+
 <ul>
 <li><a href="#basic">Basic Authentication</a></li>
 <li><a href="#other-attributes">Using Other Attributes</a></li>
 <li><a href="#restricting">Restricting Authentication</a>
+
 <ul>
 <li><a href="#group-memberships">Group Memberships</a></li>
 <li><a href="#organizational-units">Organizational Units</a></li>
 </ul></li>
 </ul>
+
 <blockquote>
-<p>Before we get started, it's paramount to know that LdapRecord does not set
-up any sort of PHP session that persists through every request. This is up
-to you to implement, as every project may vary with session usage.</p>
+  <p>Before we get started, it's paramount to know that LdapRecord does not set
+  up any sort of PHP session that persists through every request. This is up
+  to you to implement, as every project may vary with session usage.</p>
 </blockquote>
+
 <h2 id="basic">Basic Authentication</h2>
+
 <p>The most widely used feature of any LDAP library is authentication. Let's walk through this step by step using LdapRecord.</p>
+
 <p>Firstly, we need to define a <code>Connection</code> for your LDAP server that you would like users to authenticate against. Then,
 we will call the <code>auth()-&gt;attempt()</code> method:</p>
+
 <blockquote>
-<p>If you only need to authenticate users against your LDAP server, you do not need to provide a <code>base_dn</code>.
-This is only used for performing searches on your directory. Similarly with the <code>username</code> and
-<code>password</code> configuration options, these are only used for performing operations on your LDAP
-server that require permission - such as resetting passwords, modifying LDAP entries, and more.</p>
+  <p>If you only need to authenticate users against your LDAP server, you do not need to provide a <code>base_dn</code>. 
+  This is only used for performing searches on your directory. Similarly with the <code>username</code> and
+  <code>password</code> configuration options, these are only used for performing operations on your LDAP
+  server that require permission - such as resetting passwords, modifying LDAP entries, and more.</p>
 </blockquote>
+
 <pre><code class="language-php">$connection = new \LdapRecord\Connection([
     'hosts' =&gt; ['127.0.0.1'],
 ]);
@@ -353,28 +361,38 @@ if ($connection-&gt;auth()-&gt;attempt('cn=john doe,dc=acme,dc=org', 'p@ssw0rd',
     // Successfully authenticated user.
 } else {
     // Username or password is incorrect.
-}</code></pre>
+}
+</code></pre>
+
 <p>As you can see from the above, the first parameter of the <code>attempt()</code> method is the users Distinguished Name.
-If you're running ActiveDirectory, you can use the users <code>userPrincipalName</code> instead, which (in the case
+If you're running ActiveDirectory, you can use the users <code>userPrincipalName</code> instead, which (in the case 
 above) would be in the format of <code>jdoe@acme.org</code>.</p>
-<p>You may have also noticed we added a third parameter named <code>$stayAuthenticated = true</code>. This means, that throughout the
+
+<p>You may have also noticed we added a third parameter named <code>$stayAuthenticated = true</code>. This means, that throughout the 
 entire lifecycle of the current request, you can perform further operations on your LDAP server <em>as</em> the
 successfully authenticated user.</p>
+
 <h2 id="other-attributes">Authenticating with other username attributes</h2>
+
 <p>No user wants to type in their full Distinguished Name to login to an application. It's
 cumbersome, and will likely change over the years due to IT administrators moving
 objects in the LDAP directory for organization purposes.</p>
+
 <p>However, LDAP only supports binding (authenticating) users using their Distinguished Name (unless you're using ActiveDirectory).
 How do we get around this limitation? Well, we can first connect to our LDAP directory and then retrieve their account
 information - including their Distinguished Name. Let's walk through this.</p>
+
 <p>Since we will first be searching our LDAP directory for the user that is attempting to authenticate, we have two options:</p>
+
 <ul>
 <li>Providing a <code>username</code> and <code>password</code> to our connection</li>
 <li>Anonymously bind to our connection, by not providing a <code>username</code> and <code>password</code> (if enabled in your directory)</li>
 </ul>
+
 <blockquote>
-<p>Since we will be searching our directory, we must provide a <code>base_dn</code>, so LdapRecord knows where to begin searching for records.</p>
+  <p>Since we will be searching our directory, we must provide a <code>base_dn</code>, so LdapRecord knows where to begin searching for records.</p>
 </blockquote>
+
 <pre><code class="language-php">// Connecting with an an account...
 $connection = new \LdapRecord\Connection([
     'hosts' =&gt; ['127.0.0.1'],
@@ -391,13 +409,18 @@ $connection = new \LdapRecord\Connection([
     'base_dn' =&gt; 'dc=acme,dc=org',
 ]);
 
-$connection-&gt;connect();</code></pre>
+$connection-&gt;connect();
+</code></pre>
+
 <blockquote>
-<p>It's recommended to create and use an account in your LDAP directory that is specifically for your
-web application(s), rather than using your own account or a domain administrator.</p>
+  <p>It's recommended to create and use an account in your LDAP directory that is specifically for your
+  web application(s), rather than using your own account or a domain administrator.</p>
 </blockquote>
+
 <p>Once we're connected, we can then search for the user who is trying to authenticate.</p>
+
 <p>For this example, we're wanting users to login using their <code>sAMAccountName</code>:</p>
+
 <pre><code class="language-php">$connection = new \LdapRecord\Connection(['...']);
 
 $connection-&gt;connect();
@@ -410,14 +433,21 @@ if ($connection-&gt;auth()-&gt;attempt($user['distinguishedname'], $_POST['passw
     // User has been successfully authenticated.
 } else {
     // Username or password is incorrect.
-}</code></pre>
+}
+</code></pre>
+
 <h2 id="restricting">Restricting Authentication</h2>
+
 <p>Sometimes you only want certain users allowed to login to your application. You can do this in a couple ways.</p>
+
 <h3 id="group-memberships">Group Memberships</h3>
+
 <p>To restrict who can authenticate in your application using groups that users will be members
 of, we will perform the same as above, except we will check if the returned <code>memberof</code>
 array of the user contains the allowed groups.</p>
+
 <p>In this example, we will limit users who are members of <code>Accounting</code> and <code>IT</code>.</p>
+
 <pre><code class="language-php">$connection = new \LdapRecord\Connection(['...']);
 
 $connection-&gt;connect();
@@ -452,11 +482,17 @@ if (count($difference) &gt; 0) {
     }
 }
 
-// User is not a member of any of the allowed groups.</code></pre>
+// User is not a member of any of the allowed groups.
+</code></pre>
+
 <h3 id="organizational-units">Organizational Units</h3>
+
 <p>Using Organizational Units to determine which users are allowed to authenticate is easier than using groups.</p>
+
 <p>In this scenario, we will limit our search to a single Organization Unit that contain users who are allowed to authenticate.</p>
+
 <p>We can simply determine if a result is returned, we know the user exists inside:</p>
+
 <pre><code class="language-php">$connection = new \LdapRecord\Connection(['...']);
 
 $connection-&gt;connect();
@@ -478,7 +514,9 @@ if ($user) {
     }
 }
 
-// No user found. They are not inside the OU.</code></pre>
+// No user found. They are not inside the OU.
+</code></pre>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

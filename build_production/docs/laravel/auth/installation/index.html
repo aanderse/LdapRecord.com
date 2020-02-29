@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -277,33 +277,41 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Installation</h1>
+
 <p>If you are using <a href="/docs/laravel/auth#database">database synchronization</a>, you must publish the
 included migrations to add the following database columns to your <code>users</code> table:</p>
+
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Reason</th>
+  <th>Column</th>
+  <th>Reason</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>guid</code></td>
-<td>This is for storing your LDAP users <code>objectguid</code>. It is needed for locating and synchronizing your LDAP user to the database.</td>
+  <td><code>guid</code></td>
+  <td>This is for storing your LDAP users <code>objectguid</code>. It is needed for locating and synchronizing your LDAP user to the database.</td>
 </tr>
 <tr>
-<td><code>domain</code></td>
-<td>This is for storing your LDAP users connection name. It is needed for storing your configured LDAP connection name of the user.</td>
+  <td><code>domain</code></td>
+  <td>This is for storing your LDAP users connection name. It is needed for storing your configured LDAP connection name of the user.</td>
 </tr>
 </tbody>
 </table>
+
 <p>Publish the migration using the below command:</p>
-<pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"</code></pre>
+
+<pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"
+</code></pre>
+
 <p>Then, add the following interface and trait to your <code>app/User.php</code> model:</p>
+
 <ul>
 <li>Interface: <code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></li>
 <li>Trait: <code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></li>
 </ul>
+
 <pre><code class="language-php">&lt;?php
 
 namespace App;
@@ -318,13 +326,18 @@ class User extends Authenticatable implements LdapAuthenticatable
     use Notifiable, AuthenticatesWithLdap;
 
     // ...
-}</code></pre>
+}
+</code></pre>
+
 <p>This trait and interface provide LdapRecord the ability of setting and getting your users
 <code>domain</code> and <code>guid</code> database columns upon authentication.</p>
+
 <h2>Migration Customization</h2>
+
 <p>If you would like to customize the published migration and change the database columns, you
 must override the following methods in your Eloquent <code>User</code> model that are provided by
 the LdapRecord trait and interface:</p>
+
 <pre><code class="language-php">// app/User.php
 
 public function getLdapDomainColumn()
@@ -335,7 +348,9 @@ public function getLdapDomainColumn()
 public function getLdapGuidColumn()
 {
     return 'guid_column';
-}</code></pre>
+}
+</code></pre>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

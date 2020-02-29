@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -277,29 +277,56 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Authentication Quickstart</h1>
+
 <blockquote>
-<p>Before you get started with the LDAP authentication driver please complete
-the <a href="/docs/laravel/quickstart">LdapRecord-Laravel quickstart guide</a> to
-install LdapRecord and configure your LDAP connection.</p>
+  <p>Please complete the <a href="/docs/laravel/quickstart">LdapRecord-Laravel quickstart guide</a>
+  to install LdapRecord and configure your LDAP connection prior to setting up
+  authentication.</p>
 </blockquote>
+
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#debugging">Debugging</a></li>
-<li><a href="#plain">Plain Authentication</a></li>
-<li><a href="#database-sync">Synchronized Database Authentication</a></li>
+<li><a href="#plain">Plain Authentication</a>
+
+<ul>
+<li><a href="#configure-plain-auth">Step 1: Configure the driver</a></li>
+<li><a href="#plain-controller-setup">Step 2: Setting up your LoginController</a></li>
+<li><a href="#plain-view-setup">Step 3: Modifying your Blade views</a></li>
+</ul></li>
+<li><a href="#database-sync">Synchronized Database Authentication</a>
+
+<ul>
+<li><a href="#publish-migration">Step 1: Publish the database migration</a></li>
+<li><a href="#configure-database-auth">Step 2: Configure the driver</a></li>
+<li><a href="#database-user-model-setup">Step 3: Setting up your database user model</a></li>
+<li><a href="#database-controller-setup">Step 4: Setting up your LoginController</a></li>
+</ul></li>
 </ul>
+
 <h2 id="introduction">Introduction</h2>
+
 <p>Before you begin, this guide assumes you have published Laravel's default authentication scaffolding.</p>
-<p>If you have not yet done so, please follow Laravel's <a href="https://laravel.com/docs/authentication#introduction">documented guide</a>
+
+<p>If you have not yet done so, please follow Laravel's <a href="https://laravel.com/docs/authentication#introduction">documented guide</a> 
 to get started, and head back here once done.</p>
+
 <h2 id="debugging">Debugging</h2>
+
 <p>Inside of your <code>config/ldap.php</code> file, ensure you have <code>logging</code> enabled during the setup of authentication.</p>
+
 <p>Doing this will help you immensely in debugging connectivity and authentication issues.</p>
+
 <p>If you encounter issues along the way, be sure to open your <code>storage/logs</code> directory and see what may be occurring.</p>
+
 <h2 id="plain">Plain LDAP Authentication</h2>
+
 <h3 id="configure-plain-auth">Step 1: Configure the Authentication Driver</h3>
+
 <p>Inside of your <code>config/auth.php</code> file, we must add a new provider in the <code>providers</code> array.</p>
+
 <p>In this example, we will create a provider named <code>ldap</code>:</p>
+
 <pre><code class="language-php">// config/auth.php
 
 'providers' =&gt; [
@@ -308,8 +335,11 @@ to get started, and head back here once done.</p>
     'ldap' =&gt; [
         'driver' =&gt; 'ldap',
         'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
-    ],</code></pre>
+    ],
+</code></pre>
+
 <p>Once you have setup your <code>ldap</code> provider, you must update the <code>provider</code> value in the <code>web</code> guard:</p>
+
 <pre><code class="language-php">// config/auth.php
 
 'guards' =&gt; [
@@ -318,13 +348,27 @@ to get started, and head back here once done.</p>
         'provider' =&gt; 'ldap', // Changed to 'ldap'
     ],
 
-    // ...</code></pre>
+    // ...
+</code></pre>
+
 <h3 id="plain-controller-setup">Step 2: Setting up your LoginController</h3>
+
 <p>Now we must change our <code>LoginController</code> to allow LdapRecord to properly
-locate users who are attempting to sign into our application.</p>
-<p>We do this by changing the <code>credentials</code> method and returns an array
-that contains the users username and password. The username in this
-example will be the LDAP users <code>mail</code> attribute:</p>
+locate users who are attempting to sign into our application. We do
+this by changing the <code>credentials</code> method. In this method we will
+return an array that contains the users username and password.</p>
+
+<p><strong>The keys you set here are important.</strong> The <code>password</code> key must be present, as
+this is sent directly to your LDAP server for verification.</p>
+
+<p>The other key must be the <strong>name of the LDAP attribute</strong> you want LdapRecord to
+locate the authenticating user with. It <strong>must</strong> be an attribute that has
+a unique value per user in your directory. <code>uid</code>, <code>sAMAccountName</code>,
+<code>mail</code>, or <code>userPrincipalName</code> are good examples of attributes
+that have a unique value per user.</p>
+
+<p>In this example we want to use the users <code>mail</code> LDAP attribute to sign them into our application.</p>
+
 <pre><code class="language-php">class LoginController extends Controller
 {
     // ...
@@ -336,54 +380,71 @@ example will be the LDAP users <code>mail</code> attribute:</p>
             'password' =&gt; $request-&gt;get('password'),
         ];
     }
-}</code></pre>
+}
+</code></pre>
+
 <h3 id="plain-view-setup">Step 3: Modifying The Layout Blade View</h3>
+
 <p>When we use plain LDAP authentication, an instance of the LdapRecord <code>model</code> you have
 configured for authentication will be returned when calling the <code>Auth::user()</code>
 method. This means that our currently published blade views will throw an
 exception due to using <code>Auth::user()-&gt;name</code> inside of the view file
 <code>views/layouts/app.blade.php</code>.</p>
+
 <p>You must change the syntax to the following:</p>
+
 <pre><code class="language-html">&lt;!-- resources/views/layouts/app.blade.php --&gt;
 
 &lt;!-- From... --&gt;
-&lt;a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre&gt;
-    {{ Auth::user()-&gt;name }} &lt;span class="caret"&gt;&lt;/span&gt;
-&lt;/a&gt;
+{{ Auth::user()-&gt;name }}
 
 &lt;!-- To... --&gt;
-&lt;a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre&gt;
-    {{ Auth::user()-&gt;getFirstAttribute('cn') }} &lt;span class="caret"&gt;&lt;/span&gt;
-&lt;/a&gt;</code></pre>
-<p>Your application is now ready to authenticate LDAP users.</p>
+{{ Auth::user()-&gt;getFirstAttribute('cn') }}
+</code></pre>
+
+<p>Once you've updated the syntax, your application is now ready to authenticate LDAP users.</p>
+
 <h2 id="database-sync">Synchronized Database Authentication</h2>
+
 <h3 id="publish-migration">Step 1: Publish the Migration</h3>
+
 <p>LdapRecord requires you to have two additional user database columns.</p>
+
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Reason</th>
+  <th>Column</th>
+  <th>Reason</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>guid</code></td>
-<td>This is for storing your LDAP users <code>objectguid</code>. It is needed for locating and synchronizing your LDAP user to the database.</td>
+  <td><code>guid</code></td>
+  <td>This is for storing your LDAP users <code>objectguid</code>. It is needed for locating and synchronizing your LDAP user to the database.</td>
 </tr>
 <tr>
-<td><code>domain</code></td>
-<td>This is for storing your LDAP users connection name. It is needed for storing your configured LDAP connection name of the user.</td>
+  <td><code>domain</code></td>
+  <td>This is for storing your LDAP users connection name. It is needed for storing your configured LDAP connection name of the user.</td>
 </tr>
 </tbody>
 </table>
+
 <p>Go ahead and publish the migration using the below command:</p>
-<pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"</code></pre>
+
+<pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvider"
+</code></pre>
+
 <p>Then, run the migrations with the <code>artisan migrate</code> command:</p>
-<pre><code class="language-bash">php artisan migrate</code></pre>
+
+<pre><code class="language-bash">php artisan migrate
+</code></pre>
+
 <h3 id="configure-database-auth">Step 2: Configure the Authentication Driver</h3>
+
 <p>Inside of your <code>config/auth.php</code> file, we must add a new provider in the <code>providers</code> array.</p>
+
 <p>In this example, we will create a provider named <code>ldap</code>:</p>
+
 <pre><code class="language-php">// config/auth.php
 
 'providers' =&gt; [
@@ -401,12 +462,19 @@ exception due to using <code>Auth::user()-&gt;name</code> inside of the view fil
             ],
         ],
     ],
-],</code></pre>
+],
+</code></pre>
+
 <p>If you are using OpenLDAP, you must switch the providers <code>model</code> option to:</p>
-<pre><code class="language-php">LdapRecord\Models\OpenLDAP\User::class</code></pre>
+
+<pre><code class="language-php">LdapRecord\Models\OpenLDAP\User::class
+</code></pre>
+
 <p>If you are using a different LDAP type, you will need to <a href="/docs/models/#defining-models">define your own LDAP model</a>
 and insert it there. This model is used for locating the authenticating user in your LDAP directory.</p>
+
 <p>Once you have setup your <code>ldap</code> provider, you must update the <code>provider</code> value in the <code>web</code> guard:</p>
+
 <pre><code class="language-php">// config/auth.php
 
 'guards' =&gt; [
@@ -415,27 +483,32 @@ and insert it there. This model is used for locating the authenticating user in 
         'provider' =&gt; 'ldap', // Changed to 'ldap'
     ],
 
-    // ...</code></pre>
-<h3 id="add-trait-and-interface">Step 3: Add the trait and interface to your user model</h3>
+    // ...
+</code></pre>
+
+<h3 id="database-user-model-setup">Step 3: Setting up your database user model</h3>
+
 <p>Now, we must add the following trait and interface to our <code>User</code> Eloquent model:</p>
+
 <table>
 <thead>
 <tr>
-<th>Type</th>
-<th>Name</th>
+  <th>Type</th>
+  <th>Name</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Interface</td>
-<td><code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></td>
+  <td>Interface</td>
+  <td><code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></td>
 </tr>
 <tr>
-<td>Trait</td>
-<td><code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></td>
+  <td>Trait</td>
+  <td><code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></td>
 </tr>
 </tbody>
 </table>
+
 <pre><code class="language-php">// app/User.php
 
 // ...
@@ -447,34 +520,48 @@ class User extends Authenticatable implements LdapAuthenticatable
     use Notifiable, AuthenticatesWithLdap;
 
     // ...
-}</code></pre>
+}
+</code></pre>
+
 <p>These are required so LdapRecord can set and retrieve your users <code>domain</code> and <code>guid</code> database columns.</p>
+
 <p>If you would like to override the database column names that are used, you can override the following methods:</p>
+
 <table>
 <thead>
 <tr>
-<th>Methods</th>
+  <th>Methods</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>User::getLdapDomainColumn()</code></td>
+  <td><code>User::getLdapDomainColumn()</code></td>
 </tr>
 <tr>
-<td><code>User::getLdapGuidColumn()</code></td>
+  <td><code>User::getLdapGuidColumn()</code></td>
 </tr>
 </tbody>
 </table>
-<h3>Step 4: Setting up your LoginController:</h3>
-<p>For LdapRecord to properly locate users that attempt to login to your application, you must
-override the <code>credentials</code> method in your <code>Auth\LoginController.php</code> file.</p>
-<p>Then, you must set an array key of the LDAP attribute that will be used for looking up the user
-in your LDAP directory.</p>
-<p>In the example below, we will lookup LDAP users by their <code>mail</code> attribute:</p>
-<pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
 
-// ...
-class LoginController extends Controller
+<h3 id="database-controller-setup">Step 4: Setting up your LoginController:</h3>
+
+<p>Now we must change our <code>LoginController</code> to allow LdapRecord to properly
+locate users who are attempting to sign into our application. We do
+this by changing the <code>credentials</code> method. In this method we will
+return an array that contains the users username and password.</p>
+
+<p><strong>The keys you set here are important.</strong> The <code>password</code> key must be present, as
+this is sent directly to your LDAP server for verification.</p>
+
+<p>The other key must be the <strong>name of the LDAP attribute</strong> you want LdapRecord to
+locate the authenticating user with. It <strong>must</strong> be an attribute that has
+a unique value per user in your directory. <code>uid</code>, <code>sAMAccountName</code>,
+<code>mail</code>, or <code>userPrincipalName</code> are good examples of attributes
+that have a unique value per user.</p>
+
+<p>In this example we want to use the users <code>mail</code> LDAP attribute to sign them into our application.</p>
+
+<pre><code class="language-php">class LoginController extends Controller
 {
     // ...
 
@@ -485,8 +572,11 @@ class LoginController extends Controller
             'password' =&gt; $request-&gt;get('password'),
         ];
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>Your application is now ready to authenticate LDAP users.</p>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -277,16 +277,22 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Configuration</h1>
+
 <ul>
 <li><a href="#plain">Plain Authentication</a></li>
 <li><a href="#database">Synchronized Database Authentication</a></li>
 <li><a href="#rules">Authentication Rules</a></li>
 </ul>
+
 <p>All LDAP authentication configuration is done inside of your <code>config/auth.php</code> file.</p>
+
 <p>Let's walk through configuring both LDAP authentication mechanisms.</p>
+
 <h2 id="plain">Plain Authentication</h2>
+
 <p>To create a plain LDAP authentication provider, navigate to the <code>providers</code> array,
 and paste the following <code>ldap</code> provider:</p>
+
 <pre><code class="language-php">'providers' =&gt; [
     // ...
 
@@ -295,29 +301,46 @@ and paste the following <code>ldap</code> provider:</p>
         'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
         'rules' =&gt; [],
     ],
-],</code></pre>
+],
+</code></pre>
+
 <p>If your application requires more than one LDAP connection, you must create a new provider for each connection.</p>
+
 <p>This new provider must have its own unique <code>model</code> class set which must use your <a href="/docs/models#connections">alternate configured connection</a>
 using the <code>$connection</code> property.</p>
+
 <blockquote>
-<p>In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
-you create with the desired connection. For example: <br/></p>
-<pre><code class="language-text">App\Ldap\DomainAlpha\User</code></pre>
-<p>This will allow you to segregate scopes, rules and other classes to their relating connection.</p>
+  <p>In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
+  you create with the desired connection. For example: <br/></p>
+
+<pre><code class="language-text">App\Ldap\DomainAlpha\User
+</code></pre>
+  
+  <p>This will allow you to segregate scopes, rules and other classes to their relating connection.</p>
 </blockquote>
+
 <h3>Driver</h3>
+
 <p>The <code>driver</code> option must be <code>ldap</code> as this is what indicates to Laravel the proper authentication driver to use.</p>
+
 <h3>Model</h3>
+
 <p>The <code>model</code> option must be the class name of your <a href="/docs/models">LdapRecord model</a>. This model will be used
 for fetching users from your directory.</p>
+
 <h3>Rules</h3>
+
 <p>The <code>rules</code> option must be an array of class names of <a href="/docs/laravel/auth/configuration#rules">authentication rules</a>.</p>
+
 <h2 id="database">Synchronized Database Authentication</h2>
+
 <p>To create a synchronized database LDAP authentication provider, navigate to the <code>providers</code> array,
 and paste the following <code>ldap</code> provider:</p>
+
 <blockquote>
-<p>If your application is requiring two or more LDAP connections, you must create a new user provider for each connection.</p>
+  <p>If your application is requiring two or more LDAP connections, you must create a new user provider for each connection.</p>
 </blockquote>
+
 <pre><code class="language-php">'providers' =&gt; [
     // ...
 
@@ -334,36 +357,56 @@ and paste the following <code>ldap</code> provider:</p>
             ],
         ],
     ],
-],</code></pre>
+],
+</code></pre>
+
 <p>As you can see above, a <code>database</code> array is used to configure the association between your LDAP user and your Eloquent user.</p>
+
 <h3>Database Model</h3>
+
 <p>The <code>database.model</code> key is the class name of the Eloquent model that will be used for creating and
 retrieving LDAP users from your applications database.</p>
+
 <p>Once you have added your model into this configuration option</p>
+
 <h3>Database Password Sync</h3>
+
 <p>The <code>database.sync_passwords</code> option enables password synchronization. Password synchronization captures and hashes
 the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
-provide a &quot;back up&quot; option in case your LDAP server is unreachable, as well as a way of determining if a
+provide a "back up" option in case your LDAP server is unreachable, as well as a way of determining if a
 users password is valid without having to call to your LDAP server and validate it for you.</p>
+
 <blockquote>
-<p>If you do not define the <code>sync_passwords</code> key or have it set false, a user is always applied a
-random 16 character hashed password.</p>
+  <p>If you do not define the <code>sync_passwords</code> key or have it set false, a user is always applied a
+  random 16 character hashed password.</p>
 </blockquote>
+
 <h3>Database Sync Attributes</h3>
+
 <p>The <code>sync_attributes</code> array defines a set of key-value pairs. The key of each array item is the column of your <code>users</code>
 database table and the value is the name of the users LDAP attribute.</p>
+
 <h2 id="rules">Authentication Rules</h2>
+
 <p>LDAP authentication rules give you the ability to allow or deny users from signing into your
 application using a condition you would like to apply. These rules are executed <strong>after</strong>
 a user successfully passes LDAP authentication against your configured server.</p>
+
 <p>Think of them as a final authorization gate before they are allowed in.</p>
+
 <blockquote>
-<p>Authentication rules are never executed if a user fails LDAP authentication.</p>
+  <p>Authentication rules are never executed if a user fails LDAP authentication.</p>
 </blockquote>
+
 <p>Let's create an LDAP rule that only allows members of our domain <code>Administrators</code> group.</p>
+
 <p>To create an authentication rule, call the <code>make:ldap-rule</code> command:</p>
-<pre><code class="language-bash">php artisan make:ldap-rule OnlyAdministrators</code></pre>
+
+<pre><code class="language-bash">php artisan make:ldap-rule OnlyAdministrators
+</code></pre>
+
 <p>A rule will then be created in your applications <code>app/Ldap/Rules</code> directory:</p>
+
 <pre><code class="language-php">&lt;?php
 
 namespace App\Ldap\Rules;
@@ -381,16 +424,22 @@ class OnlyAdministrators extends Rule
     {
         //
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>In the authentication rule, there are two properties made available to us.</p>
+
 <ul>
 <li>A <code>user</code> property that is the <strong>LdapRecord</strong> model of the authenticating user</li>
 <li>A <code>model</code> property that is the <strong>Eloquent</strong> model of the authenticating user</li>
 </ul>
+
 <blockquote>
-<p>The <code>model</code> property will be <code>null</code> if you are not using database synchronization.</p>
+  <p>The <code>model</code> property will be <code>null</code> if you are not using database synchronization.</p>
 </blockquote>
+
 <p>Now, we will update the <code>isValid</code> method to check the LDAP users <code>groups</code> relationship to see if they are a member:</p>
+
 <pre><code class="language-php">&lt;?php
 
 namespace App\Ldap\Rules;
@@ -406,12 +455,16 @@ class OnlyAdministrators extends Rule
 
         return $this-&gt;user-&gt;groups()-&gt;recursive()-&gt;exists($administrators);
     }
-}</code></pre>
+}
+</code></pre>
+
 <blockquote>
-<p>We call the <code>recursive</code> method on the relationship to make sure that we load groups of
-groups in case the user is not an immediate member of the <code>Administrators</code> group.</p>
+  <p>We call the <code>recursive</code> method on the relationship to make sure that we load groups of
+  groups in case the user is not an immediate member of the <code>Administrators</code> group.</p>
 </blockquote>
+
 <p>Once we have our rule defined, we will add it into our authentication provider in the <code>config/auth.php</code> file:</p>
+
 <pre><code class="language-php">'providers' =&gt; [
     // ...
 
@@ -422,10 +475,14 @@ groups in case the user is not an immediate member of the <code>Administrators</
             App\Ldap\Rules\OnlyAdministrators::class,
         ],
     ],
-],</code></pre>
+],
+</code></pre>
+
 <p>Now when you attempt to login to your application with a LDAP user that successfully passes
 LDAP authentication, they will need to be a member of the <code>Administrators</code> group.</p>
+
 <p>If you are caching your configuration, make sure you re-run <code>config:cache</code> to re-cache your modifications.</p>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -277,6 +277,7 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Testing</h1>
+
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#getting-started">Getting Started</a></li>
@@ -284,30 +285,53 @@
 <li><a href="#scopes">Scopes</a></li>
 <li><a href="#rules">Rules</a></li>
 </ul>
+
 <h2 id="introduction">Introduction</h2>
+
 <p>LdapRecord-Laravel prides itself on giving you a great and easy testing experience using
 the <a href="/docs/laravel/testing#directory-emulator">Directory Emulator</a>. Using it, we can
 test authentication <a href="/docs/laravel/auth/configuration#rules">rules</a>,
-<a href="/docs/models#query-scopes">scopes</a> and group memberships. </p>
+<a href="/docs/models#query-scopes">scopes</a> and group memberships.</p>
+
 <h2 id="getting-started">Getting Started</h2>
+
 <p>Before we begin, you must require the <code>doctrine/dbal</code> into your composers <code>require-dev</code> for testing.
 This is due to the <code>$table-&gt;dropColumns(['guid', 'domain'])</code> call inside of the additional
 LdapRecord auth migration and that we are using SQLite in our test environment.</p>
+
 <p>This package is required for modifying columns - as described in the
 <a href="https://laravel.com/docs/migrations#modifying-columns">Laravel documentation</a>.</p>
+
 <p>To do so, run the following command:</p>
-<pre><code class="language-bash">composer require doctrine/dbal --dev</code></pre>
+
+<pre><code class="language-bash">composer require doctrine/dbal --dev
+</code></pre>
+
 <h2 id="creating-the-test">Creating the test</h2>
+
 <p>Let's whip up a test by running the following command:</p>
-<pre><code class="language-bash">php artisan make:test TestLdapAuthentication</code></pre>
+
+<pre><code class="language-bash">php artisan make:test TestLdapAuthentication
+</code></pre>
+
 <p>Inside of our generated test, we'll make use of the following traits:</p>
+
 <p><strong>DatabaseMigrations</strong></p>
-<pre><code class="language-text">Illuminate\Foundation\Testing\DatabaseMigrations</code></pre>
+
+<pre><code class="language-text">Illuminate\Foundation\Testing\DatabaseMigrations
+</code></pre>
+
 <p>Using this trait will execute our migrations and ensure our database is ready to import our LDAP user.</p>
+
 <p><strong>WithFaker</strong></p>
-<pre><code class="language-text">Illuminate\Foundation\Testing\WithFaker</code></pre>
-<p>Using this trait provides us with generating fake UUID's (great for creating mock &quot;guids&quot;), names and emails.</p>
+
+<pre><code class="language-text">Illuminate\Foundation\Testing\WithFaker
+</code></pre>
+
+<p>Using this trait provides us with generating fake UUID's (great for creating mock "guids"), names and emails.</p>
+
 <p>Let's add a <code>test_auth_works</code> method into the generated test:</p>
+
 <pre><code class="language-php">&lt;?php
 
 namespace Tests\Feature;
@@ -346,41 +370,61 @@ class TestLdapAuthentication extends TestCase
         $this-&gt;assertEquals($ldapUser-&gt;mail[0], $user-&gt;email);
         $this-&gt;assertEquals($ldapUser-&gt;cn[0], $ldapUser-&gt;name);
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>Let's deconstruct what's going on here.</p>
-<pre><code class="language-php">$fake = DirectoryEmulator::setup('default');</code></pre>
+
+<pre><code class="language-php">$fake = DirectoryEmulator::setup('default');
+</code></pre>
+
 <p>This first line creates a new Directory Emulator for our LDAP connection named <code>default</code> inside
 of our <code>config/ldap.php</code> file. It returns a fake LDAP connection that we can use to indicate
 that the user we insert will successfully pass LDAP authentication:</p>
+
 <pre><code class="language-php">$user = User::create([
     'mail' =&gt; $this-&gt;faker-&gt;email,
     'cn' =&gt; $this-&gt;faker-&gt;name,
     'objectguid' =&gt; $this-&gt;faker-&gt;uuid,
-]);</code></pre>
+]);
+</code></pre>
+
 <p>On the second line, we're creating a fake LDAP user who will be signing into our application.
 You'll notice that we assign the attributes that are inside of our <code>sync_attributes</code>
 specified inside of our <code>config/auth.php</code> file, as well as the users <code>objectguid</code>.</p>
-<pre><code class="language-php">$fake-&gt;actingAs($user);</code></pre>
+
+<pre><code class="language-php">$fake-&gt;actingAs($user);
+</code></pre>
+
 <p>This third line, we are asserting that the user we have created will automatically pass
 LDAP authentication. If we remove this line, attempting to authenticate as the
 user will fail, as they are not authorized inside of your fake:</p>
+
 <pre><code class="language-php"> $this-&gt;post('/login', [
     'email' =&gt; $user-&gt;mail[0],
     'password' =&gt; 'secret',
-])-&gt;assertRedirect('/home');</code></pre>
+])-&gt;assertRedirect('/home');
+</code></pre>
+
 <p>Fourth, we are sending a post request to our <code>login</code> page, with our LDAP users email address.
 The password can be anything, since we asserted above that the user <strong>will</strong> pass:</p>
+
 <p>Finally, we check to make sure we can retrieve the successfully authenticated
 user and that their attributes were successfully synchronized.</p>
+
 <h2 id="scopes">Scopes</h2>
+
 <p>To test scopes that you apply to the LdapRecord model you are using for authentication,
 you will need to apply the attributes to the fake user you create to test that
 they can be properly located during authentication.</p>
+
 <p>For example, if you created a scope that enforces users to be inside of an Organizational
 Unit, then we must create our fake user inside of that Organizational Unit for the
 user to be located - as you would using a real LDAP directory.</p>
+
 <p>Let's walk through this. Below we have our scope that will enforce users to be located
 inside of an Organizational Unit named <code>Administrators</code>:</p>
+
 <pre><code class="language-php">namespace App\Ldap\Scopes;
 
 use LdapRecord\Models\Model;
@@ -396,8 +440,11 @@ class AdministratorsScope implements Scope
 
         $query-&gt;in($ou);
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>And we have also added it into our model:</p>
+
 <pre><code class="language-php">namespace App\Ldap;
 
 use LdapRecord\Models\Model;
@@ -411,9 +458,12 @@ class User extends Model
 
         static::addGlobalScope(new AdministratorsScope());
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>Now let's create our test. To do so, we'll setup everything as we have in the above test
 example, but we will create our user inside of the <code>Administrators</code> Organizational Unit:</p>
+
 <pre><code class="language-php">public function test_auth_works()
 {
     $fake = DirectoryEmulator::setup('default');
@@ -440,9 +490,12 @@ example, but we will create our user inside of the <code>Administrators</code> O
     $this-&gt;assertInstanceOf(\App\User::class, $user);
     $this-&gt;assertEquals($ldapUser-&gt;mail[0], $user-&gt;email);
     $this-&gt;assertEquals($ldapUser-&gt;cn[0], $ldapUser-&gt;name);
-}</code></pre>
+}
+</code></pre>
+
 <p>To test the opposite of the above - such as a user who is not located inside the <code>Administrators</code>
 OU, simply create them inside a different OU, or inside the root of your emulated directory:</p>
+
 <pre><code class="language-php">public function test_auth_fails()
 {
     $fake = DirectoryEmulator::setup('default');
@@ -461,19 +514,27 @@ OU, simply create them inside a different OU, or inside the root of your emulate
     ])-&gt;assertSessionHasErrors('email');
 
     $this-&gt;assertFalse(Auth::check());
-}</code></pre>
+}
+</code></pre>
+
 <p>Even though we have asserted that the user passes LDAP authentication (<code>$fake-&gt;actingAs($ldapUser)</code>),
 authentication will fail due to the user not being able to be located due to our scope we have
 created.</p>
+
 <p>We have also modified our redirect assertion to instead validate that the <code>email</code> session
 key contains errors. This key will contain the <code>Invalid credentials</code> message.</p>
+
 <h2 id="rules">Rules</h2>
+
 <p>As with testing scopes, to test rules we must either apply or omit data on
 our fake user to test our LDAP authentication rules.</p>
+
 <p>An authentication rule is great for checking if a user is a member of a certain group
 before allowing them to authenticate. Let's walk through an example and test this.</p>
+
 <p>Our application requires the user to be a member of a group called <code>Help Desk</code>.
 With that requirement, here is our created authentication rule:</p>
+
 <pre><code class="language-php">&lt;?php
 
 namespace App\Ldap\Rules;
@@ -489,8 +550,11 @@ class HelpDeskEmployee extends Rule
 
         return $this-&gt;user-&gt;groups()-&gt;exists($group);
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>This rule has also been added into our providers configuration inside our <code>config/auth.php</code> file:</p>
+
 <pre><code class="language-php">// ...
 
 'providers' =&gt; [
@@ -502,8 +566,11 @@ class HelpDeskEmployee extends Rule
             \App\Ldap\Rules\HelpDeskEmployee::class,
         ],
     ],
-]</code></pre>
+]
+</code></pre>
+
 <p>Now we can create our test to ensure only users who are members of the group can authenticate:</p>
+
 <pre><code class="language-php">public function test_auth_works()
 {
     $fake = DirectoryEmulator::setup('default');
@@ -531,10 +598,14 @@ class HelpDeskEmployee extends Rule
     $this-&gt;assertInstanceOf(\App\User::class, $user);
     $this-&gt;assertEquals($ldapUser-&gt;mail[0], $user-&gt;email);
     $this-&gt;assertEquals($ldapUser-&gt;cn[0], $ldapUser-&gt;name);
-}</code></pre>
+}
+</code></pre>
+
 <p>As you can see above, we created a <code>Help Desk</code> group, added the group into the users <code>memberof</code>
 attribute (due to this field being virtual) and have attached them to the group.</p>
+
 <p>Now let's create a test to ensure users who are not members of the group <strong>can't</strong> authenticate.</p>
+
 <pre><code class="language-php">public function test_auth_fails()
 {
     $fake = DirectoryEmulator::setup('default');
@@ -553,9 +624,12 @@ attribute (due to this field being virtual) and have attached them to the group.
     ])-&gt;assertSessionHasErrors('email');
 
     $this-&gt;assertFalse(Auth::check());
-}</code></pre>
+}
+</code></pre>
+
 <p>The above test passes because we have not added our LDAP user into any groups -
 so the <code>exists()</code> check inside of our rule returns <code>false</code>.</p>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

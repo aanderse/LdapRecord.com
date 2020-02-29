@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -321,6 +321,7 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Configuration</h1>
+
 <ul>
 <li><a href="#hosts">Hosts</a></li>
 <li><a href="#base-distinguished-name">Base DN</a></li>
@@ -332,8 +333,11 @@
 <li><a href="#follow-referrals">Follow Referrals</a></li>
 <li><a href="#options">Options</a></li>
 </ul>
+
 <p>To configure your LDAP connections, provide an array with key-value pairs to set various parameters.</p>
+
 <p>Here is a list of all parameters.</p>
+
 <pre><code class="language-php">$config = [
     // Mandatory Configuration Options
     'hosts'            =&gt; ['192.168.1.1'],
@@ -356,135 +360,192 @@
     ]
 ];
 
-$connection = new Connection($config);</code></pre>
+$connection = new Connection($config);
+</code></pre>
+
 <h3 id="hosts">Hosts</h3>
+
 <p>The hosts option is an array of IP addresses or host names located on your network that serve an LDAP directory.</p>
+
 <p>You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).</p>
+
 <blockquote>
-<p>Do not append your port to your IP addresses or host names. Use the <code>port</code> configuration option instead.</p>
+  <p>Do not append your port to your IP addresses or host names. Use the <code>port</code> configuration option instead.</p>
 </blockquote>
+
 <h3 id="base-distinguished-name">Base Distinguished Name</h3>
+
 <p>The base distinguished name is the base distinguished name you'd like to perform operations on.</p>
+
 <p>An example base DN would be <code>DC=local,DC=com</code>.</p>
+
 <p>If one is not defined, you will not retrieve any search results.</p>
+
 <blockquote>
-<p>Your base DN is <strong>case insensitive</strong>. You do not need to worry about incorrect casing.</p>
+  <p>Your base DN is <strong>case insensitive</strong>. You do not need to worry about incorrect casing.</p>
 </blockquote>
+
 <h3 id="username-amp-password">Username &amp; Password</h3>
+
 <p>To connect to your LDAP server, a username and password is required to be able to query and run operations on your server(s).</p>
+
 <table>
 <thead>
 <tr>
-<th>Additional Tips</th>
+  <th>Additional Tips</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>The <code>username</code> option must be a users <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names">Distinguished Name</a>. If you are connecting to an ActiveDirectory server, you may use a users <a href="https://docs.microsoft.com/en-us/windows/win32/ad/naming-properties#userprincipalname">userPrincipalName</a> instead.</td>
+  <td>The <code>username</code> option must be a users <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names">Distinguished Name</a>. If you are connecting to an ActiveDirectory server, you may use a users <a href="https://docs.microsoft.com/en-us/windows/win32/ad/naming-properties#userprincipalname">userPrincipalName</a> instead.</td>
 </tr>
 <tr>
-<td>To run administration level operations, such as resetting passwords, this account <strong>must</strong> have the permissions to do so on your directory.</td>
+  <td>To run administration level operations, such as resetting passwords, this account <strong>must</strong> have the permissions to do so on your directory.</td>
 </tr>
 </tbody>
 </table>
+
 <h3 id="port">Port</h3>
+
 <p>The port option is used for authenticating and binding to your LDAP server.</p>
+
 <p>The default ports are already used for non SSL and SSL connections (389 and 636).</p>
+
 <p>Only insert a port if your LDAP server uses a unique port.</p>
+
 <h3 id="ssl-amp-tls">SSL &amp; TLS</h3>
+
 <p>These boolean options enable an SSL or TLS connection to your LDAP server.</p>
+
 <p>It is recommended to use one of these options if you have the ability to. This ensures secure connectivity.</p>
+
 <table>
 <thead>
 <tr>
-<th>Requirements &amp; Tips</th>
+  <th>Requirements &amp; Tips</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Only <strong>one</strong> can be set to <code>true</code>. You must chose either or.</td>
+  <td>Only <strong>one</strong> can be set to <code>true</code>. You must chose either or.</td>
 </tr>
 <tr>
-<td>You <strong>must</strong> enable SSL or TLS to set / change / reset passwords in ActiveDirectory.</td>
+  <td>You <strong>must</strong> enable SSL or TLS to set / change / reset passwords in ActiveDirectory.</td>
 </tr>
 <tr>
-<td>TLS is recommended over SSL. SSL is labelled as a deprecated mechanism for securely running LDAP operations.</td>
+  <td>TLS is recommended over SSL. SSL is labelled as a deprecated mechanism for securely running LDAP operations.</td>
 </tr>
 </tbody>
 </table>
+
 <p>If you're having connectivity issues over SSL or TLS, you may have to
 configure an <code>ldap.conf</code> file and add the following inside:</p>
-<pre><code class="language-text">TLS_REQCERT never</code></pre>
+
+<pre><code class="language-text">TLS_REQCERT never
+</code></pre>
+
 <p>The <code>ldap.conf</code> file will likely not exist by default. Create it inside the location for your OS:</p>
+
 <table>
 <thead>
 <tr>
-<th>OS</th>
-<th>Location</th>
+  <th>OS</th>
+  <th>Location</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Windows</td>
-<td><code>C:\OpenLDAP\sysconf\ldap.conf</code></td>
+  <td>Windows</td>
+  <td><code>C:\OpenLDAP\sysconf\ldap.conf</code></td>
 </tr>
 <tr>
-<td>Linux / macOS</td>
-<td><code>/etc/ldap/ldap.conf</code></td>
+  <td>Linux / macOS</td>
+  <td><code>/etc/ldap/ldap.conf</code></td>
 </tr>
 </tbody>
 </table>
+
 <p>The above directories will likely not exist. You will need to create each of them.</p>
+
 <p>Once you've completed the above, you should be able to connect successfully.</p>
+
 <p>If you can connect using <code>TLS_REQCERT never</code> inside of your <code>ldap.conf</code> file,
 you may want to copy your domain CA certificate to your web server, as it
 can be a bit of a security risk as it will ignore invalid certificates.</p>
+
 <p>Copy your domain CA certificate to the following location:</p>
+
 <table>
 <thead>
 <tr>
-<th>OS</th>
-<th>Location</th>
+  <th>OS</th>
+  <th>Location</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Windows</td>
-<td><code>C:\OpenLDAP\sysconf</code></td>
+  <td>Windows</td>
+  <td><code>C:\OpenLDAP\sysconf</code></td>
 </tr>
 <tr>
-<td>Linux / macOS</td>
-<td><code>/etc/ssl/certs</code></td>
+  <td>Linux / macOS</td>
+  <td><code>/etc/ssl/certs</code></td>
 </tr>
 </tbody>
 </table>
+
 <p>Then, reference it in your <code>ldap.conf</code> with the full file path using (replace
 <code>my-custom-path</code> with the location of the file):</p>
+
 <pre><code class="language-text">TLS_CACERT my-custom-path/ca.pem
-TLS_REQCERT hard</code></pre>
+TLS_REQCERT hard
+</code></pre>
+
 <p>Windows Example:</p>
+
 <pre><code class="language-text">TLS_CACERT C:\OpenLDAP\sysconf\ca.pem
-TLS_REQCERT hard</code></pre>
+TLS_REQCERT hard
+</code></pre>
+
 <p>Linux Example:</p>
+
 <pre><code class="language-text">TLS_CACERT /etc/ssl/certs/ca.pem
-TLS_REQCERT hard</code></pre>
+TLS_REQCERT hard
+</code></pre>
+
 <h3 id="timeout">Timeout</h3>
+
 <p>The timeout option allows you to configure the amount of seconds to wait until
 your application receives a response from your LDAP server.</p>
+
 <p>The default is 5 seconds.</p>
+
 <h3 id="version">Version</h3>
+
 <p>The LDAP version to use for your connection.</p>
+
 <p>Must be an integer and can either be <code>2</code> or <code>3</code>.</p>
+
 <h3 id="follow-referrals">Follow Referrals</h3>
+
 <p>The follow referrals option is a boolean to tell ActiveDirectory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.</p>
+
 <p>This option is defaulted to false.</p>
+
 <p>Disable this option if you're experiencing search / connectivity issues.</p>
-<p>For more information, visit: <a href="https://technet.microsoft.com/en-us/library/cc978014.aspx">https://technet.microsoft.com/en-us/library/cc978014.aspx</a></p>
+
+<p>For more information, visit: https://technet.microsoft.com/en-us/library/cc978014.aspx</p>
+
 <h3 id="options">Options</h3>
+
 <p>Arbitrary options can be set for the connection to fine-tune TLS and connection behavior.</p>
+
 <p>Please note that <code>LDAP_OPT_PROTOCOL_VERSION</code>, <code>LDAP_OPT_NETWORK_TIMEOUT</code> and <code>LDAP_OPT_REFERRALS</code> will be ignored if set.</p>
+
 <p>These are set above with the <code>version</code>, <code>timeout</code> and <code>follow_referrals</code> keys respectively.</p>
+
 <p>Valid options are listed in the <a href="http://php.net/ldap_set_option">PHP documentation for ldap_set_option</a>.</p>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

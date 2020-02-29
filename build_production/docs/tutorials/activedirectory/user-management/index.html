@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -321,6 +321,7 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>User Management (ActiveDirectory)</h1>
+
 <ul>
 <li><a href="#creation">Creation</a></li>
 <li><a href="#setting-passwords">Setting Passwords</a></li>
@@ -330,38 +331,43 @@
 <li><a href="#password-policy-errors">Password Policy Errors</a></li>
 <li><a href="#group-management">Group Management</a></li>
 </ul>
+
 <h2 id="creation">Creation</h2>
+
 <p>Let's walk through the basics of user creation for ActiveDirectory. There
 are some prerequisites you must know prior to creation:</p>
+
 <table>
 <thead>
 <tr>
-<th>Requirement</th>
+  <th>Requirement</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>You must connect to your server via TLS or SSL if you set the <code>unicodepwd</code> attribute</td>
+  <td>You must connect to your server via TLS or SSL if you set the <code>unicodepwd</code> attribute</td>
 </tr>
 <tr>
-<td>You must connect to your server with an account that has permission to create users</td>
+  <td>You must connect to your server with an account that has permission to create users</td>
 </tr>
 <tr>
-<td>You must set a common name (<code>cn</code>) for the user</td>
+  <td>You must set a common name (<code>cn</code>) for the user</td>
 </tr>
 <tr>
-<td>You must set the <code>unicodePwd</code> attribute as a non-encoded string (more on this below)</td>
+  <td>You must set the <code>unicodePwd</code> attribute as a non-encoded string (more on this below)</td>
 </tr>
 <tr>
-<td>To set the users <code>userAccountControl</code>, it must be set <strong>after</strong> the user has been saved</td>
+  <td>To set the users <code>userAccountControl</code>, it must be set <strong>after</strong> the user has been saved</td>
 </tr>
 </tbody>
 </table>
+
 <blockquote>
-<p>Attributes that are set below can be cased in <em>any</em> manor. They
-can be uppercase, lowercase, camel-cased, etc. Use whichever casing
-you prefer to be most readable in your application.</p>
+  <p>Attributes that are set below can be cased in <em>any</em> manor. They
+  can be uppercase, lowercase, camel-cased, etc. Use whichever casing
+  you prefer to be most readable in your application.</p>
 </blockquote>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\ActiveDirectory\User;
@@ -380,11 +386,15 @@ $user-&gt;inside('ou=Users,dc=acme,dc=org')-&gt;save();
 $user-&gt;userAccountControl = 512;
 
 // Save the enablement of the user account:
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
+
 <p>To create a user inside of a container or an organizational unit, you can
 use the <code>inside()</code> method to set the base DN the user must be located in.</p>
+
 <p>It may be useful to first locate the organizational unit or container
 prior to ensure it exists before attempting creation:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\ActiveDirectory\User;
@@ -398,21 +408,28 @@ $user-&gt;cn = 'John Doe';
 
 // User will be saved in the 'Users' OU with the Distinguished Name:
 // "cn=John Doe,ou=Users,dc=acme,dc=org"
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
+
 <blockquote>
-<p>It is wise to encapsulate saving your user in a try / catch block, so if it
-fails you can determine if the cause of failure is due to your password policy.</p>
+  <p>It is wise to encapsulate saving your user in a try / catch block, so if it 
+  fails you can determine if the cause of failure is due to your password policy.</p>
 </blockquote>
+
 <h3 id="setting-passwords">Setting Passwords</h3>
+
 <p>Utilizing the included <code>LdapRecord\Models\ActiveDirectory\User</code> model, an attribute
 <a href="/docs/model-mutators">mutator</a> has been added that assists in
 the setting and changing of passwords on user objects. Feel free to take a
 peek into the source code to see how it all works.</p>
+
 <p>The password string you set on the users <code>unicodePwd</code> attribute is automatically encoded,
 you do not need to encode it yourself. Doing so will cause an error or exception upon
 saving the user.</p>
+
 <p>Once you have set a password on a user object, this generates a modification
 on the user model equal to a <code>LDAP_MODIFY_BATCH_REPLACE</code>:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\ActiveDirectory\User;
@@ -429,38 +446,38 @@ var_dump($modification);
 // "modtype" =&gt; 3
 // "values" =&gt; array:1 [▼
 //    0 =&gt; ""\x00s\x00e\x00c\x00r\x00e\x00t\x00"\x00"
-// ]</code></pre>
+// ]
+</code></pre>
+
 <p>As you can see, a batch modification is generated for the user and upon
 calling <code>save()</code>, it will be sent to your LDAP server.</p>
+
 <h3 id="changing-passwords">Changing Passwords</h3>
+
 <p>To change a users password, you must bind to your LDAP server with a user
 that has permissions to reset passwords, or bind as the user whose
 password you are trying to change.</p>
+
 <p>There are some prerequisites you must know for changing passwords:</p>
-<table>
-<thead>
-<tr>
-<th>Requirement</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>You must provide the correct users <strong>old</strong> password</td>
-</tr>
-<tr>
-<td>You must provide a new password that abides by your <strong>password policy</strong>, such as: <ul><li>History</li><li>Complexity</li><li>Length</li></ul></td>
-</tr>
-<tr>
-<td>You must set the <code>unicodepwd</code> attribute with an array containing <strong>two</strong> (2) values (old &amp; new password)</td>
-</tr>
-</tbody>
-</table>
+
+<p>Requirement |
+--- |
+You must provide the correct users <strong>old</strong> password |
+You must provide a new password that abides by your <strong>password policy</strong>, such as:</p>
+
+<ul><li>History</li><li>Complexity</li><li>Length</li></ul>
+
+<p>|
+You must set the <code>unicodepwd</code> attribute with an array containing <strong>two</strong> (2) values (old &amp; new password) |</p>
+
 <p>Let's walk through an example:</p>
+
 <blockquote>
-<p>You must use a try / catch block upon saving. An <code>LdapRecord\LdapRecordException</code> will always be thrown
-when an incorrect old password is given, or the new password does not abide by your
-password policy.</p>
+  <p>You must use a try / catch block upon saving. An <code>LdapRecord\LdapRecordException</code> will always be thrown
+  when an incorrect old password is given, or the new password does not abide by your
+  password policy.</p>
 </blockquote>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\LdapRecordException;
@@ -484,11 +501,16 @@ try {
     echo $error-&gt;getErrorCode();
     echo $error-&gt;getErrorMessage();
     echo $error-&gt;getDiagnosticMessage();
-}</code></pre>
+}
+</code></pre>
+
 <h3 id="resetting-passwords">Resetting Passwords</h3>
+
 <p>To reset a users password, you must be bound to your LDAP directory with a user whom has permission to do so on your directory.</p>
+
 <p>You can perform a password reset by simply setting the users <code>unicodepwd</code> attribute as a string,
 and then calling the <code>save()</code> method, similarly to how it is done during user creation:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\LdapRecordException;
@@ -512,11 +534,16 @@ try {
     echo $error-&gt;getErrorCode();
     echo $error-&gt;getErrorMessage();
     echo $error-&gt;getDiagnosticMessage();
-}</code></pre>
+}
+</code></pre>
+
 <h3 id="user-account-control">User Account Control</h3>
+
 <p>User account control is an integer that contains flags to control the behaviour of an ActiveDirectory user account.</p>
+
 <p>You can manipulate this manually by simply setting the <code>userAccountControl</code> property on an existing user using
 the raw integer value, or you can use the account control builder <code>LdapRecord\Models\Attributes\AccountControl</code>:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\ActiveDirectory\User;
@@ -532,14 +559,19 @@ $uac = (new AccountControl)-&gt;accountIsNormal();
 
 $user-&gt;userAccountControl = $uac;
 
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
+
 <p>When using the <code>AccountControl</code> builder, control methods you call upon it will automatically sum the proper integer value.</p>
+
 <p>For example, let's create an account control for a user with the following controls:</p>
+
 <ul>
 <li>The user account is normal</li>
 <li>The user account password does not expire</li>
 <li>The user account password cannot be changed</li>
 </ul>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org')
 
 $uac = new AccountControl;
@@ -550,86 +582,92 @@ $uac-&gt;passwordCannotBeChanged();
 
 $user-&gt;userAccountControl = $uac;
 
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
+
 <p>Here is a list of all account control methods that are available on the <code>AccountControl</code> builder:</p>
+
 <table>
 <thead>
 <tr>
-<th>Method</th>
+  <th>Method</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>AccountControl::runLoginScript()</code></td>
+  <td><code>AccountControl::runLoginScript()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountIsLocked()</code></td>
+  <td><code>AccountControl::accountIsLocked()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountIsDisabled()</code></td>
+  <td><code>AccountControl::accountIsDisabled()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountIsTemporary()</code></td>
+  <td><code>AccountControl::accountIsTemporary()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountIsNormal()</code></td>
+  <td><code>AccountControl::accountIsNormal()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountIsForInterdomain()</code></td>
+  <td><code>AccountControl::accountIsForInterdomain()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountIsForWorkstation()</code></td>
+  <td><code>AccountControl::accountIsForWorkstation()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountIsForServer()</code></td>
+  <td><code>AccountControl::accountIsForServer()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountIsMnsLogon()</code></td>
+  <td><code>AccountControl::accountIsMnsLogon()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountDoesNotRequirePreAuth()</code></td>
+  <td><code>AccountControl::accountDoesNotRequirePreAuth()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountRequiresSmartCard()</code></td>
+  <td><code>AccountControl::accountRequiresSmartCard()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::accountIsReadOnly()</code></td>
+  <td><code>AccountControl::accountIsReadOnly()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::homeFolderIsRequired()</code></td>
+  <td><code>AccountControl::homeFolderIsRequired()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::passwordIsNotRequired()</code></td>
+  <td><code>AccountControl::passwordIsNotRequired()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::passwordCannotBeChanged()</code></td>
+  <td><code>AccountControl::passwordCannotBeChanged()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::passwordDoesNotExpire()</code></td>
+  <td><code>AccountControl::passwordDoesNotExpire()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::passwordIsExpired()</code></td>
+  <td><code>AccountControl::passwordIsExpired()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::allowEncryptedTextPassword()</code></td>
+  <td><code>AccountControl::allowEncryptedTextPassword()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::trustForDelegation()</code></td>
+  <td><code>AccountControl::trustForDelegation()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::trustToAuthForDelegation()</code></td>
+  <td><code>AccountControl::trustToAuthForDelegation()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::doNotTrustForDelegation()</code></td>
+  <td><code>AccountControl::doNotTrustForDelegation()</code></td>
 </tr>
 <tr>
-<td><code>AccountControl::useDesKeyOnly()</code></td>
+  <td><code>AccountControl::useDesKeyOnly()</code></td>
 </tr>
 </tbody>
 </table>
+
 <h4 id="determining-account-control-flags">Determining Set Account Control Flags</h4>
+
 <p>To determine what controls an existing user already has, create an <code>AccountControl</code> object
 with the users <code>userAccountControl</code> value and use the <code>has()</code> method:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\ActiveDirectory\User;
@@ -645,56 +683,62 @@ if ($uac-&gt;has(AccountControl::LOCKOUT)) {
     // This account is disabled.
 } elseif ($uac-&gt;has(AccountControl::DONT_EXPIRE_PASSWORD)) {
     // This accounts password does not expire.
-}</code></pre>
+}
+</code></pre>
+
 <h3 id="password-policy-errors">Password Policy Errors</h3>
+
 <p>ActiveDirectory will return diagnostic error codes when a password modification fails.</p>
+
 <p>To determine the cause, you can check this diagnostic message to see if it contains any of the following codes:</p>
+
 <table>
 <thead>
 <tr>
-<th>Code</th>
-<th>Meaning</th>
+  <th>Code</th>
+  <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>525</code></td>
-<td>User not found</td>
+  <td><code>525</code></td>
+  <td>User not found</td>
 </tr>
 <tr>
-<td><code>52e</code></td>
-<td>Invalid credentials</td>
+  <td><code>52e</code></td>
+  <td>Invalid credentials</td>
 </tr>
 <tr>
-<td><code>530</code></td>
-<td>Not permitted to logon at this time</td>
+  <td><code>530</code></td>
+  <td>Not permitted to logon at this time</td>
 </tr>
 <tr>
-<td><code>531</code></td>
-<td>Not permitted to logon at this workstation</td>
+  <td><code>531</code></td>
+  <td>Not permitted to logon at this workstation</td>
 </tr>
 <tr>
-<td><code>532</code></td>
-<td>Password expired</td>
+  <td><code>532</code></td>
+  <td>Password expired</td>
 </tr>
 <tr>
-<td><code>533</code></td>
-<td>Account disabled</td>
+  <td><code>533</code></td>
+  <td>Account disabled</td>
 </tr>
 <tr>
-<td><code>701</code></td>
-<td>Account expired</td>
+  <td><code>701</code></td>
+  <td>Account expired</td>
 </tr>
 <tr>
-<td><code>773</code></td>
-<td>User must reset password</td>
+  <td><code>773</code></td>
+  <td>User must reset password</td>
 </tr>
 <tr>
-<td><code>775</code></td>
-<td>User account locked</td>
+  <td><code>775</code></td>
+  <td>User account locked</td>
 </tr>
 </tbody>
 </table>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\LdapRecordException;
@@ -722,16 +766,23 @@ try {
     if (strpos($error-&gt;getDiagnosticMessage(), '52e')) {
         // This is an invalid credentials error.
     }
-}</code></pre>
+}
+</code></pre>
+
 <h3 id="group-management">Group Management</h3>
+
 <p>If you are utilizing the included <code>LdapRecord\Models\ActiveDirectory\User</code> model, the <code>groups()</code>
 relationship exists for easily removing / adding groups to users.</p>
+
 <blockquote>
-<p>To attach or detach groups on users, you must first locate the group you
-wish to add or detach, and ensure the <code>member</code> attribute is selected.</p>
+  <p>To attach or detach groups on users, you must first locate the group you
+  wish to add or detach, and ensure the <code>member</code> attribute is selected.</p>
 </blockquote>
+
 <h4 id="adding-groups">Adding Groups</h4>
+
 <p>To add groups to a user, call the <code>groups()</code> relationship method, then <code>attach()</code>:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\ActiveDirectory\User;
@@ -743,9 +794,13 @@ $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
 if ($user-&gt;groups()-&gt;attach($group)) {
     // Successfully added the group to the user.
-}</code></pre>
+}
+</code></pre>
+
 <h4 id="removing-groups">Removing Groups</h4>
+
 <p>To remove groups on user, call the <code>groups()</code> relationship method, then <code>detach()</code>:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\ActiveDirectory\User;
@@ -757,12 +812,16 @@ $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
 if ($user-&gt;groups()-&gt;detach($group)) {
     // Successfully removed the group from the user.
-}</code></pre>
+}
+</code></pre>
+
 <blockquote>
-<p>The <code>detach()</code> method will return <code>true</code> if the user is already not apart
-of the given group. This does not indicate that the user was previously a member.</p>
+  <p>The <code>detach()</code> method will return <code>true</code> if the user is already not apart
+  of the given group. This does not indicate that the user was previously a member.</p>
 </blockquote>
+
 <p>You may want to locate groups on the user prior removal to ensure they are a member:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\ActiveDirectory\User;
@@ -773,7 +832,9 @@ $group = $user-&gt;groups()-&gt;first();
 
 if ($group &amp;&amp; $user-&gt;groups()-&gt;detach($group)) {
     // Successfully removed the first group from the user.
-}</code></pre>
+}
+</code></pre>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

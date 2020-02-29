@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -321,9 +321,11 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Models: Relationships</h1>
+
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#defining-relationships">Defining Relationships</a>
+
 <ul>
 <li><a href="#has-one">Has One</a></li>
 <li><a href="#has-many">Has Many</a></li>
@@ -331,30 +333,59 @@
 <li><a href="#has-many-in">Has Many In</a></li>
 </ul></li>
 <li><a href="#querying-relationships">Querying Relationships</a>
+
 <ul>
 <li><a href="#recursive-queries">Recursive Queries</a></li>
 </ul></li>
 <li><a href="#attaching-amp-detatching-relationships">Attaching &amp; Detaching Relationships</a></li>
 <li><a href="#checking-relationship-existence">Checking Relationship Existence</a></li>
 </ul>
+
 <h2 id="introduction">Introduction</h2>
+
 <p>LDAP records often contain attributes that reference other LDAP records in your directory. An
 example of this would be the <code>member</code> attribute on LDAP groups that contain a list of
 distinguished names whom are members of the group.</p>
+
 <p>Using LdapRecord relationships, we can define what models contain references to other records
 and easily retrieve the referenced models to perform operations upon. There are several
 relationship types that LdapRecord supports:</p>
-<ul>
-<li><a href="#has-one">Has One</a></li>
-<li><a href="#has-many">Has Many</a></li>
-<li><a href="#has-many-inverse">Has Many (Inverse)</a></li>
-<li><a href="#has-many-in">Has Many In</a></li>
-</ul>
+
+<table>
+<thead>
+<tr>
+  <th>Relationship</th>
+  <th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><a href="#has-one">Has One</a></td>
+  <td>Indicates a one-to-one relation, such as a user having one manager</td>
+</tr>
+<tr>
+  <td><a href="#has-many">Has Many</a></td>
+  <td>Indicates a one-to-many relation, such as a user having many groups</td>
+</tr>
+<tr>
+  <td><a href="#has-many-inverse">Has Many (Inverse)</a></td>
+  <td>Indicates an inverse one-to-many relation, such as a group having many users</td>
+</tr>
+<tr>
+  <td><a href="#has-many-in">Has Many In</a></td>
+  <td>Indicates a one-to-many relation, but with virtual attributes that cannot be modified</td>
+</tr>
+</tbody>
+</table>
+
 <h2 id="defining-relationships">Defining Relationships</h2>
+
 <h3 id="has-one">Has One</h3>
-<p>A has one relationship is a basic relationship to work with. An example of a &quot;has one&quot; relationship would be
+
+<p>A has one relationship is a basic relationship to work with. An example of a "has one" relationship would be
 a <code>User</code> having one <code>manager</code>. To define this relationship, we place a <code>manager()</code> method on our <code>User</code>
 model, and call the <code>hasOne()</code> method and return the result:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -368,14 +399,18 @@ class User extends Model
     {
         return $this-&gt;hasOne(User::class, 'manager');
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>The first argument that is passed into the relation is the name of the related model.
 The second is the LDAP attribute on the <em>current</em> user that contains the
 relationships distinguished name.</p>
+
 <p>If the relationships attribute you are defining does not contain a distinguished name,
 you can alter this and define a <em>foreign key</em> using the third parameter. For example,
 if our manager attribute actually contains a <code>uid</code>, we can change this so the
 related model is retrieved by a UID, instead of a distinguished name:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -389,11 +424,16 @@ class User extends Model
     {
         return $this-&gt;hasOne(User::class, 'manager', 'uid');
     }
-}</code></pre>
+}
+</code></pre>
+
 <h3 id="has-many">Has Many</h3>
+
 <p>Defining a has many relationship indicates that the model can be apart of
 many of the given model.</p>
-<p>For example, a <code>User</code> &quot;has many&quot; <code>groups</code>:</p>
+
+<p>For example, a <code>User</code> "has many" <code>groups</code>:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -407,37 +447,51 @@ class User extends Model
     {
         return $this-&gt;hasMany(Group::class, 'member');
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>In the above example, LdapRecord will construct a query to locate all of
 the groups that the user is apart of using the users distinguished name.
 This users distinguished name will automatically be escaped to
 be able to properly locate all of the groups.</p>
+
 <p>For example, this is the query filter that will be used in the search:</p>
-<pre><code class="language-text">(member=cn\3dJohn Doe\2cdc\3dacme\2cdc\3dorg)</code></pre>
+
+<pre><code class="language-text">(member=cn\3dJohn Doe\2cdc\3dacme\2cdc\3dorg)
+</code></pre>
+
 <p>If you're using an alternate LDAP server or a different attribute to locate
 group membership, you may change the relation key. For example, you may
 want to use <code>uniquemember</code> for this relationship:</p>
+
 <pre><code class="language-php">/**                                                
  * Retrieve the groups the user is apart of.       
  */                                                
 public function groups()                           
 {                                                  
     return $this-&gt;hasMany(Group::class, 'uniquemember'); 
-}                                                  </code></pre>
+}                                                  
+</code></pre>
+
 <p>You may also define a <em>foreign key</em> in third parameter if the attribute
 you are using is not a distinguished name.</p>
+
 <h3 id="has-many-inverse">Has Many (Inverse)</h3>
+
 <p>Now that we have setup a <code>User</code> model that can access of their groups,
 lets define a <code>Group</code> model to be able to access its members.</p>
+
 <p>Since an LDAP group can contain various types of objects (such as
 contacts, users, and other groups), we must pass in an array of
 models that are potential members of the group. This allows
 the relationship to properly create the models that are
 returned from the query results.</p>
+
 <blockquote>
-<p>LdapRecord will return plain <code>Entry</code> models when
-it cannot locate the correct model in the given array.</p>
+  <p>LdapRecord will return plain <code>Entry</code> models when
+  it cannot locate the correct model in the given array.</p>
 </blockquote>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -453,34 +507,48 @@ class Group extends Model
             Group::class, User::class, Contact::class
         ], 'memberof')-&gt;using($this, 'member');
     }
-}</code></pre>
+}
+</code></pre>
+
 <blockquote>
-<p>For brevity, we have not shown the creation of the <code>Contact</code> model.</p>
+  <p>For brevity, we have not shown the creation of the <code>Contact</code> model.</p>
 </blockquote>
+
 <p>You can see from the above example, we have passed an array of models
 that are possible members of the group. The difference of this
 definition is the usage of the <code>using()</code> method.</p>
+
 <p>Since LDAP does not offer bi-directional relationships we must add the
 <code>using()</code> method. This method defines which model and attribute
 to use for attaching and detaching related models.</p>
+
 <p>In this case, we pass in <code>$this</code> to indicate that the current model
 instance (the <code>Group</code>) contains the <code>member</code> attribute to add and
 remove models you pass into the <code>attach()</code> and <code>detach()</code> methods.</p>
+
 <p>This method is paramount to be able to properly utilize this relationship.</p>
+
 <p>When querying the above relationship, LdapRecord will construct the following filter:</p>
-<pre><code class="language-text">(memberof=cn\3dAccounting\2cdc\3dacme\2cdc\3dorg)</code></pre>
+
+<pre><code class="language-text">(memberof=cn\3dAccounting\2cdc\3dacme\2cdc\3dorg)
+</code></pre>
+
 <h3 id="has-many-in">Has Many In</h3>
+
 <p>The has many in relationship allows you to retrieve related models from
 the given parent models <a href="https://ldapwiki.com/wiki/Virtual%20Attribute">virtual attribute</a>
 such as <code>memberof</code>.</p>
+
 <blockquote>
-<p>Since this relationship uses virtual attributes, you cannot
-use <code>attach()</code> or <code>detach()</code> methods. This also means that
-for each entry that is contained in the virtual attribute,
-they will be queried for individually which can be very
-resource intensive depending on the group size.</p>
+  <p>Since this relationship uses virtual attributes, you cannot
+  use <code>attach()</code> or <code>detach()</code> methods. This also means that
+  for each entry that is contained in the virtual attribute,
+  they will be queried for individually which can be very
+  resource intensive depending on the group size.</p>
 </blockquote>
+
 <p>Lets define a <code>groups()</code> relationship that utilizes the <code>hasManyIn()</code> method:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -491,25 +559,35 @@ class User extends Model
     {
         return $this-&gt;hasManyIn(Group::class, 'memberof');
     }
-}</code></pre>
+}
+</code></pre>
+
 <h4>Important Note for Querying</h4>
+
 <p>When using the above relationship from query results, you must ensure
 you select the LDAP property you have defined as the <em>foreign key</em>
 in the relationship. This attribute contains the values needed to
 locate the related models.</p>
+
 <p>For example, the following relationship query below will return no results
 because we have explicitly requested attributes besides <code>memberof</code>:</p>
+
 <pre><code class="language-php">// Selecting only the 'cn', and 'sn' attributes:
 $user = User::select(['cn', 'sn'])-&gt;find('cn=John Doe,dc=acme,dc=org');
 
 // Returns an empty collection.
-$groups = $user-&gt;groups()-&gt;get();</code></pre>
+$groups = $user-&gt;groups()-&gt;get();
+</code></pre>
+
 <h2 id="querying-relationships">Querying Relationships</h2>
+
 <p>LdapRecord relationships also serve as <a href="/docs/searching">query builders</a>.
 This means you can chain query builder methods onto relationship methods to add
 constraints to the relationship query prior to retrieving the results from
 your directory.</p>
+
 <p>For example, lets define a <code>User</code> model that can be a member of many groups:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use App\Group;
@@ -524,36 +602,53 @@ class User extends Model
     {
         return $this-&gt;hasMany(Group::class, 'member');
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>Now, lets retrieve a user's groups, but only return those groups that have a common name starting with 'Admin':</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
-$adminGroups = $user-&gt;groups()-&gt;whereStartsWith('cn', 'Admin')-&gt;get();</code></pre>
+$adminGroups = $user-&gt;groups()-&gt;whereStartsWith('cn', 'Admin')-&gt;get();
+</code></pre>
+
 <blockquote>
-<p>By default, querying relations will not include recursive results. More on this below.</p>
+  <p>By default, querying relations will not include recursive results. More on this below.</p>
 </blockquote>
+
 <h3 id="recursive-queries">Recursive Queries</h3>
+
 <p>To request all of the relationships results, such as nested groups in groups, call
 the <code>recursive()</code> method, prior to retrieving results via <code>get()</code>:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
-$allGroups = $user-&gt;groups()-&gt;recursive()-&gt;get();</code></pre>
+$allGroups = $user-&gt;groups()-&gt;recursive()-&gt;get();
+</code></pre>
+
 <blockquote>
-<p>Be careful when calling <code>recursive</code> on large sets of group memberships.
-If you are not careful, you could run out of memory due to thousands
-of models being returned.</p>
+  <p>Be careful when calling <code>recursive</code> on large sets of group memberships.
+  If you are not careful, you could run out of memory due to thousands
+  of models being returned.</p>
 </blockquote>
+
 <p>The <code>recursive</code> method sets a flag on the LdapRecord relationship indicating
 you would like recursive results included (groups of groups).</p>
+
 <p>Recursive results are gathered by first retrieving the groups that the user is
 a member of, then retrieving the groups that are members of each resulting
 parent group. This means a query an LDAP search query is executed for each
 group that your user is apart of.</p>
+
 <p>Circular group dependencies are rejected automatically to prevent infinite looping.</p>
+
 <h2 id="attaching-amp-detatching-relationships">Attaching &amp; Detatching Relationships</h2>
+
 <p>Using relationships you define, you can easily attach and detach related models from each other.
 For example, you may want to attach a <code>Group</code> to a <code>User</code>, or vice-versa.</p>
+
 <p>Using the above relationship examples, lets walk through this:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 $group = Group::find('cn=Accounting,dc=acme,dc=org');
 
@@ -561,47 +656,69 @@ $group = Group::find('cn=Accounting,dc=acme,dc=org');
 $user-&gt;groups()-&gt;attach($user);
 
 // Attaching a user to a group:
-$group-&gt;members()-&gt;attach($user);</code></pre>
+$group-&gt;members()-&gt;attach($user);
+</code></pre>
+
 <p>You may also use the <code>attachMany()</code> method to attach many models at once.</p>
+
 <p>For this example, let's say we have an organizational unit that contains groups all new users must be apart of:</p>
+
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Groups,dc=acme,dc=org');
 
 $groups = Group::in($ou)-&gt;get();
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
-$user-&gt;groups()-&gt;attachMany($groups);</code></pre>
+$user-&gt;groups()-&gt;attachMany($groups);
+</code></pre>
+
 <p>As you can see above, we took a complex LDAP operation and completed it in just 4 lines of code.</p>
+
 <p>You may also want to detach a user from all groups, if for example they are
 leaving the company and you it is apart of your off-boarding process.</p>
+
 <p>You may accomplish this task by using the <code>detachAll()</code> method:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
-$user-&gt;groups()-&gt;detachAll();</code></pre>
+$user-&gt;groups()-&gt;detachAll();
+</code></pre>
+
 <h2 id="checking-relationship-existence">Checking Relationship Existence</h2>
+
 <p>To check if a model exists inside of a relationship, use the <code>exists()</code> relationship method.</p>
+
 <blockquote>
-<p>If you're using ActiveDirectory and are simply looking to check if a user is
-inside of a particular group, utilize the <code>Model::whereMemberOf</code> method
-that is available on all ActiveDirectory models to locate users
-whom are members of that group.</p>
+  <p>If you're using ActiveDirectory and are simply looking to check if a user is
+  inside of a particular group, utilize the <code>Model::whereMemberOf</code> method
+  that is available on all ActiveDirectory models to locate users
+  whom are members of that group.</p>
 </blockquote>
+
 <p>For example, lets determine if a <code>User</code> is a member of a <code>Group</code>:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 $group = Group::find('cn=Accounting,dc=acme,dc=org');
 
 if ($user-&gt;groups()-&gt;exists($group)) {
     // This user is a member of the 'Accounting' group.
-}</code></pre>
+}
+</code></pre>
+
 <p>This method can be used on <strong>all</strong> relationship types.</p>
+
 <p>For another example, lets determine if a <code>User</code> is a <code>manager</code> of another:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 $manager = User::find('cn=Jane Doe,dc=acme,dc=org');
 
 if ($user-&gt;manager()-&gt;exists($manager)) {
     // Jane Doe is John Doe's manager.
-}</code></pre>
+}
+</code></pre>
+
 <p>You can also determine if the model has any groups or members by simply calling <code>exists()</code>:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
 if ($user-&gt;manager()-&gt;exists()) {
@@ -610,7 +727,9 @@ if ($user-&gt;manager()-&gt;exists()) {
 
 if ($user-&gt;groups()-&gt;exists()) {
     // This user is a member of at least one group.
-}</code></pre>
+}
+</code></pre>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

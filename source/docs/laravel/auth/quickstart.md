@@ -7,14 +7,21 @@ section: content
 
 # Authentication Quickstart
 
-> Before you get started with the LDAP authentication driver please complete
-> the [LdapRecord-Laravel quickstart guide](/docs/laravel/quickstart) to
-> install LdapRecord and configure your LDAP connection.
+> Please complete the [LdapRecord-Laravel quickstart guide](/docs/laravel/quickstart)
+> to install LdapRecord and configure your LDAP connection prior to setting up
+> authentication.
 
 - [Introduction](#introduction)
 - [Debugging](#debugging)
 - [Plain Authentication](#plain)
+ - [Step 1: Configure the driver](#configure-plain-auth)
+ - [Step 2: Setting up your LoginController](#plain-controller-setup)
+ - [Step 3: Modifying your Blade views](#plain-view-setup)
 - [Synchronized Database Authentication](#database-sync)
+ - [Step 1: Publish the database migration](#publish-migration)
+ - [Step 2: Configure the driver](#configure-database-auth)
+ - [Step 3: Setting up your database user model](#database-user-model-setup)
+ - [Step 4: Setting up your LoginController](#database-controller-setup)
 
 ## Introduction {#introduction}
 
@@ -68,11 +75,20 @@ Once you have setup your `ldap` provider, you must update the `provider` value i
 ### Step 2: Setting up your LoginController {#plain-controller-setup}
 
 Now we must change our `LoginController` to allow LdapRecord to properly
-locate users who are attempting to sign into our application.
+locate users who are attempting to sign into our application. We do
+this by changing the `credentials` method. In this method we will
+return an array that contains the users username and password.
 
-We do this by changing the `credentials` method and returns an array
-that contains the users username and password. The username in this
-example will be the LDAP users `mail` attribute:
+**The keys you set here are important.** The `password` key must be present, as
+this is sent directly to your LDAP server for verification.
+
+The other key must be the **name of the LDAP attribute** you want LdapRecord to
+locate the authenticating user with. It **must** be an attribute that has
+a unique value per user in your directory. `uid`, `sAMAccountName`,
+`mail`, or `userPrincipalName` are good examples of attributes
+that have a unique value per user.
+
+In this example we want to use the users `mail` LDAP attribute to sign them into our application.
 
 ```php
 class LoginController extends Controller
@@ -103,17 +119,13 @@ You must change the syntax to the following:
 <!-- resources/views/layouts/app.blade.php -->
 
 <!-- From... -->
-<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-    {{ Auth::user()->name }} <span class="caret"></span>
-</a>
+{{ Auth::user()->name }}
 
 <!-- To... -->
-<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-    {{ Auth::user()->getFirstAttribute('cn') }} <span class="caret"></span>
-</a>
+{{ Auth::user()->getFirstAttribute('cn') }}
 ```
 
-Your application is now ready to authenticate LDAP users.
+Once you've updated the syntax, your application is now ready to authenticate LDAP users.
 
 ## Synchronized Database Authentication {#database-sync}
 
@@ -188,7 +200,7 @@ Once you have setup your `ldap` provider, you must update the `provider` value i
     // ...
 ```
 
-### Step 3: Add the trait and interface to your user model {#add-trait-and-interface}
+### Step 3: Setting up your database user model {#database-user-model-setup}
 
 Now, we must add the following trait and interface to our `User` Eloquent model:
 
@@ -222,20 +234,25 @@ Methods |
 `User::getLdapDomainColumn()` |
 `User::getLdapGuidColumn()` |
 
-### Step 4: Setting up your LoginController:
+### Step 4: Setting up your LoginController: {#database-controller-setup}
 
-For LdapRecord to properly locate users that attempt to login to your application, you must
-override the `credentials` method in your `Auth\LoginController.php` file.
+Now we must change our `LoginController` to allow LdapRecord to properly
+locate users who are attempting to sign into our application. We do
+this by changing the `credentials` method. In this method we will
+return an array that contains the users username and password.
 
-Then, you must set an array key of the LDAP attribute that will be used for looking up the user
-in your LDAP directory.
+**The keys you set here are important.** The `password` key must be present, as
+this is sent directly to your LDAP server for verification.
 
-In the example below, we will lookup LDAP users by their `mail` attribute:
+The other key must be the **name of the LDAP attribute** you want LdapRecord to
+locate the authenticating user with. It **must** be an attribute that has
+a unique value per user in your directory. `uid`, `sAMAccountName`,
+`mail`, or `userPrincipalName` are good examples of attributes
+that have a unique value per user.
+
+In this example we want to use the users `mail` LDAP attribute to sign them into our application.
 
 ```php
-// app/Http/Controllers/Auth/LoginController.php
-
-// ...
 class LoginController extends Controller
 {
     // ...

@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -321,8 +321,10 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Models: Getting Started</h1>
+
 <ul>
 <li><a href="#introduction">Introduction</a>
+
 <ul>
 <li><a href="#defining-models">Defining Models</a></li>
 <li><a href="#predefined-models">Predefined Models</a></li>
@@ -332,16 +334,19 @@
 <li><a href="#default-attribute-values">Default Attribute Values</a></li>
 </ul></li>
 <li><a href="#retrieving-models">Retrieving Models</a>
+
 <ul>
 <li><a href="#collections">Collections</a></li>
 </ul></li>
 <li><a href="#retrieving-single-models">Retrieving Single Models</a></li>
 <li><a href="#creating-amp-updating-models">Creating &amp; Updating Models</a>
+
 <ul>
 <li><a href="#creating">Creating</a></li>
 <li><a href="#updating">Updating</a></li>
 </ul></li>
 <li><a href="#attributes">Attributes</a>
+
 <ul>
 <li><a href="#methods">Methods</a></li>
 <li><a href="#array-conversion">Array Conversion</a></li>
@@ -354,16 +359,25 @@
 <li><a href="#events">Events</a></li>
 <li><a href="#serialization">Serialization</a></li>
 </ul>
+
 <h2 id="introduction">Introduction</h2>
+
 <p>The LdapRecord ORM provides a beautiful and simple ActiveRecord implementation for working with your LDAP server.
-Each &quot;Model&quot; represents a type of LDAP object that resides in your directory.</p>
+Each "Model" represents a type of LDAP object that resides in your directory.</p>
+
 <p>Models allow you query your directory as well as create, update, and delete records.</p>
+
 <p>Before getting started, ensure you've added at least one connection to the <a href="/docs/connections#container">container</a>.</p>
+
 <p>By default, there are models included with LdapRecord for popular LDAP directories (namely ActiveDirectory &amp;
 OpenLDAP) so you can get up and running as fast as possible. More on this <a href="#predefined-models">below</a>.</p>
+
 <h3 id="defining-models">Defining Models</h3>
+
 <p>To get started, you must create a new class that represents the LDAP object you would like to query.</p>
+
 <p>For example, let's create a model that represents ActiveDirectory users:</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -376,84 +390,102 @@ class User extends Model
         'organizationalperson',
         'user',
     ];
-}</code></pre>
+}
+</code></pre>
+
 <p>As you can see above, we must add a public static property that contains the object classes of the LDAP record.</p>
+
 <p>These object classes are used to locate the proper objects in your LDAP directory.</p>
+
 <blockquote>
-<p>If you do not provide any object classes, global directory searches will be performed when retrieving models.</p>
+  <p>If you do not provide any object classes, global directory searches will be performed when retrieving models.</p>
 </blockquote>
+
 <h3 id="predefined-models">Predefined Models</h3>
+
 <p>LdapRecord comes with many predefined models that allow you to get started right away.</p>
+
 <p>You may extend these built-in models and add your own methods &amp; functionality, as well as override built-in functionality.</p>
+
 <h4>Entry Model</h4>
+
 <p>Use the <code>LdapRecord\Models\Entry</code> model for retrieving all objects from your directory - regardless of type.</p>
+
 <h4>ActiveDirectory Models</h4>
+
 <p>Each below model references a type of object in ActiveDirectory.</p>
+
 <table>
 <thead>
 <tr>
-<th>Model</th>
+  <th>Model</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>LdapRecord\Models\ActiveDirectory\Entry</code></td>
+  <td><code>LdapRecord\Models\ActiveDirectory\Entry</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\ActiveDirectory\User</code></td>
+  <td><code>LdapRecord\Models\ActiveDirectory\User</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\ActiveDirectory\Group</code></td>
+  <td><code>LdapRecord\Models\ActiveDirectory\Group</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\ActiveDirectory\Computer</code></td>
+  <td><code>LdapRecord\Models\ActiveDirectory\Computer</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\ActiveDirectory\Contact</code></td>
+  <td><code>LdapRecord\Models\ActiveDirectory\Contact</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\ActiveDirectory\Container</code></td>
+  <td><code>LdapRecord\Models\ActiveDirectory\Container</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\ActiveDirectory\OrganizationalUnit</code></td>
+  <td><code>LdapRecord\Models\ActiveDirectory\OrganizationalUnit</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\ActiveDirectory\Printer</code></td>
+  <td><code>LdapRecord\Models\ActiveDirectory\Printer</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal</code></td>
+  <td><code>LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal</code></td>
 </tr>
 </tbody>
 </table>
+
 <h4>OpenLDAP Models</h4>
+
 <table>
 <thead>
 <tr>
-<th>Model</th>
+  <th>Model</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>LdapRecord\Models\OpenLdap\Entry</code></td>
+  <td><code>LdapRecord\Models\OpenLdap\Entry</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\OpenLdap\User</code></td>
+  <td><code>LdapRecord\Models\OpenLdap\User</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\OpenLdap\Group</code></td>
+  <td><code>LdapRecord\Models\OpenLdap\Group</code></td>
 </tr>
 <tr>
-<td><code>LdapRecord\Models\OpenLdap\OrganizationalUnit</code></td>
+  <td><code>LdapRecord\Models\OpenLdap\OrganizationalUnit</code></td>
 </tr>
 </tbody>
 </table>
+
 <blockquote>
-<p>Don't see a model for the LDAP server you're using? <a href="https://github.com/DirectoryTree/LdapRecord/pulls">Create a pull request!</a></p>
+  <p>Don't see a model for the LDAP server you're using? <a href="https://github.com/DirectoryTree/LdapRecord/pulls">Create a pull request!</a></p>
 </blockquote>
+
 <h3 id="connections">Connections</h3>
+
 <p>By default, all models you create will try to use your <code>default</code> LDAP connection that resides in the connection
 <a href="/docs/connections#container">container</a>. To set your model to use an alternate connection,
 define a <code>$connection</code> property equal to the name of your other connection.</p>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -468,54 +500,81 @@ class User extends Model
     ];
 
     protected $connection = 'domain-b';
-}</code></pre>
+}
+</code></pre>
+
 <h3 id="distinguished-names">Distinguished Names</h3>
+
 <p>To get an objects full distinguished name call the <code>getDn</code> method:</p>
+
 <pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
 
 // Returns 'cn=user,dc=local,dc=com'
-$user-&gt;getDn();</code></pre>
+$user-&gt;getDn();
+</code></pre>
+
 <p>To get an objects relative distinguished name, call the <code>getRdn</code> method:</p>
+
 <pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
 
 // Returns 'cn=user'
-$user-&gt;getRdn();</code></pre>
+$user-&gt;getRdn();
+</code></pre>
+
 <p>To get an objects parent distinguished name, call the <code>getParentDn</code> method:</p>
+
 <pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
 
 // Returns 'dc=local,dc=com'
-$user-&gt;getParentDn();</code></pre>
+$user-&gt;getParentDn();
+</code></pre>
+
 <p>To get an objects name, call the <code>getName</code> method:</p>
+
 <pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
 
 // Returns 'user'
-$user-&gt;getName();</code></pre>
+$user-&gt;getName();
+</code></pre>
+
 <h3 id="object-guids">Object GUIDs</h3>
+
 <p>To retrieve a models Object GUID (globally unique identifier) call the <code>getConvertedGuid</code> method.</p>
+
 <p>This method will return the string variant of your models GUID. Some LDAP directories
 (namely Active Directory) use hexadecimal byte arrays to store these, so conversion
 is necessary.</p>
+
 <pre><code class="language-php">$user = User::find('cn=user,dc=local,dc=com');
 
-$user-&gt;getConvertedGuid();</code></pre>
+$user-&gt;getConvertedGuid();
+</code></pre>
+
 <p>To retrieve the raw GUID value, use the <code>getObjectGuid</code> method.</p>
+
 <p>By default, LdapRecord models will use the <code>objectguid</code> attribute in the
 above methods. If your directory stores GUIDs in a different attribute,
 define a <code>$guidKey</code> attribute inside of your model:</p>
+
 <pre><code class="language-php">// ...
 
 class User extends Model
 {
 
-    protected $guidKey = 'entryuuid';</code></pre>
+    protected $guidKey = 'entryuuid';
+</code></pre>
+
 <h3 id="default-attribute-values">Default Attribute Values</h3>
+
 <p>If you would like to define the default values for some of your model's attributes,
 you may define an <code>$attributes</code> property on your model. This helps you to assign
 static default values when creating objects in your directory:</p>
+
 <blockquote>
-<p>Due to LDAP's multi-valued nature, each attribute value you define <strong>must</strong> be
-an array, regardless if it is single-valued or or multi-valued.</p>
+  <p>Due to LDAP's multi-valued nature, each attribute value you define <strong>must</strong> be
+  an array, regardless if it is single-valued or or multi-valued.</p>
 </blockquote>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -527,123 +586,168 @@ class User extends Model
         'description' =&gt; ['User Account'],
         'manager' =&gt; ['cn=John Doe,dc=acme,dc=org']
     ];
-}</code></pre>
+}
+</code></pre>
+
 <h2 id="retrieving-models">Retrieving Models</h2>
+
 <p>Once you've created an LdapRecord model you're ready to start retrieving data from your directory.
 If you've used Laravel's <a href="https://laravel.com/docs/eloquent">Eloquent ORM</a>, you'll feel right at home.</p>
+
 <p>You can think of a model as a powerful query builder allowing you to query your directory for objects
 fluently and easily.</p>
+
 <pre><code class="language-php">&lt;?php
 
 $users = User::get();
 
 foreach ($users as $user) {
     $user-&gt;getFirstAttribute('cn');
-}</code></pre>
+}
+</code></pre>
+
 <h3 id="adding-constraints">Adding Constraints</h3>
+
 <p>Each model serves as a query builder for the object classes you've defined inside.
 You can add constraints to your queries and then call <code>get()</code> to retrieve the
 results.</p>
+
 <pre><code class="language-php">&lt;?php
 
 $users = User::whereStartsWith('cn', 'John')
         -&gt;whereEndsWith('sn', 'Doe')
         -&gt;limit(10)
-        -&gt;get();</code></pre>
+        -&gt;get();
+</code></pre>
+
 <blockquote>
-<p>Since models are query builders, it's a good idea to review the
-<a href="/docs/searching">query builder</a> methods so you can utilize
-them to their full potential.</p>
+  <p>Since models are query builders, it's a good idea to review the
+  <a href="/docs/searching">query builder</a> methods so you can utilize
+  them to their full potential.</p>
 </blockquote>
+
 <h3 id="model-constraints">Model Constraints</h3>
+
 <p>Models come with some built in constraint methods that you may find useful.</p>
+
 <blockquote>
-<p>The below constraints will only retrieve the models that are equal
-to the type you have retrieved. For example, retrieving the descendants
-of an organizational unit will only return organizational units that
-are direct descendants. <br/><br/></p>
-<p>If you would like to avoid this, use the default <code>LdapRecord\Models\Entry</code>
-model, which provides no <code>objectclass</code> constraints on queries.</p>
+  <p>The below constraints will only retrieve the models that are equal
+  to the type you have retrieved. For example, retrieving the descendants
+  of an organizational unit will only return organizational units that
+  are direct descendants. <br/><br/></p>
+  
+  <p>If you would like to avoid this, use the default <code>LdapRecord\Models\Entry</code>
+  model, which provides no <code>objectclass</code> constraints on queries.</p>
 </blockquote>
+
 <h4 id="anscestors">Ancestors</h4>
+
 <p>To retrieve the direct ancestors of a model, call the <code>ancestors()</code> constraint on a retrieved model:</p>
+
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
-$ancestors = $ou-&gt;ancestors()-&gt;get();</code></pre>
+$ancestors = $ou-&gt;ancestors()-&gt;get();
+</code></pre>
+
 <p>The above example will execute a <code>listing</code> on your LDAP directory in
 the distinguished name <code>dc=local,dc=com</code>. This effectively pulls
 the ancestors of the model.</p>
+
 <h4 id="siblings">Siblings</h4>
+
 <p>To retrieve the siblings of a model, call the <code>siblings()</code> constraint on a retrieved model:</p>
+
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
-$siblings = $ou-&gt;siblings()-&gt;get();</code></pre>
+$siblings = $ou-&gt;siblings()-&gt;get();
+</code></pre>
+
 <p>The above example will execute a <code>listing</code> on your LDAP directory in
 the distinguished name <code>ou=Users,dc=local,dc=com</code>. This effectively
 pulls the siblings of the model. The current model will also be
 included in the resulting collection.</p>
+
 <h4 id="descendants">Descendants</h4>
+
 <p>To retrieve the descendants of a model, call the <code>descendants()</code> constraint on a retrieved model:</p>
+
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Accountants,ou=Users,dc=local,dc=com');
 
-$descendants = $ou-&gt;descendants()-&gt;get();</code></pre>
+$descendants = $ou-&gt;descendants()-&gt;get();
+</code></pre>
+
 <p>The above example will execute a <code>listing</code> on your LDAP directory in
 the distinguished name <code>ou=Accountants,ou=Users,dc=local,dc=com</code>. This effectively
 pulls the descendants of the model.</p>
+
 <h4 id="refreshing-models">Refreshing Models</h4>
+
 <p>To re-retrieve a new model from your directory, call the <code>fresh()</code> method.
 Doing so will not affect the existing instance you already have:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $user = User::where('cn', '=', 'jdoe')-&gt;first();
 
-$freshUser = $user-&gt;fresh();</code></pre>
+$freshUser = $user-&gt;fresh();
+</code></pre>
+
 <p>If you would like to re-retrieve the existing model, call the <code>synchronize()</code> method.
 This will re-retrieve the models attributes from the directory:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $user = User::where('cn', '=', 'jdoe')-&gt;first();
 
-$user-&gt;synchronize();</code></pre>
+$user-&gt;synchronize();
+</code></pre>
+
 <h3 id="collections">Collections</h3>
+
 <p>When you query your models, returned results will be contained inside of a
 <code>LdapRecord\Query\Collection</code>. The <code>Collection</code> class directly extends
 Laravel's collection. Be sure to check out its <a href="https://laravel.com/docs/collections">documentation</a>
 for all of the available helpful methods.</p>
+
 <pre><code class="language-php">&lt;?php
 
 $users = User::get();
 
 $usersWithEmail = $users-&gt;filter(function (User $user) {
     return $user-&gt;hasAttribute('mail');
-});</code></pre>
+});
+</code></pre>
+
 <h2 id="retrieving-single-models">Retrieving Single Models</h2>
+
 <p>If you would like to retrieve a single model from your directory, you can utilize
 a variety of methods. Here is a list and usage of each:</p>
+
 <table>
 <thead>
 <tr>
-<th>Method</th>
+  <th>Method</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>first()</code></td>
+  <td><code>first()</code></td>
 </tr>
 <tr>
-<td><code>find($distinguishedName)</code></td>
+  <td><code>find($distinguishedName)</code></td>
 </tr>
 <tr>
-<td><code>findBy($attributeName, $attributeValue)</code></td>
+  <td><code>findBy($attributeName, $attributeValue)</code></td>
 </tr>
 <tr>
-<td><code>findByAnr($attributeValue)</code></td>
+  <td><code>findByAnr($attributeValue)</code></td>
 </tr>
 <tr>
-<td><code>findByGuid($objectGuid)</code></td>
+  <td><code>findByGuid($objectGuid)</code></td>
 </tr>
 </tbody>
 </table>
+
 <pre><code class="language-php">&lt;?php
 
 // Retrieve the first model of a global LDAP search...
@@ -659,35 +763,40 @@ $user = User::findBy('cn', 'John Doe');
 $user = User::findByAnr('John Doe');
 
 // Retrieve a model by its object guid...
-$user = User::findByGuid('bf9679e7-0de6-11d0-a285-00aa003049e2');</code></pre>
+$user = User::findByGuid('bf9679e7-0de6-11d0-a285-00aa003049e2');
+</code></pre>
+
 <h4 id="not-found-exceptions">Not Found Exceptions</h4>
+
 <p>Occasionally you may want to throw an exception if a specific record you're looking
 for cannot be found on your directory. You can substitute the above methods
 with <code>OrFail()</code> variants:</p>
+
 <table>
 <thead>
 <tr>
-<th>Method</th>
+  <th>Method</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>firstOrFail()</code></td>
+  <td><code>firstOrFail()</code></td>
 </tr>
 <tr>
-<td><code>findOrFail($distinguishedName)</code></td>
+  <td><code>findOrFail($distinguishedName)</code></td>
 </tr>
 <tr>
-<td><code>findByOrFail($attributeName, $attributeValue)</code></td>
+  <td><code>findByOrFail($attributeName, $attributeValue)</code></td>
 </tr>
 <tr>
-<td><code>findByAnrOrFail($attributeValue)</code></td>
+  <td><code>findByAnrOrFail($attributeValue)</code></td>
 </tr>
 <tr>
-<td><code>findByGuidOrFail($objectGuid)</code></td>
+  <td><code>findByGuidOrFail($objectGuid)</code></td>
 </tr>
 </tbody>
 </table>
+
 <pre><code class="language-php">&lt;?php
 
 try {
@@ -707,20 +816,28 @@ try {
     $user = User::findByGuidOrFail('bf9679e7-0de6-11d0-a285-00aa003049e2');
 } catch (\LdapRecord\Models\ModelNotFoundException $e) {
     // One of the models could not be located...
-}</code></pre>
+}
+</code></pre>
+
 <h2 id="creating-amp-updating-models">Creating &amp; Updating Models</h2>
+
 <h3 id="creating">Creating</h3>
+
 <p>Before we begin it is paramount to know that LDAP objects require a Distinguished Name to be
 created successfully in your LDAP directory. LdapRecord will always attempt to generate a
 Distinguished Name for models that do not have one upon <code>save</code>. In addition, some LDAP
 objects require <strong>more</strong> attributes to be set for successful creation.</p>
+
 <p>For example, to create a <code>User</code> object in ActiveDirectory, the <code>cn</code> (Common Name) attribute is required.
 If you do not set this attribute, an exception will be thrown upon saving your LDAP model. For another
 example, <code>OrganizationlUnit</code>'s must have the <code>ou</code> attribute set.</p>
+
 <p>LdapRecord cannot validate this for you as LDAP objects differ widely in their attribute requirements.</p>
+
 <p>To create a new record in your directory, create a new model instance and call the <code>save()</code> method.
 Upon calling <code>save()</code>, if no Distinguished Name is set on a new model, one will be generated
 based on your configured <code>base_dn</code> that you have set inside your connections configuration:</p>
+
 <pre><code class="language-php">&lt;?php
 $conn = new Connection([
     // ...
@@ -734,13 +851,18 @@ $user = new User();
 $user-&gt;cn = 'John Doe';
 
 // User will be saved with the DN: 'cn=John Doe,dc=local,dc=com
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
+
 <h4 id="dynamic-dn-generation">Dynamic Distinguished Name Generation</h4>
+
 <p>LdapRecord generates a models distinguished name via the model method <code>getCreatableRdn</code>.
-This method is responsible for generating the &quot;Relative Distinguished Name&quot; which is
+This method is responsible for generating the "Relative Distinguished Name" which is
 the true name of the object inside of your LDAP directory that does not include
 your base Distinguished Name.</p>
+
 <p>Since <em>most</em> LDAP objects require a Common Name (<code>cn</code>) this is defaulted to:</p>
+
 <pre><code class="language-php">/**
  * Get a creatable RDN for the model.
  *
@@ -749,47 +871,70 @@ your base Distinguished Name.</p>
 public function getCreatableRdn()
 {
     return "cn={$this-&gt;getFirstAttribute('cn')}";
-}</code></pre>
+}
+</code></pre>
+
 <p>You may override this method to allow your models Distinguished Name's to be dynamically generated
 rather than creating them yourself manually. For example, here is how we would set the Relative
 Distinguished Name (RDN) for an ActiveDirectory <code>OrganizationalUnit</code> model:</p>
+
 <pre><code class="language-php">public function getCreatableRdn()
 {
     return "ou={$this-&gt;getFirstAttribute('ou')}";
-}</code></pre>
-<p>This then gets prepended onto your connections configured <code>base_dn</code>, for a resulting &quot;Full&quot; Distinguished Name:</p>
-<pre><code class="language-text">ou=MyOrganizationalUnitName,dc=local,dc=com</code></pre>
+}
+</code></pre>
+
+<p>This then gets prepended onto your connections configured <code>base_dn</code>, for a resulting "Full" Distinguished Name:</p>
+
+<pre><code class="language-text">ou=MyOrganizationalUnitName,dc=local,dc=com
+</code></pre>
+
 <p>You may set the base DN of where you would like the object to be created inside by
 using the <code>inside()</code> method, rather than your <code>base_dn</code> from your configuration:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $user = new User(['cn' =&gt; 'John Doe']);
 
-$user-&gt;inside('ou=Users,dc=local,dc=com')-&gt;save();</code></pre>
+$user-&gt;inside('ou=Users,dc=local,dc=com')-&gt;save();
+</code></pre>
+
 <p>You may also pass in an LdapRecord <code>Model</code> instance. This is convenient so you
 know the container / organizational unit distinguished name is valid:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
 
 $user = new User(['cn' =&gt; 'John Doe']);
 
-$user-&gt;inside($ou)-&gt;save();</code></pre>
+$user-&gt;inside($ou)-&gt;save();
+</code></pre>
+
 <p>The above examples will save the user inside the <code>Users</code> OU resulting in the full distinguished name:</p>
-<pre><code class="language-text">cn=John Doe,ou=Users,dc=acme,dc=org</code></pre>
+
+<pre><code class="language-text">cn=John Doe,ou=Users,dc=acme,dc=org
+</code></pre>
+
 <h4 id="setting-a-distinguished-name">Setting A Distinguished Name</h4>
+
 <p>To set the models distinguished name, call the <code>setDn()</code> method on your model and populate it
 with any organization unit or container that you would like it to be created inside:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $user = new User();
 
 $user-&gt;cn = 'John Doe';
 
-$user-&gt;setDn('cn=John Doe,ou=Users,dc=acme,dc=org')-&gt;save();</code></pre>
+$user-&gt;setDn('cn=John Doe,ou=Users,dc=acme,dc=org')-&gt;save();
+</code></pre>
+
 <h3 id="updating">Updating</h3>
+
 <p>Updating models is as easy as creating them. When you have a model returned from a query,
 set its attributes as you would for creating and call the <code>save()</code> method:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $user = User::first();
@@ -799,21 +944,32 @@ $user-&gt;samaccountname = 'jdoe';
 $user-&gt;department = 'Accounting';
 $user-&gt;displayname = 'Johnathan Doe';
 
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
+
 <h2 id="attributes">Attributes</h2>
+
 <h3 id="methods">Methods</h3>
+
 <p>There are several built-in methods on models you may like to utilize:</p>
+
 <p><code>Model::getAttributes()</code></p>
+
 <p>The <code>getAttributes</code> method returns all of the values on the model:</p>
+
 <pre><code class="language-php">$user = User::first();
 
 $attributes = $user-&gt;getAttributes();
 
 foreach ($attributes as $name =&gt; $value) {
     //
-}</code></pre>
+}
+</code></pre>
+
 <p><code>Model::getAttribute($attribute)</code></p>
+
 <p>The <code>getAttribute</code> method returns all of the values inside the given key. This will return an <code>array</code> if the attribute exists:</p>
+
 <pre><code class="language-php">$group = Group::first();
 
 $members = $group-&gt;getAttribute('member');
@@ -822,112 +978,168 @@ if ($members) {
     foreach ($members as $member) {
         echo $member;
     }
-}</code></pre>
+}
+</code></pre>
+
 <p><code>Model::getFirstAttribute()</code></p>
+
 <p>The <code>getFirstAttribute</code> method returns the first value of the given key. This will always return <code>null</code> or <code>string</code>:</p>
+
 <pre><code class="language-php">$group = Group::first();
 
-$firstMember = $group-&gt;getFirstAttribute('member');</code></pre>
+$firstMember = $group-&gt;getFirstAttribute('member');
+</code></pre>
+
 <p><code>Model::hasAttribute()</code></p>
+
 <p>The <code>hasAttribute</code> method determines whether the model contains the key in the models attributes:</p>
+
 <pre><code class="language-php">$user = User::first();
 
 if ($user-&gt;hasAttribute('company')) {
     //
-}</code></pre>
+}
+</code></pre>
+
 <p><code>Model::countAttributes()</code></p>
+
 <p>The <code>countAttributes</code> method returns the number of attributes the model contains:</p>
+
 <pre><code class="language-php">$user = User::first();
 
-echo $user-&gt;countAttributes();</code></pre>
+echo $user-&gt;countAttributes();
+</code></pre>
+
 <h3 id="array-conversion">Array Conversion</h3>
+
 <p>Attributes you retrieve from an LdapRecord model will <strong>always</strong>
 return and array. This is due to LDAP's multi-valued nature.</p>
+
 <p>For example, if you would like to retrieve the users <code>mail</code>
 attribute, you must request the first key from it:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
 // Get the users email address.
-echo $user-&gt;mail[0];</code></pre>
+echo $user-&gt;mail[0];
+</code></pre>
+
 <p>However, the above will cause an exception if the attribute does not exist.</p>
+
 <p>To work around this, we can use the <code>getFirstAttribute()</code> method:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
 // Get the users email address.
-echo $user-&gt;getFirstAttribute('mail');</code></pre>
+echo $user-&gt;getFirstAttribute('mail');
+</code></pre>
+
 <p>When setting attributes on models, they will automatically
 be converted to an array for you if you do not provide one.</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
 // Both approaches will set the attribute identically:
 $user-&gt;mail = 'jdoe@acme.org';
-$user-&gt;mail = ['jdoe@acme.org'];</code></pre>
+$user-&gt;mail = ['jdoe@acme.org'];
+</code></pre>
+
 <p>Similarly, you can use the <code>setFirstAttribute()</code> method to
 set the attributes first value in its array, even if
 it does not currently exist on the model:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
 // Set the users email address.
-$user-&gt;setFirstAttribute('mail', 'jdoe@acme.org');</code></pre>
+$user-&gt;setFirstAttribute('mail', 'jdoe@acme.org');
+</code></pre>
+
 <h3 id="determining-attribute-existence">Determining Attribute Existence</h3>
+
 <p>To check if a model has an attribute, you can use the <code>hasAttribute()</code> method:</p>
+
 <pre><code class="language-php">if ($user-&gt;hasAttribute('mail')) {
     // This user has an email address.
-}</code></pre>
+}
+</code></pre>
+
 <p>As with all other attribute methods, this check is <strong>case-insensitive</strong>.
 You may pass any type of casing of the attribute you are looking for:</p>
+
 <pre><code class="language-php">// Both will return 'true':
 $user-&gt;hasAttribute('samaccountname');
-$user-&gt;hasAttribute('sAMAccountname');</code></pre>
+$user-&gt;hasAttribute('sAMAccountname');
+</code></pre>
+
 <h3 id="casing-amp-hyphens">Casing &amp; Hyphens</h3>
+
 <h4 id="attribute-casing">Attribute Casing</h4>
+
 <p>LdapRecord automatically normalizes all attribute keys to lowercase. This
 means when setting or getting model attributes, you can use alternate
 casing and the same attribute will be set or retrieved.</p>
+
 <p>This is extremely handy so you do not have to look up the casing of
 each attribute every time you want to set or retrieve one. This
 also means you can use your own attribute convention:</p>
+
 <pre><code class="language-php">$user = new User();
 
 // Each will set the same attribute:
 $user-&gt;samaccountname = 'John Doe';
 $user-&gt;sAMAccountName = 'John Doe';
-$user-&gt;samAccountName = 'John Doe';</code></pre>
+$user-&gt;samAccountName = 'John Doe';
+</code></pre>
+
 <h4 id="attribute-hyphens">Attribute Hyphens</h4>
+
 <p>Since LDAP does not support underscores in LDAP attributes but does
 support using hyphens, anytime you would like to set an attribute
 that contains a hypen, set it using an underscore instead.
 LdapRecord will automatically convert the underscore
 to a hyphen dynamically:</p>
+
 <pre><code class="language-php">$user = new User();
 
 $user-&gt;some_attribute = 'Value';
 
 // Returns 'Value'
 echo $user-&gt;some_attribute[0];
-echo $user-&gt;getAttribute('some-attribute')[0];</code></pre>
+echo $user-&gt;getAttribute('some-attribute')[0];
+</code></pre>
+
 <p>Similarly, when retrieving attributes that contain a hyphen, use
 an underscore instead:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
 
 // Both will act identically:
 echo $user-&gt;apple_user_homeurl[0];
-echo $user-&gt;getAttribute('apple-user-homeurl')[0];</code></pre>
+echo $user-&gt;getAttribute('apple-user-homeurl')[0];
+</code></pre>
+
 <h2 id="deleting-models">Deleting Models</h2>
+
 <p>To delete a record from your directory, call the <code>delete()</code> method on a model you have retrieved:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $user = User::first();
 
-$user-&gt;delete();</code></pre>
+$user-&gt;delete();
+</code></pre>
+
 <blockquote>
-<p>The account you have configured to bind to your LDAP server must have permission to delete the record
-you have retrieved. If it does not, you will receive an exception upon deletion.</p>
+  <p>The account you have configured to bind to your LDAP server must have permission to delete the record
+  you have retrieved. If it does not, you will receive an exception upon deletion.</p>
 </blockquote>
+
 <h4 id="deleting-models-by-distinguished-name">Deleting Models By Distinguished Name</h4>
+
 <p>In the example above, we are retrieving the record from the directory prior to deletion. However,
 if you'd like to simply delete a model by its distinguished name, call the <code>destroy()</code> method.
 The <em>number</em> of deleted models will be returned from this method:</p>
+
 <pre><code class="language-php">&lt;?php
 
 // Deleting single object...
@@ -937,48 +1149,66 @@ $deleted = User::destroy('cn=John Doe,dc=acme,dc=org');
 $deleted = User::destroy([
     'cn=John Doe,dc=acme,dc=org',
     'cn=Jane Doe,dc=acme,dc=org',
-]);</code></pre>
+]);
+</code></pre>
+
 <blockquote>
-<p>You may also pass in <code>true</code> into the second parameter to recursively delete
-leaf entries if a record is located by the distinguished name you have given.</p>
+  <p>You may also pass in <code>true</code> into the second parameter to recursively delete
+  leaf entries if a record is located by the distinguished name you have given.</p>
 </blockquote>
+
 <h4 id="recursive-deleting">Recursive Deleting</h4>
+
 <p>Sometimes you will be working with containers or organizational units that contain nested records
 inside of them. Calling <code>delete()</code> on these records will generate an exception without first
 deleting the records inside. If you would like to delete all records contained inside of
 another model, pass in <code>true</code> in the first parameter of the <code>delete()</code> method:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $ou = OrganizationalUnit::find('ou=Users,dc=acme,dc=org');
 
-$ou-&gt;delete($recursive = true);</code></pre>
+$ou-&gt;delete($recursive = true);
+</code></pre>
+
 <h2 id="comparing-models">Comparing Models</h2>
+
 <p>If you ever need to compare to models to see if they are the same, call the the <code>is()</code> method.
 This method will determine if the models have the same distinguished name and connection:</p>
+
 <pre><code class="language-php">if ($user-&gt;is($anotherUser)) {
     //
-}</code></pre>
+}
+</code></pre>
+
 <p>To see if a model is contained inside an organizational unit or another type of
 container, call the <code>isDescendantOf()</code> method:</p>
+
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
 $user = User::find('cn=John Doe,ou=User Accounts,dc=acme,dc=org');
 
 if ($user-&gt;isDescendantOf($ou)) {
     // This user is contained inside this organizational unit.
-}</code></pre>
+}
+</code></pre>
+
 <p>You may also want to know whether a model is a direct ancestor of another. To
 do so, call the <code>isAncestorOf()</code> method:</p>
+
 <pre><code class="language-php">$user = User::find('cn=John Doe,ou=User Accounts,dc=acme,dc=org');
 $ou = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
 
 if ($ou-&gt;isAncestorOf($user)) {
     // This OU is a direct ancestor of this user.
-}</code></pre>
+}
+</code></pre>
+
 <blockquote>
-<p>Calling <code>isDescendantOf()</code> or <code>isAncestorOf()</code> does not check recursively.
-If a user is contained in a nested container of the one you are checking, this
-method will return <code>false</code>.</p>
+  <p>Calling <code>isDescendantOf()</code> or <code>isAncestorOf()</code> does not check recursively.
+  If a user is contained in a nested container of the one you are checking, this
+  method will return <code>false</code>.</p>
 </blockquote>
+
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
 $user = User::find('cn=John Doe,ou=Accounting,ou=User Accounts,dc=acme,dc=org');
 
@@ -986,20 +1216,28 @@ $user = User::find('cn=John Doe,ou=Accounting,ou=User Accounts,dc=acme,dc=org');
 // of the 'User Accounts' organizational unit.
 if ($user-&gt;isDescendantOf($ou)) {
     // 
-}</code></pre>
+}
+</code></pre>
+
 <h2 id="query-scopes">Query Scopes</h2>
+
 <h3 id="query-global-scopes">Global Scopes</h3>
+
 <p>Global scopes allow you to add constraints to all LDAP queries that are created on a particular model.
 Writing a query scope allows you to be certain that a particular filter is always applied, rather
 than adding constraints every time you query the model.</p>
+
 <h4 id="creating-global-scope">Creating a global scope</h4>
+
 <p>To create a global query scope, create a class in your application that implements
 the <code>LdapRecord\Models\Scope</code> interface. This interface will require you to add
 an <code>apply</code> method. The <code>apply</code> method accepts the query <code>Builder</code> in the first
 parameter, and the <code>Model</code> in second parameter.</p>
+
 <p>For an example, let's say our application must only retrieve user accounts whom
 are employees of a particular company. We will create a file in our application
 in the directory <code>app/Ldap/Scopes</code> with the file name <code>CompanyScope</code>:</p>
+
 <pre><code class="language-php">&lt;?php
 
 namespace App\Ldap\Scopes;
@@ -1020,15 +1258,21 @@ class CompanyScope implements Scope
     {
         $builder-&gt;where('company', '=', 'Acme Company');
     }
-} </code></pre>
+} 
+</code></pre>
+
 <blockquote>
-<p>If you are looking to select additional attributes in your scope
-using the <code>select</code> method, use <code>addSelect</code> instead so your
-query selects are not overwritten.</p>
+  <p>If you are looking to select additional attributes in your scope
+  using the <code>select</code> method, use <code>addSelect</code> instead so your
+  query selects are not overwritten.</p>
 </blockquote>
+
 <h4 id="apply-global-scope">Apply the global scope</h4>
+
 <p>Now that we've written our global scope, we can apply it to our users model.</p>
+
 <p>We will do this by adding an override to the models <code>boot</code> method and using the <code>addGlobalScope</code> method:</p>
+
 <pre><code class="language-php">&lt;?php
 
 namespace App\Ldap;
@@ -1051,15 +1295,26 @@ class User extends Model
 
         static::addGlobalScope(new CompanyScope);
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>After adding the scope, queries ran on the <code>User</code> model will always add the filter:</p>
-<pre><code class="language-text">(company=\41\63\6d\65\20\43\6f\6d\70\61\6e\79)</code></pre>
+
+<pre><code class="language-text">(company=\41\63\6d\65\20\43\6f\6d\70\61\6e\79)
+</code></pre>
+
 <p>Which your LDAP server will read as:</p>
-<pre><code class="language-text">(company=Acme Company)</code></pre>
+
+<pre><code class="language-text">(company=Acme Company)
+</code></pre>
+
 <p>This is due to all values being automatically escaped using the LdapRecord query builder.</p>
+
 <h4 id="anonymous-global-scope">Anonymous global scopes</h4>
+
 <p>Instead of creating a class scope, you may also define global scopes using Closures.
 This is useful for simple scopes that do not warrant a separate class:</p>
+
 <pre><code class="language-php">&lt;?php
 
 namespace App\Ldap;
@@ -1084,26 +1339,40 @@ class User extends Model
             $builder-&gt;where('manager', '=', 'cn=John Doe,dc=local,dc=com');
         });
     }
-}</code></pre>
+}
+</code></pre>
+
 <h4 id="remove-global-scope">Removing Global Scopes</h4>
+
 <p>If you would like to remove a global scope for a particular query, you may use
 the <code>withoutGlobalScope</code> method. The method accepts the class name of the
 global scope as its argument:</p>
-<pre><code class="language-php">User::withoutGlobalScope(CompanyScope::class)-&gt;get();</code></pre>
+
+<pre><code class="language-php">User::withoutGlobalScope(CompanyScope::class)-&gt;get();
+</code></pre>
+
 <p>Or, if you've defined a global scope using a Closure:</p>
-<pre><code class="language-php">User::withoutGlobalScope('manager')-&gt;get();</code></pre>
+
+<pre><code class="language-php">User::withoutGlobalScope('manager')-&gt;get();
+</code></pre>
+
 <p>If you would like to remove several or even all of the global
 scopes, you may use the <code>withoutGlobalScopes</code> method:</p>
+
 <pre><code class="language-php">// Remove all of the global scopes:
 User::withoutGlobalScopes()-&gt;get();
 
 // Remove some of the global scopes:
 User::withoutGlobalScopes([
     CompanyScope::class, 'manager'
-])-&gt;get();</code></pre>
+])-&gt;get();
+</code></pre>
+
 <h2 id="events">Events</h2>
+
 <p>LdapRecord models fire several different <a href="/docs/events">event</a> during the creation,
 updating and deletion. Here is a list of all the events you can listen for:</p>
+
 <ul>
 <li><code>LdapRecord\Models\Events\Creating</code></li>
 <li><code>LdapRecord\Models\Events\Created</code></li>
@@ -1114,39 +1383,52 @@ updating and deletion. Here is a list of all the events you can listen for:</p>
 <li><code>LdapRecord\Models\Events\Deleting</code></li>
 <li><code>LdapRecord\Models\Events\Deleted</code></li>
 </ul>
+
 <p>To listen for these events, call the <code>getEventDispatcher()</code> on the <code>LdapRecord\Container</code>
 to retrieve the dispatcher, then call <code>listen()</code> on the returned dispatcher:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $dispatcher = \LdapRecord\Container::getEventDispatcher();
 
 $dispatcher-&gt;listen(\LdapRecord\Models\Events\Creating::class, function ($event) {
     $model = $event-&gt;getModel();
-});</code></pre>
+});
+</code></pre>
+
 <blockquote>
-<p>You will want to setup any listeners prior to making changes to models,
-otherwise your listener will not be executed due to them not existing yet.</p>
+  <p>You will want to setup any listeners prior to making changes to models,
+  otherwise your listener will not be executed due to them not existing yet.</p>
 </blockquote>
+
 <h2 id="serialization">Serialization</h2>
+
 <p>All model instances can be converted to an array for JSON serialization. To serialize
 a model instance, simply pass the model into <code>json_encode()</code>. This calls
 <code>jsonSerialize()</code> on the model to retrieve is serializable data:</p>
+
 <pre><code class="language-php">&lt;?php
 
 $user = User::first();
 
-echo json_encode($user);</code></pre>
+echo json_encode($user);
+</code></pre>
+
 <h4 id="converting-attributes-to-json">Converting Attributes to JSON</h4>
+
 <p>Depending on the type of LDAP directory and model you are working with, you may need
 to convert some attributes to a string before it can be properly serialized.
 For example, if you your model is from ActiveDirectory, you will need to
 convert the <code>objectguid</code> property to a string since it is in binary,
 otherwise <code>json_encode()</code> will throw an exception.</p>
-<p>This can be done by adding a <code>convertAttributesForJson()</code> method to your model: </p>
+
+<p>This can be done by adding a <code>convertAttributesForJson()</code> method to your model:</p>
+
 <blockquote>
-<p>By default, the <code>objectguid</code> and <code>objectsid</code> attributes are
-converted for you when using the built-in ActiveDirectory models.</p>
+  <p>By default, the <code>objectguid</code> and <code>objectsid</code> attributes are
+  converted for you when using the built-in ActiveDirectory models.</p>
 </blockquote>
+
 <pre><code class="language-php">&lt;?php
 
 use LdapRecord\Models\Model;
@@ -1165,7 +1447,9 @@ class User extends Model
 
         return $attributes;
     }
-}</code></pre>
+}
+</code></pre>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

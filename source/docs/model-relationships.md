@@ -28,10 +28,12 @@ Using LdapRecord relationships, we can define what models contain references to 
 and easily retrieve the referenced models to perform operations upon. There are several
 relationship types that LdapRecord supports:
 
-- [Has One](#has-one)
-- [Has Many](#has-many)
-- [Has Many (Inverse)](#has-many-inverse)
-- [Has Many In](#has-many-in)
+Relationship | Type |
+--- | --- |
+[Has One](#has-one) | Indicates a one-to-one relation, such as a user having one manager |
+[Has Many](#has-many) | Indicates a one-to-many relation, such as a user having many groups |
+[Has Many (Inverse)](#has-many-inverse) | Indicates an inverse one-to-many relation, such as a group having many users |
+[Has Many In](#has-many-in) | Indicates a one-to-many relation, but with virtual attributes that cannot be modified |
 
 ## Defining Relationships {#defining-relationships}
 

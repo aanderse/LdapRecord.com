@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -277,17 +277,24 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1 id="multi-domain-authentication">Multi-Domain Authentication</h1>
+
 <ul>
 <li><a href="#configuration">Configuration</a></li>
 <li><a href="#authenticating">Authenticating</a></li>
 <li><a href="#routes">Routes</a></li>
 </ul>
+
 <p>LdapRecord-Laravel allows you to authenticate users from two or more LDAP directories.</p>
+
 <h2 id="configuration">Configuration</h2>
+
 <p>To begin, you must create two separate LdapRecord models for each of your domains.</p>
+
 <p>Having two separate models allows you to configure their connections independently.</p>
+
 <p>For this guide, we will have two example domains named <code>Alpha</code> and <code>Bravo</code>. We
 first need to setup these domains connections in our <code>ldap.php</code> configuration file:</p>
+
 <pre><code class="language-php">// config/ldap.php
 
 // ...
@@ -301,31 +308,43 @@ first need to setup these domains connections in our <code>ldap.php</code> confi
     'bravo' =&gt; [
         // ...
     ],
-],</code></pre>
+],
+</code></pre>
+
 <p>Now that we have our connections configured, let's go ahead and create their models by running the below commands:</p>
+
 <pre><code class="language-bash">php artisan make:ldap-model Alpha\User
 
-php artisan make:ldap-model Bravo\User</code></pre>
+php artisan make:ldap-model Bravo\User
+</code></pre>
+
 <blockquote>
-<p>The <code>Alpha</code> and <code>Bravo</code> sub-directories will be created for you automatically.</p>
+  <p>The <code>Alpha</code> and <code>Bravo</code> sub-directories will be created for you automatically.</p>
 </blockquote>
+
 <p>Then, we must edit their connections to reflect the connection name:</p>
+
 <pre><code class="language-php">// app/Ldap/Alpha/User.php
 
 class User extends Model
 {
     protected $connection = 'alpha';
 
-    // ...</code></pre>
+    // ...
+</code></pre>
+
 <pre><code class="language-php">// app/Ldap/Bravo/User.php
 
 class User extends Model
 {
     protected $connection = 'bravo';
 
-    // ...</code></pre>
+    // ...
+</code></pre>
+
 <p>Now, we need to setup a new <a href="/docs/laravel/auth/configuration">authentication provider</a> in our
 <code>config/auth.php</code> file for each of our connections we've created, as well as their own guard:</p>
+
 <pre><code class="language-php">// config/auth.php
 
 'guards' =&gt; [
@@ -352,15 +371,21 @@ class User extends Model
         // ...
         'model' =&gt; App\Ldap\Bravo\User::class,        
     ],
-],</code></pre>
+],
+</code></pre>
+
 <h2>Authenticating</h2>
+
 <p>To start authenticating users from both of your LDAP domains, we need to modify our <code>LoginController</code>.</p>
+
 <blockquote>
-<p>If you do not have a <code>LoginController</code>, follow Laravel's <a href="https://laravel.com/docs/authentication#authentication-quickstart">Authentication Quick-Start</a>
-guide to scaffold the controllers and views you need to continue below.</p>
+  <p>If you do not have a <code>LoginController</code>, follow Laravel's <a href="https://laravel.com/docs/authentication#authentication-quickstart">Authentication Quick-Start</a>
+  guide to scaffold the controllers and views you need to continue below.</p>
 </blockquote>
+
 <p>LdapRecord-Laravel comes with a built-in trait that makes authenticating users from multiple directories easier.
 Go ahead and add it to the <code>LoginController</code>:</p>
+
 <pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
 
 use LdapRecord\Laravel\Auth\MultiDomainAuthentication;
@@ -369,26 +394,34 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers, MultiDomainAuthentication;
 
-    // ...</code></pre>
+    // ...
+</code></pre>
+
 <p>Due to each domain requiring it's own <code>guard</code> that we've configured in our <code>auth.php</code> file,
 we need to be able to determine which domain the user who is attempting to login in is from
 so we can tell Laravel which guard to use for authenticating the user.</p>
+
 <p>This could vary widely in each application, so in this guide we will be determining their domain from their
 email addresses host name (<code>@alpha.com</code> and <code>@bravo.com</code>).</p>
+
 <blockquote>
-<p>If you're logging in users by username, you may want to provide a <code>&lt;select&gt;</code> input on your login
-form that allows your user select their domain that they are authenticating to, instead of you
-having to determine it manually when they attempt signing in. Each <code>&lt;option&gt;</code>'s value would
-reflect the <code>guard</code> to use to sign the user in.</p>
+  <p>If you're logging in users by username, you may want to provide a <code>&lt;select&gt;</code> input on your login 
+  form that allows your user select their domain that they are authenticating to, instead of you
+  having to determine it manually when they attempt signing in. Each <code>&lt;option&gt;</code>'s value would
+  reflect the <code>guard</code> to use to sign the user in.</p>
 </blockquote>
-<p>We must override the <code>guard()</code> method in our <code>LoginController</code> and let the included trait handle
-retrieving it for simplicity. </p>
+
+<p>We must override the <code>guard()</code> method in our <code>LoginController</code> and let the included trait handle 
+retrieving it for simplicity.</p>
+
 <p>The <code>guard()</code> method is responsible for returning which <code>guard</code> we want to use for
 authenticating the users who are attempting to sign in, as well as signing the
 currently authenticated user out.</p>
+
 <p>We will also override the <code>getLdapGuardFromRequest()</code> method. This method is only used for <em>determining</em>
 which guard to use for the user signing in. This is the method we will override for determining the
 <code>guard</code> to use based on the users email address they are signing into our application with:</p>
+
 <pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
 
 // ...
@@ -408,37 +441,49 @@ public function getLdapGuardFromRequest(Request $request)
     $domain = explode('@', $request-&gt;get('email'))[1];
 
     return $guards[$domain] ?? 'alpha'; 
-}</code></pre>
-<p>If the user enters an email that is not available in our <code>$guards</code> array lookup, we will
-return the <code>alpha</code> guard by default, and the authentication attempt will be made
-to our <code>alpha</code> domain.</p>
-<blockquote>
-<p>You may wish to add a request validation rule instead to prevent users from signing
-in with invalid email domain. The way you implement this is totally up to you.</p>
-</blockquote>
-<h2>Routes</h2>
-<p>Having multiple authentication guards means that we need to update the <code>auth</code> middleware
-that is covering our protected application routes.</p>
-<p>Luckily, this middleware accepts a list of guards you would like to use. You will need to add
+}
+````
+
+If the user enters an email that is not available in our `$guards` array lookup, we will
+return the `alpha` guard by default, and the authentication attempt will be made
+to our `alpha` domain.
+
+&gt; You may wish to add a request validation rule instead to prevent users from signing
+&gt; in with invalid email domain. The way you implement this is totally up to you.
+
+## Routes
+
+Having multiple authentication guards means that we need to update the `auth` middleware
+that is covering our protected application routes.
+
+Luckily, this middleware accepts a list of guards you would like to use. You will need to add
 both of the guards you created above for both LDAP domains to be able to access the same
-protected routes:</p>
-<blockquote>
-<p>By default, if no guards are given to the Laravel <code>auth</code> middleware, it will attempt
-to use the <code>default</code> guard configured - <strong>we do not want this behaviour</strong>.</p>
-</blockquote>
-<pre><code class="language-php">// routes/web.php
+protected routes:
+
+&gt; By default, if no guards are given to the Laravel `auth` middleware, it will attempt
+&gt; to use the `default` guard configured - **we do not want this behaviour**.
+
+
+```php
+// routes/web.php
 
 Route::group(function () {
     // Both alpha and bravo domains can access these routes...
-})-&gt;middleware('auth:alpha,bravo');</code></pre>
+})-&gt;middleware('auth:alpha,bravo');
+</code></pre>
+
 <p>If you would like to restrict routes to certain domains, only include one of them <code>auth</code> middleware:</p>
+
 <pre><code class="language-php">// routes/web.php
 
 Route::group(function () {
     // Only alpha domain users can access these routes...
-})-&gt;middleware('auth:alpha');</code></pre>
+})-&gt;middleware('auth:alpha');
+</code></pre>
+
 <p>This is extremely handy for permission management - as authenticated users from certain domains
 can only access the routes that have been defined.</p>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

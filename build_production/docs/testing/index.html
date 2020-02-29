@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -321,17 +321,26 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Testing</h1>
+
 <p>LdapRecord comes with a utility that allow you to test bind attempts
 against a fake server and return custom error codes &amp; responses.</p>
+
 <p>This allows you to test how your application responds to authentication failures and error messages.</p>
+
 <h2>Setup</h2>
+
 <p>To begin, initialize the fake directory using the <code>DirectoryFake::setup</code> method. This method
 accepts the name of your LDAP connection that you initialize in your application.</p>
+
 <p>If you do not provide a name, your default LDAP connection name will be used.</p>
+
 <p>Upon calling the <code>setup</code> method, your LDAP connection will be swapped out of the
 connection <code>Container</code> and replaced with a <code>ConnectionFake</code>.</p>
+
 <p>Let's walk through an example of testing an application that uses LDAP authentication.</p>
+
 <p>Here's our example controller:</p>
+
 <pre><code class="language-php">class AuthController
 {
     public function __construct()
@@ -354,8 +363,11 @@ connection <code>Container</code> and replaced with a <code>ConnectionFake</code
 
         return "Username or password is incorrect.";
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>Now let's test it:</p>
+
 <pre><code class="language-php">use LdapRecord\Testing\DirectoryFake;
 
 class LoginTest extends TestCase
@@ -378,18 +390,26 @@ class LoginTest extends TestCase
             'password' =&gt; 'secret',
         ])-&gt;assertSee("Username or password is incorrect.");
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>This is a small example of how you can test bind attempts to your LDAP server.</p>
+
 <h2>Responses and Error Codes</h2>
+
 <p>When testing connectivity to your LDAP server, you may wish to test error codes and
 messages that may be returned when a bind attempt fails. To do this, you can
 use the <code>ConnectionFake</code> to retrieve a fake LDAP connection to return
 error codes when a bind attempt fails.</p>
+
 <p>Let's walk through an example of an authentication controller that will
 retrieve the last LDAP error and determine the cause of the bind
 failure.</p>
+
 <p>Let's walk through an example of testing an application that uses LDAP authentication.</p>
+
 <p>Here's our example controller:</p>
+
 <pre><code class="language-php">class AuthController
 {
     public function __construct()
@@ -424,10 +444,15 @@ failure.</p>
 
         return "Username or password is incorrect.";
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>You can see above that we are pulling the diagnostic message of the last failed bind attempt.</p>
+
 <p>This diagnostic message contains an error code that you can use to tell the user why they failed logging in.</p>
+
 <p>Here is how we would test the above controller:</p>
+
 <pre><code class="language-php">use LdapRecord\Testing\DirectoryFake;
 
 class LoginTest extends TestCase
@@ -447,7 +472,9 @@ class LoginTest extends TestCase
             'password' =&gt; 'secret',
         ])-&gt;assertSee("Your account is locked.");
     }
-}</code></pre>
+}
+</code></pre>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">

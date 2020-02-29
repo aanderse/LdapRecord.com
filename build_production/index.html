@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 1" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -95,7 +95,7 @@
     <div class="retro-hero-background w-11/12 md:w-1/2 h-screen bg-purple-900" style="transform: skew(45deg);"></div>
 
     <div class="retro-hero-content md:mx-48 my-auto">
-        <h1 class="retro-hero-heading sm:text-4xl lg:text-5xl">
+        <h1 class="retro-hero-heading sm:text-4xl lg:text-5xl xl:text-6xl">
             <em>Integrate LDAP into your PHP applications</em>
         </h1>
 
@@ -107,12 +107,12 @@
             No hair-pulling necessary.
         </h4>
 
-        <div class="flex justify-center mb-8">
-            <a href="/docs/installation" title="LdapRecord getting started" class="uppercase tracking-wide italic bg-purple-500 hover:bg-purple-600 font-extrabold text-white hover:text-white rounded mr-4 py-2 px-6">
+        <div class="flex justify-center my-8">
+            <a href="/docs/installation" title="LdapRecord getting started" class="uppercase tracking-wide italic bg-purple-500 hover:bg-purple-600 font-extrabold text-white hover:text-white rounded mr-4 py-3 px-6">
                 Get Started
             </a>
 
-            <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="uppercase tracking-wide italic bg-gray-400 hover:bg-gray-600 text-blue-900 font-extrabold hover:text-white rounded py-2 px-6">
+            <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="uppercase tracking-wide italic bg-gray-400 hover:bg-gray-600 text-blue-900 font-extrabold hover:text-white rounded py-3 px-6">
                 Source Code
             </a>
         </div>
@@ -137,12 +137,14 @@
 
 $administrators = Group::find('cn=Admins,dc=local,dc=com');
 
-$user-&gt;groups()-&gt;attach($administrators);</code></pre>    </div>
+$user-&gt;groups()-&gt;attach($administrators);
+</code></pre>
+    </div>
 </div>
 
 <section class="mx-auto py-0 mt-16 md:mt-0">
     <!-- Fast Setup. -->
-    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32 p-12">
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32 p-12 max-w-screen-xl mx-auto">
         <div class="md:w-3/5">
             <div class="feature shadow-lg">
     <div class="top-bar">
@@ -164,7 +166,8 @@ $connection = new Connection([
 
 $connection-&gt;connect();
 
-$users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get();</code></pre>
+$users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get();
+</code></pre>
 </div>
         </div>
 
@@ -180,20 +183,21 @@ $users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get()
     </div>
 
     <!-- Fluent Query Builder. -->
-    <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32 p-12 bg-purple-800">
-        <div class="md:w-2/5 md:mr-8 flex flex-col items-center md:items-start">
-            <h3 class="text-center md:text-left text-5xl text-white my-0 font-extrabold italic">
-                Fluent Query Builder
-            </h3>
+    <div class="bg-purple-800">
+        <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32 p-12 max-w-screen-xl mx-auto">
+            <div class="md:w-2/5 md:mr-8 flex flex-col items-center md:items-start">
+                <h3 class="text-center md:text-left text-5xl text-white my-0 font-extrabold italic">
+                    Fluent Query Builder
+                </h3>
 
-            <p class="text-xl text-white text-center md:text-left">
-                Building LDAP queries has never been so easy. Find the objects you're
-                looking for in a couple lines or less with a fluent interface.
-            </p>
-        </div>
+                <p class="text-xl text-white text-center md:text-left">
+                    Building LDAP queries has never been so easy. Find the objects you're
+                    looking for in a couple lines or less with a fluent interface.
+                </p>
+            </div>
 
-        <div class="md:w-3/5">
-            <div class="feature shadow-lg">
+            <div class="md:w-3/5">
+                <div class="feature shadow-lg">
     <div class="top-bar">
         <div class="circles">
             <div class="circle circle-red"></div>
@@ -210,13 +214,15 @@ $users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get()
         $user-&gt;company = 'Acme Organization';
 
         $user-&gt;save();
-    });</code></pre>
+    });
+</code></pre>
 </div>
+            </div>
         </div>
     </div>
 
     <!-- ActiveRecord. -->
-    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-24 p-12">
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-24 p-12 max-w-screen-xl mx-auto">
         <div class="md:w-3/5">
             <div class="feature shadow-lg">
     <div class="top-bar">
@@ -238,7 +244,8 @@ $user-&gt;givenname = 'Steve';
 $user-&gt;sn = 'Bauman';
 $user-&gt;password = 'Super-Secret';
 
-$user-&gt;save();</code></pre>
+$user-&gt;save();
+</code></pre>
 </div>
         </div>
 

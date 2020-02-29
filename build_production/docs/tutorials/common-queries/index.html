@@ -33,11 +33,11 @@
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b2e898cfef7abe0d3ca2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="h-full flex flex-col bg-gray-100 text-gray-800 leading-normal font-sans">
+    <body class="h-full flex flex-col bg-gray-100 font-sans">
         <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 bg-white shadow mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -321,18 +321,26 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Common Queries</h1>
+
 <p>Most applications will require retrieving certain set / type of objects from a directory.</p>
+
 <ul>
 <li><a href="#using-models">Using Models</a></li>
 <li><a href="#without-models">Without Models</a></li>
 </ul>
+
 <h2 id="using-models">Using Models</h2>
+
 <p>Utilizing LdapRecord's built in models allow you to easily query specific types of objects in your directory.</p>
+
 <blockquote>
-<p>The examples below assume you have created a <code>Connection</code> and have added them into the <a href="/docs/connections#container">Container</a>.</p>
+  <p>The examples below assume you have created a <code>Connection</code> and have added them into the <a href="/docs/connections#container">Container</a>.</p>
 </blockquote>
+
 <h3>ActiveDirectory</h3>
+
 <h4>Generic Queries</h4>
+
 <pre><code class="language-php">// All ActiveDirectory objects:
 // Note: We use 'paginate' here so over 1000 results can be returned.
 $objects = \LdapRecord\Models\ActiveDirectory\Entry::paginate();
@@ -356,13 +364,20 @@ $printers = \LdapRecord\Models\ActiveDirectory\Printer::get();
 $computers = \LdapRecord\Models\ActiveDirectory\Computer::get();
 
 // All foreign security principals:
-$foreignPrincipals = \LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal::get();</code></pre>
+$foreignPrincipals = \LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal::get();
+</code></pre>
+
 <h4>Users Created After a Date</h4>
+
 <pre><code class="language-php">$date = (new DateTime('October 1st 2016'))-&gt;format('YmdHis.0\Z');
 
-$users = User::where('whencreated', '&gt;=', $date)-&gt;get();</code></pre>
+$users = User::where('whencreated', '&gt;=', $date)-&gt;get();
+</code></pre>
+
 <h3>OpenLDAP</h3>
+
 <h4>Generic Queries</h4>
+
 <pre><code class="language-php">// All OpenLDAP objects:
 // Note: We use 'paginate' here so over 1000 results can be returned.
 $objects = \LdapRecord\Models\OpenLDAP\Entry::paginate();
@@ -374,17 +389,24 @@ $users = \LdapRecord\Models\OpenLDAP\User::get();
 $groups = \LdapRecord\Models\OpenLDAP\Group::get();
 
 // All OpenLDAP organizational units:
-$ous = \LdapRecord\Models\OpenLDAP\OrganizationalUnit::get();</code></pre>
+$ous = \LdapRecord\Models\OpenLDAP\OrganizationalUnit::get();
+</code></pre>
+
 <h2 id="without-models">Without Models</h2>
+
 <p>If you do not want to use LdapRecord models, you can still use the query builder and retrieve raw LDAP results.</p>
+
 <pre><code class="language-php">use LdapRecord\Connection;
 
 $connection = new Connection(['...']);
 
 // All LDAP objects:
 // Note: We use 'paginate' here so over 1000 results can be returned.
-$objects = $connection-&gt;query()-&gt;paginate();</code></pre>
+$objects = $connection-&gt;query()-&gt;paginate();
+</code></pre>
+
 <h3>ActiveDirectory</h3>
+
 <pre><code class="language-php">use LdapRecord\Connection;
 
 $connection = new Connection(['...']);
@@ -434,8 +456,11 @@ $computers = $connection-&gt;query()-&gt;where([
 // All foreign security principals:
 $foreignPrincipals = $connection-&gt;query()
     -&gt;where('objectclass', '=', 'foreignsecurityprincipal')
-    -&gt;get();</code></pre>
+    -&gt;get();
+</code></pre>
+
 <h3>OpenLDAP</h3>
+
 <pre><code class="language-php">// All OpenLDAP users:
 $users = $connection-&gt;query()-&gt;where([
     ['objectclass', '=', 'top'],
@@ -454,7 +479,9 @@ $groups = $connection-&gt;query()-&gt;where([
 $ous = $connection-&gt;query()-&gt;where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'organizationalunit'],
-])-&gt;get();</code></pre>
+])-&gt;get();
+</code></pre>
+
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
@@ -467,7 +494,7 @@ $ous = $connection-&gt;query()-&gt;where([
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
                 <a href="/
-Warning: htmlspecialchars() expects parameter 1 to be string, array given in /Users/stevebauman/Sites/LdapRecord.com/vendor/illuminate/support/helpers.php on line 613
+Warning: htmlspecialchars() expects parameter 1 to be string, array given in /Users/stevebauman/Sites/LdapRecord.com/vendor/illuminate/support/helpers.php on line 251
 ">ActiveDirectory</a>
             </h4>
             </div>

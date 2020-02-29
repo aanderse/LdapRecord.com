@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="LdapRecord-Laravel authentication usage guide">
+        <meta name="description" content="Using LdapRecord query caching">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Authentication Usage | LdapRecord"/>
-        <meta property="og:description" content="LdapRecord-Laravel authentication usage guide"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/usage"/>
+        <meta property="og:title" content="Query Caching | LdapRecord"/>
+        <meta property="og:description" content="Using LdapRecord query caching"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/caching"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Authentication Usage</title>
+        <title>LdapRecord | Query Caching</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -74,11 +74,12 @@
 </div>
 
                     
-                                            <a href="/docs/" class="ml-6 hidden md:inline whitespace-no-wrap text-blue-800" title="LdapRecord Documentation Link">
-                            Core Docs
+                                            
+                        <a href="/docs/laravel" class="ml-6 hidden md:inline whitespace-no-wrap text-blue-800" title="LdapRecord-Laravel Documentation Link">
+                            Laravel Docs
                         </a>
 
-                        <a href="https://github.com/DirectoryTree/LdapRecord-Laravel" class="hidden sm:inline text-blue-800">
+                        <a href="https://github.com/DirectoryTree/LdapRecord" class="hidden sm:inline text-blue-800">
                             <svg class="fill-current w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
                         </a>
                                     </div>
@@ -109,7 +110,7 @@
                     <ul class="list-none my-0 ">
             <li class="pl-4">
             
-        <a href="/docs/laravel/quickstart"
+        <a href="/docs/quickstart"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Quickstart
@@ -118,7 +119,7 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel"
+        <a href="/docs"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Overview
@@ -127,7 +128,7 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/installation"
+        <a href="/docs/installation"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Installation
@@ -136,50 +137,8 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/usage"
+        <a href="/docs/configuration"
             class="lvl0   nav-menu__item hover:text-blue-500"
-        >
-            Usage
-        </a>
-    
-    </li>
-            <li class="pl-4">
-            
-        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Authentication</p>
-    
-            
-        <ul class="list-none my-0 border-l-4 border-purple-200">
-            <li class="pl-4">
-            
-        <a href="/docs/laravel/auth/quickstart"
-            class="lvl1   nav-menu__item hover:text-blue-500"
-        >
-            Quickstart
-        </a>
-    
-    </li>
-            <li class="pl-4">
-            
-        <a href="/docs/laravel/auth"
-            class="lvl1   nav-menu__item hover:text-blue-500"
-        >
-            Overview
-        </a>
-    
-    </li>
-            <li class="pl-4">
-            
-        <a href="/docs/laravel/auth/installation"
-            class="lvl1   nav-menu__item hover:text-blue-500"
-        >
-            Installation
-        </a>
-    
-    </li>
-            <li class="pl-4">
-            
-        <a href="/docs/laravel/auth/configuration"
-            class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Configuration
         </a>
@@ -187,37 +146,52 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/auth/usage"
-            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+        <a href="/docs/connecting"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
-            Usage
+            Connecting
         </a>
     
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/auth/multi-domain"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+        <a href="/docs/searching"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
-            Multi-Domain
+            Searching 
         </a>
     
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/auth/importing"
+        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Models</p>
+    
+            
+        <ul class="list-none my-0 border-l-4 border-purple-200">
+            <li class="pl-4">
+            
+        <a href="/docs/models"
             class="lvl1   nav-menu__item hover:text-blue-500"
         >
-            Importing Users
+            Getting Started
         </a>
     
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/auth/testing"
+        <a href="/docs/model-relationships"
             class="lvl1   nav-menu__item hover:text-blue-500"
         >
-            Testing
+            Relationships
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/model-mutators"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Accessors &amp; Mutators
         </a>
     
     </li>
@@ -225,7 +199,25 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/testing"
+        <a href="/docs/events"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Events
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/logging"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Logging
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/testing"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Testing
@@ -234,7 +226,50 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/versioning"
+        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Tutorials</p>
+    
+            
+        <ul class="list-none my-0 border-l-4 border-purple-200">
+            <li class="pl-4">
+            
+        <a href="/docs/tutorials/authentication"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Authentication
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/tutorials/common-queries"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Common Queries
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">ActiveDirectory</p>
+    
+            
+        <ul class="list-none my-0 ">
+            <li class="pl-4">
+            
+        <a href="/docs/tutorials/activedirectory/user-management"
+            class="lvl2   nav-menu__item hover:text-blue-500"
+        >
+            User Management
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/versioning"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Versioning
@@ -243,7 +278,16 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/license"
+        <a href="/docs/credits"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Credits
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/license"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
             License
@@ -252,20 +296,20 @@
     </li>
     </ul>
 
-    <div class="block sm:hidden">
+    <div class="block md:hidden">
         <hr class="my-4"/>
 
         <ul class="list-none my-0">
             <li class="pl-4">
-                <a href="/docs/"
+                <a href="/docs/laravel/"
                    class="nav-menu__item hover:text-blue-500"
                 >
-                    Core Documentation
+                    Laravel Documentation
                 </a>
             </li>
 
             <li class="pl-4">
-                <a href="https://github.com/DirectoryTree/LdapRecord-Laravel"
+                <a href="https://github.com/DirectoryTree/LdapRecord"
                    class="nav-menu__item hover:text-blue-500"
                 >
                     Source Code
@@ -276,220 +320,24 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Usage</h1>
+                <h1>Query Caching</h1>
 
-<ul>
-<li><a href="#logging-in">Logging In</a></li>
-<li><a href="#using-usernames">Using Usernames</a></li>
-<li><a href="#model-binding">Eloquent Model Binding</a></li>
-<li><a href="#passthrough-authentication">Pass-Through Authentication / SSO</a></li>
-</ul>
+<p>LdapRecord supports caching expensive LDAP operations. A <code>pagination</code>
+query on the root of your LDAP directory may take several seconds
+to complete. Caching allows you to store the entire result so
+it is not retrieved again from the server until the cache
+is set to expire.</p>
 
-<h2 id="logging-in">Logging In</h2>
-
-<p>Once you have finished configuring your authentication provider, you are ready to start authenticating users.</p>
-
-<p>Before you get started, make sure you have either created a new authentication guard that uses your new provider,
-or change the default guard to use your new provider. For now, let's change our default <code>web</code> guard to use
-our new <code>ldap</code> provider:</p>
-
-<pre><code class="language-php">// config/auth.php
-
-'guards' =&gt; [
-    'web' =&gt; [
-        'driver' =&gt; 'session',
-        'provider' =&gt; 'ldap', // Changed from 'users'
-    ],
-
-    // ...
-],
-</code></pre>
-
-<p>Now that we have updated our default authentication guard to use our new <code>ldap</code> provider, we will jump into
-the default <code>LoginController</code> that is included with Laravel. For this example application, we will
-authenticate our LDAP users with their email address using the LDAP attribute <code>mail</code>.</p>
-
-<p>To have LdapRecord properly locate the user in your directory, we will override the <code>credentials</code> method in this controller:</p>
-
-<pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
-
-protected function credentials(Request $request)
-{
-    return [
-        'mail' =&gt; $request-&gt;email,
-        'password' =&gt; $request-&gt;password,
-    ];
-}
-</code></pre>
-
-<p>As you can see above, we set the <code>mail</code> key which is passed to the LdapRecord authentication provider.</p>
-
-<p>A search query will be executed on your directory for a user that contains the <code>mail</code> attribute equal
-to the entered <code>email</code> that the user has submitted on your login form. The <code>password</code> key is
-automatically bypassed and will not be used in the search.</p>
-
-<p>If a user is not found in your directory, or they fail authentication, they will be redirected to the
-login page normally with the "Invalid credentials" error message.</p>
-
-<h2 id="using-usernames">Using Usernames</h2>
-
-<p>In corporate environments, users are often used to signing into their computers with their username.
-You can certainly keep this flow easy for them - we just need to change a couple things.</p>
-
-<p>First, you will need to change the <code>email</code> column in the database migration that creates your <code>users</code>
-table to <code>username</code>, as this represents what it will now contain:</p>
-
-<pre><code class="language-php">Schema::create('users', function (Blueprint $table) {
-    // ...
-
-    // Before...
-    $table-&gt;string('email')-&gt;unique(); 
-
-    // After...
-    $table-&gt;string('username')-&gt;unique(); 
-});
-</code></pre>
-
-<blockquote>
-  <p>Make sure you run your migrations using <code>php artisan migrate</code>.</p>
-</blockquote>
-
-<p>Once we've changed the name of the column, we'll jump into the <code>config/auth.php</code> configuration and modify 
-our LDAP user providers <code>sync_attributes</code> to synchronize this changed column. In this example, we will
-use the users <code>sAMAccountName</code> as their username which is common in ActiveDirectory environments:</p>
-
-<pre><code class="language-php">// config/auth.php
-
-'providers' =&gt; [
-    // ...
-
-    'ldap' =&gt; [
-        // ...
-
-        'database' =&gt; [
-            // ...
-
-            'sync_attributes' =&gt; [
-                'name' =&gt; 'cn',
-                'username' =&gt; 'samaccountname',
-            ],
-        ],
-    ],
-],
-</code></pre>
-
-<p>Now, since we have changed the way our users sign into our application from the default <code>email</code> field,
-we need to modify our HTML login form to reflect this. Let's jump into our <code>auth/login.blade.php</code>:</p>
-
-<pre><code class="language-html">&lt;!-- resources/views/auth/login.blade.php --&gt;
-
-&lt;!-- Before... --&gt;
-&lt;input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus&gt;
-
-&lt;!-- After... --&gt;
-&lt;input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus&gt;
-</code></pre>
-
-<p>After changing the HTML input, we now must modify our <code>LoginController</code> to use this new field.
-We do this by overriding the <code>username</code> method, and updating our <code>credentials</code> method:</p>
-
-<pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
-
-public function username()
-{
-    return 'username';
-}
-
-protected function credentials(Request $request)
-{
-    return [
-        'samaccountname' =&gt; $request-&gt;get('username'),
-        'password' =&gt; $request-&gt;get('password'),
-    ];
-}
-</code></pre>
-
-<p>You can now sign into your application using usernames instead of email addresses.</p>
-
-<h2 id="model-binding">Eloquent Model Binding</h2>
-
-<p>If you are using <a href="/docs/laravel/auth#database">database synchronization</a>, model binding allows
-you to attach the users LdapRecord model to their Eloquent model so their LDAP data is
-available on every request automatically.</p>
-
-<blockquote>
-  <p>Enabling this option will perform a single query on your LDAP server for a logged in user per request.
-  This could lead to slightly longer load times depending on your LDAP server and network speed.</p>
-</blockquote>
-
-<p>To begin, insert the <code>LdapRecord\Laravel\Auth\HasLdapUser</code> trait onto your User model:</p>
-
-<pre><code class="language-php">namespace App;
-
-use LdapRecord\Laravel\Auth\HasLdapUser;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-class User extends Authenticatable
-{
-    use HasLdapUser;
-</code></pre>
-
-<p>Now, after an LDAP user logs into your application, their LdapRecord model will be available on
-their model via the <code>ldap</code> property:</p>
-
-<pre><code class="language-php">// Instance of App\User
-$user = Auth::user();
-
-// Instance of App\Ldap\User
-$ldap = $user-&gt;ldap;
-
-echo $ldap-&gt;getFirstAttribute('cn');
-</code></pre>
-
-<h2 id="passthrough-authentication">Pass-through Authentication / SSO</h2>
-
-<p>Pass-through authentication allows your users to be automatically signed in when they access your
-application on a Windows domain joined computer. This feature is ideal for in-house corporate
-environments.</p>
-
-<p>However, this feature assumes that you have enabled Windows Authentication in IIS, or have enabled
-it in some other means with Apache. LdapRecord does not set this up for you. To enable Windows
-Authentication, visit the <a href="https://www.iis.net/configreference/system.webserver/security/authentication/windowsauthentication/providers/add">IIS configuration guide</a>.</p>
-
-<p>When you have it enabled on your server and a user visits your application from a domain joined computer,
-the users <code>sAMAccountName</code> becomes available on a PHP server variable (<code>$_SERVER['AUTH_USER']</code>).</p>
-
-<p>LdapRecord provides a middleware that you apply to your stack which retrieves this username
-from the request, attempts to locate the user in your directory, then logs the user in.</p>
-
-<p>To use the middleware, insert it on your middleware stack inside your <code>app/Http/Kernel.php</code> file:</p>
-
-<pre><code class="language-php">protected $middlewareGroups = [
-    'web' =&gt; [
-        // ...
-        \LdapRecord\Laravel\Middleware\WindowsAuthenticate::class,
-    ],
-];
-</code></pre>
-
-<blockquote>
-  <p>The <code>WindowsAuthenticate</code> middleware uses the rules you have configured inside your <code>config/auth.php</code> file.
-  A user may successfully authenticate against your LDAP server when visiting your site, but depending
-  on your rules, may not be imported or logged in.</p>
-</blockquote>
+<h2>Getting Started</h2>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
-                    <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
-            <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth/configuration">Configuration</a>
-            </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth/multi-domain">Multi-Domain</a>
+                <a href="/docs">Overview</a>
             </h4>
             </div>
 </div>
