@@ -10,6 +10,7 @@ section: content
 - [Introduction](#introduction)
 - [Directory Emulator](#directory-emulator)
 - [Getting Started](#getting-started)
+- [Using a SQLite File Database](#sqlite-file-database)
 - [Emulated Queries](#emulated-queries)
 - [Working with Relationships](#working-with-relationships)
 
@@ -131,6 +132,20 @@ class LdapUserControllerTest extends TestCase
 As with actual LDAP objects created in a live directory using LdapRecord models, when you create
 LDAP objects in the emulated directory, they will use your connections configured `base_dn`
 to create distinguished names.
+
+## Using a SQLite File Database {#sqlite-file-database}
+
+To use a SQLite file database, you must supply an array to the second parameter
+of the `DirectoryEmulator::setup` method and provide a file path using the 
+`database` key where you would like the SQLite file to be stored:
+
+> If the file does not exist already, it will be created for you automatically.
+
+```php
+$file = storage_path('ldap_test_database.sqlite');
+
+DirectoryEmulator::setup('default', ['database' => $file]);
+```
 
 ## Emulated Queries {#emulated-queries}
 
