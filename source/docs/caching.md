@@ -23,8 +23,8 @@ from the server until the cache is set to expire.
 
 ## Requirements {#requirements}
 
-Your application must have a caching implementation that implementation that uses
-the [PSR Simple Cache](https://github.com/php-fig/simple-cache) interface.
+Your application must have a caching implementation that uses the 
+[PSR Simple Cache](https://github.com/php-fig/simple-cache) interface.
 
 For example, the Laravel cache system implements this interface.
 
