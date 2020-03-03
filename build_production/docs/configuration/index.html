@@ -500,15 +500,19 @@ configure an <code>ldap.conf</code> file and add the following inside:</p>
   <td><code>C:\OpenLDAP\sysconf\ldap.conf</code></td>
 </tr>
 <tr>
-  <td>Linux / macOS</td>
+  <td>Linux</td>
   <td><code>/etc/ldap/ldap.conf</code></td>
+</tr>
+<tr>
+  <td>macOS</td>
+  <td><code>/usr/local/etc/openldap/ldap.conf</code></td>
 </tr>
 </tbody>
 </table>
 
-<p>The above directories will likely not exist. You will need to create each of them.</p>
+<p>The above directories may not exist - you will need to create them in such case.</p>
 
-<p>Once you've completed the above, you should be able to connect successfully.</p>
+<p>Once you've completed the above, restart your web server and then you should be able to connect successfully.</p>
 
 <p>If you can connect using <code>TLS_REQCERT never</code> inside of your <code>ldap.conf</code> file,
 you may want to copy your domain CA certificate to your web server, as it

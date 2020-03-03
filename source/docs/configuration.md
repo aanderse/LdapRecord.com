@@ -123,11 +123,12 @@ The `ldap.conf` file will likely not exist by default. Create it inside the loca
 OS | Location |
 --- | --- |
 Windows | `C:\OpenLDAP\sysconf\ldap.conf` | 
-Linux / macOS | `/etc/ldap/ldap.conf` |
+Linux | `/etc/ldap/ldap.conf` |
+macOS | `/usr/local/etc/openldap/ldap.conf` |
 
-The above directories will likely not exist. You will need to create each of them.
+The above directories may not exist - you will need to create them in such case.
 
-Once you've completed the above, you should be able to connect successfully.
+Once you've completed the above, restart your web server and then you should be able to connect successfully.
 
 If you can connect using `TLS_REQCERT never` inside of your `ldap.conf` file,
 you may want to copy your domain CA certificate to your web server, as it
