@@ -57,11 +57,28 @@ You insert as many servers or as little as you'd like depending on your forest (
 
 ### Base Distinguished Name {#base-distinguished-name}
 
-The base distinguished name is the base distinguished name you'd like to perform operations on.
+A 'Distinguished Name' is a string based identifier in LDAP that is used
+to indicate hierarchy. Each object in your domain is assigned one.
 
-An example base DN would be `DC=local,DC=com`.
+An example Distinguished Name would be `cn=John Doe,ou=Users,dc=local,dc=com`.
 
-If one is not defined, you will not retrieve any search results.
+The above can be broken into the following 'Relative Distinguished Names' (RDN for short):
+
+RDN | Meaning |
+--- | --- |
+`cn=John Doe` | The object has a 'Common Name' of `John Doe` |
+`ou=Users` | The object resides in the 'Organizational Unit' `Users` |
+`dc=local,dc=com` | The object resides in the 'Domain' `local.com` |
+
+A 'Base Distinguished Name' is the distinguished name that you would like to
+be used as the root of all searches and object creations using LdapRecord.
+
+An example base DN would be `dc=local,dc=com`.
+
+This means, that all searches executed with LdapRecord will start at `dc=local,dc=com`
+as the root. This would allow all records *below* to be retrieved from results.
+
+If you do not define a base DN, you will not retrieve any search results from queries.
 
 > Your base DN is **case insensitive**. You do not need to worry about incorrect casing.
 

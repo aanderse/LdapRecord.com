@@ -11,6 +11,7 @@ section: content
 - [Using Usernames](#using-usernames)
 - [Eloquent Model Binding](#model-binding)
 - [Pass-Through Authentication / SSO](#passthrough-authentication)
+- [Displaying LDAP Error Messages (password expiry, account lockouts)](#displaying-ldap-error-messages)
 
 ## Logging In {#logging-in}
 
@@ -207,3 +208,49 @@ protected $middlewareGroups = [
 > The `WindowsAuthenticate` middleware uses the rules you have configured inside your `config/auth.php` file.
 > A user may successfully authenticate against your LDAP server when visiting your site, but depending
 > on your rules, may not be imported or logged in.
+
+## Displaying LDAP Error Messages {#displaying-ldap-error-messages}
+
+When a user fails LDAP authentication due to their password / account expiring, account
+lockout or their password requiring to be changed, specific error codes are sent
+back from your server. LdapRecord can interpret these for you and display
+helpful error messages to users upon failing authentication.
+
+To add this functionality, you must add the following trait to your `LoginController`:
+
+```text
+LdapRecord\Laravel\Auth\ListensForLdapBindFailure
+```
+
+Example:
+
+```php
+// ...
+use LdapRecord\Laravel\Auth\ListensForLdapBindFailure;
+
+class LoginController extends Controller
+{
+    use AuthenticatesUsers, ListensForLdapBindFailure;
+
+    // ...
+```
+
+**However, this feature will only work automatically if your `LoginController` resides in the default
+`App\Http\Controllers\Auth` namespace**. If you have changed the location of your `LoginController`,
+you must modify the constructor and add the following method call to register the LDAP listener:
+
+```php
+// ...
+use LdapRecord\Laravel\Auth\ListensForLdapBindFailure;
+
+class LoginController extends Controller
+{
+    use AuthenticatesUsers, ListensForLdapBindFailure;
+
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    
+        $this->listenForLdapBindFailure();
+    }
+```

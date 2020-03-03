@@ -31,9 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=b9408634d9f43cfd3e45">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -283,6 +281,7 @@
 <li><a href="#using-usernames">Using Usernames</a></li>
 <li><a href="#model-binding">Eloquent Model Binding</a></li>
 <li><a href="#passthrough-authentication">Pass-Through Authentication / SSO</a></li>
+<li><a href="#displaying-ldap-error-messages">Displaying LDAP Error Messages (password expiry, account lockouts)</a></li>
 </ul>
 
 <h2 id="logging-in">Logging In</h2>
@@ -477,6 +476,49 @@ from the request, attempts to locate the user in your directory, then logs the u
   A user may successfully authenticate against your LDAP server when visiting your site, but depending
   on your rules, may not be imported or logged in.</p>
 </blockquote>
+
+<h2 id="displaying-ldap-error-messages">Displaying LDAP Error Messages</h2>
+
+<p>When a user fails LDAP authentication due to their password / account expiring, account
+lockout or their password requiring to be changed, specific error codes are sent
+back from your server. LdapRecord can interpret these for you and display
+helpful error messages to users upon failing authentication.</p>
+
+<p>To add this functionality, you must add the following trait to your <code>LoginController</code>:</p>
+
+<pre><code class="language-text">LdapRecord\Laravel\Auth\ListensForLdapBindFailure
+</code></pre>
+
+<p>Example:</p>
+
+<pre><code class="language-php">// ...
+use LdapRecord\Laravel\Auth\ListensForLdapBindFailure;
+
+class LoginController extends Controller
+{
+    use AuthenticatesUsers, ListensForLdapBindFailure;
+
+    // ...
+</code></pre>
+
+<p><strong>However, this feature will only work automatically if your <code>LoginController</code> resides in the default
+<code>App\Http\Controllers\Auth</code> namespace</strong>. If you have changed the location of your <code>LoginController</code>,
+you must modify the constructor and add the following method call to register the LDAP listener:</p>
+
+<pre><code class="language-php">// ...
+use LdapRecord\Laravel\Auth\ListensForLdapBindFailure;
+
+class LoginController extends Controller
+{
+    use AuthenticatesUsers, ListensForLdapBindFailure;
+
+    public function __construct()
+    {
+        $this-&gt;middleware('guest')-&gt;except('logout');
+
+        $this-&gt;listenForLdapBindFailure();
+    }
+</code></pre>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">

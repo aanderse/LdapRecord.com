@@ -31,9 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=c68458d8c4c989fd5dd4">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=b9408634d9f43cfd3e45">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -384,11 +382,45 @@ $connection = new Connection($config);
 
 <h3 id="base-distinguished-name">Base Distinguished Name</h3>
 
-<p>The base distinguished name is the base distinguished name you'd like to perform operations on.</p>
+<p>A 'Distinguished Name' is a string based identifier in LDAP that is used
+to indicate hierarchy. Each object in your domain is assigned one.</p>
 
-<p>An example base DN would be <code>DC=local,DC=com</code>.</p>
+<p>An example Distinguished Name would be <code>cn=John Doe,ou=Users,dc=local,dc=com</code>.</p>
 
-<p>If one is not defined, you will not retrieve any search results.</p>
+<p>The above can be broken into the following 'Relative Distinguished Names' (RDN for short):</p>
+
+<table>
+<thead>
+<tr>
+  <th>RDN</th>
+  <th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>cn=John Doe</code></td>
+  <td>The object has a 'Common Name' of <code>John Doe</code></td>
+</tr>
+<tr>
+  <td><code>ou=Users</code></td>
+  <td>The object resides in the 'Organizational Unit' <code>Users</code></td>
+</tr>
+<tr>
+  <td><code>dc=local,dc=com</code></td>
+  <td>The object resides in the 'Domain' <code>local.com</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>A 'Base Distinguished Name' is the distinguished name that you would like to
+be used as the root of all searches and object creations using LdapRecord.</p>
+
+<p>An example base DN would be <code>dc=local,dc=com</code>.</p>
+
+<p>This means, that all searches executed with LdapRecord will start at <code>dc=local,dc=com</code>
+as the root. This would allow all records <em>below</em> to be retrieved from results.</p>
+
+<p>If you do not define a base DN, you will not retrieve any search results from queries.</p>
 
 <blockquote>
   <p>Your base DN is <strong>case insensitive</strong>. You do not need to worry about incorrect casing.</p>
