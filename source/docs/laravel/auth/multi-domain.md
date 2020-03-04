@@ -170,7 +170,7 @@ public function getLdapGuardFromRequest(Request $request)
     
     return $guards[$domain] ?? 'alpha'; 
 }
-````
+```
 
 If the user enters an email that is not available in our `$guards` array lookup, we will
 return the `alpha` guard by default, and the authentication attempt will be made

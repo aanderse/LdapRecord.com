@@ -440,30 +440,32 @@ public function getLdapGuardFromRequest(Request $request)
 
     return $guards[$domain] ?? 'alpha'; 
 }
-````
+</code></pre>
 
-If the user enters an email that is not available in our `$guards` array lookup, we will
-return the `alpha` guard by default, and the authentication attempt will be made
-to our `alpha` domain.
+<p>If the user enters an email that is not available in our <code>$guards</code> array lookup, we will
+return the <code>alpha</code> guard by default, and the authentication attempt will be made
+to our <code>alpha</code> domain.</p>
 
-&gt; You may wish to add a request validation rule instead to prevent users from signing
-&gt; in with invalid email domain. The way you implement this is totally up to you.
+<blockquote>
+  <p>You may wish to add a request validation rule instead to prevent users from signing
+  in with invalid email domain. The way you implement this is totally up to you.</p>
+</blockquote>
 
-## Routes
+<h2>Routes</h2>
 
-Having multiple authentication guards means that we need to update the `auth` middleware
-that is covering our protected application routes.
+<p>Having multiple authentication guards means that we need to update the <code>auth</code> middleware
+that is covering our protected application routes.</p>
 
-Luckily, this middleware accepts a list of guards you would like to use. You will need to add
+<p>Luckily, this middleware accepts a list of guards you would like to use. You will need to add
 both of the guards you created above for both LDAP domains to be able to access the same
-protected routes:
+protected routes:</p>
 
-&gt; By default, if no guards are given to the Laravel `auth` middleware, it will attempt
-&gt; to use the `default` guard configured - **we do not want this behaviour**.
+<blockquote>
+  <p>By default, if no guards are given to the Laravel <code>auth</code> middleware, it will attempt
+  to use the <code>default</code> guard configured - <strong>we do not want this behaviour</strong>.</p>
+</blockquote>
 
-
-```php
-// routes/web.php
+<pre><code class="language-php">// routes/web.php
 
 Route::group(function () {
     // Both alpha and bravo domains can access these routes...
