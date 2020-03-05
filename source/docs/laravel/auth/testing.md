@@ -136,7 +136,7 @@ LDAP authentication. If we remove this line, attempting to authenticate as the
 user will fail, as they are not authorized inside of your fake:
 
 ```php
- $this->post('/login', [
+$this->post('/login', [
     'email' => $user->mail[0],
     'password' => 'secret',
 ])->assertRedirect('/home');
@@ -145,8 +145,17 @@ user will fail, as they are not authorized inside of your fake:
 Fourth, we are sending a post request to our `login` page, with our LDAP users email address.
 The password can be anything, since we asserted above that the user **will** pass:
 
-Finally, we check to make sure we can retrieve the successfully authenticated
-user and that their attributes were successfully synchronized.
+```php
+$user = Auth::user();
+
+$this->assertInstanceOf(\App\User::class, $user);
+$this->assertEquals($ldapUser->mail[0], $user->email);
+$this->assertEquals($ldapUser->cn[0], $ldapUser->name);
+```
+
+Finally, we'll check to make sure we can retrieve the successfully authenticated
+user and that their attributes were successfully synchronized into our Eloquent
+database model.
 
 ## Scopes {#scopes}
 
