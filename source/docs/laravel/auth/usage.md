@@ -11,7 +11,7 @@ section: content
 - [Using Usernames](#using-usernames)
 - [Eloquent Model Binding](#model-binding)
 - [Pass-Through Authentication / SSO](#passthrough-authentication)
-- [Displaying LDAP Error Messages (password expiry, account lockouts)](#displaying-ldap-error-messages)
+- [Displaying LDAP Error Messages <br/> (password expiry, account lockouts)](#displaying-ldap-error-messages)
 
 ## Logging In {#logging-in}
 
@@ -253,4 +253,31 @@ class LoginController extends Controller
     
         $this->listenForLdapBindFailure();
     }
+```
+
+### Altering the response
+
+By default, when an LDAP bind failure occurs, a `ValidationException` will be thrown which will
+redirect users to your login page and display the error. If you would like to modify this
+behaviour, you will need to override the method `handleLdapBindError`.
+
+This method will include the error message as the first parameter and the error code as the second.
+
+This is useful for checking for specific Active Directory response codes and returning a response:
+
+> Refer to the [Password Policy Errors](/docs/tutorials/activedirectory/user-management/#password-policy-errors)
+> documentation to see what each code means.
+
+```php
+// app/Http/Controllers/Auth/LoginController.php
+
+protected function handleLdapBindError($message, $code = null)
+{
+    if ($code == '773') {
+        // The users password has expired. Redirect them.
+        abort(redirect('/password-reset'));
+    }
+
+    parent::handleLdapBindError($message, $code);
+}
 ```
