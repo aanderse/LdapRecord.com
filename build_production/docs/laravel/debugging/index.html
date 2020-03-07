@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="LdapRecord-Laravel Quickstart Guide">
+        <meta name="description" content="Debugging LdapRecord-Laravel">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Quickstart | LdapRecord"/>
-        <meta property="og:description" content="LdapRecord-Laravel Quickstart Guide"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/quickstart"/>
+        <meta property="og:title" content="Debugging | LdapRecord"/>
+        <meta property="og:description" content="Debugging LdapRecord-Laravel"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/debugging"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Quickstart</title>
+        <title>LdapRecord | Debugging</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -108,7 +108,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel/quickstart"
-            class="lvl0  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl0  text-gray-700 nav-menu__item hover:text-blue-500"
         >
             Quickstart
         </a>
@@ -233,7 +233,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel/debugging"
-            class="lvl0  text-gray-700 nav-menu__item hover:text-blue-500"
+            class="lvl0  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
         >
             Debugging
         </a>
@@ -283,75 +283,120 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Quickstart</h1>
+                <ul>
+<li><a href="#connectivity">Connectivity</a>
 
-<h3 id="install-ldaprecord-laravel">Step 1: Install LdapRecord-Laravel</h3>
+<ul>
+<li><a href="#tls-and-ssl">TLS &amp; SSL</a></li>
+</ul></li>
+<li><a href="#logging-in">Logging In</a></li>
+</ul>
 
-<p>Require LdapRecord-Laravel via <a href="https://getcomposer.org/">composer</a>:</p>
+<h2 id="connectivity">Connectivity</h2>
 
-<pre><code class="language-bash">composer require directorytree/ldaprecord-laravel
+<p>LdapRecord-Laravel comes with a built-in command to test connectivity to your
+LDAP servers. The exception message, error code, and diagnostic message are
+displayed after a failure to bind to your LDAP server.</p>
+
+<p>To test your connectivity, run the following command:</p>
+
+<pre><code class="language-bash">php artisan ldap:test
 </code></pre>
 
-<h3 id="publish-configuration">Step 2: Publish the LDAP configuration file</h3>
+<p>Then, the following will be output:</p>
 
-<pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapServiceProvider"
+<pre><code class="language-text">Testing LDAP connection [default]...
++------------+------------+-----------------+-------------------------------------------------------------------------------------------------------------+---------------+
+| Connection | Successful | Username        | Message                                                                                                     | Response Time |
++------------+------------+-----------------+-------------------------------------------------------------------------------------------------------------+---------------+
+| default    | ✘ No       | user@local.com  | ldap_bind(): Unable to bind to server: Can't contact LDAP server. Error Code: [-1] Diagnostic Message: null | 5008.72ms     |
++------------+------------+-----------------+-------------------------------------------------------------------------------------------------------------+---------------+
 </code></pre>
 
-<h3 id="configure-connection">Step 3: Configure your LDAP connection</h3>
+<p>The returned error codes and diagnostic messages can help you greatly
+when attempting to debug SSL and TLS connectivity issues.</p>
 
-<p>Paste these environment variables into your <code>.env</code> file, and configure each option as necessary:</p>
+<h3 id="tls-and-ssl">TLS &amp; SSL</h3>
 
-<pre><code class="language-dotenv">LDAP_LOGGING=true
-LDAP_CONNECTION=default
-LDAP_HOST=127.0.0.1
-LDAP_USERNAME="cn=user,dc=local,dc=com"
-LDAP_PASSWORD=secret
-LDAP_PORT=389
-LDAP_BASE_DN="dc=local,dc=com"
-LDAP_TIMEOUT=5
-LDAP_SSL=false
-LDAP_TLS=false
-</code></pre>
+<p>TLS and SSL can be very tricky to get up and running. You will most likely have 
+to place an <code>ldap.conf</code> file onto your local / production server to indicate
+that you would like to either <em>bypass</em> TLS / SSL certificate verification,
+or use a valid certificate that you have retrieved from your LDAP server.</p>
 
-<p>View the core <a href="/docs/configuration">configuration</a> documentation for more information.</p>
+<p>This process is fully documented on the <a href="/docs/configuration#ssl-amp-tls">configuration</a>
+documentation. It includes per OS level instructions on where your <code>ldap.conf</code> file
+is located (or where it must be created), as well as what it must contain.</p>
 
-<h3 id="usage">Step 4: Usage</h3>
+<blockquote>
+  <p><strong>Important</strong>: You <strong>must</strong> restart your web server after making changes 
+  to the <code>ldap.conf</code> file. In some cases, you may even have to restart
+  your workstation or server for the changes to take effect.</p>
+</blockquote>
 
-<p>To begin, you may either use the built-in <a href="/docs/models#predefined-models">models that LdapRecord comes with</a>,
-or you may create your own models that reference the connection you have created in your <code>ldap.php</code> file.</p>
+<h2 id="logging-in">Logging In</h2>
 
-<p>Call the below command to create a new LdapRecord model:</p>
+<p>To debug issues logging in, its recommended to first complete the following steps:</p>
 
-<pre><code class="language-bash">php artisan make:ldap-model User
-</code></pre>
+<ol>
+<li>Enabled logging via the <code>logging</code> key inside of your <code>config/ldap.php</code> file <br/> 
+(or by enabling it via your <code>.env</code> by using the <code>LDAP_LOGGING</code> key)</li>
+<li>Clear your configurations cache (if enabled) by running the <code>php artisan config:clear</code> command</li>
+<li>Add the <code>ListensForLdapBindFailure</code> <a href="/docs/laravel/auth/usage#displaying-ldap-error-messages">trait</a> onto your <code>LoginController</code></li>
+<li>Attempt logging in again</li>
+</ol>
 
-<p>Then use it in your application:</p>
+<p>After completing the above, the first thing to lookout for is whether a
+red error message is being displayed underneath your username / email
+field.</p>
 
-<pre><code class="language-php">&lt;?php
+<p>If you do not see any error message and are immediately returned back to
+the login page, then you have likely changed the username field on your
+<code>resources/views/auth/login.blade.php</code> but have not updated it inside
+of your <code>LoginController</code>, or vice versa.</p>
 
-namespace App\Http\Controllers;
+<p>For example, if you want users to login by a <code>username</code> instead of their
+<code>email</code>, make sure you've changed this via the <code>username</code> method,
+and the <code>credentials</code> method on your <code>LoginController</code></p>
 
-use App\Ldap\User;
+<pre><code class="language-php">// app/Http/Auth/LoginController.php
 
-class LdapUserController extends Controller
+public function username()
 {
-    public function index()
-    {
-        $users = User::get();
+    // This is the name of the HTML 'input' inside
+    // of our 'login.blade.php' view:
+    return 'username';
+}
 
-        return view('ldap.users.index', ['users' =&gt; $users]);
-    }
+protected function credentials(Request $request)
+{
+    // 'samaccountname' is the attribute we are using to
+    // locate users in our LDAP directory with. The
+    // value of the key must be the input name of
+    // our HTML input, as shown above:
+    return [
+        'samaccountname' =&gt; $request-&gt;get('username'),
+        'password' =&gt; $request-&gt;get('password'),
+    ];
 }
 </code></pre>
+
+<p>If you simply see an <strong>Invalid Credentials</strong>, or <strong>Can't contact LDAP server</strong>
+error, refer to your log files inside of your applications <code>storage/logs</code>
+directory to investigate further. With <code>logging</code> enabled, all LDAP
+searches, binds, failures and exceptions will be reported there.</p>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
+                    <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
+            <h4 class="font-bold underline m-0 text-blue-700">
+                <a href="/docs/laravel/testing">Testing</a>
+            </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel">Overview</a>
+                <a href="/docs/laravel/versioning">Versioning</a>
             </h4>
             </div>
 </div>

@@ -18,6 +18,7 @@ return [
         ]
     ],
     'Testing' => 'docs/laravel/testing',
+    'Debugging' => 'docs/laravel/debugging',
     'Versioning' => 'docs/laravel/versioning',
     'License' => 'docs/laravel/license',
 ];

@@ -128,7 +128,9 @@ macOS | `/usr/local/etc/openldap/ldap.conf` |
 
 The above directories may not exist - you will need to create them in such case.
 
-Once you've completed the above, restart your web server and then you should be able to connect successfully.
+> **Important**: You **must** restart your web server after making changes 
+> to the `ldap.conf` file. In some cases, you may even have to restart
+> your workstation or server for the changes to take effect.
 
 If you can connect using `TLS_REQCERT never` inside of your `ldap.conf` file,
 you may want to copy your domain CA certificate to your web server, as it
