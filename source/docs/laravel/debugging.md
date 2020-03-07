@@ -5,6 +5,8 @@ extends: _layouts.laravel-documentation
 section: content
 ---
 
+# Debugging
+
 - [Connectivity](#connectivity)
  - [TLS & SSL](#tls-and-ssl)
 - [Logging In](#logging-in)
