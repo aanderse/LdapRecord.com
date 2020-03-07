@@ -76,7 +76,7 @@ For example, if you want users to login by a `username` instead of their
 and the `credentials` method on your `LoginController`
 
 ```php
-// app/Http/Auth/LoginController.php
+// app/Http/Controllers/Auth/LoginController.php
 
 public function username()
 {
