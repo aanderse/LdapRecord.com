@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=0e0762f7691780b33bd1">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=8ce9b1a82cb0eee589e9">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -537,14 +537,22 @@ behaviour, you will need to override the method <code>handleLdapBindError</code>
 
 <pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
 
-protected function handleLdapBindError($message, $code = null)
-{
-    if ($code == '773') {
-        // The users password has expired. Redirect them.
-        abort(redirect('/password-reset'));
+class LoginController extends Controller {
+    // ...
+
+    use ListensForLdapBindFailure {
+        handleLdapBindError as baseHandleLdapBindError;
     }
 
-    parent::handleLdapBindError($message, $code);
+    protected function handleLdapBindError($message, $code = null)
+    {
+        if ($code == '773') {
+            // The users password has expired. Redirect them.
+            abort(redirect('/password-reset'));
+        }
+
+        $this-&gt;baseHandleLdapBindError($message, $code);
+    }
 }
 </code></pre>
 

@@ -271,13 +271,21 @@ This is useful for checking for specific Active Directory response codes and ret
 ```php
 // app/Http/Controllers/Auth/LoginController.php
 
-protected function handleLdapBindError($message, $code = null)
-{
-    if ($code == '773') {
-        // The users password has expired. Redirect them.
-        abort(redirect('/password-reset'));
-    }
+class LoginController extends Controller {
+    // ...
 
-    parent::handleLdapBindError($message, $code);
+    use ListensForLdapBindFailure {
+        handleLdapBindError as baseHandleLdapBindError;
+    }
+    
+    protected function handleLdapBindError($message, $code = null)
+    {
+        if ($code == '773') {
+            // The users password has expired. Redirect them.
+            abort(redirect('/password-reset'));
+        }
+    
+        $this->baseHandleLdapBindError($message, $code);
+    }
 }
 ```
