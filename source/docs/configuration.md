@@ -158,7 +158,7 @@ TLS_CACERT C:\OpenLDAP\sysconf\ca.pem
 TLS_REQCERT hard
 ```
 
-Linux Example:
+Linux / macOS Example:
 
 ```text
 TLS_CACERT /etc/ssl/certs/ca.pem

@@ -5,7 +5,7 @@ extends: _layouts.documentation
 section: content
 ---
 
-# Connections
+# Connecting
 
 - [Introduction](#introduction)
 - [Binding Users](#binding)

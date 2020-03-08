@@ -128,7 +128,7 @@ There are some prerequisites you must know for changing passwords:
 Requirement |
 --- |
 You must provide the correct users **old** password |
-You must provide a new password that abides by your **password policy**, such as: <ul><li>History</li><li>Complexity</li><li>Length</li></ul> |
+You must provide a new password that abides by your **password policy**, such as **history, complexity, and length** |
 You must set the `unicodepwd` attribute with an array containing **two** (2) values (old & new password) |
 
 Let's walk through an example:

@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=8ce9b1a82cb0eee589e9">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -329,6 +329,17 @@
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1 id="events">Events</h1>
 
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#registering-listeners">Registering Listeners</a></li>
+<li><a href="#model-events">Model Events</a></li>
+<li><a href="##wildcard-event-listeners">Wildcard Event Listeners</a></li>
+<li><a href="#determining-the-connection">Determining the event connection</a></li>
+<li><a href="#list-of-events">List of Events</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
 <p>LdapRecord events provide a method of listening for certain LDAP actions
 that are called and execute tasks for that specific event.</p>
 
@@ -337,16 +348,15 @@ that are called and execute tasks for that specific event.</p>
 Broadcasting &amp; Queuing omitted to remove extra dependencies
 that would be required with implementing those features.</p>
 
-<p>If you've utilized Laravel's events before, this will feel very familiar.</p>
+<p>If you've worked with Laravel's event system before, this will feel very familiar.</p>
 
 <h2 id="registering-listeners">Registering Listeners</h2>
 
 <p>Before we get to registering listeners, it's crucial to know that events throughout
 LdapRecord are fired irrespective of the current connection or provider in use.</p>
 
-<p>This means that when using multiple LDAP connections, the same events will be fired.</p>
-
-<p>This allows you to set listeners on events that occur for all LDAP connections you utilize.</p>
+<p>This means that when using multiple LDAP connections, the same events will be fired. This
+allows you to set listeners on events that occur for all LDAP connections you utilize.</p>
 
 <p>If you are required to determine which events are fired from alternate connections, see <a href="#determining-the-connection">below</a>.</p>
 
@@ -354,9 +364,7 @@ LdapRecord are fired irrespective of the current connection or provider in use.<
 
 <pre><code class="language-php">$dispatcher = \LdapRecord\Container::getEventDispatcher();
 
-$dispatcher-&gt;listen(Binding::class, function (Binding $event) {
-    // Do something with the Binding event information:
-
+$dispatcher-&gt;listen(Binding::class, function (Binding $event) {    
     $event-&gt;connection; // LdapRecord\Connections\Ldap instance
     $event-&gt;username; // 'jdoe@acme.org'
     $event-&gt;password; // 'super-secret'
@@ -364,9 +372,9 @@ $dispatcher-&gt;listen(Binding::class, function (Binding $event) {
 </code></pre>
 
 <p>The first argument is the event name you would like to listen for, and the
-second is either a closure or class name that should handle the event:</p>
+second is either a closure or class name that should handle the event.</p>
 
-<p>Using a class:</p>
+<h3>Using a Class Based Listener</h3>
 
 <blockquote>
   <p>When using just a class name, the class must contain a public <code>handle()</code> method that will handle the event.</p>
@@ -398,10 +406,9 @@ class BindingEventHandler
 
 <pre><code class="language-php">$dispatcher = \LdapRecord\Container::getEventDispatcher();
 
-$dispatcher-&gt;listen(Saving::class, function (Saving $event) {
-    // Do something with the Saving event information:
-
-    // Returns the model instance being saved eg. `LdapRecord\Models\Entry`
+$dispatcher-&gt;listen(Saving::class, function (Saving $event) {    
+    // Returns the model instance being saved,
+    // eg. `LdapRecord\Models\Entry`
     $event-&gt;getModel();
 });
 </code></pre>
@@ -418,8 +425,11 @@ $dispatcher = Container::getEventDispatcher();
 
 // Listen for all model events.
 $dispatcher-&gt;listen('LdapRecord\Models\Events\*', function ($eventName, array $data) {
-    echo $eventName; // Returns 'LdapRecord\Models\Events\Updating'
-    var_dump($data); // Returns [0] =&gt; (object) LdapRecord\Models\Events\Updating;
+    // Returns 'LdapRecord\Models\Events\Updating'
+    echo $eventName;
+
+    // Returns [0] =&gt; (object) LdapRecord\Models\Events\Updating;
+    var_dump($data);
 });
 
 $connection = Container::getDefaultConnection();
@@ -452,7 +462,7 @@ $dispatcher-&gt;listen(Creating::class, function ($event) {
 });
 </code></pre>
 
-<p>Another example with auth events:</p>
+<p>Example with authentication events:</p>
 
 <pre><code class="language-php">use LdapRecord\Container;
 use LdapRecord\Auth\Events\Binding;
@@ -476,40 +486,59 @@ $dispatcher-&gt;listen(Binding::class, function ($event) {
 to your configured LDAP server. Here is a list of all events that are fired:</p>
 
 <table>
-<thead>
-<tr>
-  <th>Event</th>
-  <th>Fired</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><code>LdapRecord\Auth\Events\Attempting</code></td>
-  <td>When any authentication attempt is called via: <br/></td>
-</tr>
-</tbody>
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Fired</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>LdapRecord\Auth\Events\Attempting</code></td>
+            <td>
+                When any authentication attempt is called via:
+                <ul><li><code>$connection-&gt;auth()-&gt;attempt()</code></li></ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Auth\Events\Passed</code></td>
+            <td>
+                When any authentication attempts pass via:
+                <ul><li><code>$connection-&gt;auth()-&gt;attempt()</code></li></ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Auth\Events\Failed</code> </td>
+            <td>
+                When any authentication attempts fail via:
+                <ul>
+                    <li><code>$connection-&gt;auth()-&gt;attempt()</code></li>
+                    <li><code>$connection-&gt;auth()-&gt;bind()</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Auth\Events\Binding</code> </td>
+            <td>
+                When any LDAP bind attempts occur via:
+                <ul>
+                    <li><code>$connection-&gt;auth()-&gt;attempt()</code></li>
+                    <li><code>$connection-&gt;auth()-&gt;bind()</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Auth\Events\Bound</code> </td>
+            <td>
+                When any LDAP bind attempts are successful via:
+                <ul>
+                    <li><code>$connection-&gt;auth()-&gt;attempt()</code></li>
+                    <li><code>$connection-&gt;auth()-&gt;bind()</code></li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
 </table>
-
-<ul><li>`$connection->auth()->attempt()`</li></ul>
-
-<p>| 
-<code>LdapRecord\Auth\Events\Passed</code> |  When any authentication attempts pass via: </br></p>
-
-<ul><li>`$connection->auth()->attempt()`</li></ul>
-
-<p>|
-<code>LdapRecord\Auth\Events\Failed</code> | When any authentication attempts fail via: <br/></p>
-
-<ul><li>`$connection->auth()->attempt()`</li><li>`$connection->auth()->bind()`</li></ul>
-
-<p>|
-<code>LdapRecord\Auth\Events\Binding</code> | When any LDAP bind attempts occur via: </br></p>
-
-<ul><li>`$connection->auth()->attempt()`</li><li>`$connection->auth()->bind()`</li></ul>
-
-<p><code>LdapRecord\Auth\Events\Bound</code> | When any LDAP bind attempts are successful via: </br></p>
-
-<ul><li>`$connection->auth()->attempt()`</li><li>`$connection->auth()->bind()`</li></ul>
 
 <h3>Model Events</h3>
 
@@ -518,58 +547,91 @@ to your configured LDAP server. Here is a list of all events that are fired:</p>
 <p>Here is a list of all events that are fired:</p>
 
 <table>
-<thead>
-<tr>
-  <th>Event</th>
-  <th>Fired</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><code>LdapRecord\Models\Events\Saving</code></td>
-  <td>When a model is in the process of being saved via: </br></td>
-</tr>
-</tbody>
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Fired</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>LdapRecord\Models\Events\Saving</code></td>
+            <td>
+                When a model is in the process of being saved via:
+                <ul>
+                    <li><code>$model-&gt;save()</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Models\Events\Saving</code></td>
+            <td>
+                When a model has been successfully saved via:
+                <ul>
+                    <li><code>$model-&gt;save()</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Models\Events\Creating</code></td>
+            <td>
+                When a model is being created via:
+                <ul>
+                    <li><code>$model-&gt;save()</code></li>
+                    <li><code>$model-&gt;create()</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Models\Events\Created</code></td>
+            <td>
+                When a model has been successfully created via:
+                <ul>
+                    <li><code>$model-&gt;save()</code></li>
+                    <li><code>$model-&gt;create()</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Models\Events\Updating</code></td>
+            <td>
+                When a model is being updated via:
+                <ul>
+                    <li><code>$model-&gt;save()</code></li>
+                    <li><code>$model-&gt;update()</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Models\Events\Updated</code></td>
+            <td>
+                When a model has been successfully updated via:
+                <ul>
+                    <li><code>$model-&gt;save()</code></li>
+                    <li><code>$model-&gt;update()</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Models\Events\Deleting</code></td>
+            <td>
+                When a model is being deleted via:
+                <ul>
+                    <li><code>$model-&gt;delete()</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>LdapRecord\Models\Events\Deleted</code></td>
+            <td>
+                When a model has been successfully deleted via:
+                <ul>
+                    <li><code>$model-&gt;delete()</code></li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
 </table>
-
-<ul><li>`$model->save()`</li></ul>
-
-<p>|
-<code>LdapRecord\Models\Events\Saved</code> | When a model has been successfully saved via: </br></p>
-
-<ul><li>`$model->save()`</li></ul>
-
-<p>|
-<code>LdapRecord\Models\Events\Creating</code> | When a model is being created via: </br></p>
-
-<ul><li>`$model->save()`</li><li>`$model->create()`</li></ul>
-
-<p>|
-<code>LdapRecord\Models\Events\Created</code> | When a model has been successfully created via: </br></p>
-
-<ul><li>`$model->save()`</li><li>`$model->create()`</li></ul>
-
-<p>|
-<code>LdapRecord\Models\Events\Updating</code> | When a model is being updated via: </br></p>
-
-<ul><li>`$model->save()`</li><li>`$model->update()`</li></ul>
-
-<p>|
-<code>LdapRecord\Models\Events\Updated</code> | When a model has been successfully updated via: </br></p>
-
-<ul><li>`$model->save()`</li><li>`$model->update()`</li></ul>
-
-<p>|
-<code>LdapRecord\Models\Events\Deleting</code> | When a model is being deleted via: </br></p>
-
-<ul><li>`$model->delete()`</li></ul>
-
-<p>|
-<code>LdapRecord\Models\Events\Deleted</code> | When a model has been successfully deleted via: </br></p>
-
-<ul><li>`$model->delete()`</li></ul>
-
-<p>|</p>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
