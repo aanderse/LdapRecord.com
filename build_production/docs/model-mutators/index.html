@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c6202057afb0273cde0b">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -357,7 +357,7 @@ you'll feel right at home.</p>
 
 <h3 id="defining-an-accessor">Defining An Accessor</h3>
 
-<p>For an example, lets say we are working with ActiveDirectory and we
+<p>For an example, lets say we are working with Active Directory and we
 want to encode the <code>thumbnailPhoto</code> attribute whenever we retrieve it
 from our <code>User</code> model.</p>
 
@@ -478,7 +478,7 @@ some attributes, we must tell LdapRecord what kind
 of format to use for proper conversion.</p>
 
 <p>For example, let's define a date mutator for the <code>accountexpires</code>
-attribute that exists on ActiveDirectory. To do so, we must set
+attribute that exists on Active Directory. To do so, we must set
 the <code>$dates</code> property to a key / value pair, where the key is
 the attribute that contains the timestamp and the value is
 the type of LDAP format to convert to and from:</p>
@@ -528,7 +528,7 @@ if ($user-&gt;accountexpires-&gt;isPast()) {
 <h5 id="ldap-date-type">LDAP Type</h5>
 
 <p>The <code>ldap</code> type is the most common format for LDAP timestamps -
-outside of ActiveDirectory. This format converts LDAP timestamps
+outside of Active Directory. This format converts LDAP timestamps
 in the format of <code>YYYYMMDDHHMMSST</code>. T is the time zone which
 is usually 'Z' (Zulu Time Zone = UTC/GMT).</p>
 
@@ -541,7 +541,7 @@ time zone which is usually 'Z' (Zulu Time Zone = UTC/GMT).</p>
 
 <h5 id="windows-int-date-type">Windows Integer Type</h5>
 
-<p>The <code>windows-int</code> type handles the 18-digit ActiveDirectory timestamp
+<p>The <code>windows-int</code> type handles the 18-digit Active Directory timestamp
 format, also named 'Windows NT time format', 'Win32 FILETIME or
 SYSTEMTIME' or NTFS file time. An example of this would be
 the <code>accountexpires</code> attribute that exists on users:</p>

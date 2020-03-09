@@ -209,7 +209,7 @@ public function test_index_works()
 
 As you can see, this is extremely effective for testing your LDAP query integrations.
 
-## Working with Relationships {##working-with-relationships}
+## Working with Relationships {#working-with-relationships}
 
 ### Has One
 
@@ -231,7 +231,7 @@ $manager = $user->manager()->first();
 ### Has Many
 
 Since some attributes are virtual in LDAP (such as the the `memberof` attribute on User
-objects in ActiveDirectory), you will have to populate some attributes manually
+objects in Active Directory), you will have to populate some attributes manually
 to mimic these virtual attributes. Let's walk through an example.
 
 In our application, we want to test that a user is a member of a particular group.

@@ -85,7 +85,7 @@ Schema::create('users', function (Blueprint $table) {
 
 Once we've changed the name of the column, we'll jump into the `config/auth.php` configuration and modify 
 our LDAP user providers `sync_attributes` to synchronize this changed column. In this example, we will
-use the users `sAMAccountName` as their username which is common in ActiveDirectory environments:
+use the users `sAMAccountName` as their username which is common in Active Directory environments:
 
 ```php
 // config/auth.php

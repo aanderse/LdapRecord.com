@@ -22,7 +22,7 @@ section: content
 Once you've configured your connections in your `config/ldap.php` file,
 you're ready to start running queries and operations on your LDAP server.
 
-If you're connecting to an ActiveDirectory or OpenLDAP server, you may utilize the
+If you're connecting to an Active Directory or OpenLDAP server, you may utilize the
 [built-in models](/docs/models#predefined-models) to get up and running right away.
 
 If you would like to create your own models, you can generate one via the `make:ldap-model` command:
@@ -58,7 +58,7 @@ class User extends Model
 ```
 
 > You may want to extend from the `LdapRecord\Models\ActiveDirectory\Entry` class to
-> utilize some helper methods that are limited to the use of ActiveDirectory.
+> utilize some helper methods that are limited to the use of Active Directory.
 > </br></br>
 > This can save you time from having to implement functionality manually.
 
@@ -116,7 +116,7 @@ $user->company = 'Acme';
 $user->save();
 ```
 
-> If you need help understanding user creation and management, take a look at the ActiveDirectory 
+> If you need help understanding user creation and management, take a look at the Active Directory 
 > [user management tutorial](/docs/tutorials/activedirectory/user-management).
 
 ### Scopes {#scopes}

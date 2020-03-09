@@ -1,11 +1,11 @@
 ---
-title: User Management (ActiveDirectory)
+title: User Management (Active Directory)
 description: Managing users with LdapRecord
 extends: _layouts.documentation
 section: content
 ---
 
-# User Management (ActiveDirectory)
+# User Management (Active Directory)
 
 - [Creation](#creation)
 - [Setting Passwords](#setting-passwords)
@@ -17,7 +17,7 @@ section: content
 
 ## Creation {#creation}
 
-Let's walk through the basics of user creation for ActiveDirectory. There
+Let's walk through the basics of user creation for Active Directory. There
 are some prerequisites you must know prior to creation:
 
 Requirement |
@@ -200,7 +200,7 @@ try {
 
 ### User Account Control {#user-account-control}
 
-User account control is an integer that contains flags to control the behaviour of an ActiveDirectory user account.
+User account control is an integer that contains flags to control the behaviour of an Active Directory user account.
 
 You can manipulate this manually by simply setting the `userAccountControl` property on an existing user using
 the raw integer value, or you can use the account control builder `LdapRecord\Models\Attributes\AccountControl`:
@@ -299,7 +299,7 @@ if ($uac->has(AccountControl::LOCKOUT)) {
 
 ### Password Policy Errors {#password-policy-errors}
 
-ActiveDirectory will return diagnostic error codes when a password modification fails.
+Active Directory will return diagnostic error codes when a password modification fails.
 
 To determine the cause, you can check this diagnostic message to see if it contains any of the following codes:
 

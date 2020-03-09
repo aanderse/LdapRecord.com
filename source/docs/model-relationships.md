@@ -350,9 +350,9 @@ $user->groups()->detachAll();
 
 To check if a model exists inside of a relationship, use the `exists()` relationship method.
 
-> If you're using ActiveDirectory and are simply looking to check if a user is
+> If you're using Active Directory and are simply looking to check if a user is
 > inside of a particular group, utilize the `Model::whereMemberOf` method
-> that is available on all ActiveDirectory models to locate users
+> that is available on all Active Directory models to locate users
 > whom are members of that group.
 
 For example, lets determine if a `User` is a member of a `Group`:

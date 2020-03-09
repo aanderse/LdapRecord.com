@@ -40,14 +40,14 @@ Models allow you query your directory as well as create, update, and delete reco
 
 Before getting started, ensure you've added at least one connection to the [container](/docs/connections#container).
 
-By default, there are models included with LdapRecord for popular LDAP directories (namely ActiveDirectory &
+By default, there are models included with LdapRecord for popular LDAP directories (namely Active Directory &
 OpenLDAP) so you can get up and running as fast as possible. More on this [below](#predefined-models).
 
 ### Defining Models {#defining-models}
 
 To get started, you must create a new class that represents the LDAP object you would like to query.
 
-For example, let's create a model that represents ActiveDirectory users:
+For example, let's create a model that represents Active Directory users:
 
 ```php
 <?php
@@ -81,9 +81,9 @@ You may extend these built-in models and add your own methods & functionality, a
 
 Use the `LdapRecord\Models\Entry` model for retrieving all objects from your directory - regardless of type.
 
-#### ActiveDirectory Models
+#### Active Directory Models
 
-Each below model references a type of object in ActiveDirectory.
+Each below model references a type of object in Active Directory.
 
 Model |
 --- | 
@@ -434,7 +434,7 @@ created successfully in your LDAP directory. LdapRecord will always attempt to g
 Distinguished Name for models that do not have one upon `save`. In addition, some LDAP
 objects require **more** attributes to be set for successful creation.
 
-For example, to create a `User` object in ActiveDirectory, the `cn` (Common Name) attribute is required.
+For example, to create a `User` object in Active Directory, the `cn` (Common Name) attribute is required.
 If you do not set this attribute, an exception will be thrown upon saving your LDAP model. For another
 example, `OrganizationlUnit`'s must have the `ou` attribute set.
 
@@ -484,7 +484,7 @@ public function getCreatableRdn()
 
 You may override this method to allow your models Distinguished Name's to be dynamically generated
 rather than creating them yourself manually. For example, here is how we would set the Relative
-Distinguished Name (RDN) for an ActiveDirectory `OrganizationalUnit` model:
+Distinguished Name (RDN) for an Active Directory `OrganizationalUnit` model:
 
 ```php
 public function getCreatableRdn()
@@ -1053,14 +1053,14 @@ echo json_encode($user);
 
 Depending on the type of LDAP directory and model you are working with, you may need
 to convert some attributes to a string before it can be properly serialized.
-For example, if you your model is from ActiveDirectory, you will need to
+For example, if you your model is from Active Directory, you will need to
 convert the `objectguid` property to a string since it is in binary,
 otherwise `json_encode()` will throw an exception.
 
 This can be done by adding a `convertAttributesForJson()` method to your model: 
 
 > By default, the `objectguid` and `objectsid` attributes are
-> converted for you when using the built-in ActiveDirectory models.
+> converted for you when using the built-in Active Directory models.
 
 ```php
 <?php

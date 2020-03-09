@@ -7,7 +7,7 @@
         <meta name="description" content="Managing users with LdapRecord">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="User Management (ActiveDirectory) | LdapRecord"/>
+        <meta property="og:title" content="User Management (Active Directory) | LdapRecord"/>
         <meta property="og:description" content="Managing users with LdapRecord"/>
         <meta property="og:url" content="https://ldaprecord.com/docs/tutorials/activedirectory/user-management"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | User Management (ActiveDirectory)</title>
+        <title>LdapRecord | User Management (Active Directory)</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c6202057afb0273cde0b">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -327,7 +327,7 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>User Management (ActiveDirectory)</h1>
+                <h1>User Management (Active Directory)</h1>
 
 <ul>
 <li><a href="#creation">Creation</a></li>
@@ -341,7 +341,7 @@
 
 <h2 id="creation">Creation</h2>
 
-<p>Let's walk through the basics of user creation for ActiveDirectory. There
+<p>Let's walk through the basics of user creation for Active Directory. There
 are some prerequisites you must know prior to creation:</p>
 
 <table>
@@ -555,7 +555,7 @@ try {
 
 <h3 id="user-account-control">User Account Control</h3>
 
-<p>User account control is an integer that contains flags to control the behaviour of an ActiveDirectory user account.</p>
+<p>User account control is an integer that contains flags to control the behaviour of an Active Directory user account.</p>
 
 <p>You can manipulate this manually by simply setting the <code>userAccountControl</code> property on an existing user using
 the raw integer value, or you can use the account control builder <code>LdapRecord\Models\Attributes\AccountControl</code>:</p>
@@ -704,7 +704,7 @@ if ($uac-&gt;has(AccountControl::LOCKOUT)) {
 
 <h3 id="password-policy-errors">Password Policy Errors</h3>
 
-<p>ActiveDirectory will return diagnostic error codes when a password modification fails.</p>
+<p>Active Directory will return diagnostic error codes when a password modification fails.</p>
 
 <p>To determine the cause, you can check this diagnostic message to see if it contains any of the following codes:</p>
 

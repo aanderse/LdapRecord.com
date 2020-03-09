@@ -20,5 +20,5 @@ development with PHP a fun and exciting experience - without costing developers 
 
 I must also mention [Chad Sikorra](https://github.com/ChadSikorra) and his library [LdapTools](https://github.com/ldaptools/ldaptools).
 His open source work with LDAP on GitHub and Stackoverflow has helped me tremendously in
-understanding nuances in the LDAP protocol and ActiveDirectory itself. Without his
+understanding nuances in the LDAP protocol and Active Directory itself. Without his
 advanced expertise and knowledge, Adldap2 and LdapRecord would not be here today.

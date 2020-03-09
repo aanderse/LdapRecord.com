@@ -42,7 +42,7 @@ if ($connection->auth()->attempt('cn=john doe,dc=acme,dc=org', 'p@ssw0rd', $stay
 ```
 
 As you can see from the above, the first parameter of the `attempt()` method is the users Distinguished Name.
-If you're running ActiveDirectory, you can use the users `userPrincipalName` instead, which (in the case 
+If you're running Active Directory, you can use the users `userPrincipalName` instead, which (in the case 
 above) would be in the format of `jdoe@acme.org`.
 
 You may have also noticed we added a third parameter named `$stayAuthenticated = true`. This means, that throughout the 
@@ -55,7 +55,7 @@ No user wants to type in their full Distinguished Name to login to an applicatio
 cumbersome, and will likely change over the years due to IT administrators moving
 objects in the LDAP directory for organization purposes.
 
-However, LDAP only supports binding (authenticating) users using their Distinguished Name (unless you're using ActiveDirectory).
+However, LDAP only supports binding (authenticating) users using their Distinguished Name (unless you're using Active Directory).
 How do we get around this limitation? Well, we can first connect to our LDAP directory and then retrieve their account
 information - including their Distinguished Name. Let's walk through this.
 

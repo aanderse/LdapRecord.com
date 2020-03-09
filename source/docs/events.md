@@ -10,7 +10,7 @@ section: content
 - [Introduction](#introduction)
 - [Registering Listeners](#registering-listeners)
 - [Model Events](#model-events)
-- [Wildcard Event Listeners](##wildcard-event-listeners)
+- [Wildcard Event Listeners](#wildcard-event-listeners)
 - [Determining the event connection](#determining-the-connection)
 - [List of Events](#list-of-events)
 

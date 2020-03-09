@@ -18,31 +18,31 @@ Utilizing LdapRecord's built in models allow you to easily query specific types 
 
 > The examples below assume you have created a `Connection` and have added them into the [Container](/docs/connections#container).
 
-### ActiveDirectory
+### Active Directory
 
 #### Generic Queries
 
 ```php
-// All ActiveDirectory objects:
+// All Active Directory objects:
 // Note: We use 'paginate' here so over 1000 results can be returned.
 $objects = \LdapRecord\Models\ActiveDirectory\Entry::paginate();
 
-// All ActiveDirectory users:
+// All Active Directory users:
 $users = \LdapRecord\Models\ActiveDirectory\User::get();
 
-// All ActiveDirectory contacts:
+// All Active Directory contacts:
 $contacts = \LdapRecord\Models\ActiveDirectory\Contact::get();
 
-// All ActiveDirectory groups:
+// All Active Directory groups:
 $groups = \LdapRecord\Models\ActiveDirectory\Group::get();
 
-// All ActiveDirectory organizational units:
+// All Active Directory organizational units:
 $ous = \LdapRecord\Models\ActiveDirectory\OrganizationalUnit::get();
 
-// All ActiveDirectory printers:
+// All Active Directory printers:
 $printers = \LdapRecord\Models\ActiveDirectory\Printer::get();
 
-// All ActiveDirectory computers:
+// All Active Directory computers:
 $computers = \LdapRecord\Models\ActiveDirectory\Computer::get();
 
 // All foreign security principals:
@@ -90,14 +90,14 @@ $connection = new Connection(['...']);
 $objects = $connection->query()->paginate();
 ```
 
-### ActiveDirectory
+### Active Directory
 
 ```php
 use LdapRecord\Connection;
 
 $connection = new Connection(['...']);
 
-// All ActiveDirectory Users:
+// All Active Directory Users:
 $users = $connection->query()->where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'person'],
@@ -105,7 +105,7 @@ $users = $connection->query()->where([
     ['objectclass', '=', 'user'],
 ])->get();
 
-// All ActiveDirectory contacts:
+// All Active Directory contacts:
 $contacts = $connection->query()->where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'person'],
@@ -113,24 +113,24 @@ $contacts = $connection->query()->where([
     ['objectclass', '=', 'contact'],
 ])->get();
 
-// All ActiveDirectory groups:
+// All Active Directory groups:
 $groups = $connection->query()->where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'group'],
 ])->get();
 
-// All ActiveDirectory organizational units:
+// All Active Directory organizational units:
 $ous = $connection->query()->where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'organizationalunit'],
 ])->get();
 
-// All ActiveDirectory printers:
+// All Active Directory printers:
 $printers = $connection->query()
     ->where('objectclass', '=', 'printqueue')
     ->get();
 
-// All ActiveDirectory computers:
+// All Active Directory computers:
 $computers = $connection->query()->where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'person'],

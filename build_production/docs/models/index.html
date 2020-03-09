@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c6202057afb0273cde0b">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -376,14 +376,14 @@ Each "Model" represents a type of LDAP object that resides in your directory.</p
 
 <p>Before getting started, ensure you've added at least one connection to the <a href="/docs/connections#container">container</a>.</p>
 
-<p>By default, there are models included with LdapRecord for popular LDAP directories (namely ActiveDirectory &amp;
+<p>By default, there are models included with LdapRecord for popular LDAP directories (namely Active Directory &amp;
 OpenLDAP) so you can get up and running as fast as possible. More on this <a href="#predefined-models">below</a>.</p>
 
 <h3 id="defining-models">Defining Models</h3>
 
 <p>To get started, you must create a new class that represents the LDAP object you would like to query.</p>
 
-<p>For example, let's create a model that represents ActiveDirectory users:</p>
+<p>For example, let's create a model that represents Active Directory users:</p>
 
 <pre><code class="language-php">&lt;?php
 
@@ -418,9 +418,9 @@ class User extends Model
 
 <p>Use the <code>LdapRecord\Models\Entry</code> model for retrieving all objects from your directory - regardless of type.</p>
 
-<h4>ActiveDirectory Models</h4>
+<h4>Active Directory Models</h4>
 
-<p>Each below model references a type of object in ActiveDirectory.</p>
+<p>Each below model references a type of object in Active Directory.</p>
 
 <table>
 <thead>
@@ -835,7 +835,7 @@ created successfully in your LDAP directory. LdapRecord will always attempt to g
 Distinguished Name for models that do not have one upon <code>save</code>. In addition, some LDAP
 objects require <strong>more</strong> attributes to be set for successful creation.</p>
 
-<p>For example, to create a <code>User</code> object in ActiveDirectory, the <code>cn</code> (Common Name) attribute is required.
+<p>For example, to create a <code>User</code> object in Active Directory, the <code>cn</code> (Common Name) attribute is required.
 If you do not set this attribute, an exception will be thrown upon saving your LDAP model. For another
 example, <code>OrganizationlUnit</code>'s must have the <code>ou</code> attribute set.</p>
 
@@ -883,7 +883,7 @@ public function getCreatableRdn()
 
 <p>You may override this method to allow your models Distinguished Name's to be dynamically generated
 rather than creating them yourself manually. For example, here is how we would set the Relative
-Distinguished Name (RDN) for an ActiveDirectory <code>OrganizationalUnit</code> model:</p>
+Distinguished Name (RDN) for an Active Directory <code>OrganizationalUnit</code> model:</p>
 
 <pre><code class="language-php">public function getCreatableRdn()
 {
@@ -1425,7 +1425,7 @@ echo json_encode($user);
 
 <p>Depending on the type of LDAP directory and model you are working with, you may need
 to convert some attributes to a string before it can be properly serialized.
-For example, if you your model is from ActiveDirectory, you will need to
+For example, if you your model is from Active Directory, you will need to
 convert the <code>objectguid</code> property to a string since it is in binary,
 otherwise <code>json_encode()</code> will throw an exception.</p>
 
@@ -1433,7 +1433,7 @@ otherwise <code>json_encode()</code> will throw an exception.</p>
 
 <blockquote>
   <p>By default, the <code>objectguid</code> and <code>objectsid</code> attributes are
-  converted for you when using the built-in ActiveDirectory models.</p>
+  converted for you when using the built-in Active Directory models.</p>
 </blockquote>
 
 <pre><code class="language-php">&lt;?php

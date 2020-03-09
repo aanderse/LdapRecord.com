@@ -13,7 +13,7 @@ Requirements |
 --- |
 PHP >= 7.2 |
 PHP LDAP extension enabled |
-An LDAP server (ActiveDirectory, OpenLDAP, FreeIPA etc.) |
+An LDAP server (Active Directory, OpenLDAP, FreeIPA etc.) |
 
 LdapRecord uses [Composer](https://getcomposer.org) for installation.
 

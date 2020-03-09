@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c6202057afb0273cde0b">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -487,7 +487,7 @@ inside of that OU and assert that we only see the proper user:</p>
 
 <p>As you can see, this is extremely effective for testing your LDAP query integrations.</p>
 
-<h2>Working with Relationships {##working-with-relationships}</h2>
+<h2 id="working-with-relationships">Working with Relationships</h2>
 
 <h3>Has One</h3>
 
@@ -507,7 +507,7 @@ $user-&gt;manager()-&gt;attach($manager);
 <h3>Has Many</h3>
 
 <p>Since some attributes are virtual in LDAP (such as the the <code>memberof</code> attribute on User
-objects in ActiveDirectory), you will have to populate some attributes manually
+objects in Active Directory), you will have to populate some attributes manually
 to mimic these virtual attributes. Let's walk through an example.</p>
 
 <p>In our application, we want to test that a user is a member of a particular group.</p>

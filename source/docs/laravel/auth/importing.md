@@ -139,7 +139,7 @@ By default this is enabled, regardless if `logging` is disabled in your `config/
 
 ### Delete
 
-> This option is only available on ActiveDirectory models.
+> This option is only available on Active Directory models.
 
 The --delete (or -d) option allows you to soft-delete deactivated LDAP users. No users
 will be deleted if your `User` Eloquent model does not have soft-deletes enabled.
@@ -150,7 +150,7 @@ php artisan ldap:import ldap --delete
 
 ### Restore
 
-> This option is only available on ActiveDirectory models.
+> This option is only available on Active Directory models.
 
 The --restore (or -r) option allows you to restore soft-deleted re-activated LDAP users.
 

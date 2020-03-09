@@ -27,7 +27,7 @@ you'll feel right at home.
 
 ### Defining An Accessor {#defining-an-accessor}
 
-For an example, lets say we are working with ActiveDirectory and we
+For an example, lets say we are working with Active Directory and we
 want to encode the `thumbnailPhoto` attribute whenever we retrieve it
 from our `User` model.
 
@@ -148,7 +148,7 @@ some attributes, we must tell LdapRecord what kind
 of format to use for proper conversion.
 
 For example, let's define a date mutator for the `accountexpires`
-attribute that exists on ActiveDirectory. To do so, we must set
+attribute that exists on Active Directory. To do so, we must set
 the `$dates` property to a key / value pair, where the key is
 the attribute that contains the timestamp and the value is
 the type of LDAP format to convert to and from:
@@ -199,7 +199,7 @@ Currently, there are 3 built-in date mutator types. They are:
 ##### LDAP Type {#ldap-date-type}
 
 The `ldap` type is the most common format for LDAP timestamps -
-outside of ActiveDirectory. This format converts LDAP timestamps
+outside of Active Directory. This format converts LDAP timestamps
 in the format of `YYYYMMDDHHMMSST`. T is the time zone which
 is usually 'Z' (Zulu Time Zone = UTC/GMT).
 
@@ -212,7 +212,7 @@ time zone which is usually 'Z' (Zulu Time Zone = UTC/GMT).
 
 ##### Windows Integer Type {#windows-int-date-type}
 
-The `windows-int` type handles the 18-digit ActiveDirectory timestamp
+The `windows-int` type handles the 18-digit Active Directory timestamp
 format, also named 'Windows NT time format', 'Win32 FILETIME or
 SYSTEMTIME' or NTFS file time. An example of this would be
 the `accountexpires` attribute that exists on users:

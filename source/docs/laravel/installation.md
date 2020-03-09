@@ -14,7 +14,7 @@ Requirements |
 Laravel >= 5.6 |
 PHP >= 7.2 |
 PHP LDAP extension enabled |
-An LDAP server (ActiveDirectory, OpenLDAP, FreeIPA etc.) |
+An LDAP server (Active Directory, OpenLDAP, FreeIPA etc.) |
 
 Require LdapRecord-Laravel via [composer](https://getcomposer.org/):
 

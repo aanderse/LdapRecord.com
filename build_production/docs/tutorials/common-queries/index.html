@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c6202057afb0273cde0b">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -344,30 +344,30 @@
   <p>The examples below assume you have created a <code>Connection</code> and have added them into the <a href="/docs/connections#container">Container</a>.</p>
 </blockquote>
 
-<h3>ActiveDirectory</h3>
+<h3>Active Directory</h3>
 
 <h4>Generic Queries</h4>
 
-<pre><code class="language-php">// All ActiveDirectory objects:
+<pre><code class="language-php">// All Active Directory objects:
 // Note: We use 'paginate' here so over 1000 results can be returned.
 $objects = \LdapRecord\Models\ActiveDirectory\Entry::paginate();
 
-// All ActiveDirectory users:
+// All Active Directory users:
 $users = \LdapRecord\Models\ActiveDirectory\User::get();
 
-// All ActiveDirectory contacts:
+// All Active Directory contacts:
 $contacts = \LdapRecord\Models\ActiveDirectory\Contact::get();
 
-// All ActiveDirectory groups:
+// All Active Directory groups:
 $groups = \LdapRecord\Models\ActiveDirectory\Group::get();
 
-// All ActiveDirectory organizational units:
+// All Active Directory organizational units:
 $ous = \LdapRecord\Models\ActiveDirectory\OrganizationalUnit::get();
 
-// All ActiveDirectory printers:
+// All Active Directory printers:
 $printers = \LdapRecord\Models\ActiveDirectory\Printer::get();
 
-// All ActiveDirectory computers:
+// All Active Directory computers:
 $computers = \LdapRecord\Models\ActiveDirectory\Computer::get();
 
 // All foreign security principals:
@@ -412,13 +412,13 @@ $connection = new Connection(['...']);
 $objects = $connection-&gt;query()-&gt;paginate();
 </code></pre>
 
-<h3>ActiveDirectory</h3>
+<h3>Active Directory</h3>
 
 <pre><code class="language-php">use LdapRecord\Connection;
 
 $connection = new Connection(['...']);
 
-// All ActiveDirectory Users:
+// All Active Directory Users:
 $users = $connection-&gt;query()-&gt;where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'person'],
@@ -426,7 +426,7 @@ $users = $connection-&gt;query()-&gt;where([
     ['objectclass', '=', 'user'],
 ])-&gt;get();
 
-// All ActiveDirectory contacts:
+// All Active Directory contacts:
 $contacts = $connection-&gt;query()-&gt;where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'person'],
@@ -434,24 +434,24 @@ $contacts = $connection-&gt;query()-&gt;where([
     ['objectclass', '=', 'contact'],
 ])-&gt;get();
 
-// All ActiveDirectory groups:
+// All Active Directory groups:
 $groups = $connection-&gt;query()-&gt;where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'group'],
 ])-&gt;get();
 
-// All ActiveDirectory organizational units:
+// All Active Directory organizational units:
 $ous = $connection-&gt;query()-&gt;where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'organizationalunit'],
 ])-&gt;get();
 
-// All ActiveDirectory printers:
+// All Active Directory printers:
 $printers = $connection-&gt;query()
     -&gt;where('objectclass', '=', 'printqueue')
     -&gt;get();
 
-// All ActiveDirectory computers:
+// All Active Directory computers:
 $computers = $connection-&gt;query()-&gt;where([
     ['objectclass', '=', 'top'],
     ['objectclass', '=', 'person'],

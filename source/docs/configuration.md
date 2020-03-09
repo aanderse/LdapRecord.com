@@ -88,7 +88,7 @@ To connect to your LDAP server, a username and password is required to be able t
 
 Additional Tips |
 --- |
-The `username` option must be a users [Distinguished Name](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names). If you are connecting to an ActiveDirectory server, you may use a users [userPrincipalName](https://docs.microsoft.com/en-us/windows/win32/ad/naming-properties#userprincipalname) instead. |
+The `username` option must be a users [Distinguished Name](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names). If you are connecting to an Active Directory server, you may use a users [userPrincipalName](https://docs.microsoft.com/en-us/windows/win32/ad/naming-properties#userprincipalname) instead. |
 To run administration level operations, such as resetting passwords, this account **must** have the permissions to do so on your directory. |
 
 ### Port {#port}
@@ -108,7 +108,7 @@ It is recommended to use one of these options if you have the ability to. This e
 Requirements & Tips |
 --- |
 Only **one** can be set to `true`. You must chose either or. |
-You **must** enable SSL or TLS to set / change / reset passwords in ActiveDirectory. |
+You **must** enable SSL or TLS to set / change / reset passwords in Active Directory. |
 TLS is recommended over SSL. SSL is labelled as a deprecated mechanism for securely running LDAP operations. |
 
 If you're having connectivity issues over SSL or TLS, you may have to
@@ -180,7 +180,7 @@ Must be an integer and can either be `2` or `3`.
 
 ### Follow Referrals {#follow-referrals}
 
-The follow referrals option is a boolean to tell ActiveDirectory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.
+The follow referrals option is a boolean to tell Active Directory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.
 
 This option is defaulted to false.
 
