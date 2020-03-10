@@ -209,6 +209,92 @@ protected $middlewareGroups = [
 > A user may successfully authenticate against your LDAP server when visiting your site, but depending
 > on your rules, may not be imported or logged in.
 
+### SSO Domain Verification
+
+To prevent security issues using multiple-domain authentication using the `WindowsAuthenticate` middleware,
+domain verification is performed on the authenticating user by checking if their domain name is contained
+inside of the users distinuished name that is retrieved from each of your configured LDAP guards.
+
+To describe this issue further: The `WindowsAuthenticate` middleware retrieves all of your configured
+authentication guards inside of your `config/auth.php` file, determines which one is using the `ldap`
+driver, and then attempts to locate the authenticating users from **each connection**.
+
+Since there is the possibility of users having the same `sAMAccountName` on two seperate domains,
+LdapRecord must verify that the user retrieved from your domain is in-fact the user who
+is connecting to your Laravel application via Single-Sign-On.
+
+For example, if a user visits your Laravel application with the username of:
+
+```text
+ACME\sbauman
+```
+
+And LdapRecord locates a user with the distinguished name of
+
+```text
+cn=sbauman,dc=local,dc=com
+```
+
+They will be denied authentication, as the authenticating user has a domain of `ACME`,
+but it is not contained inside of their distinguished name.
+
+Using the same example, if the users distinguished name returns:
+
+```text
+cn=sbauman,dc=acme,dc=com
+```
+
+Then they will be allowed to authenticate, as their `ACME` domain is contained inside of their distinguished name.
+
+If you would like to disable this check, you must create your own middleware, and override the `userIsApartOfDomain` method:
+
+> **Important**: This is a security issue if you use multi-domain authentication and disable this check.
+> If you only connect to one domain inside your application, this is not a security issue.
+>
+> You have been warned.
+
+```php
+// app/Http/Middleware/WindowsAuthenticate.php
+
+namespace App\Http\Middleware;
+
+use LdapRecord\Models\Model;
+use LdapRecord\Laravel\Middleware\WindowsAuthenticate as BaseWindowsAuthenticate;
+
+class WindowsAuthenticate extends BaseWindowsAuthenticate
+{
+    protected function userIsApartOfDomain(Model $user, $domain)
+    {
+        return true;
+    }
+}
+```
+
+Once you've created this middleware, add it into your `web` middleware stack:
+
+```php
+// app/Http/Kernel.php
+
+// ...
+
+    /**
+     * The application's route middleware groups.
+     *
+     * @var array
+     */
+    protected $middlewareGroups = [
+        'web' => [
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            // \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\WindowsAuthenticate::class,
+        ],
+```
+
 ## Displaying LDAP Error Messages {#displaying-ldap-error-messages}
 
 When a user fails LDAP authentication due to their password / account expiring, account
