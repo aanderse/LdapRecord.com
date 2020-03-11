@@ -588,7 +588,10 @@ helpful error messages to users upon failing authentication.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-php">// ...
+<pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
+
+// ...
+
 use LdapRecord\Laravel\Auth\ListensForLdapBindFailure;
 
 class LoginController extends Controller
@@ -602,7 +605,10 @@ class LoginController extends Controller
 <code>App\Http\Controllers\Auth</code> namespace</strong>. If you have changed the location of your <code>LoginController</code>,
 you must modify the constructor and add the following method call to register the LDAP listener:</p>
 
-<pre><code class="language-php">// ...
+<pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
+
+// ...
+
 use LdapRecord\Laravel\Auth\ListensForLdapBindFailure;
 
 class LoginController extends Controller
@@ -634,7 +640,10 @@ behaviour, you will need to override the method <code>handleLdapBindError</code>
 
 <pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
 
-class LoginController extends Controller {
+// ...
+
+class LoginController extends Controller
+{
     // ...
 
     use ListensForLdapBindFailure {

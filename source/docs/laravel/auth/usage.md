@@ -314,7 +314,10 @@ LdapRecord\Laravel\Auth\ListensForLdapBindFailure
 Example:
 
 ```php
+// app/Http/Controllers/Auth/LoginController.php
+
 // ...
+
 use LdapRecord\Laravel\Auth\ListensForLdapBindFailure;
 
 class LoginController extends Controller
@@ -329,7 +332,10 @@ class LoginController extends Controller
 you must modify the constructor and add the following method call to register the LDAP listener:
 
 ```php
+// app/Http/Controllers/Auth/LoginController.php
+
 // ...
+
 use LdapRecord\Laravel\Auth\ListensForLdapBindFailure;
 
 class LoginController extends Controller
@@ -360,7 +366,10 @@ This is useful for checking for specific Active Directory response codes and ret
 ```php
 // app/Http/Controllers/Auth/LoginController.php
 
-class LoginController extends Controller {
+// ...
+
+class LoginController extends Controller
+{
     // ...
 
     use ListensForLdapBindFailure {
