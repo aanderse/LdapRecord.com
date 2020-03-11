@@ -252,10 +252,9 @@ component is done in a **case-insensitive** manor.
 
 If you would like to disable this check, you must create your own middleware, and override the `userIsApartOfDomain` method:
 
-> **Important**: This is a security issue if you use multi-domain authentication and disable this check.
-> If you only connect to one domain inside your application, this is not a security issue.
->
-> You have been warned.
+> **Important**: This is a security issue if you use multi-domain authentication and
+> disable this check. If you only connect to one domain inside your application,
+> this is not a security issue. You have been warned.
 
 ```php
 // app/Http/Middleware/WindowsAuthenticate.php

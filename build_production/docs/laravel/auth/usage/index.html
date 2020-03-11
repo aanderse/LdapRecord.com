@@ -529,10 +529,9 @@ component is done in a <strong>case-insensitive</strong> manor.</p>
 <p>If you would like to disable this check, you must create your own middleware, and override the <code>userIsApartOfDomain</code> method:</p>
 
 <blockquote>
-  <p><strong>Important</strong>: This is a security issue if you use multi-domain authentication and disable this check.
-  If you only connect to one domain inside your application, this is not a security issue.</p>
-  
-  <p>You have been warned.</p>
+  <p><strong>Important</strong>: This is a security issue if you use multi-domain authentication and
+  disable this check. If you only connect to one domain inside your application,
+  this is not a security issue. You have been warned.</p>
 </blockquote>
 
 <pre><code class="language-php">// app/Http/Middleware/WindowsAuthenticate.php
