@@ -213,13 +213,15 @@ protected $middlewareGroups = [
 
 To prevent security issues using multiple-domain authentication using the `WindowsAuthenticate` middleware,
 domain verification is performed on the authenticating user by checking if their domain name is contained
-inside of the users distinuished name that is retrieved from each of your configured LDAP guards.
+inside of the users distinguished name that is retrieved from each of your configured LDAP guards.
+
+> Only 'Domain Components' are checked in the users distinguished name. More on this below.
 
 To describe this issue further: The `WindowsAuthenticate` middleware retrieves all of your configured
 authentication guards inside of your `config/auth.php` file, determines which one is using the `ldap`
 driver, and then attempts to locate the authenticating users from **each connection**.
 
-Since there is the possibility of users having the same `sAMAccountName` on two seperate domains,
+Since there is the possibility of users having the same `sAMAccountName` on two separate domains,
 LdapRecord must verify that the user retrieved from your domain is in-fact the user who
 is connecting to your Laravel application via Single-Sign-On.
 
@@ -232,19 +234,21 @@ ACME\sbauman
 And LdapRecord locates a user with the distinguished name of
 
 ```text
-cn=sbauman,dc=local,dc=com
+cn=sbauman,ou=users,dc=local,dc=com
 ```
 
 They will be denied authentication, as the authenticating user has a domain of `ACME`,
-but it is not contained inside of their distinguished name.
+but it is not contained inside of their distinguished name domain components (dc).
 
 Using the same example, if the users distinguished name returns:
 
 ```text
-cn=sbauman,dc=acme,dc=com
+cn=sbauman,ou=users,dc=acme,dc=com
 ```
 
-Then they will be allowed to authenticate, as their `ACME` domain is contained inside of their distinguished name.
+Then they will be allowed to authenticate, as their `ACME` domain is contained inside of
+their distinguished name domain components (`dc=acme`). Comparison against each domain
+component is done in a **case-insensitive** manor.
 
 If you would like to disable this check, you must create your own middleware, and override the `userIsApartOfDomain` method:
 
