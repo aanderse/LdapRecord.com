@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=c6202057afb0273cde0b">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -380,14 +380,18 @@ class TestLdapAuthentication extends TestCase
 }
 </code></pre>
 
-<p>Let's deconstruct what's going on here.</p>
+<p>Let's deconstruct what's going on here step by step.</p>
+
+<hr />
 
 <pre><code class="language-php">$fake = DirectoryEmulator::setup('default');
 </code></pre>
 
 <p>This first line creates a new Directory Emulator for our LDAP connection named <code>default</code> inside
 of our <code>config/ldap.php</code> file. It returns a fake LDAP connection that we can use to indicate
-that the user we insert will successfully pass LDAP authentication:</p>
+that the user we create in this fake directory will successfully pass LDAP authentication.</p>
+
+<hr />
 
 <pre><code class="language-php">$user = User::create([
     'mail' =&gt; $this-&gt;faker-&gt;email,
@@ -396,16 +400,26 @@ that the user we insert will successfully pass LDAP authentication:</p>
 ]);
 </code></pre>
 
-<p>On the second line, we're creating a fake LDAP user who will be signing into our application.
+<p>On the second line, we're creating our fake LDAP user who will be signing into our application.
 You'll notice that we assign the attributes that are inside of our <code>sync_attributes</code>
 specified inside of our <code>config/auth.php</code> file, as well as the users <code>objectguid</code>.</p>
+
+<blockquote>
+  <p>If you're using OpenLDAP, the <code>objectguid</code> field may be <code>entryUUID</code> or <code>uid</code>.</p>
+</blockquote>
+
+<p>This is a good place to test attribute synchronization.</p>
+
+<hr />
 
 <pre><code class="language-php">$fake-&gt;actingAs($user);
 </code></pre>
 
 <p>This third line, we are asserting that the user we have created will automatically pass
 LDAP authentication. If we remove this line, attempting to authenticate as the
-user will fail, as they are not authorized inside of your fake:</p>
+user will fail, as they are not allowed to bind using your fake connection.</p>
+
+<hr />
 
 <pre><code class="language-php">$this-&gt;post('/login', [
     'email' =&gt; $user-&gt;mail[0],
@@ -414,7 +428,14 @@ user will fail, as they are not authorized inside of your fake:</p>
 </code></pre>
 
 <p>Fourth, we are sending a post request to our <code>login</code> page, with our LDAP users email address.
-The password can be anything, since we asserted above that the user <strong>will</strong> pass:</p>
+The password can be anything, since we asserted above (using the <code>actingAs()</code> method) that
+the user <strong>will</strong> pass, regardless of what password we use.</p>
+
+<p>If your application has <a href="/docs/laravel/auth/configuration/#database">password synchronization</a>
+enabled, this is a good place to send various passwords and assert that the hashes
+match after a successful login.</p>
+
+<hr />
 
 <pre><code class="language-php">$user = Auth::user();
 
@@ -427,6 +448,8 @@ $this-&gt;assertEquals($ldapUser-&gt;cn[0], $ldapUser-&gt;name);
 user and that their attributes were successfully synchronized into our Eloquent
 database model.</p>
 
+<hr />
+
 <h2 id="scopes">Scopes</h2>
 
 <p>To test scopes that you apply to the LdapRecord model you are using for authentication,
@@ -435,9 +458,10 @@ they can be properly located during authentication.</p>
 
 <p>For example, if you created a scope that enforces users to be inside of an Organizational
 Unit, then we must create our fake user inside of that Organizational Unit for the
-user to be located - as you would using a real LDAP directory.</p>
+user to be located - as you would using a real LDAP directory.
+Let's walk through this.</p>
 
-<p>Let's walk through this. Below we have our scope that will enforce users to be located
+<p>Below we have our scope that will enforce users to be located
 inside of an Organizational Unit named <code>Administrators</code>:</p>
 
 <pre><code class="language-php">namespace App\Ldap\Scopes;

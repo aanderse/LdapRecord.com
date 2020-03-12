@@ -105,7 +105,9 @@ class TestLdapAuthentication extends TestCase
 }
 ```
 
-Let's deconstruct what's going on here.
+Let's deconstruct what's going on here step by step.
+
+---
 
 ```php
 $fake = DirectoryEmulator::setup('default');
@@ -113,7 +115,9 @@ $fake = DirectoryEmulator::setup('default');
 
 This first line creates a new Directory Emulator for our LDAP connection named `default` inside
 of our `config/ldap.php` file. It returns a fake LDAP connection that we can use to indicate
-that the user we insert will successfully pass LDAP authentication:
+that the user we create in this fake directory will successfully pass LDAP authentication.
+
+---
 
 ```php
 $user = User::create([
@@ -123,9 +127,15 @@ $user = User::create([
 ]);
 ```
 
-On the second line, we're creating a fake LDAP user who will be signing into our application.
+On the second line, we're creating our fake LDAP user who will be signing into our application.
 You'll notice that we assign the attributes that are inside of our `sync_attributes`
 specified inside of our `config/auth.php` file, as well as the users `objectguid`.
+
+> If you're using OpenLDAP, the `objectguid` field may be `entryUUID` or `uid`.
+
+This is a good place to test attribute synchronization.
+
+---
 
 ```php
 $fake->actingAs($user);
@@ -133,7 +143,9 @@ $fake->actingAs($user);
 
 This third line, we are asserting that the user we have created will automatically pass
 LDAP authentication. If we remove this line, attempting to authenticate as the
-user will fail, as they are not authorized inside of your fake:
+user will fail, as they are not allowed to bind using your fake connection.
+
+---
 
 ```php
 $this->post('/login', [
@@ -143,7 +155,14 @@ $this->post('/login', [
 ```
 
 Fourth, we are sending a post request to our `login` page, with our LDAP users email address.
-The password can be anything, since we asserted above that the user **will** pass:
+The password can be anything, since we asserted above (using the `actingAs()` method) that
+the user **will** pass, regardless of what password we use.
+
+If your application has [password synchronization](/docs/laravel/auth/configuration/#database)
+enabled, this is a good place to send various passwords and assert that the hashes
+match after a successful login.
+
+---
 
 ```php
 $user = Auth::user();
@@ -157,6 +176,8 @@ Finally, we'll check to make sure we can retrieve the successfully authenticated
 user and that their attributes were successfully synchronized into our Eloquent
 database model.
 
+---
+
 ## Scopes {#scopes}
 
 To test scopes that you apply to the LdapRecord model you are using for authentication,
@@ -166,8 +187,9 @@ they can be properly located during authentication.
 For example, if you created a scope that enforces users to be inside of an Organizational
 Unit, then we must create our fake user inside of that Organizational Unit for the
 user to be located - as you would using a real LDAP directory.
+Let's walk through this.
 
-Let's walk through this. Below we have our scope that will enforce users to be located
+Below we have our scope that will enforce users to be located
 inside of an Organizational Unit named `Administrators`:
 
 ```php
