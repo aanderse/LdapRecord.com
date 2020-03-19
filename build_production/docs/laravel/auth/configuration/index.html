@@ -316,15 +316,13 @@ and paste the following <code>ldap</code> provider:</p>
 <p>This new provider must have its own unique <code>model</code> class set which must use your <a href="/docs/models#connections">alternate configured connection</a>
 using the <code>$connection</code> property.</p>
 
-<blockquote>
-  <p>In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
-  you create with the desired connection. For example: <br/></p>
+<p>In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
+you create with the desired connection. For example:</p>
 
 <pre><code class="language-text">App\Ldap\DomainAlpha\User
 </code></pre>
-  
-  <p>This will allow you to segregate scopes, rules and other classes to their relating connection.</p>
-</blockquote>
+
+<p>This will allow you to segregate scopes, rules and other classes to their relating connection.</p>
 
 <h3>Driver</h3>
 
@@ -388,7 +386,7 @@ users password is valid without having to call to your LDAP server and validate 
 <blockquote>
   <p>If you do not define the <code>sync_passwords</code> key or have it set false, a user is always applied a
   random 16 character hashed password. This hashed password is only set once upon initial
-  import so no needless updates are performed on user records upon login.</p>
+  import or login so no needless updates are performed on user records.</p>
 </blockquote>
 
 <h3>Database Sync Attributes</h3>

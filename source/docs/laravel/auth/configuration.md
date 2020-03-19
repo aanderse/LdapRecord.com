@@ -37,12 +37,15 @@ If your application requires more than one LDAP connection, you must create a ne
 This new provider must have its own unique `model` class set which must use your [alternate configured connection](/docs/models#connections)
 using the `$connection` property.
 
-> In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
-> you create with the desired connection. For example: <br/>
-> ```text
 > App\Ldap\DomainAlpha\User
-> ```
-> This will allow you to segregate scopes, rules and other classes to their relating connection.
+In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
+you create with the desired connection. For example:
+
+```text
+App\Ldap\DomainAlpha\User
+```
+
+This will allow you to segregate scopes, rules and other classes to their relating connection.
 
 ### Driver
 
@@ -102,7 +105,7 @@ users password is valid without having to call to your LDAP server and validate 
 
 > If you do not define the `sync_passwords` key or have it set false, a user is always applied a
 > random 16 character hashed password. This hashed password is only set once upon initial
-> import so no needless updates are performed on user records upon login.
+> import or login so no needless updates are performed on user records.
 
 ### Database Sync Attributes
 
