@@ -360,9 +360,6 @@ This method will include the error message as the first parameter and the error 
 
 This is useful for checking for specific Active Directory response codes and returning a response:
 
-> Refer to the [Password Policy Errors](/docs/tutorials/activedirectory/user-management/#password-policy-errors)
-> documentation to see what each code means.
-
 ```php
 // app/Http/Controllers/Auth/LoginController.php
 
@@ -387,3 +384,6 @@ class LoginController extends Controller
     }
 }
 ```
+
+> Refer to the [Password Policy Errors](/docs/tutorials/activedirectory/user-management/#password-policy-errors)
+> documentation to see what each code means.
