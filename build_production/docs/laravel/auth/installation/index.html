@@ -291,17 +291,17 @@ included migrations to add the following database columns to your <code>users</c
 <table>
 <thead>
 <tr>
-  <th>Column</th>
+  <th align="center">Column</th>
   <th>Reason</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-  <td><code>guid</code></td>
+  <td align="center"><code>guid</code></td>
   <td>This is for storing your LDAP users <code>objectguid</code>. It is needed for locating and synchronizing your LDAP user to the database.</td>
 </tr>
 <tr>
-  <td><code>domain</code></td>
+  <td align="center"><code>domain</code></td>
   <td>This is for storing your LDAP users connection name. It is needed for storing your configured LDAP connection name of the user.</td>
 </tr>
 </tbody>
@@ -314,17 +314,29 @@ included migrations to add the following database columns to your <code>users</c
 
 <p>Then, add the following interface and trait to your <code>app/User.php</code> model:</p>
 
-<ul>
-<li>Interface: <code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></li>
-<li>Trait: <code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></li>
-</ul>
+<table>
+<thead>
+<tr>
+  <th align="center">Type</th>
+  <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td align="center">Interface</td>
+  <td><code>LdapRecord\Laravel\Auth\LdapAuthenticatable</code></td>
+</tr>
+<tr>
+  <td align="center">Trait</td>
+  <td><code>LdapRecord\Laravel\Auth\AuthenticatesWithLdap</code></td>
+</tr>
+</tbody>
+</table>
 
-<pre><code class="language-php">&lt;?php
+<pre><code class="language-php">// app/User.php
 
-namespace App;
+// ...
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 
@@ -341,21 +353,30 @@ class User extends Authenticatable implements LdapAuthenticatable
 
 <h2>Migration Customization</h2>
 
-<p>If you would like to customize the published migration and change the database columns, you
-must override the following methods in your Eloquent <code>User</code> model that are provided by
-the LdapRecord trait and interface:</p>
+<p>You may change the database column names on the published migration to anything you'd like.
+However, once you have done so, you must override the following methods in your Eloquent
+<code>User</code> model that are provided by the LdapRecord trait and interface:</p>
 
 <pre><code class="language-php">// app/User.php
 
-public function getLdapDomainColumn()
-{
-    return 'domain_column';
-}
+// ...
 
-public function getLdapGuidColumn()
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
+use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+
+class User extends Authenticatable implements LdapAuthenticatable
 {
-    return 'guid_column';
-}
+    // ...
+
+    public function getLdapDomainColumn()
+    {
+        return 'domain_column';
+    }
+
+    public function getLdapGuidColumn()
+    {
+        return 'guid_column';
+    }
 </code></pre>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">

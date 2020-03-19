@@ -210,7 +210,7 @@ Interface | `LdapRecord\Laravel\Auth\LdapAuthenticatable` |
 Trait | `LdapRecord\Laravel\Auth\AuthenticatesWithLdap` |
 
 
-```php
+```````php
 // app/User.php
 
 // ...
@@ -223,7 +223,7 @@ class User extends Authenticatable implements LdapAuthenticatable
 
     // ...
 }
-```
+```````
 
 These are required so LdapRecord can set and retrieve your users `domain` and `guid` database columns.
 

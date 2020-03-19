@@ -88,10 +88,10 @@ As you can see above, a `database` array is used to configure the association be
 
 ### Database Model
 
-The `database.model` key is the class name of the Eloquent model that will be used for creating and
-retrieving LDAP users from your applications database.
+The `database => model` key is the class name of the [Eloquent model](https://laravel.com/docs/eloquent) that will be
+used for creating and retrieving LDAP users from your applications database.
 
-Once you have added your model into this configuration option
+> Be sure to add the required [trait and interface](/docs/laravel/auth/installation) to this model as shown in the installation guide.
 
 ### Database Password Sync
 
@@ -101,7 +101,8 @@ provide a "back up" option in case your LDAP server is unreachable, as well as a
 users password is valid without having to call to your LDAP server and validate it for you.
 
 > If you do not define the `sync_passwords` key or have it set false, a user is always applied a
-> random 16 character hashed password.
+> random 16 character hashed password. This hashed password is only set once upon initial
+> import so no needless updates are performed on user records upon login.
 
 ### Database Sync Attributes
 

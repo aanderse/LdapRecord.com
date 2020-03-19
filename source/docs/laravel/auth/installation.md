@@ -11,7 +11,7 @@ If you are using [database synchronization](/docs/laravel/auth#database), you mu
 included migrations to add the following database columns to your `users` table:
 
 Column | Reason |
---- | --- |
+:---: | --- |
 `guid` | This is for storing your LDAP users `objectguid`. It is needed for locating and synchronizing your LDAP user to the database. |
 `domain` | This is for storing your LDAP users connection name. It is needed for storing your configured LDAP connection name of the user. |
 
@@ -23,16 +23,16 @@ php artisan vendor:publish --provider="LdapRecord\Laravel\LdapAuthServiceProvide
 
 Then, add the following interface and trait to your `app/User.php` model:
 
-- Interface: `LdapRecord\Laravel\Auth\LdapAuthenticatable`
-- Trait: `LdapRecord\Laravel\Auth\AuthenticatesWithLdap`
+Type | |
+:---: | --- |
+Interface | `LdapRecord\Laravel\Auth\LdapAuthenticatable` |
+Trait | `LdapRecord\Laravel\Auth\AuthenticatesWithLdap` |
 
 ```php
-<?php
+// app/User.php
 
-namespace App;
+// ...
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 
@@ -49,20 +49,29 @@ This trait and interface provide LdapRecord the ability of setting and getting y
 
 ## Migration Customization
 
-If you would like to customize the published migration and change the database columns, you
-must override the following methods in your Eloquent `User` model that are provided by
-the LdapRecord trait and interface:
+You may change the database column names on the published migration to anything you'd like.
+However, once you have done so, you must override the following methods in your Eloquent
+`User` model that are provided by the LdapRecord trait and interface:
 
 ```php
 // app/User.php
 
-public function getLdapDomainColumn()
-{
-    return 'domain_column';
-}
+// ...
 
-public function getLdapGuidColumn()
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
+use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+
+class User extends Authenticatable implements LdapAuthenticatable
 {
-    return 'guid_column';
-}
+    // ...
+
+    public function getLdapDomainColumn()
+    {
+        return 'domain_column';
+    }
+    
+    public function getLdapGuidColumn()
+    {
+        return 'guid_column';
+    }
 ```

@@ -371,10 +371,12 @@ and paste the following <code>ldap</code> provider:</p>
 
 <h3>Database Model</h3>
 
-<p>The <code>database.model</code> key is the class name of the Eloquent model that will be used for creating and
-retrieving LDAP users from your applications database.</p>
+<p>The <code>database =&gt; model</code> key is the class name of the <a href="https://laravel.com/docs/eloquent">Eloquent model</a> that will be
+used for creating and retrieving LDAP users from your applications database.</p>
 
-<p>Once you have added your model into this configuration option</p>
+<blockquote>
+  <p>Be sure to add the required <a href="/docs/laravel/auth/installation">trait and interface</a> to this model as shown in the installation guide.</p>
+</blockquote>
 
 <h3>Database Password Sync</h3>
 
@@ -385,7 +387,8 @@ users password is valid without having to call to your LDAP server and validate 
 
 <blockquote>
   <p>If you do not define the <code>sync_passwords</code> key or have it set false, a user is always applied a
-  random 16 character hashed password.</p>
+  random 16 character hashed password. This hashed password is only set once upon initial
+  import so no needless updates are performed on user records upon login.</p>
 </blockquote>
 
 <h3>Database Sync Attributes</h3>
