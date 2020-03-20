@@ -288,6 +288,7 @@
 <ul>
 <li><a href="#running-the-command">Running the command</a></li>
 <li><a href="#scheduling-the-command">Scheduling the command</a></li>
+<li><a href="#programmatically-executing">Programmatically Executing</a></li>
 <li><a href="#single-users">Single Users</a></li>
 <li><a href="#command-options">Command Options</a></li>
 <li><a href="#tips">Additional Tips</a></li>
@@ -379,6 +380,25 @@ Successfully imported / synchronized 2 user(s).
   option on your configured authentication LdapRecord model so LDAP users signing into your
   application are applied the same search filter.</p>
 </blockquote>
+
+<h2 id="programmatically-executing">Programmatically Executing</h2>
+
+<p>You can call the <code>ldap:import</code> command using Laravel's <a href="https://laravel.com/docs/artisan#programmatically-executing-commands">Artisan</a>
+facade to programmatically execute the import inside of your application wherever you'd like:</p>
+
+<pre><code class="language-php">Artisan::call('ldap:import', ['provider' =&gt; 'ldap', '--no-interaction']);
+</code></pre>
+
+<p>To use more options, include them as array values:</p>
+
+<pre><code class="language-php">Artisan::call('ldap:import', [
+    'provider' =&gt; 'ldap',
+    '--no-interaction',
+    '--restore',
+    '--delete',
+    '--filter' =&gt; '(cn=John Doe)'
+]);
+</code></pre>
 
 <h2 id="single-users">Single Users</h2>
 

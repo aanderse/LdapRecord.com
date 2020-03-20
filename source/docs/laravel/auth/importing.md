@@ -9,6 +9,7 @@ section: content
 
 - [Running the command](#running-the-command)
 - [Scheduling the command](#scheduling-the-command)
+- [Programmatically Executing](#programmatically-executing)
 - [Single Users](#single-users)
 - [Command Options](#command-options)
 - [Additional Tips](#tips)
@@ -101,6 +102,27 @@ The above scheduled import command will:
 > It's recommended to use [model query scopes](/docs/models#query-scopes) instead of the `--filter`
 > option on your configured authentication LdapRecord model so LDAP users signing into your
 > application are applied the same search filter.
+
+## Programmatically Executing {#programmatically-executing}
+
+You can call the `ldap:import` command using Laravel's [Artisan](https://laravel.com/docs/artisan#programmatically-executing-commands)
+facade to programmatically execute the import inside of your application wherever you'd like:
+
+```php
+Artisan::call('ldap:import', ['provider' => 'ldap', '--no-interaction']);
+```
+
+To use more options, include them as array values:
+
+```php
+Artisan::call('ldap:import', [
+    'provider' => 'ldap',
+    '--no-interaction',
+    '--restore',
+    '--delete',
+    '--filter' => '(cn=John Doe)'
+]);
+```
 
 ## Single Users {#single-users}
 
