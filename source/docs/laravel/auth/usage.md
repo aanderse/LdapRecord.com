@@ -11,6 +11,8 @@ section: content
 - [Using Usernames](#using-usernames)
 - [Eloquent Model Binding](#model-binding)
 - [Pass-Through Authentication / SSO](#passthrough-authentication)
+ - [Domain Verification](#sso-domain-verification)
+ - [Changing the Server Key](#changing-the-sso-server-key)
 - [Displaying LDAP Error Messages <br/> (password expiry, account lockouts)](#displaying-ldap-error-messages)
 
 ## Logging In {#logging-in}
@@ -209,7 +211,7 @@ protected $middlewareGroups = [
 > A user may successfully authenticate against your LDAP server when visiting your site, but depending
 > on your rules, may not be imported or logged in.
 
-### SSO Domain Verification
+### SSO Domain Verification {#sso-domain-verification}
 
 To prevent security issues using multiple-domain authentication using the `WindowsAuthenticate` middleware,
 domain verification is performed on the authenticating user by checking if their domain name is contained
@@ -273,7 +275,7 @@ public function boot()
 }
 ```
 
-### Changing the Server Key
+### Changing the Server Key {#changing-the-sso-server-key}
 
 By default, the `WindowsAuthenticate` middleware uses the `AUTH_USER` key inside of PHP's `$_SERVER`
 array (`$_SERVER['AUTH_USER']`). If you would like to change this, call the `serverKey` method on

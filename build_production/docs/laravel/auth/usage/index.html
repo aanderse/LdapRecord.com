@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=7388dd9106d6f9be9877">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -289,7 +289,12 @@
 <li><a href="#logging-in">Logging In</a></li>
 <li><a href="#using-usernames">Using Usernames</a></li>
 <li><a href="#model-binding">Eloquent Model Binding</a></li>
-<li><a href="#passthrough-authentication">Pass-Through Authentication / SSO</a></li>
+<li><a href="#passthrough-authentication">Pass-Through Authentication / SSO</a>
+
+<ul>
+<li><a href="#sso-domain-verification">Domain Verification</a></li>
+<li><a href="#changing-the-sso-server-key">Changing the Server Key</a></li>
+</ul></li>
 <li><a href="#displaying-ldap-error-messages">Displaying LDAP Error Messages <br/> (password expiry, account lockouts)</a></li>
 </ul>
 
@@ -486,7 +491,7 @@ from the request, attempts to locate the user in your directory, then logs the u
   on your rules, may not be imported or logged in.</p>
 </blockquote>
 
-<h3>SSO Domain Verification</h3>
+<h3 id="sso-domain-verification">SSO Domain Verification</h3>
 
 <p>To prevent security issues using multiple-domain authentication using the <code>WindowsAuthenticate</code> middleware,
 domain verification is performed on the authenticating user by checking if their domain name is contained
@@ -526,7 +531,8 @@ but it is not contained inside of their distinguished name domain components (dc
 their distinguished name domain components (<code>dc=acme</code>). Comparison against each domain
 component is done in a <strong>case-insensitive</strong> manor.</p>
 
-<p>If you would like to disable this check, you must create your own middleware, and override the <code>userIsApartOfDomain</code> method:</p>
+<p>If you would like to disable this check, you must call the static method <code>bypassDomainVerification</code>
+on the <code>WindowsAuthenticate</code> middleware inside of your <code>AuthServiceProvider</code>:</p>
 
 <blockquote>
   <p><strong>Important</strong>: This is a security issue if you use multi-domain authentication and
@@ -534,44 +540,40 @@ component is done in a <strong>case-insensitive</strong> manor.</p>
   this is not a security issue. You have been warned.</p>
 </blockquote>
 
-<pre><code class="language-php">// app/Http/Middleware/WindowsAuthenticate.php
+<pre><code class="language-php">// app/Providers/AuthServiceProvider.php
 
-namespace App\Http\Middleware;
-
-use LdapRecord\Models\Model;
-use LdapRecord\Laravel\Middleware\WindowsAuthenticate as BaseWindowsAuthenticate;
-
-class WindowsAuthenticate extends BaseWindowsAuthenticate
+/**
+ * Register any authentication / authorization services.
+ *
+ * @return void
+ */
+public function boot()
 {
-    protected function userIsApartOfDomain(Model $user, $domain)
-    {
-        return true;
-    }
+    $this-&gt;registerPolicies();
+
+    WindowsAuthenticate::bypassDomainVerification();
 }
 </code></pre>
 
-<p>Once you've created this middleware, add it into your <code>web</code> middleware stack:</p>
+<h3 id="changing-the-sso-server-key">Changing the Server Key</h3>
 
-<pre><code class="language-php">// app/Http/Kernel.php
+<p>By default, the <code>WindowsAuthenticate</code> middleware uses the <code>AUTH_USER</code> key inside of PHP's <code>$_SERVER</code>
+array (<code>$_SERVER['AUTH_USER']</code>). If you would like to change this, call the <code>serverKey</code> method on
+the <code>WindowsAuthenticate</code> middleware inside of your <code>AuthServiceProvider</code>:</p>
 
-// ...
+<pre><code class="language-php">// app/Providers/AuthServiceProvider.php
 
-    /**
-     * The application's route middleware groups.
-     *
-     * @var array
-     */
-    protected $middlewareGroups = [
-        'web' =&gt; [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\WindowsAuthenticate::class,
-        ],
+/**
+ * Register any authentication / authorization services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    $this-&gt;registerPolicies();
+
+    WindowsAuthenticate::serverKey('PHP_AUTH_USER');
+}
 </code></pre>
 
 <h2 id="displaying-ldap-error-messages">Displaying LDAP Error Messages</h2>
