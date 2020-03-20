@@ -8,6 +8,7 @@ section: content
 # Configuration
 
 - [Plain Authentication](#plain)
+ - [Driver](#plain-driver)
  - [Model](#plain-model)
  - [Rules](#plain-rules)
 - [Synchronized Database Authentication](#database)
