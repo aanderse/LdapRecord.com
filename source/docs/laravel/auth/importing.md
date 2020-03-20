@@ -7,6 +7,8 @@ section: content
 
 # Importing Users
 
+- [Introduction](#introduction)
+- [Attribute Synchronization](#attribute-synchronization)
 - [Running the command](#running-the-command)
 - [Scheduling the command](#scheduling-the-command)
 - [Programmatically Executing](#programmatically-executing)
@@ -14,9 +16,34 @@ section: content
 - [Command Options](#command-options)
 - [Additional Tips](#tips)
 
+## Introduction {#introduction}
+
 LdapRecord-Laravel allows you to import users from your LDAP directories into your local database.
-This is done from the `ldap:import` command and only available when you configure
-[database synchronization](/docs/laravel/auth/configuration/#database).
+This is done by executing the `php artisan ldap:import` command and is only available to LDAP
+authentication providers you configure with [database synchronization](/docs/laravel/auth/configuration/#database).
+
+As it is with logging users into your application, the Eloquent database model you specify in your
+`config/auth.php` file is used for the creation and retrieval of users in your database.
+
+## Attribute Synchronization {#attribute-synchronization}
+
+The `sync_attributes` you define inside of your `config/auth.php` file for your provider are used
+for importing and synchronizing users. Be sure to look at the [documentation](/docs/laravel/auth/configuration/#database)
+to get a further understanding on what is possible with this option.
+
+## Password Synchronization {#password-synchronization}
+
+The `sync_passwords` option you define inside of your `config/auth.php` file is used when importing 
+and synchronizing users. However, there are some main takeaways you must be aware of:
+
+- **Passwords cannot be retrieved from users who are being imported from your LDAP server.**
+  This would be a major security risk if this were possible. If a password is already
+  set for the user being imported, it will be left untouched. This is to retain a
+  possible synchronized password that was set upon login.
+- **Passwords will always be set to a hashed 16 character string if not already present.**
+  If the user being imported does not have a password, their password will be set to a
+  hashed 16 character random string using `Str::random`.
+- **Passwords will not be set if you have defined a null value for `password_column`
 
 ## Running the command {#running-the-command}
 

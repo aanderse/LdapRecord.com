@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=c6202057afb0273cde0b">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -286,8 +286,22 @@
                 <h1>Configuration</h1>
 
 <ul>
-<li><a href="#plain">Plain Authentication</a></li>
-<li><a href="#database">Synchronized Database Authentication</a></li>
+<li><a href="#plain">Plain Authentication</a>
+
+<ul>
+<li><a href="#plain-driver">Driver</a></li>
+<li><a href="#plain-model">Model</a></li>
+<li><a href="#plain-rules">Rules</a></li>
+</ul></li>
+<li><a href="#database">Synchronized Database Authentication</a>
+
+<ul>
+<li><a href="#database-model">Database Model</a></li>
+<li><a href="#database-password-column">Database Password Column</a></li>
+<li><a href="#database-password-sync">Database Password Sync</a></li>
+<li><a href="#database-sync-attributes">Database Sync Attributes</a></li>
+</ul></li>
+<li><a href="#attribute-handlers">Attribute Handlers</a></li>
 <li><a href="#rules">Authentication Rules</a></li>
 </ul>
 
@@ -324,18 +338,18 @@ you create with the desired connection. For example:</p>
 
 <p>This will allow you to segregate scopes, rules and other classes to their relating connection.</p>
 
-<h3>Driver</h3>
+<h3 id="plain-driver">Driver</h3>
 
 <p>The <code>driver</code> option must be <code>ldap</code> as this is what indicates to Laravel the proper authentication driver to use.</p>
 
-<h3>Model</h3>
+<h3 id="plain-model">Model</h3>
 
 <p>The <code>model</code> option must be the class name of your <a href="/docs/models">LdapRecord model</a>. This model will be used
 for fetching users from your directory.</p>
 
-<h3>Rules</h3>
+<h3 id="plain-rules">Rules</h3>
 
-<p>The <code>rules</code> option must be an array of class names of <a href="/docs/laravel/auth/configuration#rules">authentication rules</a>.</p>
+<p>The <code>rules</code> option must be an array of class names of <a href="#rules">authentication rules</a>.</p>
 
 <h2 id="database">Synchronized Database Authentication</h2>
 
@@ -367,7 +381,7 @@ and paste the following <code>ldap</code> provider:</p>
 
 <p>As you can see above, a <code>database</code> array is used to configure the association between your LDAP user and your Eloquent user.</p>
 
-<h3>Database Model</h3>
+<h3 id="database-model">Database Model</h3>
 
 <p>The <code>database =&gt; model</code> key is the class name of the <a href="https://laravel.com/docs/eloquent">Eloquent model</a> that will be
 used for creating and retrieving LDAP users from your applications database.</p>
@@ -376,7 +390,40 @@ used for creating and retrieving LDAP users from your applications database.</p>
   <p>Be sure to add the required <a href="/docs/laravel/auth/installation">trait and interface</a> to this model as shown in the installation guide.</p>
 </blockquote>
 
-<h3>Database Password Sync</h3>
+<h3 id="database-password-column">Database Password Column</h3>
+
+<p>If your application uses a different password column than <code>password</code>, then you can configure
+it using the <code>password_column</code> key inside of your providers configuration:</p>
+
+<pre><code class="language-php">'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        // ...
+        'database' =&gt; [
+            // ...
+            'password_column' =&gt; 'my_password_column',
+        ],
+    ],
+],
+</code></pre>
+
+<p>You can also set the value to <code>null</code> if your database table does not have any password column at all:</p>
+
+<pre><code class="language-php">'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        // ...
+        'database' =&gt; [
+            // ...
+            'password_column' =&gt; null,
+        ],
+    ],
+],
+</code></pre>
+
+<h3 id="database-password-sync">Database Password Sync</h3>
 
 <p>The <code>database.sync_passwords</code> option enables password synchronization. Password synchronization captures and hashes
 the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
@@ -389,10 +436,85 @@ users password is valid without having to call to your LDAP server and validate 
   import or login so no needless updates are performed on user records.</p>
 </blockquote>
 
-<h3>Database Sync Attributes</h3>
+<h3 id="database-sync-attributes">Database Sync Attributes</h3>
 
-<p>The <code>sync_attributes</code> array defines a set of key-value pairs. The key of each array item is the column of your <code>users</code>
-database table and the value is the name of the users LDAP attribute.</p>
+<p>The <code>sync_attributes</code> array defines a set of key-value pairs. The key of each array item is the column
+of your <code>users</code> database table and the value is the name of the users LDAP attribute.</p>
+
+<blockquote>
+  <p>You do not need to add your users <code>guid</code> or <code>domain</code> database columns. These are done automatically for you.</p>
+</blockquote>
+
+<p>For further control on sync attributes, see the below <a href="#attribute-handlers">attribute handler</a> feature.</p>
+
+<h2 id="attribute-handlers">Attribute Handlers</h2>
+
+<p>If you require logic for synchronizing attributes when users sign into your application or are
+being <a href="/docs/laravel/auth/importing">imported</a>, you can create an attribute handler class
+responsible for setting / synchronizing your database models attributes from their
+LDAP model.</p>
+
+<p>This class you define must have a <code>handle</code> method. This method must accept the LDAP model you
+have configured as the first parameter and your Eloquent database model as the second.</p>
+
+<p>For the example below, we will create a handler named <code>AttributeHandler.php</code> inside of your <code>app/Ldap</code> folder:</p>
+
+<blockquote>
+  <p>You do not need to call <code>save()</code> on your Eloquent database model.
+  This is called for you after attribute synchronization.</p>
+</blockquote>
+
+<pre><code class="language-php">&lt;?php
+
+namespace App\Ldap;
+
+use App\User as DatabaseUser;
+use App\Ldap\User as LdapUser;
+
+class AttributeHandler
+{
+    public function handle(LdapUser $ldap, DatabaseUser $database)
+    {
+        $database-&gt;name = $ldap-&gt;getFirstAttribute('cn');
+        $database-&gt;email = $ldap-&gt;getFirstAttribute('mail');
+    }
+}
+</code></pre>
+
+<blockquote>
+  <p>Attribute handlers are created using Laravel's <code>app()</code> helper, so you may type-hint
+  any dependencies you require in your handlers constructor to be made available
+  during synchronization.</p>
+</blockquote>
+
+<p>Then inside of your <code>config/auth.php</code> file for your provider, set the attribute handler class as the <code>sync_attributes</code> value:</p>
+
+<pre><code class="language-php">'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        // ...
+        'database' =&gt; [
+            // ...
+            'sync_attributes' =&gt; \App\Ldap\LdapAttributeHandler::class,
+        ],
+    ],
+],
+</code></pre>
+
+<p>You may also add multiple if you'd prefer, or combine them with <code>key =&gt; value</code> pairs:</p>
+
+<pre><code class="language-php">// ...
+'database' =&gt; [
+    // ...
+    'sync_attributes' =&gt; [
+        'name' =&gt; 'cn',
+        'email' =&gt; 'mail',
+        \App\Ldap\MyFirstAttributeHandler::class,
+        \App\Ldap\MySecondAttributeHandler::class,
+    ],
+],
+</code></pre>
 
 <h2 id="rules">Authentication Rules</h2>
 

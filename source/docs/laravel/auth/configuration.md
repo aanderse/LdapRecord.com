@@ -8,7 +8,14 @@ section: content
 # Configuration
 
 - [Plain Authentication](#plain)
+ - [Model](#plain-model)
+ - [Rules](#plain-rules)
 - [Synchronized Database Authentication](#database)
+ - [Database Model](#database-model)
+ - [Database Password Column](#database-password-column)
+ - [Database Password Sync](#database-password-sync)
+ - [Database Sync Attributes](#database-sync-attributes)
+- [Attribute Handlers](#attribute-handlers)
 - [Authentication Rules](#rules)
 
 All LDAP authentication configuration is done inside of your `config/auth.php` file.
@@ -37,7 +44,6 @@ If your application requires more than one LDAP connection, you must create a ne
 This new provider must have its own unique `model` class set which must use your [alternate configured connection](/docs/models#connections)
 using the `$connection` property.
 
-> App\Ldap\DomainAlpha\User
 In the scenario of having multiple LDAP connections, it may be helpful to namespace the LDAP models
 you create with the desired connection. For example:
 
@@ -47,18 +53,18 @@ App\Ldap\DomainAlpha\User
 
 This will allow you to segregate scopes, rules and other classes to their relating connection.
 
-### Driver
+### Driver {#plain-driver}
 
 The `driver` option must be `ldap` as this is what indicates to Laravel the proper authentication driver to use.
 
-### Model
+### Model {#plain-model}
 
 The `model` option must be the class name of your [LdapRecord model](/docs/models). This model will be used
 for fetching users from your directory.
 
-### Rules
+### Rules {#plain-rules}
 
-The `rules` option must be an array of class names of [authentication rules](/docs/laravel/auth/configuration#rules).
+The `rules` option must be an array of class names of [authentication rules](#rules).
 
 ## Synchronized Database Authentication {#database}
 
@@ -89,14 +95,49 @@ and paste the following `ldap` provider:
 
 As you can see above, a `database` array is used to configure the association between your LDAP user and your Eloquent user.
 
-### Database Model
+### Database Model {#database-model}
 
 The `database => model` key is the class name of the [Eloquent model](https://laravel.com/docs/eloquent) that will be
 used for creating and retrieving LDAP users from your applications database.
 
 > Be sure to add the required [trait and interface](/docs/laravel/auth/installation) to this model as shown in the installation guide.
 
-### Database Password Sync
+### Database Password Column {#database-password-column}
+
+If your application uses a different password column than `password`, then you can configure
+it using the `password_column` key inside of your providers configuration:
+
+```php
+'providers' => [
+    // ...
+
+    'ldap' => [
+        // ...
+        'database' => [
+            // ...
+            'password_column' => 'my_password_column',
+        ],
+    ],
+],
+```
+
+You can also set the value to `null` if your database table does not have any password column at all:
+
+```php
+'providers' => [
+    // ...
+
+    'ldap' => [
+        // ...
+        'database' => [
+            // ...
+            'password_column' => null,
+        ],
+    ],
+],
+```
+
+### Database Password Sync {#database-password-sync}
 
 The `database.sync_passwords` option enables password synchronization. Password synchronization captures and hashes
 the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
@@ -107,10 +148,82 @@ users password is valid without having to call to your LDAP server and validate 
 > random 16 character hashed password. This hashed password is only set once upon initial
 > import or login so no needless updates are performed on user records.
 
-### Database Sync Attributes
+### Database Sync Attributes {#database-sync-attributes}
 
-The `sync_attributes` array defines a set of key-value pairs. The key of each array item is the column of your `users`
-database table and the value is the name of the users LDAP attribute.
+The `sync_attributes` array defines a set of key-value pairs. The key of each array item is the column
+of your `users` database table and the value is the name of the users LDAP attribute.
+
+> You do not need to add your users `guid` or `domain` database columns. These are done automatically for you.
+
+For further control on sync attributes, see the below [attribute handler](#attribute-handlers) feature.
+
+## Attribute Handlers {#attribute-handlers}
+
+If you require logic for synchronizing attributes when users sign into your application or are
+being [imported](/docs/laravel/auth/importing), you can create an attribute handler class
+responsible for setting / synchronizing your database models attributes from their
+LDAP model.
+
+This class you define must have a `handle` method. This method must accept the LDAP model you
+have configured as the first parameter and your Eloquent database model as the second.
+
+For the example below, we will create a handler named `AttributeHandler.php` inside of your `app/Ldap` folder:
+
+> You do not need to call `save()` on your Eloquent database model.
+> This is called for you after attribute synchronization.
+
+```php
+<?php
+
+namespace App\Ldap;
+
+use App\User as DatabaseUser;
+use App\Ldap\User as LdapUser;
+
+class AttributeHandler
+{
+    public function handle(LdapUser $ldap, DatabaseUser $database)
+    {
+        $database->name = $ldap->getFirstAttribute('cn');
+        $database->email = $ldap->getFirstAttribute('mail');
+    }
+}
+```
+
+> Attribute handlers are created using Laravel's `app()` helper, so you may type-hint
+> any dependencies you require in your handlers constructor to be made available
+> during synchronization.
+
+Then inside of your `config/auth.php` file for your provider, set the attribute handler class as the `sync_attributes` value:
+
+```php
+'providers' => [
+    // ...
+
+    'ldap' => [
+        // ...
+        'database' => [
+            // ...
+            'sync_attributes' => \App\Ldap\LdapAttributeHandler::class,
+        ],
+    ],
+],
+```
+
+You may also add multiple if you'd prefer, or combine them with `key => value` pairs:
+
+```php
+// ...
+'database' => [
+    // ...
+    'sync_attributes' => [
+        'name' => 'cn',
+        'email' => 'mail',
+        \App\Ldap\MyFirstAttributeHandler::class,
+        \App\Ldap\MySecondAttributeHandler::class,
+    ],
+],
+```
 
 ## Authentication Rules {#rules}
 

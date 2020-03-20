@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=c6202057afb0273cde0b">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -286,6 +286,8 @@
                 <h1>Importing Users</h1>
 
 <ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#attribute-synchronization">Attribute Synchronization</a></li>
 <li><a href="#running-the-command">Running the command</a></li>
 <li><a href="#scheduling-the-command">Scheduling the command</a></li>
 <li><a href="#programmatically-executing">Programmatically Executing</a></li>
@@ -294,9 +296,36 @@
 <li><a href="#tips">Additional Tips</a></li>
 </ul>
 
+<h2 id="introduction">Introduction</h2>
+
 <p>LdapRecord-Laravel allows you to import users from your LDAP directories into your local database.
-This is done from the <code>ldap:import</code> command and only available when you configure
-<a href="/docs/laravel/auth/configuration/#database">database synchronization</a>.</p>
+This is done by executing the <code>php artisan ldap:import</code> command and is only available to LDAP
+authentication providers you configure with <a href="/docs/laravel/auth/configuration/#database">database synchronization</a>.</p>
+
+<p>As it is with logging users into your application, the Eloquent database model you specify in your
+<code>config/auth.php</code> file is used for the creation and retrieval of users in your database.</p>
+
+<h2 id="attribute-synchronization">Attribute Synchronization</h2>
+
+<p>The <code>sync_attributes</code> you define inside of your <code>config/auth.php</code> file for your provider are used
+for importing and synchronizing users. Be sure to look at the <a href="/docs/laravel/auth/configuration/#database">documentation</a>
+to get a further understanding on what is possible with this option.</p>
+
+<h2 id="password-synchronization">Password Synchronization</h2>
+
+<p>The <code>sync_passwords</code> option you define inside of your <code>config/auth.php</code> file is used when importing 
+and synchronizing users. However, there are some main takeaways you must be aware of:</p>
+
+<ul>
+<li><strong>Passwords cannot be retrieved from users who are being imported from your LDAP server.</strong>
+This would be a major security risk if this were possible. If a password is already
+set for the user being imported, it will be left untouched. This is to retain a
+possible synchronized password that was set upon login.</li>
+<li><strong>Passwords will always be set to a hashed 16 character string if not already present.</strong>
+If the user being imported does not have a password, their password will be set to a
+hashed 16 character random string using <code>Str::random</code>.</li>
+<li>**Passwords will not be set if you have defined a null value for <code>password_column</code></li>
+</ul>
 
 <h2 id="running-the-command">Running the command</h2>
 
