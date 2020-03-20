@@ -250,52 +250,49 @@ Then they will be allowed to authenticate, as their `ACME` domain is contained i
 their distinguished name domain components (`dc=acme`). Comparison against each domain
 component is done in a **case-insensitive** manor.
 
-If you would like to disable this check, you must create your own middleware, and override the `userIsApartOfDomain` method:
+If you would like to disable this check, you must call the static method `bypassDomainVerification`
+on the `WindowsAuthenticate` middleware inside of your `AuthServiceProvider`:
 
 > **Important**: This is a security issue if you use multi-domain authentication and
 > disable this check. If you only connect to one domain inside your application,
 > this is not a security issue. You have been warned.
 
 ```php
-// app/Http/Middleware/WindowsAuthenticate.php
+// app/Providers/AuthServiceProvider.php
 
-namespace App\Http\Middleware;
-
-use LdapRecord\Models\Model;
-use LdapRecord\Laravel\Middleware\WindowsAuthenticate as BaseWindowsAuthenticate;
-
-class WindowsAuthenticate extends BaseWindowsAuthenticate
+/**
+ * Register any authentication / authorization services.
+ *
+ * @return void
+ */
+public function boot()
 {
-    protected function userIsApartOfDomain(Model $user, $domain)
-    {
-        return true;
-    }
+    $this->registerPolicies();
+
+    WindowsAuthenticate::bypassDomainVerification();
 }
 ```
 
-Once you've created this middleware, add it into your `web` middleware stack:
+### Changing the Server Key
+
+By default, the `WindowsAuthenticate` middleware uses the `AUTH_USER` key inside of PHP's `$_SERVER`
+array (`$_SERVER['AUTH_USER']`). If you would like to change this, call the `serverKey` method on
+the `WindowsAuthenticate` middleware inside of your `AuthServiceProvider`:
 
 ```php
-// app/Http/Kernel.php
+// app/Providers/AuthServiceProvider.php
 
-// ...
+/**
+ * Register any authentication / authorization services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    $this->registerPolicies();
 
-    /**
-     * The application's route middleware groups.
-     *
-     * @var array
-     */
-    protected $middlewareGroups = [
-        'web' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\WindowsAuthenticate::class,
-        ],
+    WindowsAuthenticate::serverKey('PHP_AUTH_USER');
+}
 ```
 
 ## Displaying LDAP Error Messages {#displaying-ldap-error-messages}
