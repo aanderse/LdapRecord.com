@@ -98,9 +98,10 @@ if ($connection->auth()->attempt($user, $password, $bindAsUser = true))
 }
 ```
 
-> **Important**: Binding as the user will not persist LDAP connectivity. PHP is stateless -
-> which means a new LDAP connection is created upon every request to your application.
-> LdapRecord **does not and will not store** user credentials to persist connectivity. 
+> **Important**: Binding as the user will not persist LDAP connectivity between requests.
+> PHP is stateless - which means a new LDAP connection is created upon every request
+> to your application. LdapRecord **does not and will not store** user credentials
+> to persist connectivity. 
 
 ## Container {#container}
 
