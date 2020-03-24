@@ -82,9 +82,9 @@ LDAP server. This is to ensure you can continue
 to execute LDAP operations underneath this
 user during the same request.
 
-If you would like to run all further LDAP operations
-underneath the authenticated user, pass in `true` in
-the third parameter in the `attempt()` method:
+If you would like to run all further LDAP operations underneath the
+authenticated user for the duration of the request, pass in `true`
+in the third parameter in the `attempt()` method:
 
 ```php
 $user = 'cn=user,dc=local,dc=com';
@@ -97,6 +97,10 @@ if ($connection->auth()->attempt($user, $password, $bindAsUser = true))
     // Run further LDAP operations under this user.
 }
 ```
+
+> **Important**: Binding as the user will not persist LDAP connectivity. PHP is stateless -
+> which means a new LDAP connection is created upon every request to your application.
+> LdapRecord **does not and will not store** user credentials to persist connectivity. 
 
 ## Container {#container}
 

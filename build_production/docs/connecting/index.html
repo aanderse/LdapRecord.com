@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=7388dd9106d6f9be9877">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=67ae899eb9a6b4c43659">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -402,9 +402,9 @@ LDAP server. This is to ensure you can continue
 to execute LDAP operations underneath this
 user during the same request.</p>
 
-<p>If you would like to run all further LDAP operations
-underneath the authenticated user, pass in <code>true</code> in
-the third parameter in the <code>attempt()</code> method:</p>
+<p>If you would like to run all further LDAP operations underneath the
+authenticated user for the duration of the request, pass in <code>true</code>
+in the third parameter in the <code>attempt()</code> method:</p>
 
 <pre><code class="language-php">$user = 'cn=user,dc=local,dc=com';
 $password = 'secret';
@@ -416,6 +416,12 @@ if ($connection-&gt;auth()-&gt;attempt($user, $password, $bindAsUser = true))
     // Run further LDAP operations under this user.
 }
 </code></pre>
+
+<blockquote>
+  <p><strong>Important</strong>: Binding as the user will not persist LDAP connectivity. PHP is stateless -
+  which means a new LDAP connection is created upon every request to your application.
+  LdapRecord <strong>does not and will not store</strong> user credentials to persist connectivity.</p>
+</blockquote>
 
 <h2 id="container">Container</h2>
 
