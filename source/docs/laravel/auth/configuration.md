@@ -140,7 +140,7 @@ You can also set the value to `null` if your database table does not have any pa
 
 ### Database Password Sync {#database-password-sync}
 
-The `database.sync_passwords` option enables password synchronization. Password synchronization captures and hashes
+The `database => sync_passwords` option enables password synchronization. Password synchronization captures and hashes
 the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
 provide a "back up" option in case your LDAP server is unreachable, as well as a way of determining if a
 users password is valid without having to call to your LDAP server and validate it for you.
@@ -151,7 +151,7 @@ users password is valid without having to call to your LDAP server and validate 
 
 ### Database Sync Attributes {#database-sync-attributes}
 
-The `sync_attributes` array defines a set of key-value pairs. The key of each array item is the column
+The `database => sync_attributes` array defines a set of key-value pairs. The key of each array item is the column
 of your `users` database table and the value is the name of the users LDAP attribute.
 
 > You do not need to add your users `guid` or `domain` database columns. These are done automatically for you.

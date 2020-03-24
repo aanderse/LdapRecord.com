@@ -425,7 +425,7 @@ it using the <code>password_column</code> key inside of your providers configura
 
 <h3 id="database-password-sync">Database Password Sync</h3>
 
-<p>The <code>database.sync_passwords</code> option enables password synchronization. Password synchronization captures and hashes
+<p>The <code>database =&gt; sync_passwords</code> option enables password synchronization. Password synchronization captures and hashes
 the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
 provide a "back up" option in case your LDAP server is unreachable, as well as a way of determining if a
 users password is valid without having to call to your LDAP server and validate it for you.</p>
@@ -438,7 +438,7 @@ users password is valid without having to call to your LDAP server and validate 
 
 <h3 id="database-sync-attributes">Database Sync Attributes</h3>
 
-<p>The <code>sync_attributes</code> array defines a set of key-value pairs. The key of each array item is the column
+<p>The <code>database =&gt; sync_attributes</code> array defines a set of key-value pairs. The key of each array item is the column
 of your <code>users</code> database table and the value is the name of the users LDAP attribute.</p>
 
 <blockquote>
