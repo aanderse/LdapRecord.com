@@ -286,7 +286,7 @@ use LdapRecord\Models\Attributes\AccountControl;
 
 $user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
 
-$uac = new AccountControl($user->userAccountControl);
+$uac = new AccountControl($user->getFirstAttribute('userAccountControl'));
 
 if ($uac->has(AccountControl::LOCKOUT)) {
     // This account is locked out.
