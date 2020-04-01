@@ -11,7 +11,11 @@ section: content
 - [Authenticating](#authenticating)
 - [Routes](#routes)
 
-LdapRecord-Laravel allows you to authenticate users from two or more LDAP directories.
+## Introduction
+
+LdapRecord-Laravel allows you to authenticate users from as many LDAP directories as you'd like.
+
+This useful when you have separate domains that are not joined in a trust.
 
 ## Configuration {#configuration}
 

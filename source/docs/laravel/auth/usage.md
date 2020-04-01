@@ -13,7 +13,7 @@ section: content
 - [Pass-Through Authentication / SSO](#passthrough-authentication)
  - [Domain Verification](#sso-domain-verification)
  - [Changing the Server Key](#changing-the-sso-server-key)
-- [Displaying LDAP Error Messages <br/> (password expiry, account lockouts)](#displaying-ldap-error-messages)
+- [Displaying LDAP Error Messages (password expiry, account lockouts)](#displaying-ldap-error-messages)
 
 ## Logging In {#logging-in}
 

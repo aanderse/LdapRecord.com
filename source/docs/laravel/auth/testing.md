@@ -176,8 +176,6 @@ Finally, we'll check to make sure we can retrieve the successfully authenticated
 user and that their attributes were successfully synchronized into our Eloquent
 database model.
 
----
-
 ## Scopes {#scopes}
 
 To test scopes that you apply to the LdapRecord model you are using for authentication,

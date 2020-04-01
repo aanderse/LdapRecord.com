@@ -19,10 +19,12 @@ section: content
 - [Attribute Handlers](#attribute-handlers)
 - [Authentication Rules](#rules)
 
+## Introduction
+
 All LDAP authentication configuration is done inside of your `config/auth.php` file.
 
 Let's walk through configuring both LDAP authentication mechanisms.
-
+Finally, we'll check 
 ## Plain Authentication {#plain}
 
 To create a plain LDAP authentication provider, navigate to the `providers` array,
