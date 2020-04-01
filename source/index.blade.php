@@ -28,7 +28,9 @@
         </div>
 
         <div class="my-10 flex justify-center">
-            @include('docs.examples.composer')
+            <div class="hidden md:block">
+                @include('docs.examples.composer')
+            </div>
         </div>
     </div>
 </section>
