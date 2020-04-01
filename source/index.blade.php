@@ -2,9 +2,9 @@
 
 @section('body')
 <section class="retro-hero">
-    <div class="retro-hero-background w-11/12 md:w-1/2 h-screen bg-purple-900" style="transform: skew(45deg);"></div>
+    <div class="retro-hero-background w-11/12 md:w-1/2 bg-purple-900" style="transform: skew(45deg);"></div>
 
-    <div class="retro-hero-content md:mx-48 my-auto">
+    <div class="retro-hero-content md:mx-48">
         <h1 class="retro-hero-heading sm:text-4xl lg:text-5xl xl:text-6xl">
             <em>Integrate LDAP into your PHP applications</em>
         </h1>
@@ -17,8 +17,8 @@
             No hair-pulling necessary.
         </h4>
 
-        <div class="flex justify-center my-8">
-            <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="uppercase tracking-wide italic bg-purple-500 hover:bg-purple-600 font-extrabold text-white hover:text-white rounded mr-4 py-3 px-6">
+        <div class="flex justify-center my-10">
+            <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="uppercase tracking-wide italic bg-purple-600 hover:bg-purple-700 font-extrabold text-white hover:text-white rounded mr-4 py-3 px-6">
                 Get Started
             </a>
 
@@ -26,10 +26,14 @@
                 Source Code
             </a>
         </div>
+
+        <div class="my-10 flex justify-center">
+            @include('docs.examples.composer')
+        </div>
     </div>
 </section>
 
-<div class="md:mb-32 lg:w-2/3 max-w-5xl mx-auto relative z-10 -mt-32">
+<div class="md:mb-16 lg:w-2/3 max-w-5xl mx-auto relative z-10 -mt-32">
     <div class="feature shadow-2xl mx-12">
         <div class="top-bar">
             <div class="circles">
@@ -45,7 +49,7 @@
 
 <section class="mx-auto py-0 mt-16 md:mt-0">
     <!-- Fast Setup. -->
-    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-32 p-12 max-w-screen-xl mx-auto">
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-16 p-12 max-w-screen-xl mx-auto">
         <div class="md:w-3/5">
             @component('components.feature')
                 @include('docs.examples.fast-setup')
@@ -58,22 +62,21 @@
             </h3>
 
             <p class="text-xl text-center md:text-left">
-                Effortlessly connect to your LDAP servers and start running queries & operations faster than dial up.
+                Connect to your LDAP servers and start running queries & operations in minutes.
             </p>
         </div>
     </div>
 
     <!-- Fluent Query Builder. -->
     <div class="bg-purple-800">
-        <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-32 p-12 max-w-screen-xl mx-auto">
+        <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-16 p-12 max-w-screen-xl mx-auto">
             <div class="md:w-2/5 md:mr-8 flex flex-col items-center md:items-start">
                 <h3 class="text-center md:text-left text-5xl text-white my-0 font-extrabold italic">
                     Fluent Query Builder
                 </h3>
 
                 <p class="text-xl text-white text-center md:text-left">
-                    Building LDAP queries has never been so easy. Find the objects you're
-                    looking for in a couple lines or less with a fluent interface.
+                    Find the objects you're looking for in a couple lines or less with a fluent search builder.
                 </p>
             </div>
 
@@ -86,7 +89,7 @@
     </div>
 
     <!-- ActiveRecord. -->
-    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-24 p-12 max-w-screen-xl mx-auto">
+    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-16 p-12 max-w-screen-xl mx-auto">
         <div class="md:w-3/5">
             @component('components.feature')
                 @include('docs.examples.active-record')

@@ -54,12 +54,30 @@
 }
 
 .content {
-  ol,ul {
-    @apply .ml-8;
+  h1 {
+    @apply .border-b-2;
+    @apply .border-purple-200;
   }
 
-  ul {
-    list-style:circle;
+  h2 {
+    @apply .border-b-2;
+    @apply .border-purple-200;
+  }
+
+
+
+  ol,ul {
+    @apply .list-none;
+  }
+
+  ul li a:before {
+      content:'# ';
+      @apply .text-purple-400;
+  }
+
+  ul li a {
+    @apply .text-sm;
+    @apply .text-gray-700;
   }
 
   /* Hide scrollbars. */

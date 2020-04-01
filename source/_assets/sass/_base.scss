@@ -1,10 +1,10 @@
 body {
     font-size: 17px;
-    @apply .text-gray-800;
+    @apply .text-gray-700;
 }
 
 a {
-    @apply .font-semibold;
+    @apply .font-medium;
     @apply .no-underline;
     @apply .text-blue-600;
 
@@ -14,8 +14,8 @@ a {
 }
 
 blockquote {
-    @apply .border-blue-400;
-    @apply .bg-blue-100;
+    @apply .border-purple-400;
+    @apply .bg-purple-100;
     @apply .border-l-4;
     @apply .font-normal;
     @apply .italic;
@@ -26,6 +26,7 @@ blockquote {
     @apply .rounded;
     @apply .py-2;
     @apply .px-4;
+    @apply .shadow;
 
     p {
         @apply .m-0;
@@ -61,17 +62,17 @@ h6 {
 }
 
 h1 {
-    @apply .font-extrabold;
+    @apply .font-semibold;
     @apply .text-5xl;
 }
 
 h2 {
-    @apply .font-bold;
+    @apply .font-medium;
     @apply .text-4xl;
 }
 
 h3 {
-    @apply .font-bold;
+    @apply .font-medium;
     @apply .text-3xl;
 }
 
@@ -98,9 +99,11 @@ hr {
 }
 
 li {
+    @apply .my-1;
+
     ul,
     ol {
-        @apply .my-0;
+        @apply .my-1;
     }
 }
 

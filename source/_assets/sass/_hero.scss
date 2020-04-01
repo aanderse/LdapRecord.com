@@ -1,5 +1,4 @@
 .retro-hero {
-  @apply .min-h-screen;
   @apply .overflow-hidden;
   @apply .relative;
   @apply .flex;
@@ -30,9 +29,8 @@
 
 .retro-hero-content {
   @apply .z-10;
+  @apply .my-64;
   @apply .mx-12;
   @apply .mb-64;
   @apply .text-center;
-  @apply .overflow-hidden;
-  @apply .relative;
 }
