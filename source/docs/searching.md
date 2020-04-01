@@ -86,7 +86,7 @@ if ($record) {
 }
 ```
 
-##### Finding a record (or failing)
+#### Finding a record (or failing)
 
 If you'd like to try and find a single record and throw an exception when
 it hasn't been found, use the `findOrFail()` method:
@@ -123,7 +123,7 @@ $results = $query->select(['cn', 'samaccountname'])->get();
 >
 > Executed searches via the `first()` method will return **the model instance only**.
 
-##### Retrieving the first record
+#### Retrieving the first record
 
 To retrieve the first record of a search, call the `first()` method:
 
@@ -228,7 +228,7 @@ $results = $query->where('cn', 'contains', 'John Doe')->get();
 $results = $query->whereContains('cn', 'John Doe')->get();
 ```
 
-##### Where Not Contains
+#### Where Not Contains
 
 You can use a 'where not contains' to perform the inverse of a 'where contains':
 
@@ -254,7 +254,7 @@ $results = $query->whereHas('cn')->get();
 
 This type of filter syntax allows you to clearly see what your searching for.
 
-##### Where Not Has
+#### Where Not Has
 
 You can use a 'where not has' to perform the inverse of a 'where has':
 

@@ -196,21 +196,21 @@ Currently, there are 3 built-in date mutator types. They are:
 - `windows`
 - `windows-int`
 
-##### LDAP Type {#ldap-date-type}
+#### LDAP Type {#ldap-date-type}
 
 The `ldap` type is the most common format for LDAP timestamps -
 outside of Active Directory. This format converts LDAP timestamps
 in the format of `YYYYMMDDHHMMSST`. T is the time zone which
 is usually 'Z' (Zulu Time Zone = UTC/GMT).
 
-##### Windows Type {#windows-date-type}
+#### Windows Type {#windows-date-type}
 
 The `windows` type is similar to the `ldap` type, however it
 differs slightly so it requires its own conversion type. Its
 timestamp is in the format of `YYYYMMDDHHMMSS.0T`. T is the
 time zone which is usually 'Z' (Zulu Time Zone = UTC/GMT).
 
-##### Windows Integer Type {#windows-int-date-type}
+#### Windows Integer Type {#windows-int-date-type}
 
 The `windows-int` type handles the 18-digit Active Directory timestamp
 format, also named 'Windows NT time format', 'Win32 FILETIME or

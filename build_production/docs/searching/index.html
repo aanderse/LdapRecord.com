@@ -415,7 +415,7 @@ if ($record) {
 }
 </code></pre>
 
-<h5>Finding a record (or failing)</h5>
+<h4>Finding a record (or failing)</h4>
 
 <p>If you'd like to try and find a single record and throw an exception when
 it hasn't been found, use the <code>findOrFail()</code> method:</p>
@@ -451,7 +451,7 @@ $record = $query-&gt;findBy('samaccountname', 'jdoe');
   <p>Executed searches via the <code>first()</code> method will return <strong>the model instance only</strong>.</p>
 </blockquote>
 
-<h5>Retrieving the first record</h5>
+<h4>Retrieving the first record</h4>
 
 <p>To retrieve the first record of a search, call the <code>first()</code> method:</p>
 
@@ -546,7 +546,7 @@ $users = $query-&gt;whereBetween('whencreated', [$from, $to])-&gt;get();
 $results = $query-&gt;whereContains('cn', 'John Doe')-&gt;get();
 </code></pre>
 
-<h5>Where Not Contains</h5>
+<h4>Where Not Contains</h4>
 
 <p>You can use a 'where not contains' to perform the inverse of a 'where contains':</p>
 
@@ -570,7 +570,7 @@ $results = $query-&gt;whereHas('cn')-&gt;get();
 
 <p>This type of filter syntax allows you to clearly see what your searching for.</p>
 
-<h5>Where Not Has</h5>
+<h4>Where Not Has</h4>
 
 <p>You can use a 'where not has' to perform the inverse of a 'where has':</p>
 
