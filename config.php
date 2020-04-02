@@ -26,8 +26,7 @@ return [
             return collect($links)->map(function ($path, $label) {
                 return ['path' => $path, 'label' => $label];
             });
-        })
-            ->flatten(1);
+        })->flatten(1);
         // After: [['label' => 'foo', 'path' => 'bar'], ['label' => 'bob', 'path' => 'lob'], ['label' => 'law', 'path' => 'blog']]
         $pathsByIndex = $flattenedArrayOfPagesAndTheirLables->pluck('path');
         $currentIndex = $pathsByIndex->search(trimPath($page->getPath()));
@@ -41,8 +40,7 @@ return [
             return collect($links)->map(function ($path, $label) {
                 return ['path' => $path, 'label' => $label];
             });
-        })
-            ->flatten(1);
+        })->flatten(1);
         // After: [['label' => 'foo', 'path' => 'bar'], ['label' => 'bob', 'path' => 'lob'], ['label' => 'law', 'path' => 'blog']]
         $pathsByIndex = $flattenedArrayOfPagesAndTheirLables->pluck('path');
         $currentIndex = $pathsByIndex->search(trimPath($page->getPath()));
