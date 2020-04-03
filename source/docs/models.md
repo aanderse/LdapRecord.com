@@ -446,6 +446,7 @@ based on your configured `base_dn` that you have set inside your connections con
 
 ```php
 <?php
+
 $conn = new Connection([
     // ...
     'base_dn' => 'dc=local,dc=com',
