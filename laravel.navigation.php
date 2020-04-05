@@ -17,6 +17,7 @@ return [
             'Testing' => 'docs/laravel/auth/testing',
         ]
     ],
+    'Importing Objects' => 'docs/laravel/importing',
     'Testing' => 'docs/laravel/testing',
     'Debugging' => 'docs/laravel/debugging',
     'Versioning' => 'docs/laravel/versioning',

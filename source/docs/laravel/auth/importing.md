@@ -5,7 +5,7 @@ extends: _layouts.laravel-documentation
 section: content
 ---
 
-# Importing Users
+# Importing LDAP Users
 
 - [Introduction](#introduction)
 - [Attribute Synchronization](#attribute-synchronization)
