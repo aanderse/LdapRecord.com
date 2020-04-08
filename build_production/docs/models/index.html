@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=1e49322245a77c44a4dc">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=1eb4bba08db086d13271">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -878,9 +878,17 @@ your base Distinguished Name.</p>
  */
 public function getCreatableRdn()
 {
-    return "cn={$this-&gt;getFirstAttribute('cn')}";
+    $name = $this-&gt;escape($this-&gt;getFirstAttribute('cn'))-&gt;dn();
+
+    return "cn=$name";
 }
 </code></pre>
+
+<blockquote>
+  <p>As you can see above, the attribute is escaped before being passed into the RDN string.
+  <strong>You must do this</strong>, otherwise if commas or other reserved characters are inside the
+  attribute you are using, it will generate a malformed distinguished name.</p>
+</blockquote>
 
 <p>You may override this method to allow your models Distinguished Name's to be dynamically generated
 rather than creating them yourself manually. For example, here is how we would set the Relative
@@ -888,7 +896,9 @@ Distinguished Name (RDN) for an Active Directory <code>OrganizationalUnit</code>
 
 <pre><code class="language-php">public function getCreatableRdn()
 {
-    return "ou={$this-&gt;getFirstAttribute('ou')}";
+    $name = $this-&gt;escape($this-&gt;getFirstAttribute('ou'))-&gt;dn();
+
+    return "ou=$name";
 }
 </code></pre>
 

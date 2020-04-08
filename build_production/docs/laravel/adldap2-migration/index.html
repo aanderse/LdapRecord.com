@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="LdapRecord-Laravel Quickstart Guide">
+        <meta name="description" content="A guide to help developers migrate from Adldap2-Laravel to LdapRecord-Laravel">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Quickstart | LdapRecord"/>
-        <meta property="og:description" content="LdapRecord-Laravel Quickstart Guide"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/quickstart"/>
+        <meta property="og:title" content="Adldap2-Laravel Migration | LdapRecord"/>
+        <meta property="og:description" content="A guide to help developers migrate from Adldap2-Laravel to LdapRecord-Laravel"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/adldap2-migration"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Quickstart</title>
+        <title>LdapRecord | Adldap2-Laravel Migration</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -108,7 +108,7 @@
             <li class="pl-4">
             
         <a href="/docs/laravel/quickstart"
-            class="lvl0  active font-semibold text-purple-600 nav-menu__item hover:text-purple-500"
+            class="lvl0  text-gray-700 nav-menu__item hover:text-purple-500"
         >
             Quickstart
         </a>
@@ -292,66 +292,11 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Quickstart</h1>
+                <h2>Migrating from Adldap2-Laravel</h2>
 
-<h3 id="install-ldaprecord-laravel">Step 1: Install LdapRecord-Laravel</h3>
-
-<p>Require LdapRecord-Laravel via <a href="https://getcomposer.org/">composer</a>:</p>
-
-<pre><code class="language-bash">composer require directorytree/ldaprecord-laravel
-</code></pre>
-
-<h3 id="publish-configuration">Step 2: Publish the LDAP configuration file</h3>
-
-<pre><code class="language-bash">php artisan vendor:publish --provider="LdapRecord\Laravel\LdapServiceProvider"
-</code></pre>
-
-<h3 id="configure-connection">Step 3: Configure your LDAP connection</h3>
-
-<p>Paste these environment variables into your <code>.env</code> file, and configure each option as necessary:</p>
-
-<pre><code class="language-dotenv">LDAP_LOGGING=true
-LDAP_CONNECTION=default
-LDAP_HOST=127.0.0.1
-LDAP_USERNAME="cn=user,dc=local,dc=com"
-LDAP_PASSWORD=secret
-LDAP_PORT=389
-LDAP_BASE_DN="dc=local,dc=com"
-LDAP_TIMEOUT=5
-LDAP_SSL=false
-LDAP_TLS=false
-</code></pre>
-
-<p>View the core <a href="/docs/configuration">configuration</a> documentation for more information.</p>
-
-<h3 id="usage">Step 4: Usage</h3>
-
-<p>To begin, you may either use the built-in <a href="/docs/models#predefined-models">models that LdapRecord comes with</a>,
-or you may create your own models that reference the connection you have created in your <code>ldap.php</code> file.</p>
-
-<p>Call the below command to create a new LdapRecord model:</p>
-
-<pre><code class="language-bash">php artisan make:ldap-model User
-</code></pre>
-
-<p>Then use it in your application:</p>
-
-<pre><code class="language-php">&lt;?php
-
-namespace App\Http\Controllers;
-
-use App\Ldap\User;
-
-class LdapUserController extends Controller
-{
-    public function index()
-    {
-        $users = User::get();
-
-        return view('ldap.users.index', ['users' =&gt; $users]);
-    }
-}
-</code></pre>
+<p>LdapRecord is the direct successor to Adldap2. This guide will attempt to help you migrate directly
+from Adlap2-Laravel to LdapRecord-Laravel. However, please be aware that this guide cannot cover
+every single use-case in your application.</p>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">

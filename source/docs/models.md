@@ -479,9 +479,15 @@ Since *most* LDAP objects require a Common Name (`cn`) this is defaulted to:
  */
 public function getCreatableRdn()
 {
-    return "cn={$this->getFirstAttribute('cn')}";
+    $name = $this->escape($this->getFirstAttribute('cn'))->dn();
+    
+    return "cn=$name";
 }
 ```
+
+> As you can see above, the attribute is escaped before being passed into the RDN string.
+> **You must do this**, otherwise if commas or other reserved characters are inside the
+> attribute you are using, it will generate a malformed distinguished name.
 
 You may override this method to allow your models Distinguished Name's to be dynamically generated
 rather than creating them yourself manually. For example, here is how we would set the Relative
@@ -490,7 +496,9 @@ Distinguished Name (RDN) for an Active Directory `OrganizationalUnit` model:
 ```php
 public function getCreatableRdn()
 {
-    return "ou={$this->getFirstAttribute('ou')}";
+    $name = $this->escape($this->getFirstAttribute('ou'))->dn();
+
+    return "ou=$name";
 }
 ```
 
