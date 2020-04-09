@@ -1,4 +1,4 @@
-<div class="feature shadow-lg">
+<div class="feature shadow-2xl">
     <div class="top-bar">
         <div class="circles">
             <div class="circle circle-red"></div>

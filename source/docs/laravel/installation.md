@@ -7,7 +7,7 @@ section: content
 
 # Installation
 
-**Heads up!** Before you get started, LdapRecord-Laravel requires the following:
+LdapRecord-Laravel requires the following:
 
 Requirements |
 --- |

@@ -2,8 +2,6 @@
 
 @section('body')
 <section class="retro-hero">
-    <div class="retro-hero-background w-11/12 md:w-1/2 bg-purple-900" style="transform: skew(45deg);"></div>
-
     <div class="retro-hero-content md:mx-48">
         <h1 class="retro-hero-heading sm:text-4xl lg:text-5xl xl:text-6xl">
             <em>Integrate LDAP into your PHP applications</em>
@@ -18,11 +16,11 @@
         </h4>
 
         <div class="flex justify-center my-10">
-            <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="uppercase tracking-wide italic bg-purple-600 hover:bg-purple-700 font-extrabold text-white hover:text-white rounded mr-4 py-3 px-6">
+            <a href="/docs/installation" title="{{ $page->siteName }} getting started" class="uppercase tracking-wide italic bg-purple-600 hover:bg-purple-700 font-extrabold text-white hover:text-white rounded mr-4 py-3 px-6 shadow-lg">
                 Get Started
             </a>
 
-            <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="uppercase tracking-wide italic bg-gray-400 hover:bg-gray-600 text-blue-900 font-extrabold hover:text-white rounded py-3 px-6">
+            <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="uppercase tracking-wide italic bg-gray-400 hover:bg-gray-600 text-blue-900 font-extrabold hover:text-white rounded py-3 px-6 shadow-lg">
                 Source Code
             </a>
         </div>

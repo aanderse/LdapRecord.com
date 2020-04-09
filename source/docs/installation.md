@@ -7,7 +7,7 @@ section: content
 
 # Installation {#installation}
 
-**Heads up!** Before you get started, LdapRecord requires the following:
+LdapRecord requires the following:
 
 Requirements |
 --- |
