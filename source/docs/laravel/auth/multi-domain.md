@@ -108,7 +108,7 @@ Now, we need to setup a new [authentication provider](/docs/laravel/auth/configu
 ],
 ```
 
-## Authenticating
+## Authenticating {#authenticating}
 
 To start authenticating users from both of your LDAP domains, we need to modify our `LoginController`.
 
@@ -183,7 +183,7 @@ to our `alpha` domain.
 > You may wish to add a request validation rule instead to prevent users from signing
 > in with invalid email domain. The way you implement this is totally up to you.
 
-## Routes
+## Routes {#routes}
 
 Having multiple authentication guards means that we need to update the `auth` middleware
 that is covering our protected application routes.
