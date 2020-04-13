@@ -352,6 +352,7 @@
 <li><a href="#creating">Creating</a></li>
 <li><a href="#updating">Updating</a></li>
 </ul></li>
+<li><a href="#restoring">Restoring Deleted Models</a></li>
 <li><a href="#attributes">Attributes</a>
 
 <ul>
@@ -963,6 +964,51 @@ $user-&gt;department = 'Accounting';
 $user-&gt;displayname = 'Johnathan Doe';
 
 $user-&gt;save();
+</code></pre>
+
+<h2 id="restoring">Restoring Deleted Models</h2>
+
+<blockquote>
+  <p><strong>Important</strong>: This feature is only possible when connecting to an Active Directory server.</p>
+</blockquote>
+
+<p>To restore a deleted object, we must first query the directory
+for deleted objects by using the <code>whereDeleted</code> method:</p>
+
+<pre><code class="language-php">use LdapRecord\LdapRecordException;
+use LdapRecord\Models\ActiveDirectory\User;
+
+$user = User::whereDeleted()-&gt;where('mail', '=', 'sbauman@local.com')-&gt;first();
+
+try {
+    $user-&gt;restore();
+
+    // Successfully restored user.
+} catch (LdapRecordException $ex) {
+    // Failed restoring user.
+}
+</code></pre>
+
+<p>If you're including deleted results in your queries using the <code>withDeleted</code> clause,
+you can call the <code>isDeleted</code> method to check if an object has been deleted:</p>
+
+<pre><code class="language-php">$users = User::withDeleted()-&gt;get();
+
+foreach ($users as $user) {
+    if ($user-&gt;isDeleted()) {
+        $user-&gt;restore();
+    }
+}
+</code></pre>
+
+<p>If you call <code>restore</code> on a non-deleted object, it will simply return <code>false</code>:</p>
+
+<pre><code class="language-php">$user = User::where('cn', '=', 'Steve Bauman')-&gt;first();
+
+$result = $user-&gt;restore();
+
+// Displays bool(false)
+var_dump($result);
 </code></pre>
 
 <h2 id="attributes">Attributes</h2>

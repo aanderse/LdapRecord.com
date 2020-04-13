@@ -20,6 +20,7 @@ section: content
 - [Creating & Updating Models](#creating-amp-updating-models)
  - [Creating](#creating)
  - [Updating](#updating)
+- [Restoring Deleted Models](#restoring)
 - [Attributes](#attributes)
  - [Methods](#methods)
  - [Array Conversion](#array-conversion)
@@ -569,6 +570,52 @@ $user->department = 'Accounting';
 $user->displayname = 'Johnathan Doe';
 
 $user->save();
+```
+
+## Restoring Deleted Models {#restoring}
+
+> **Important**: This feature is only possible when connecting to an Active Directory server.
+
+To restore a deleted object, we must first query the directory
+for deleted objects by using the `whereDeleted` method:
+
+```php
+use LdapRecord\LdapRecordException;
+use LdapRecord\Models\ActiveDirectory\User;
+
+$user = User::whereDeleted()->where('mail', '=', 'sbauman@local.com')->first();
+
+try {
+    $user->restore();
+
+    // Successfully restored user.
+} catch (LdapRecordException $ex) {
+    // Failed restoring user.
+}
+```
+
+If you're including deleted results in your queries using the `withDeleted` clause,
+you can call the `isDeleted` method to check if an object has been deleted:
+
+```php
+$users = User::withDeleted()->get();
+
+foreach ($users as $user) {
+    if ($user->isDeleted()) {
+        $user->restore();
+    }
+}
+```
+
+If you call `restore` on a non-deleted object, it will simply return `false`:
+
+```php
+$user = User::where('cn', '=', 'Steve Bauman')->first();
+
+$result = $user->restore();
+
+// Displays bool(false)
+var_dump($result);
 ```
 
 ## Attributes {#attributes}
