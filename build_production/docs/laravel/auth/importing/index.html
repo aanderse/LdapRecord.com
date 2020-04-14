@@ -333,7 +333,7 @@ possible synchronized password that was set upon login.</li>
 <li><strong>Passwords will always be set to a hashed 16 character string if not already present.</strong>
 If the user being imported does not have a password, their password will be set to a
 hashed 16 character random string using <code>Str::random</code>.</li>
-<li>**Passwords will not be set if you have defined a null value for <code>password_column</code></li>
+<li><strong>Passwords will not be set</strong> if you have defined <code>false</code> for <code>password_column</code>.</li>
 </ul>
 
 <h2 id="running-the-command">Running the command</h2>

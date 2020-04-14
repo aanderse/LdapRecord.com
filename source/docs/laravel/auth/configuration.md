@@ -124,7 +124,7 @@ it using the `password_column` key inside of your providers configuration:
 ],
 ```
 
-You can also set the value to `null` if your database table does not have any password column at all:
+You can also set the value to `false` if your database table does not have any password column at all:
 
 ```php
 'providers' => [
@@ -134,7 +134,7 @@ You can also set the value to `null` if your database table does not have any pa
         // ...
         'database' => [
             // ...
-            'password_column' => null,
+            'password_column' => false,
         ],
     ],
 ],

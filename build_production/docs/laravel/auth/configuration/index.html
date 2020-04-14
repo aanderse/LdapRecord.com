@@ -420,7 +420,7 @@ it using the <code>password_column</code> key inside of your providers configura
 ],
 </code></pre>
 
-<p>You can also set the value to <code>null</code> if your database table does not have any password column at all:</p>
+<p>You can also set the value to <code>false</code> if your database table does not have any password column at all:</p>
 
 <pre><code class="language-php">'providers' =&gt; [
     // ...
@@ -429,7 +429,7 @@ it using the <code>password_column</code> key inside of your providers configura
         // ...
         'database' =&gt; [
             // ...
-            'password_column' =&gt; null,
+            'password_column' =&gt; false,
         ],
     ],
 ],

@@ -43,7 +43,7 @@ and synchronizing users. However, there are some main takeaways you must be awar
 - **Passwords will always be set to a hashed 16 character string if not already present.**
   If the user being imported does not have a password, their password will be set to a
   hashed 16 character random string using `Str::random`.
-- **Passwords will not be set if you have defined a null value for `password_column`
+- **Passwords will not be set** if you have defined `false` for `password_column`.
 
 ## Running the command {#running-the-command}
 
