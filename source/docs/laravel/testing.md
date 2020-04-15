@@ -254,7 +254,7 @@ any results, but we will when using the `$user->groups()` relationship:
 $users = $group->members()->get();
 
 // A collection containing 'Accounting' group returned.
-$groups = $user->group()->get();
+$groups = $user->groups()->get();
 ```
 
 The `$user->groups()` relationship works because it queries for groups that contain a `member`
