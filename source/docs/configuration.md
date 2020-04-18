@@ -95,7 +95,7 @@ To run administration level operations, such as resetting passwords, this accoun
 
 The port option is used for authenticating and binding to your LDAP server.
 
-The default ports are already used for non SSL and SSL connections (389 and 636).
+The default ports are already used for non SSL and SSL connections (`389` and `636`).
 
 Only insert a port if your LDAP server uses a unique port.
 
@@ -109,10 +109,10 @@ Requirements & Tips |
 --- |
 Only **one** can be set to `true`. You must chose either or. |
 You **must** enable SSL or TLS to set / change / reset passwords in Active Directory. |
-TLS is recommended over SSL. SSL is labelled as a deprecated mechanism for securely running LDAP operations. |
+**TLS is recommended over SSL**. SSL is labelled as a deprecated mechanism for securely running LDAP operations. |
 
 If you're having connectivity issues over SSL or TLS, you may have to
-configure an `ldap.conf` file and add the following inside:
+create an `ldap.conf` file and add the following inside:
 
 ```text
 TLS_REQCERT never
@@ -167,10 +167,10 @@ TLS_REQCERT hard
 
 ### Timeout {#timeout}
 
-The timeout option allows you to configure the amount of seconds to wait until
-your application receives a response from your LDAP server.
+The timeout option allows you to configure the amount of seconds to wait
+until your application receives a response from your LDAP server.
 
-The default is 5 seconds.
+The default is `5` seconds.
 
 ### Version {#version}
 
@@ -182,18 +182,22 @@ Must be an integer and can either be `2` or `3`.
 
 The follow referrals option is a boolean to tell Active Directory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.
 
-This option is defaulted to false.
+This option is defaulted to `false`.
 
 Disable this option if you're experiencing search / connectivity issues.
 
-For more information, visit: https://technet.microsoft.com/en-us/library/cc978014.aspx
+For more information, visit:
+[https://technet.microsoft.com/en-us/library/cc978014.aspx](https://technet.microsoft.com/en-us/library/cc978014.aspx)
 
 ### Options {#options}
 
 Arbitrary options can be set for the connection to fine-tune TLS and connection behavior.
 
-Please note that `LDAP_OPT_PROTOCOL_VERSION`, `LDAP_OPT_NETWORK_TIMEOUT` and `LDAP_OPT_REFERRALS` will be ignored if set.
+> The following options will be ignored if set:
+> - `LDAP_OPT_PROTOCOL_VERSION`
+> - `LDAP_OPT_NETWORK_TIMEOUT`
+> - `LDAP_OPT_REFERRALS`
+>
+> These are set above with the `version`, `timeout` and `follow_referrals` keys respectively.
 
-These are set above with the `version`, `timeout` and `follow_referrals` keys respectively.
-
-Valid options are listed in the [PHP documentation for ldap_set_option](http://php.net/ldap_set_option).
+Valid LDAP options are listed in the [PHP documentation for ldap_set_option](http://php.net/ldap_set_option) documentation.
