@@ -537,7 +537,7 @@ any results, but we will when using the <code>$user-&gt;groups()</code> relation
 $users = $group-&gt;members()-&gt;get();
 
 // A collection containing 'Accounting' group returned.
-$groups = $user-&gt;group()-&gt;get();
+$groups = $user-&gt;groups()-&gt;get();
 </code></pre>
 
 <p>The <code>$user-&gt;groups()</code> relationship works because it queries for groups that contain a <code>member</code>

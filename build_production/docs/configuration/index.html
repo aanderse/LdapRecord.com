@@ -354,11 +354,11 @@
 
     // Optional Configuration Options
     'port'             =&gt; 389,
-    'follow_referrals' =&gt; false,
     'use_ssl'          =&gt; false,
     'use_tls'          =&gt; false,
     'version'          =&gt; 3,
     'timeout'          =&gt; 5,
+    'follow_referrals' =&gt; false,
 
     // Custom LDAP Options
     'options' =&gt; [
@@ -438,7 +438,7 @@ as the root. This would allow all records <em>below</em> it to be retrieved from
 </thead>
 <tbody>
 <tr>
-  <td>The <code>username</code> option must be a users <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names">Distinguished Name</a>. If you are connecting to an Active Directory server, you may use a users <a href="https://docs.microsoft.com/en-us/windows/win32/secauthn/user-name-formats#user-principal-name">userPrincipalName</a> (<code>sbauman@local.com</code>) or <a href="https://docs.microsoft.com/en-us/windows/win32/secauthn/user-name-formats#down-level-logon-name">Down-Level Logon Name</a> (<code>DOMAIN\\username</code>) instead.</td>
+  <td>The <code>username</code> option must be a users <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names">Distinguished Name</a>. If you are connecting to an Active Directory server, you may use a users <a href="https://docs.microsoft.com/en-us/windows/win32/secauthn/user-name-formats#user-principal-name">userPrincipalName</a> (<code>username@domain.com</code>) or <a href="https://docs.microsoft.com/en-us/windows/win32/secauthn/user-name-formats#down-level-logon-name">Down-Level Logon Name</a> (<code>DOMAIN\\username</code>) instead.</td>
 </tr>
 <tr>
   <td>To run administration level operations, such as resetting passwords, this account <strong>must</strong> have the permissions to do so on your directory.</td>
@@ -450,7 +450,7 @@ as the root. This would allow all records <em>below</em> it to be retrieved from
 
 <p>The port option is used for authenticating and binding to your LDAP server.</p>
 
-<p>The default ports are already used for non SSL and SSL connections (389 and 636).</p>
+<p>The default ports are already used for non SSL and SSL connections (<code>389</code> and <code>636</code>).</p>
 
 <p>Only insert a port if your LDAP server uses a unique port.</p>
 
@@ -474,13 +474,13 @@ as the root. This would allow all records <em>below</em> it to be retrieved from
   <td>You <strong>must</strong> enable SSL or TLS to set / change / reset passwords in Active Directory.</td>
 </tr>
 <tr>
-  <td>TLS is recommended over SSL. SSL is labelled as a deprecated mechanism for securely running LDAP operations.</td>
+  <td><strong>TLS is recommended over SSL</strong>. SSL is labelled as a deprecated mechanism for securely running LDAP operations.</td>
 </tr>
 </tbody>
 </table>
 
 <p>If you're having connectivity issues over SSL or TLS, you may have to
-configure an <code>ldap.conf</code> file and add the following inside:</p>
+create an <code>ldap.conf</code> file and add the following inside:</p>
 
 <pre><code class="language-text">TLS_REQCERT never
 </code></pre>
@@ -564,10 +564,10 @@ TLS_REQCERT hard
 
 <h3 id="timeout">Timeout</h3>
 
-<p>The timeout option allows you to configure the amount of seconds to wait until
-your application receives a response from your LDAP server.</p>
+<p>The timeout option allows you to configure the amount of seconds to wait
+until your application receives a response from your LDAP server.</p>
 
-<p>The default is 5 seconds.</p>
+<p>The default is <code>5</code> seconds.</p>
 
 <h3 id="version">Version</h3>
 
@@ -579,21 +579,27 @@ your application receives a response from your LDAP server.</p>
 
 <p>The follow referrals option is a boolean to tell Active Directory to follow a referral to another server on your network if the server queried knows the information your asking for exists, but does not yet contain a copy of it locally.</p>
 
-<p>This option is defaulted to false.</p>
+<p>This option is defaulted to <code>false</code>.</p>
 
 <p>Disable this option if you're experiencing search / connectivity issues.</p>
 
-<p>For more information, visit: https://technet.microsoft.com/en-us/library/cc978014.aspx</p>
+<p>For more information, visit:
+<a href="https://technet.microsoft.com/en-us/library/cc978014.aspx">https://technet.microsoft.com/en-us/library/cc978014.aspx</a></p>
 
 <h3 id="options">Options</h3>
 
 <p>Arbitrary options can be set for the connection to fine-tune TLS and connection behavior.</p>
 
-<p>Please note that <code>LDAP_OPT_PROTOCOL_VERSION</code>, <code>LDAP_OPT_NETWORK_TIMEOUT</code> and <code>LDAP_OPT_REFERRALS</code> will be ignored if set.</p>
+<blockquote>
+  <p>The following options will be ignored if set:
+  - <code>LDAP_OPT_PROTOCOL_VERSION</code>
+  - <code>LDAP_OPT_NETWORK_TIMEOUT</code>
+  - <code>LDAP_OPT_REFERRALS</code></p>
+  
+  <p>These are set above with the <code>version</code>, <code>timeout</code> and <code>follow_referrals</code> keys respectively.</p>
+</blockquote>
 
-<p>These are set above with the <code>version</code>, <code>timeout</code> and <code>follow_referrals</code> keys respectively.</p>
-
-<p>Valid options are listed in the <a href="http://php.net/ldap_set_option">PHP documentation for ldap_set_option</a>.</p>
+<p>Valid LDAP options are listed in the <a href="http://php.net/ldap_set_option">PHP documentation for ldap_set_option</a> documentation.</p>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">

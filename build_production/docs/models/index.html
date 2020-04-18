@@ -365,7 +365,11 @@
 <li><a href="#comparing-models">Comparing Models</a></li>
 <li><a href="#query-scopes">Query Scopes</a></li>
 <li><a href="#events">Events</a></li>
-<li><a href="#serialization">Serialization</a></li>
+<li><a href="#serialization">Serialization</a>
+
+<ul>
+<li><a href="#hiding-attributes">Hiding Attributes</a></li>
+</ul></li>
 </ul>
 
 <h2 id="introduction">Introduction</h2>
@@ -1478,6 +1482,34 @@ $user = User::first();
 echo json_encode($user);
 </code></pre>
 
+<h3 id="hiding-attributes">Hiding Attributes</h3>
+
+<p>You may want to exclude certain attributes from being included in the
+serialization of your model, such as <code>userPassword</code> for OpenLDAP.</p>
+
+<p>To do this, add a <code>$hides</code> property to your model:</p>
+
+<pre><code class="language-php">use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    protected $hides = ['userPassword'];
+}
+</code></pre>
+
+<p>Now when you <code>json_encode($model)</code>, all attributes will be included <strong>except</strong> the <code>userPassword</code> attribute.</p>
+
+<p>If you'd prefer a white-list of attributes, you can add a <code>$visible</code> property instead,
+which will ensure only the attributes specified will be included in serialization:</p>
+
+<pre><code class="language-php">use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    protected $visible = ['cn', 'mail', 'sn'];
+}
+</code></pre>
+
 <h4 id="converting-attributes-to-json">Converting Attributes to JSON</h4>
 
 <p>Depending on the type of LDAP directory and model you are working with, you may need
@@ -1504,9 +1536,7 @@ class User extends Model
         if ($this-&gt;hasAttribute('objectguid')) {
             // If the model has a GUID set, we need to convert it due to it being in
             // binary. Otherwise we will receive a JSON serialization exception.
-            return array_replace($attributes, [
-                'objectguid' =&gt; [$this-&gt;getConvertedGuid()],
-            ]);
+            return array_replace($attributes, ['objectguid' =&gt; [$this-&gt;getConvertedGuid()]]);
         }
 
         return $attributes;

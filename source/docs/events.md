@@ -82,7 +82,10 @@ Model events are handled the same way as authentication events.
 Simply call the event dispatcher `listen()` method with the model event you are wanting to listen for:
 
 ```php
-$dispatcher = \LdapRecord\Container::getEventDispatcher();
+use LdapRecord\Container;
+use LdapRecord\Models\Events\Saving;
+
+$dispatcher = Container::getEventDispatcher();
 
 $dispatcher->listen(Saving::class, function (Saving $event) {    
     // Returns the model instance being saved,

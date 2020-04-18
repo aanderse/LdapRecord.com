@@ -404,7 +404,10 @@ class BindingEventHandler
 
 <p>Simply call the event dispatcher <code>listen()</code> method with the model event you are wanting to listen for:</p>
 
-<pre><code class="language-php">$dispatcher = \LdapRecord\Container::getEventDispatcher();
+<pre><code class="language-php">use LdapRecord\Container;
+use LdapRecord\Models\Events\Saving;
+
+$dispatcher = Container::getEventDispatcher();
 
 $dispatcher-&gt;listen(Saving::class, function (Saving $event) {    
     // Returns the model instance being saved,

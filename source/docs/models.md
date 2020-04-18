@@ -31,6 +31,7 @@ section: content
 - [Query Scopes](#query-scopes)
 - [Events](#events)
 - [Serialization](#serialization)
+ - [Hiding Attributes](#hiding-attributes)
 
 ## Introduction {#introduction}
 
@@ -1105,6 +1106,36 @@ $user = User::first();
 echo json_encode($user);
 ```
 
+### Hiding Attributes {#hiding-attributes}
+
+You may want to exclude certain attributes from being included in the
+serialization of your model, such as `userPassword` for OpenLDAP.
+
+To do this, add a `$hides` property to your model:
+
+```php
+use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    protected $hides = ['userPassword'];
+}
+``` 
+
+Now when you `json_encode($model)`, all attributes will be included **except** the `userPassword` attribute.
+
+If you'd prefer a white-list of attributes, you can add a `$visible` property instead,
+which will ensure only the attributes specified will be included in serialization:
+
+```php
+use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    protected $visible = ['cn', 'mail', 'sn'];
+}
+``` 
+
 #### Converting Attributes to JSON {#converting-attributes-to-json}
 
 Depending on the type of LDAP directory and model you are working with, you may need
@@ -1130,9 +1161,7 @@ class User extends Model
         if ($this->hasAttribute('objectguid')) {
             // If the model has a GUID set, we need to convert it due to it being in
             // binary. Otherwise we will receive a JSON serialization exception.
-            return array_replace($attributes, [
-                'objectguid' => [$this->getConvertedGuid()],
-            ]);
+            return array_replace($attributes, ['objectguid' => [$this->getConvertedGuid()]]);
         }
 
         return $attributes;
