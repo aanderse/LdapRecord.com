@@ -28,7 +28,7 @@ LdapRecord-Laravel allows you to import users from your LDAP directories into yo
 This is done by executing the `php artisan ldap:import` command and is only available to LDAP
 authentication providers you configure with [database synchronization](/docs/laravel/auth/configuration/#database).
 
-As it is with logging users into your application, the Eloquent database model you specify in your
+As it is with signing users into your application, the Eloquent database model you specify in your
 `config/auth.php` file is used for the creation and retrieval of users in your database.
 
 ## Attribute Synchronization {#attribute-synchronization}
