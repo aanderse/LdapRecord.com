@@ -220,6 +220,47 @@ This means, all other users will be left untouched, such as local database
 users  that were not imported from an LDAP server, as well as users
 that were imported from another domain.
 
+**Soft-deleted users are reported in the log.**
+
+When users are soft-deleted, a log entry will be created for each one:
+
+```text
+User with [id = 2] has been soft-deleted due to being missing from LDAP import.
+User with [id = 5] has been soft-deleted due to being missing from LDAP import.
+```
+
+#### The DeletedMissing Event
+
+A `DeletedMissing` event is fired in the event of any users being soft-deleted.
+
+You may listen for this event and access the IDs of the deleted users, as well as the Eloquent model
+that was used to perform the deletion, and the LdapRecord model that was used to perform the import.
+
+Here is an example listener that accesses this event and its properties:
+
+```php
+// app/Listeners/UsersDeletedFromImport.php
+
+namespace App\Listeners;
+
+use LdapRecord\Laravel\Events\DeletedMissing;
+
+class UsersDeletedFromImport
+{
+    public function handle(DeletedMissing $event)
+    {
+        // \Illuminate\Support\Collection
+        $event->ids;
+        
+        // \LdapRecord\Models\ActiveDirectory\User
+        $event->ldap;
+        
+        // \App\User
+        $event->eloquent;
+    }
+}
+```
+
 ### Restore {#option-restore}
 
 > This option is only available on Active Directory models.
