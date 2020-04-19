@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=16bbf7f9105a910ce635">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=02193277ebfa4387de57">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -336,11 +336,11 @@ and synchronizing users. However, there are some main takeaways you must be awar
 
 <ul>
 <li><strong>Passwords cannot be retrieved from users who are being imported from your LDAP server.</strong>
-This would be a major security risk if this were possible. If a password is already
+<br/>This would be a major security risk if this were possible. If a password is already
 set for the user being imported, it will be left untouched. This is to retain a
 possible synchronized password that was set upon login.</li>
 <li><strong>Passwords will always be set to a hashed 16 character string if not already present.</strong>
-If the user being imported does not have a password, their password will be set to a
+<br/>If the user being imported does not have a password, their password will be set to a
 hashed 16 character random string using <code>Str::random</code>.</li>
 <li><strong>Passwords will not be set</strong> if you have defined <code>false</code> for <code>password_column</code>.</li>
 </ul>
@@ -608,15 +608,20 @@ $schedule-&gt;command('ldap:import ldap', ['--no-interaction', '--filter' =&gt; 
 <ul>
 <li>Users who already exist inside your database will be updated with your configured providers <code>sync_attributes</code></li>
 <li>Users are never deleted from the import command, you will need to delete users regularly through your Eloquent model</li>
-<li>Successfully imported (new) users are reported in your log files with:
-<code>text
-[2020-01-29 14:51:51] local.INFO: Imported user johndoe</code></li>
-<li>Unsuccessful imported users are also reported in your log files, with the message of the exception:
-<code>text
-[2020-01-29 14:51:51] local.ERROR: Unable to import user janedoe. SQLSTATE[23000]: Integrity constraint violation: 1048</code></li>
 <li>If you have a password mutator (setter) on your <code>User</code> Eloquent model, it will not override it.
 This allows you to hash the random 16 character passwords any way you prefer.</li>
+<li>Successfully imported (new) users are reported in your log files:</li>
 </ul>
+
+<pre><code class="language-text">[2020-01-29 14:51:51] local.INFO: Imported user johndoe
+</code></pre>
+
+<ul>
+<li>Unsuccessful imported users are also reported in your log files, with the message of the exception:</li>
+</ul>
+
+<pre><code class="language-text">[2020-01-29 14:51:51] local.ERROR: Unable to import user janedoe. SQLSTATE[23000]: Integrity constraint violation: 1048
+</code></pre>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">

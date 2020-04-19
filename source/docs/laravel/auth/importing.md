@@ -43,11 +43,11 @@ The `sync_passwords` option you define inside of your `config/auth.php` file is 
 and synchronizing users. However, there are some main takeaways you must be aware of:
 
 - **Passwords cannot be retrieved from users who are being imported from your LDAP server.**
-  This would be a major security risk if this were possible. If a password is already
+  <br/>This would be a major security risk if this were possible. If a password is already
   set for the user being imported, it will be left untouched. This is to retain a
   possible synchronized password that was set upon login.
 - **Passwords will always be set to a hashed 16 character string if not already present.**
-  If the user being imported does not have a password, their password will be set to a
+  <br/>If the user being imported does not have a password, their password will be set to a
   hashed 16 character random string using `Str::random`.
 - **Passwords will not be set** if you have defined `false` for `password_column`.
 
@@ -318,13 +318,13 @@ $schedule->command('ldap:import ldap', ['--no-interaction', '--filter' => $filte
 
 - Users who already exist inside your database will be updated with your configured providers `sync_attributes`
 - Users are never deleted from the import command, you will need to delete users regularly through your Eloquent model
-- Successfully imported (new) users are reported in your log files with:
-  ```text
-  [2020-01-29 14:51:51] local.INFO: Imported user johndoe
-  ```
-- Unsuccessful imported users are also reported in your log files, with the message of the exception:
-  ```text
-  [2020-01-29 14:51:51] local.ERROR: Unable to import user janedoe. SQLSTATE[23000]: Integrity constraint violation: 1048
-  ```
 - If you have a password mutator (setter) on your `User` Eloquent model, it will not override it.
   This allows you to hash the random 16 character passwords any way you prefer.
+- Successfully imported (new) users are reported in your log files:
+```text
+[2020-01-29 14:51:51] local.INFO: Imported user johndoe
+```
+- Unsuccessful imported users are also reported in your log files, with the message of the exception:
+```text
+[2020-01-29 14:51:51] local.ERROR: Unable to import user janedoe. SQLSTATE[23000]: Integrity constraint violation: 1048
+```
