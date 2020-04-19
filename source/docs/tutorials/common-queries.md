@@ -9,9 +9,6 @@ section: content
 
 Most applications will require retrieving certain set / type of objects from a directory.
 
-- [Using Models](#using-models)
-- [Without Models](#without-models)
-
 ## Using Models {#using-models}
 
 Utilizing LdapRecord's built in models allow you to easily query specific types of objects in your directory.

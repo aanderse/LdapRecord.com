@@ -7,10 +7,6 @@ section: content
 
 # Authentication Quickstart
 
-> Please complete the [LdapRecord-Laravel quickstart guide](/docs/laravel/quickstart)
-> to install LdapRecord and configure your LDAP connection prior to setting up
-> authentication.
-
 - [Introduction](#introduction)
 - [Debugging](#debugging)
 - [Plain Authentication](#plain)
@@ -24,6 +20,10 @@ section: content
  - [Step 4: Setting up your LoginController](#database-controller-setup)
 
 ## Introduction {#introduction}
+
+> Please complete the [LdapRecord-Laravel quickstart guide](/docs/laravel/quickstart)
+> to install LdapRecord and configure your LDAP connection prior to setting up
+> authentication.
 
 Before you begin, this guide assumes you have published Laravel's default authentication scaffolding.
 

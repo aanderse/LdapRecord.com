@@ -7,15 +7,18 @@ section: content
 
 # Authentication
 
+- [Introduction](#introduction)
 - [Basic Authentication](#basic)
 - [Using Other Attributes](#other-attributes)
 - [Restricting Authentication](#restricting)
  - [Group Memberships](#group-memberships)
  - [Organizational Units](#organizational-units)
 
-> Before we get started, it's paramount to know that LdapRecord does not set
-> up any sort of PHP session that persists through every request. This is up
-> to you to implement, as every project may vary with session usage.
+## Introduction {#introduction}
+
+Before we get started, it's paramount to know that LdapRecord does not set
+up any sort of PHP session that persists through every request. This is up
+to you to implement, as every project may vary with session usage.
 
 ## Basic Authentication {#basic}
 

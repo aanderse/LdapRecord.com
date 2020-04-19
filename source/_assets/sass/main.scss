@@ -64,18 +64,23 @@
     @apply .border-purple-200;
   }
 
-  ol,ul {
+  h1+ul {
+    @apply .ml-0;
     @apply .list-none;
-  }
-
-  ul li a:before {
+  } li a:before {
       content:'# ';
       @apply .text-purple-400;
-  }
-
-  ul li a {
+  } li a {
     @apply .text-sm;
     @apply .text-gray-700;
+
+    &:hover {
+      @apply .text-purple-500;
+    }
+  }
+
+  h1+ul ul {
+    @apply .list-none;
   }
 
   /* Hide scrollbars. */

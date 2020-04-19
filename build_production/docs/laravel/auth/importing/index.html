@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=72ab6590bc107316d05f">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=dc8594e0cb9a94258bb3">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -301,7 +301,16 @@
 <li><a href="#scheduling-the-command">Scheduling the command</a></li>
 <li><a href="#programmatically-executing">Programmatically Executing</a></li>
 <li><a href="#single-users">Single Users</a></li>
-<li><a href="#command-options">Command Options</a></li>
+<li><a href="#command-options">Command Options</a>
+
+<ul>
+<li><a href="#option-filter">Filter</a></li>
+<li><a href="#option-delete">Delete</a></li>
+<li><a href="#option-delete-missing">Delete Missing</a></li>
+<li><a href="#option-restore">Restore</a></li>
+<li><a href="#option-no-logging">No Logging</a></li>
+<li><a href="#option-no-interaction">No Interaction</a></li>
+</ul></li>
 <li><a href="#tips">Additional Tips</a></li>
 </ul>
 
@@ -432,9 +441,10 @@ facade to programmatically execute the import inside of your application whereve
 <pre><code class="language-php">Artisan::call('ldap:import', [
     'provider' =&gt; 'ldap',
     '--no-interaction',
-    '--restore',
-    '--delete',
-    '--filter' =&gt; '(cn=John Doe)'
+    '--restore' =&gt; true,
+    '--delete' =&gt; true,
+    '--delete-missing' =&gt; true,
+    '--filter' =&gt; '(cn=John Doe)',
 ]);
 </code></pre>
 
@@ -454,41 +464,60 @@ Would you like to display the user(s) to be imported / synchronized? (yes/no) [n
 
 <h2 id="command-options">Command Options</h2>
 
-<h3>Filter</h3>
+<h3 id="option-filter">Filter</h3>
 
-<p>The --filter (or -f) option allows you to enter in a raw filter to further narrow down the users who are imported:</p>
+<p>The <code>--filter</code> (or <code>-f</code>) option allows you to enter in a raw filter to further narrow down the users who are imported:</p>
 
 <pre><code class="language-text">php artisan ldap:import ldap --filter "(cn=John Doe)"
 </code></pre>
 
-<h3>No Logging</h3>
-
-<p>The --no-log option allows you to disable logging during the command.</p>
-
-<pre><code class="language-text">php artisan ldap:import ldap --no-log
-</code></pre>
-
-<p>By default this is enabled, regardless if <code>logging</code> is disabled in your <code>config/ldap.php</code> file.</p>
-
-<h3>Delete</h3>
+<h3 id="option-delete">Delete</h3>
 
 <blockquote>
   <p>This option is only available on Active Directory models.</p>
 </blockquote>
 
-<p>The --delete (or -d) option allows you to soft-delete deactivated LDAP users. No users
+<p>The <code>--delete</code> (or <code>-d</code>) option allows you to soft-delete deactivated LDAP users. No users
 will be deleted if your <code>User</code> Eloquent model does not have soft-deletes enabled.</p>
 
 <pre><code class="language-text">php artisan ldap:import ldap --delete
 </code></pre>
 
-<h3>Restore</h3>
+<h3 id="option-delete-missing">Delete Missing</h3>
+
+<blockquote>
+  <p>This option is available for <strong>all LDAP directories</strong>.</p>
+</blockquote>
+
+<p>The <code>--delete-missing</code> option allows you to soft-delete all LDAP users that
+were missing from the import. This is useful when a user is deleted in your
+LDAP server, and therefore should be soft-deleted inside of your application.</p>
+
+<p>This option was designed to have the utmost safety of user data in mind.
+Here are some paramount things to understand with this option:</p>
+
+<p><strong>No users will be deleted if soft-deletes are not enabled on your <code>User</code> eloquent model.</strong></p>
+
+<p>Deletion will not occur. You must setup <a href="https://laravel.com/docs/eloquent#soft-deleting">Soft Deletes</a>
+on your <code>User</code> eloquent model.</p>
+
+<p><strong>If no users were successfully imported, no users will be soft-deleted.</strong></p>
+
+<p>If an executed import imports zero (0) users, no users will be soft-deleted.</p>
+
+<p><strong>Only users that belong to the domain you are importing will be soft-deleted.</strong></p>
+
+<p>This means, all other users will be left untouched, such as local database
+users  that were not imported from an LDAP server, as well as users
+that were imported from another domain.</p>
+
+<h3 id="option-restore">Restore</h3>
 
 <blockquote>
   <p>This option is only available on Active Directory models.</p>
 </blockquote>
 
-<p>The --restore (or -r) option allows you to restore soft-deleted re-activated LDAP users.</p>
+<p>The <code>--restore</code> (or <code>-r</code>) option allows you to restore soft-deleted re-activated LDAP users.</p>
 
 <pre><code class="language-text">php artisan ldap:import ldap --restore
 </code></pre>
@@ -498,7 +527,16 @@ will be deleted if your <code>User</code> Eloquent model does not have soft-dele
   full synchronization of user disablements and restoration.</p>
 </blockquote>
 
-<h3>No Interaction</h3>
+<h3 id="option-no-logging">No Logging</h3>
+
+<p>The <code>--no-log</code> option allows you to disable logging during the command.</p>
+
+<pre><code class="language-text">php artisan ldap:import ldap --no-log
+</code></pre>
+
+<p>By default this is enabled, regardless if <code>logging</code> is disabled in your <code>config/ldap.php</code> file.</p>
+
+<h3 id="option-no-interaction">No Interaction</h3>
 
 <p>To run the import command via a schedule, use the <code>--no-interaction</code> flag:</p>
 

@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=72ab6590bc107316d05f">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=dc8594e0cb9a94258bb3">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -329,12 +329,20 @@
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Testing</h1>
 
+<ul>
+<li><a href="#introduction">Introdcution</a></li>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#response-codes">Responses and Error Codes</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
 <p>LdapRecord comes with a utility that allow you to test bind attempts
 against a fake server and return custom error codes &amp; responses.</p>
 
 <p>This allows you to test how your application responds to authentication failures and error messages.</p>
 
-<h2>Setup</h2>
+<h2 id="setup">Setup</h2>
 
 <p>To begin, initialize the fake directory using the <code>DirectoryFake::setup</code> method. This method
 accepts the name of your LDAP connection that you initialize in your application.</p>
@@ -402,7 +410,7 @@ class LoginTest extends TestCase
 
 <p>This is a small example of how you can test bind attempts to your LDAP server.</p>
 
-<h2>Responses and Error Codes</h2>
+<h2 id="response-codes">Responses and Error Codes</h2>
 
 <p>When testing connectivity to your LDAP server, you may wish to test error codes and
 messages that may be returned when a bind attempt fails. To do this, you can

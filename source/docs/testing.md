@@ -7,12 +7,18 @@ section: content
 
 # Testing
 
+- [Introdcution](#introduction)
+- [Setup](#setup)
+- [Responses and Error Codes](#response-codes)
+
+## Introduction {#introduction}
+
 LdapRecord comes with a utility that allow you to test bind attempts
 against a fake server and return custom error codes & responses.
 
 This allows you to test how your application responds to authentication failures and error messages.
 
-## Setup
+## Setup {#setup}
 
 To begin, initialize the fake directory using the `DirectoryFake::setup` method. This method
 accepts the name of your LDAP connection that you initialize in your application.
@@ -82,7 +88,7 @@ class LoginTest extends TestCase
 
 This is a small example of how you can test bind attempts to your LDAP server.
 
-## Responses and Error Codes
+## Responses and Error Codes {#response-codes}
 
 When testing connectivity to your LDAP server, you may wish to test error codes and
 messages that may be returned when a bind attempt fails. To do this, you can
