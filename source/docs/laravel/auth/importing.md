@@ -14,6 +14,12 @@ section: content
 - [Programmatically Executing](#programmatically-executing)
 - [Single Users](#single-users)
 - [Command Options](#command-options)
+ - [Filter](#option-filter)
+ - [Delete](#option-delete)
+ - [Delete Missing](#option-delete-missing)
+ - [Restore](#option-restore)
+ - [No Logging](#option-no-logging)
+ - [No Interaction](#option-no-interaction)
 - [Additional Tips](#tips)
 
 ## Introduction {#introduction}
@@ -145,9 +151,10 @@ To use more options, include them as array values:
 Artisan::call('ldap:import', [
     'provider' => 'ldap',
     '--no-interaction',
-    '--restore',
-    '--delete',
-    '--filter' => '(cn=John Doe)'
+    '--restore' => true,
+    '--delete' => true,
+    '--delete-missing' => true,
+    '--filter' => '(cn=John Doe)',
 ]);
 ```
 
@@ -168,40 +175,56 @@ Would you like to display the user(s) to be imported / synchronized? (yes/no) [n
 
 ## Command Options {#command-options}
 
-### Filter
+### Filter {#option-filter}
 
-The --filter (or -f) option allows you to enter in a raw filter to further narrow down the users who are imported:
+The `--filter` (or `-f`) option allows you to enter in a raw filter to further narrow down the users who are imported:
 
 ```text
 php artisan ldap:import ldap --filter "(cn=John Doe)"
 ```
 
-### No Logging
-
-The --no-log option allows you to disable logging during the command.
-
-```text
-php artisan ldap:import ldap --no-log
-```
-
-By default this is enabled, regardless if `logging` is disabled in your `config/ldap.php` file.
-
-### Delete
+### Delete {#option-delete}
 
 > This option is only available on Active Directory models.
 
-The --delete (or -d) option allows you to soft-delete deactivated LDAP users. No users
+The `--delete` (or `-d`) option allows you to soft-delete deactivated LDAP users. No users
 will be deleted if your `User` Eloquent model does not have soft-deletes enabled.
 
 ```text
 php artisan ldap:import ldap --delete
 ```
 
-### Restore
+### Delete Missing {#option-delete-missing}
+
+> This option is available for **all LDAP directories**.
+
+The `--delete-missing` option allows you to soft-delete all LDAP users that
+were missing from the import. This is useful when a user is deleted in your
+LDAP server, and therefore should be soft-deleted inside of your application.
+
+This option was designed to have the utmost safety of user data in mind.
+Here are some paramount things to understand with this option:
+
+**No users will be deleted if soft-deletes are not enabled on your `User` eloquent model.**
+
+Deletion will not occur. You must setup [Soft Deletes](https://laravel.com/docs/eloquent#soft-deleting)
+on your `User` eloquent model.
+
+**If no users were successfully imported, no users will be soft-deleted.**
+
+If an executed import imports zero (0) users, no users will be soft-deleted.
+
+**Only users that belong to the domain you are importing will be soft-deleted.**
+
+This means, all other users will be left untouched, such as local database
+users  that were not imported from an LDAP server, as well as users
+that were imported from another domain.
+
+### Restore {#option-restore}
 
 > This option is only available on Active Directory models.
 
-The --restore (or -r) option allows you to restore soft-deleted re-activated LDAP users.
+The `--restore` (or `-r`) option allows you to restore soft-deleted re-activated LDAP users.
 
 ```text
 php artisan ldap:import ldap --restore
@@ -210,7 +233,17 @@ php artisan ldap:import ldap --restore
 > Usually the `--restore` and `--delete` options are used in tandem to allow
 > full synchronization of user disablements and restoration.
 
-### No Interaction
+### No Logging {#option-no-logging}
+
+The `--no-log` option allows you to disable logging during the command.
+
+```text
+php artisan ldap:import ldap --no-log
+```
+
+By default this is enabled, regardless if `logging` is disabled in your `config/ldap.php` file.
+
+### No Interaction {#option-no-interaction}
 
 To run the import command via a schedule, use the `--no-interaction` flag:
 
