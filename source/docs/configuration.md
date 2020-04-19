@@ -193,11 +193,12 @@ For more information, visit:
 
 Arbitrary options can be set for the connection to fine-tune TLS and connection behavior.
 
-> The following options will be ignored if set:
-> - `LDAP_OPT_PROTOCOL_VERSION`
-> - `LDAP_OPT_NETWORK_TIMEOUT`
-> - `LDAP_OPT_REFERRALS`
+> **Important**: The following options will be ignored if set:
 >
-> These are set above with the `version`, `timeout` and `follow_referrals` keys respectively.
+>  - `LDAP_OPT_PROTOCOL_VERSION`
+>  - `LDAP_OPT_NETWORK_TIMEOUT`
+>  - `LDAP_OPT_REFERRALS`
+>
+> These are instead set with the `version`, `timeout` and `follow_referrals` keys.
 
-Valid LDAP options are listed in the [PHP documentation for ldap_set_option](http://php.net/ldap_set_option) documentation.
+Valid LDAP options are listed in the [ldap_set_option](http://php.net/ldap_set_option) PHP documentation.

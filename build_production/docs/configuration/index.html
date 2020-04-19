@@ -591,15 +591,18 @@ until your application receives a response from your LDAP server.</p>
 <p>Arbitrary options can be set for the connection to fine-tune TLS and connection behavior.</p>
 
 <blockquote>
-  <p>The following options will be ignored if set:
-  - <code>LDAP_OPT_PROTOCOL_VERSION</code>
-  - <code>LDAP_OPT_NETWORK_TIMEOUT</code>
-  - <code>LDAP_OPT_REFERRALS</code></p>
+  <p><strong>Important</strong>: The following options will be ignored if set:</p>
   
-  <p>These are set above with the <code>version</code>, <code>timeout</code> and <code>follow_referrals</code> keys respectively.</p>
+  <ul>
+  <li><code>LDAP_OPT_PROTOCOL_VERSION</code></li>
+  <li><code>LDAP_OPT_NETWORK_TIMEOUT</code></li>
+  <li><code>LDAP_OPT_REFERRALS</code></li>
+  </ul>
+  
+  <p>These are instead set with the <code>version</code>, <code>timeout</code> and <code>follow_referrals</code> keys.</p>
 </blockquote>
 
-<p>Valid LDAP options are listed in the <a href="http://php.net/ldap_set_option">PHP documentation for ldap_set_option</a> documentation.</p>
+<p>Valid LDAP options are listed in the <a href="http://php.net/ldap_set_option">ldap_set_option</a> PHP documentation.</p>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
