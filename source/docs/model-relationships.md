@@ -32,7 +32,7 @@ Relationship | Type |
 --- | --- |
 [Has One](#has-one) | Indicates a one-to-one relation, such as a user having one manager |
 [Has Many](#has-many) | Indicates a one-to-many relation, such as a user having many groups |
-[Has Many (Inverse)](#has-many-inverse) | Indicates an inverse one-to-many relation, such as a group having many users |
+[Has Many (Inverse)](#has-many-inverse) | Indicates an inverse one-to-many relation, such as a group having many members |
 [Has Many In](#has-many-in) | Indicates a one-to-many relation, but with virtual attributes that cannot be modified |
 
 ## Defining Relationships {#defining-relationships}
@@ -177,7 +177,7 @@ You can see from the above example, we have passed an array of models
 that are possible members of the group. The difference of this
 definition is the usage of the `using()` method.
 
-Since LDAP does not offer bi-directional relationships we must add the
+Since LDAP does not offer bi-directional relationships, we must add the
 `using()` method. This method defines which model and attribute
 to use for attaching and detaching related models.
 
@@ -229,7 +229,7 @@ in the relationship. This attribute contains the values needed to
 locate the related models.
 
 For example, the following relationship query below will return no results
-because we have explicitly requested attributes besides `memberof`:
+because we have explicitly requested attributes **excluding** `memberof`:
 
 ```php
 // Selecting only the 'cn', and 'sn' attributes:

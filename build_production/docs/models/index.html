@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=02193277ebfa4387de57">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=b695d4560772c4cab0ef">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -504,13 +504,6 @@ use LdapRecord\Models\Model;
 
 class User extends Model
 {
-    public static $objectClasses = [
-        'top',
-        'person',
-        'organizationalperson',
-        'user',
-    ];
-
     protected $connection = 'domain-b';
 }
 </code></pre>
@@ -568,12 +561,10 @@ $user-&gt;getConvertedGuid();
 above methods. If your directory stores GUIDs in a different attribute,
 define a <code>$guidKey</code> attribute inside of your model:</p>
 
-<pre><code class="language-php">// ...
-
-class User extends Model
+<pre><code class="language-php">class User extends Model
 {
-
     protected $guidKey = 'entryuuid';
+}
 </code></pre>
 
 <h3 id="default-attribute-values">Default Attribute Values</h3>
@@ -587,11 +578,7 @@ static default values when creating objects in your directory:</p>
   an array, regardless if it is single-valued or or multi-valued.</p>
 </blockquote>
 
-<pre><code class="language-php">&lt;?php
-
-use LdapRecord\Models\Model;
-
-class User extends Model
+<pre><code class="language-php">class User extends Model
 {
     protected $attributes = [
         'company' =&gt; ['Acme'],
@@ -919,7 +906,9 @@ using the <code>inside()</code> method, rather than your <code>base_dn</code> fr
 
 $user = new User(['cn' =&gt; 'John Doe']);
 
-$user-&gt;inside('ou=Users,dc=local,dc=com')-&gt;save();
+$user-&gt;inside('ou=Users,dc=local,dc=com');
+
+$user-&gt;save();
 </code></pre>
 
 <p>You may also pass in an LdapRecord <code>Model</code> instance. This is convenient so you
@@ -950,7 +939,9 @@ $user = new User();
 
 $user-&gt;cn = 'John Doe';
 
-$user-&gt;setDn('cn=John Doe,ou=Users,dc=acme,dc=org')-&gt;save();
+$user-&gt;setDn('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user-&gt;save();
 </code></pre>
 
 <h3 id="updating">Updating</h3>
@@ -1350,8 +1341,6 @@ use App\Ldap\Scopes\CompanyScope;
 
 class User extends Model
 {
-    public static $objectClasses = [ 'top', 'person', 'organizationalperson', 'user'];
-
     /**
      * The "booting" method of the model.
      *
@@ -1392,8 +1381,6 @@ use LdapRecord\Query\Model\Builder;
 
 class User extends Model
 {
-    public static $objectClasses = [ 'top', 'person', 'organizationalperson', 'user'];
-
     /**
      * The "booting" method of the model.
      *

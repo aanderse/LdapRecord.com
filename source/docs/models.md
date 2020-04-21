@@ -123,13 +123,6 @@ use LdapRecord\Models\Model;
 
 class User extends Model
 {
-    public static $objectClasses = [
-        'top',
-        'person',
-        'organizationalperson',
-        'user',
-    ];
-
     protected $connection = 'domain-b';
 }
 ```
@@ -193,12 +186,10 @@ above methods. If your directory stores GUIDs in a different attribute,
 define a `$guidKey` attribute inside of your model:
 
 ```php
-// ...
-
 class User extends Model
 {
-
     protected $guidKey = 'entryuuid';
+}
 ```
 
 ### Default Attribute Values {#default-attribute-values}
@@ -211,10 +202,6 @@ static default values when creating objects in your directory:
 > an array, regardless if it is single-valued or or multi-valued.
 
 ```php
-<?php
-
-use LdapRecord\Models\Model;
-
 class User extends Model
 {
     protected $attributes = [
@@ -518,7 +505,9 @@ using the `inside()` method, rather than your `base_dn` from your configuration:
 
 $user = new User(['cn' => 'John Doe']);
 
-$user->inside('ou=Users,dc=local,dc=com')->save();
+$user->inside('ou=Users,dc=local,dc=com');
+
+$user->save();
 ```
 
 You may also pass in an LdapRecord `Model` instance. This is convenient so you
@@ -552,7 +541,9 @@ $user = new User();
 
 $user->cn = 'John Doe';
 
-$user->setDn('cn=John Doe,ou=Users,dc=acme,dc=org')->save();
+$user->setDn('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user->save();
 ```
 
 ### Updating {#updating}
@@ -914,7 +905,6 @@ Global scopes allow you to add constraints to all LDAP queries that are created 
 Writing a query scope allows you to be certain that a particular filter is always applied, rather
 than adding constraints every time you query the model.
 
-
 #### Creating a global scope {#creating-global-scope}
 
 To create a global query scope, create a class in your application that implements
@@ -970,8 +960,6 @@ use App\Ldap\Scopes\CompanyScope;
 
 class User extends Model
 {
-    public static $objectClasses = [ 'top', 'person', 'organizationalperson', 'user'];
-
     /**
      * The "booting" method of the model.
      *
@@ -1015,8 +1003,6 @@ use LdapRecord\Query\Model\Builder;
 
 class User extends Model
 {
-    public static $objectClasses = [ 'top', 'person', 'organizationalperson', 'user'];
-
     /**
      * The "booting" method of the model.
      *

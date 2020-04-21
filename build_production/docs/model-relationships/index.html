@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=02193277ebfa4387de57">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=b695d4560772c4cab0ef">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -376,7 +376,7 @@ relationship types that LdapRecord supports:</p>
 </tr>
 <tr>
   <td><a href="#has-many-inverse">Has Many (Inverse)</a></td>
-  <td>Indicates an inverse one-to-many relation, such as a group having many users</td>
+  <td>Indicates an inverse one-to-many relation, such as a group having many members</td>
 </tr>
 <tr>
   <td><a href="#has-many-in">Has Many In</a></td>
@@ -525,7 +525,7 @@ class Group extends Model
 that are possible members of the group. The difference of this
 definition is the usage of the <code>using()</code> method.</p>
 
-<p>Since LDAP does not offer bi-directional relationships we must add the
+<p>Since LDAP does not offer bi-directional relationships, we must add the
 <code>using()</code> method. This method defines which model and attribute
 to use for attaching and detaching related models.</p>
 
@@ -577,7 +577,7 @@ in the relationship. This attribute contains the values needed to
 locate the related models.</p>
 
 <p>For example, the following relationship query below will return no results
-because we have explicitly requested attributes besides <code>memberof</code>:</p>
+because we have explicitly requested attributes <strong>excluding</strong> <code>memberof</code>:</p>
 
 <pre><code class="language-php">// Selecting only the 'cn', and 'sn' attributes:
 $user = User::select(['cn', 'sn'])-&gt;find('cn=John Doe,dc=acme,dc=org');
