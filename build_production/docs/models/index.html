@@ -614,9 +614,9 @@ results.</p>
 <pre><code class="language-php">&lt;?php
 
 $users = User::whereStartsWith('cn', 'John')
-        -&gt;whereEndsWith('sn', 'Doe')
-        -&gt;limit(10)
-        -&gt;get();
+            -&gt;whereEndsWith('sn', 'Doe')
+            -&gt;limit(10)
+            -&gt;get();
 </code></pre>
 
 <blockquote>
@@ -973,7 +973,9 @@ for deleted objects by using the <code>whereDeleted</code> method:</p>
 <pre><code class="language-php">use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
-$user = User::whereDeleted()-&gt;where('mail', '=', 'sbauman@local.com')-&gt;first();
+$user = User::whereDeleted()
+            -&gt;where('mail', '=', 'sbauman@local.com')
+            -&gt;first();
 
 try {
     $user-&gt;restore();
@@ -1428,16 +1430,39 @@ User::withoutGlobalScopes([
 <p>LdapRecord models fire several different <a href="/docs/events">event</a> during the creation,
 updating and deletion. Here is a list of all the events you can listen for:</p>
 
-<ul>
-<li><code>LdapRecord\Models\Events\Creating</code></li>
-<li><code>LdapRecord\Models\Events\Created</code></li>
-<li><code>LdapRecord\Models\Events\Updating</code></li>
-<li><code>LdapRecord\Models\Events\Updated</code></li>
-<li><code>LdapRecord\Models\Events\Saving</code></li>
-<li><code>LdapRecord\Models\Events\Saved</code></li>
-<li><code>LdapRecord\Models\Events\Deleting</code></li>
-<li><code>LdapRecord\Models\Events\Deleted</code></li>
-</ul>
+<table>
+<thead>
+<tr>
+  <th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>LdapRecord\Models\Events\Creating</code></td>
+</tr>
+<tr>
+  <td><code>LdapRecord\Models\Events\Created</code></td>
+</tr>
+<tr>
+  <td><code>LdapRecord\Models\Events\Updating</code></td>
+</tr>
+<tr>
+  <td><code>LdapRecord\Models\Events\Updated</code></td>
+</tr>
+<tr>
+  <td><code>LdapRecord\Models\Events\Saving</code></td>
+</tr>
+<tr>
+  <td><code>LdapRecord\Models\Events\Saved</code></td>
+</tr>
+<tr>
+  <td><code>LdapRecord\Models\Events\Deleting</code></td>
+</tr>
+<tr>
+  <td><code>LdapRecord\Models\Events\Deleted</code></td>
+</tr>
+</tbody>
+</table>
 
 <p>To listen for these events, call the <code>getEventDispatcher()</code> on the <code>LdapRecord\Container</code>
 to retrieve the dispatcher, then call <code>listen()</code> on the returned dispatcher:</p>
@@ -1523,7 +1548,9 @@ class User extends Model
         if ($this-&gt;hasAttribute('objectguid')) {
             // If the model has a GUID set, we need to convert it due to it being in
             // binary. Otherwise we will receive a JSON serialization exception.
-            return array_replace($attributes, ['objectguid' =&gt; [$this-&gt;getConvertedGuid()]]);
+            return array_replace($attributes, [
+                'objectguid' =&gt; [$this-&gt;getConvertedGuid()]
+            ]);
         }
 
         return $attributes;

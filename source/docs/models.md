@@ -240,9 +240,9 @@ results.
 <?php
 
 $users = User::whereStartsWith('cn', 'John')
-        ->whereEndsWith('sn', 'Doe')
-        ->limit(10)
-        ->get();
+            ->whereEndsWith('sn', 'Doe')
+            ->limit(10)
+            ->get();
 ```
 
 > Since models are query builders, it's a good idea to review the
@@ -575,7 +575,9 @@ for deleted objects by using the `whereDeleted` method:
 use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
-$user = User::whereDeleted()->where('mail', '=', 'sbauman@local.com')->first();
+$user = User::whereDeleted()
+            ->where('mail', '=', 'sbauman@local.com')
+            ->first();
 
 try {
     $user->restore();
@@ -1053,14 +1055,16 @@ User::withoutGlobalScopes([
 LdapRecord models fire several different [event](/docs/events) during the creation,
 updating and deletion. Here is a list of all the events you can listen for:
 
-- `LdapRecord\Models\Events\Creating`
-- `LdapRecord\Models\Events\Created`
-- `LdapRecord\Models\Events\Updating`
-- `LdapRecord\Models\Events\Updated`
-- `LdapRecord\Models\Events\Saving`
-- `LdapRecord\Models\Events\Saved`
-- `LdapRecord\Models\Events\Deleting`
-- `LdapRecord\Models\Events\Deleted`
+| Event |
+| --- |
+| `LdapRecord\Models\Events\Creating` |
+| `LdapRecord\Models\Events\Created` |
+| `LdapRecord\Models\Events\Updating` |
+| `LdapRecord\Models\Events\Updated` |
+| `LdapRecord\Models\Events\Saving` |
+| `LdapRecord\Models\Events\Saved` |
+| `LdapRecord\Models\Events\Deleting` |
+| `LdapRecord\Models\Events\Deleted` |
 
 To listen for these events, call the `getEventDispatcher()` on the `LdapRecord\Container`
 to retrieve the dispatcher, then call `listen()` on the returned dispatcher:
@@ -1147,7 +1151,9 @@ class User extends Model
         if ($this->hasAttribute('objectguid')) {
             // If the model has a GUID set, we need to convert it due to it being in
             // binary. Otherwise we will receive a JSON serialization exception.
-            return array_replace($attributes, ['objectguid' => [$this->getConvertedGuid()]]);
+            return array_replace($attributes, [
+                'objectguid' => [$this->getConvertedGuid()]
+            ]);
         }
 
         return $attributes;

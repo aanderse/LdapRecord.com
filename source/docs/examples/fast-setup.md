@@ -10,5 +10,7 @@ $connection = new Connection([
 
 $connection->connect();
 
-$users = $connection->query()->where('title', '=', 'Accountant')->get();
+$users = $connection->query()
+                    ->where('title', '=', 'Accountant')
+                    ->get();
 ```

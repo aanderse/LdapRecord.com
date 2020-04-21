@@ -169,7 +169,9 @@ $connection = new Connection([
 
 $connection-&gt;connect();
 
-$users = $connection-&gt;query()-&gt;where('title', '=', 'Accountant')-&gt;get();
+$users = $connection-&gt;query()
+                    -&gt;where('title', '=', 'Accountant')
+                    -&gt;get();
 </code></pre>
 </div>
         </div>
