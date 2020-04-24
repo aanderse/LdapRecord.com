@@ -12,6 +12,7 @@ mix.webpackConfig({
         build.watch([
             'config.php',
             'navigation.php',
+            'laravel.navigation.php',
             'source/**/*.md',
             'source/**/*.php',
             'source/**/*.scss',
