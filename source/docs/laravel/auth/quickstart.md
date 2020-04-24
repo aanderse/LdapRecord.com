@@ -27,8 +27,8 @@ section: content
 
 Before you begin, this guide assumes you have published Laravel's default authentication scaffolding.
 
-If you have not yet done so, please follow Laravel's [documented guide](https://laravel.com/docs/authentication#introduction) 
-to get started, and head back here once done.
+If you haven't done this yet, please follow Laravel's [auth scaffolding guide](https://laravel.com/docs/authentication#introduction) 
+to get started, then head back here once done.
 
 ## Debugging {#debugging}
 

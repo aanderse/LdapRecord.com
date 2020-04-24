@@ -70,3 +70,7 @@ class LdapUserController extends Controller
     }
 }
 ```
+
+### Step 5: Authentication {#authentication}
+
+View the [authentication quickstart guide](/docs/laravel/auth/quickstart) if you require LDAP authentication in your application.

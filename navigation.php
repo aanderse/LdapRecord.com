@@ -5,7 +5,7 @@ return [
     'Overview' => 'docs',
     'Installation' => 'docs/installation',
     'Configuration' => 'docs/configuration',
-    'Connecting' => 'docs/connecting',
+    'Connections' => 'docs/connections',
     'Searching '=> 'docs/searching',
     'Models' => [
         'children' => [
@@ -14,21 +14,18 @@ return [
             'Accessors & Mutators' => 'docs/model-mutators',
         ],
     ],
+    'Authentication' => 'docs/authentication',
+    'Common Queries' => 'docs/common-queries',
     'Caching' => 'docs/caching',
     'Events' => 'docs/events',
     'Logging' => 'docs/logging',
-    'Testing' => 'docs/testing',
-    'Tutorials' => [
+    'Active Directory' => [
         'children' => [
-            'Authentication' => 'docs/tutorials/authentication',
-            'Common Queries' => 'docs/tutorials/common-queries',
-            'ActiveDirectory' => [
-                'children' => [
-                    'User Management' => 'docs/tutorials/activedirectory/user-management',
-                ],
-            ]
+            'Users' => 'docs/active-directory/users',
+            'Groups' => 'docs/active-directory/groups',
         ],
     ],
+    'Testing' => 'docs/testing',
     'Versioning' => 'docs/versioning',
     'Credits' => 'docs/credits',
     'License' => 'docs/license',

@@ -5,16 +5,21 @@ extends: _layouts.documentation
 section: content
 ---
 
-# Connecting
+# Connections
 
 - [Introduction](#introduction)
-- [Binding Users](#binding)
-- [The Container](#container)
+- [Connecting](#connecting)
+- [Binding](#binding)
+- [Container](#container)
+  - [Adding Connections](#container-adding-connections)
+  - [Getting Connections](#container-getting-connections)
+  - [Setting Default Connection](#container-setting-default)
+  - [Checking Connection Existence](#container-checking-connections)
 
 ## Introduction {#introduction}
 
-Once you've defined your configuration, you must then create
-a connection and insert your configuration into it:
+Once you've defined your [configuration](/docs/configuration), you
+must then create a connection and insert your configuration into it:
 
 ```php
 use LdapRecord\Connection;
@@ -26,6 +31,8 @@ $connection = new Connection([
      'password' => 'secret',
 ]);
 ```
+
+## Connecting {#connecting}
 
 Once you have your connection, call `connect()` to bind to your LDAP server:
 
@@ -109,7 +116,7 @@ You must add your LDAP connections into the container if you would
 like to use LdapRecord models. Models pull the connection that
 they use from this container by their name.
 
-#### Adding Connections
+### Adding Connections {#container-adding-connections}
 
 ```php
 use LdapRecord\Container;                         
@@ -157,7 +164,7 @@ Container::addConnection($connectionBravo);
 If you do not define a `$connection` property inside of your
 LdapRecord models, they will use your default connection.
 
-#### Getting Connections
+### Getting Connections {#container-getting-connections}
 
 To get the default connection, call the `getDefaultConnection` method:
 
@@ -171,6 +178,8 @@ To get a differently named connection, call the `getConnection` method:
 $connection = Container::getConnection('domain-b');
 ```
 
+### Setting Default Connection {#container-setting-default}
+
 To set the name of the default connection, call the
 `setDefaultConnection` method prior to adding a connection:
 
@@ -183,8 +192,9 @@ Container::addConnection(new Connection(['...']));
 $connection = Container::getDefaultConnection();
 ```
 
-To determine the existence of a connection, you can
-call the `exists()` method on the container instance:
+### Checking Connection Existence {#container-checking-connections}
+
+To check if a connection exists, call the `exists()` method on the container instance:
 
 ```php
 if (Container::getInstance()->exists('domain-b')) {

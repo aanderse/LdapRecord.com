@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="Common LDAP queries using LdapRecord">
+        <meta name="description" content="Connecting to LDAP servers using LdapRecord">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Common Queries | LdapRecord"/>
-        <meta property="og:description" content="Common LDAP queries using LdapRecord"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/tutorials/common-queries"/>
+        <meta property="og:title" content="Connecting | LdapRecord"/>
+        <meta property="og:description" content="Connecting to LDAP servers using LdapRecord"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/connections"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Common Queries</title>
+        <title>LdapRecord | Connecting</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b695d4560772c4cab0ef">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=02193277ebfa4387de57">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -144,10 +144,10 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/connecting"
-            class="lvl0  text-gray-700 nav-menu__item hover:text-purple-500"
+        <a href="/docs/connections"
+            class="lvl0  active font-semibold text-purple-600 nav-menu__item hover:text-purple-500"
         >
-            Connecting
+            Connections
         </a>
     
     </li>
@@ -197,6 +197,24 @@
     </li>
             <li class="pl-4">
             
+        <a href="/docs/authentication"
+            class="lvl0  text-gray-700 nav-menu__item hover:text-purple-500"
+        >
+            Authentication
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/common-queries"
+            class="lvl0  text-gray-700 nav-menu__item hover:text-purple-500"
+        >
+            Common Queries
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
         <a href="/docs/caching"
             class="lvl0  text-gray-700 nav-menu__item hover:text-purple-500"
         >
@@ -224,55 +242,38 @@
     </li>
             <li class="pl-4">
             
+        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Active Directory</p>
+    
+            
+        <ul class="list-none my-0 border-l-4 border-purple-200">
+            <li class="pl-4">
+            
+        <a href="/docs/active-directory/users"
+            class="lvl1  text-gray-700 nav-menu__item hover:text-purple-500"
+        >
+            Users
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
+        <a href="/docs/active-directory/groups"
+            class="lvl1  text-gray-700 nav-menu__item hover:text-purple-500"
+        >
+            Groups
+        </a>
+    
+    </li>
+    </ul>
+    </li>
+            <li class="pl-4">
+            
         <a href="/docs/testing"
             class="lvl0  text-gray-700 nav-menu__item hover:text-purple-500"
         >
             Testing
         </a>
     
-    </li>
-            <li class="pl-4">
-            
-        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">Tutorials</p>
-    
-            
-        <ul class="list-none my-0 border-l-4 border-purple-200">
-            <li class="pl-4">
-            
-        <a href="/docs/tutorials/authentication"
-            class="lvl1  text-gray-700 nav-menu__item hover:text-purple-500"
-        >
-            Authentication
-        </a>
-    
-    </li>
-            <li class="pl-4">
-            
-        <a href="/docs/tutorials/common-queries"
-            class="lvl1  active font-semibold text-purple-600 nav-menu__item hover:text-purple-500"
-        >
-            Common Queries
-        </a>
-    
-    </li>
-            <li class="pl-4">
-            
-        <p class="nav-menu__item text-gray-500 font-extrabold text-xs tracking-widest uppercase italic pt-2">ActiveDirectory</p>
-    
-            
-        <ul class="list-none my-0 ">
-            <li class="pl-4">
-            
-        <a href="/docs/tutorials/activedirectory/user-management"
-            class="lvl2  text-gray-700 nav-menu__item hover:text-purple-500"
-        >
-            User Management
-        </a>
-    
-    </li>
-    </ul>
-    </li>
-    </ul>
     </li>
             <li class="pl-4">
             
@@ -327,161 +328,198 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Common Queries</h1>
+                <h1>Connections</h1>
 
-<p>Most applications will require retrieving certain set / type of objects from a directory.</p>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#connecting">Connecting</a></li>
+<li><a href="#binding">Binding</a></li>
+<li><a href="#container">Container</a>
 
-<h2 id="using-models">Using Models</h2>
+<ul>
+<li><a href="#container-adding-connections">Adding Connections</a></li>
+<li><a href="#container-getting-connections">Getting Connections</a></li>
+<li><a href="#container-setting-default">Setting Default Connection</a></li>
+<li><a href="#container-checking-connections">Checking Connection Existence</a></li>
+</ul></li>
+</ul>
 
-<p>Utilizing LdapRecord's built in models allow you to easily query specific types of objects in your directory.</p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Once you've defined your <a href="/docs/configuration">configuration</a>, you
+must then create a connection and insert your configuration into it:</p>
+
+<pre><code class="language-php">use LdapRecord\Connection;
+
+$connection = new Connection([
+     'hosts'    =&gt; ['192.168.1.1'],
+     'port'     =&gt; 389,
+     'username' =&gt; 'cn=user,dc=local,dc=com',
+     'password' =&gt; 'secret',
+]);
+</code></pre>
+
+<h2 id="connecting">Connecting</h2>
+
+<p>Once you have your connection, call <code>connect()</code> to bind to your LDAP server:</p>
+
+<pre><code class="language-php">try {
+    $connection-&gt;connect();
+
+    echo "Successfully connected!";
+} catch (\LdapRecord\Auth\BindException $e) {
+    $error = $e-&gt;getDetailedError();
+
+    echo $error-&gt;getErrorCode();
+    echo $error-&gt;getErrorMessage();
+    echo $error-&gt;getDiagnosticMessage();
+}
+</code></pre>
+
+<p>If you'd like to connect / bind anonymously to your LDAP
+server, simply set your <code>username</code> and <code>password</code>
+configuration parameters to <code>null</code>:</p>
+
+<pre><code class="language-php">use LdapRecord\Connection;
+
+$connection = new Connection([
+     'hosts'    =&gt; ['192.168.1.1'],
+     'port'     =&gt; 389,
+     'username' =&gt; null,
+     'password' =&gt; null,
+]);
+
+$connection-&gt;connect();
+</code></pre>
+
+<h2 id="binding">Binding</h2>
+
+<p>Using the connection instance, you can execute a bind request
+to perform LDAP authentication to see if a username and 
+password is valid.</p>
+
+<pre><code class="language-php">$user = 'cn=user,dc=local,dc=com';
+$password = 'secret';
+
+if ($connection-&gt;auth()-&gt;attempt($user, $password))
+{
+    echo "Username and password are correct!";
+}
+</code></pre>
+
+<p>After calling the above, the user you have configured
+in your configuration will be <strong>rebound</strong> to your
+LDAP server. This is to ensure you can continue
+to execute LDAP operations underneath this
+user during the same request.</p>
+
+<p>If you would like to run all further LDAP operations underneath the
+authenticated user for the duration of the request, pass in <code>true</code>
+in the third parameter in the <code>attempt()</code> method:</p>
+
+<pre><code class="language-php">$user = 'cn=user,dc=local,dc=com';
+$password = 'secret';
+
+if ($connection-&gt;auth()-&gt;attempt($user, $password, $bindAsUser = true))
+{
+    echo "Username and password are correct!";
+
+    // Run further LDAP operations under this user.
+}
+</code></pre>
 
 <blockquote>
-  <p>The examples below assume you have created a <code>Connection</code> and have added them into the <a href="/docs/connections#container">Container</a>.</p>
+  <p><strong>Important</strong>: Binding as the user will not persist LDAP connectivity between requests.
+  PHP is stateless - which means a new LDAP connection is created upon every request
+  to your application. LdapRecord <strong>does not and will not store</strong> user credentials
+  to persist connectivity.</p>
 </blockquote>
 
-<h3>Active Directory</h3>
+<h2 id="container">Container</h2>
 
-<h4>Generic Queries</h4>
+<p>You must add your LDAP connections into the container if you would
+like to use LdapRecord models. Models pull the connection that
+they use from this container by their name.</p>
 
-<pre><code class="language-php">// All Active Directory objects:
-// Note: We use 'paginate' here so over 1000 results can be returned.
-$objects = \LdapRecord\Models\ActiveDirectory\Entry::paginate();
+<h3 id="container-adding-connections">Adding Connections</h3>
 
-// All Active Directory users:
-$users = \LdapRecord\Models\ActiveDirectory\User::get();
-
-// All Active Directory contacts:
-$contacts = \LdapRecord\Models\ActiveDirectory\Contact::get();
-
-// All Active Directory groups:
-$groups = \LdapRecord\Models\ActiveDirectory\Group::get();
-
-// All Active Directory organizational units:
-$ous = \LdapRecord\Models\ActiveDirectory\OrganizationalUnit::get();
-
-// All Active Directory printers:
-$printers = \LdapRecord\Models\ActiveDirectory\Printer::get();
-
-// All Active Directory computers:
-$computers = \LdapRecord\Models\ActiveDirectory\Computer::get();
-
-// All foreign security principals:
-$foreignPrincipals = \LdapRecord\Models\ActiveDirectory\ForeignSecurityPrincipal::get();
-</code></pre>
-
-<h4>Users Created After a Date</h4>
-
-<pre><code class="language-php">$date = (new DateTime('October 1st 2016'))-&gt;format('YmdHis.0\Z');
-
-$users = User::where('whencreated', '&gt;=', $date)-&gt;get();
-</code></pre>
-
-<h3>OpenLDAP</h3>
-
-<h4>Generic Queries</h4>
-
-<pre><code class="language-php">// All OpenLDAP objects:
-// Note: We use 'paginate' here so over 1000 results can be returned.
-$objects = \LdapRecord\Models\OpenLDAP\Entry::paginate();
-
-// All OpenLDAP users:
-$users = \LdapRecord\Models\OpenLDAP\User::get();
-
-// All OpenLDAP groups:
-$groups = \LdapRecord\Models\OpenLDAP\Group::get();
-
-// All OpenLDAP organizational units:
-$ous = \LdapRecord\Models\OpenLDAP\OrganizationalUnit::get();
-</code></pre>
-
-<h2 id="without-models">Without Models</h2>
-
-<p>If you do not want to use LdapRecord models, you can still use the query builder and retrieve raw LDAP results.</p>
-
-<pre><code class="language-php">use LdapRecord\Connection;
+<pre><code class="language-php">use LdapRecord\Container;                         
+use LdapRecord\Connection;
 
 $connection = new Connection(['...']);
 
-// All LDAP objects:
-// Note: We use 'paginate' here so over 1000 results can be returned.
-$objects = $connection-&gt;query()-&gt;paginate();
+$connection-&gt;connect();
+
+Container::addConnection($connection);
 </code></pre>
 
-<h3>Active Directory</h3>
+<blockquote>
+  <p>If you do not call <code>connect</code> on your connection prior to adding
+  it into the <code>Container</code>, it will be connected to automatically
+  when you attempt to retrieve query results.</p>
+</blockquote>
 
-<pre><code class="language-php">use LdapRecord\Connection;
+<p>Each connection you add can have it's own name. This is
+required for connecting to multiple LDAP servers at
+one time. To set the name of a connection in the
+container, pass it into the second parameter:</p>
 
-$connection = new Connection(['...']);
-
-// All Active Directory Users:
-$users = $connection-&gt;query()-&gt;where([
-    ['objectclass', '=', 'top'],
-    ['objectclass', '=', 'person'],
-    ['objectclass', '=', 'organizationalperson'],
-    ['objectclass', '=', 'user'],
-])-&gt;get();
-
-// All Active Directory contacts:
-$contacts = $connection-&gt;query()-&gt;where([
-    ['objectclass', '=', 'top'],
-    ['objectclass', '=', 'person'],
-    ['objectclass', '=', 'organizationalperson'],
-    ['objectclass', '=', 'contact'],
-])-&gt;get();
-
-// All Active Directory groups:
-$groups = $connection-&gt;query()-&gt;where([
-    ['objectclass', '=', 'top'],
-    ['objectclass', '=', 'group'],
-])-&gt;get();
-
-// All Active Directory organizational units:
-$ous = $connection-&gt;query()-&gt;where([
-    ['objectclass', '=', 'top'],
-    ['objectclass', '=', 'organizationalunit'],
-])-&gt;get();
-
-// All Active Directory printers:
-$printers = $connection-&gt;query()
-    -&gt;where('objectclass', '=', 'printqueue')
-    -&gt;get();
-
-// All Active Directory computers:
-$computers = $connection-&gt;query()-&gt;where([
-    ['objectclass', '=', 'top'],
-    ['objectclass', '=', 'person'],
-    ['objectclass', '=', 'organizationalperson'],
-    ['objectclass', '=', 'user'],
-    ['objectclass', '=', 'computer'],
-])-&gt;get();
-
-// All foreign security principals:
-$foreignPrincipals = $connection-&gt;query()
-    -&gt;where('objectclass', '=', 'foreignsecurityprincipal')
-    -&gt;get();
+<pre><code class="language-php">Container::addConnection($connection, 'domain-b');
 </code></pre>
 
-<h3>OpenLDAP</h3>
+<p>Without passing in a name, the name of the connection is
+set to <code>default</code>. Passing in multiple connections
+without providing a name will overwrite the
+previously added connection, so be sure to
+identify them differently if needed:</p>
 
-<pre><code class="language-php">// All OpenLDAP users:
-$users = $connection-&gt;query()-&gt;where([
-    ['objectclass', '=', 'top'],
-    ['objectclass', '=', 'person'],
-    ['objectclass', '=', 'organizationalperson'],
-    ['objectclass', '=', 'inetorgperson'],
-])-&gt;get();
+<pre><code class="language-php">use LdapRecord\Container;
+use LdapRecord\Connection;
 
-// All OpenLDAP groups:
-$groups = $connection-&gt;query()-&gt;where([
-    ['objectclass', '=', 'top'],
-    ['objectclass', '=', 'groupofuniquenames'],
-])-&gt;get();
+$connectionAlpha = new Connection(['...']);
+$connectionBravo = new Connection(['...']);
 
-// All OpenLDAP organizational units:
-$ous = $connection-&gt;query()-&gt;where([
-    ['objectclass', '=', 'top'],
-    ['objectclass', '=', 'organizationalunit'],
-])-&gt;get();
+Container::addConnection($connectionAlpha);
+
+// This will overwrite $connectionAlpha:
+Container::addConnection($connectionBravo);
+</code></pre>
+
+<p>If you do not define a <code>$connection</code> property inside of your
+LdapRecord models, they will use your default connection.</p>
+
+<h3 id="container-getting-connections">Getting Connections</h3>
+
+<p>To get the default connection, call the <code>getDefaultConnection</code> method:</p>
+
+<pre><code class="language-php">$connection = Container::getDefaultConnection();
+</code></pre>
+
+<p>To get a differently named connection, call the <code>getConnection</code> method:</p>
+
+<pre><code class="language-php">$connection = Container::getConnection('domain-b');
+</code></pre>
+
+<h3 id="container-setting-default">Setting Default Connection</h3>
+
+<p>To set the name of the default connection, call the
+<code>setDefaultConnection</code> method prior to adding a connection:</p>
+
+<pre><code class="language-php">Container::setDefaultConnection('domain-a');
+
+Container::addConnection(new Connection(['...']));
+
+// Returns the `domain-a` connection.
+$connection = Container::getDefaultConnection();
+</code></pre>
+
+<h3 id="container-checking-connections">Checking Connection Existence</h3>
+
+<p>To check if a connection exists, call the <code>exists()</code> method on the container instance:</p>
+
+<pre><code class="language-php">if (Container::getInstance()-&gt;exists('domain-b')) {
+    // The 'domain-b' connection exists!
+}
 </code></pre>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
@@ -489,15 +527,13 @@ $ous = $connection-&gt;query()-&gt;where([
     <div class="flex flex-col items-center md:items-start">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/tutorials/authentication">Authentication</a>
+                <a href="/docs/configuration">Configuration</a>
             </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/
-Warning: htmlspecialchars() expects parameter 1 to be string, array given in /Users/stevebauman/Sites/LdapRecord.com/vendor/illuminate/support/helpers.php on line 251
-">ActiveDirectory</a>
+                <a href="/docs/searching">Searching </a>
             </h4>
             </div>
 </div>

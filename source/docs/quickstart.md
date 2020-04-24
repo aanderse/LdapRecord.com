@@ -29,9 +29,6 @@ $connection = new Connection([
     'password' => 'secret',
 ]);
 
-// Connect to your server:
-$connection->connect();
-
 // Add the connection into the container:
 Container::addConnection($connection);
 
@@ -49,5 +46,6 @@ foreach ($object->memberof as $group) {
 // Modifying attributes:
 $object->company = 'My Company';
 
+// Saving changes:
 $object->save();
 ```

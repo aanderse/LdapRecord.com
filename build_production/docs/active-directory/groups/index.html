@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="Installing LdapRecord">
+        <meta name="description" content="Managing groups with LdapRecord.">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Installation | LdapRecord"/>
-        <meta property="og:description" content="Installing LdapRecord"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/installation"/>
+        <meta property="og:title" content="Group Management (Active Directory) | LdapRecord"/>
+        <meta property="og:description" content="Managing groups with LdapRecord."/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/active-directory/groups"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Installation</title>
+        <title>LdapRecord | Group Management (Active Directory)</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -127,7 +127,7 @@
             <li class="pl-4">
             
         <a href="/docs/installation"
-            class="lvl0  active font-semibold text-purple-600 nav-menu__item hover:text-purple-500"
+            class="lvl0  text-gray-700 nav-menu__item hover:text-purple-500"
         >
             Installation
         </a>
@@ -258,7 +258,7 @@
             <li class="pl-4">
             
         <a href="/docs/active-directory/groups"
-            class="lvl1  text-gray-700 nav-menu__item hover:text-purple-500"
+            class="lvl1  active font-semibold text-purple-600 nav-menu__item hover:text-purple-500"
         >
             Groups
         </a>
@@ -328,41 +328,264 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1 id="installation">Installation</h1>
+                <h1>Group Management (Active Directory)</h1>
 
-<p>LdapRecord requires the following:</p>
+<ul>
+<li><a href="#creation">Creation</a></li>
+<li><a href="#members">Members</a>
 
-<table>
-<thead>
-<tr>
-  <th>Requirements</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>PHP >= 7.2</td>
-</tr>
-<tr>
-  <td>PHP LDAP extension enabled</td>
-</tr>
-<tr>
-  <td>An LDAP server (Active Directory, OpenLDAP, FreeIPA etc.)</td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li><a href="#getting-members">Getting Members</a></li>
+<li><a href="#adding-members">Adding Members</a></li>
+<li><a href="#removing-members">Removing Members</a></li>
+<li><a href="#removing-all-members">Removing All Members</a></li>
+</ul></li>
+<li><a href="#groups">Groups</a>
 
-<p>LdapRecord uses <a href="https://getcomposer.org">Composer</a> for installation.</p>
+<ul>
+<li><a href="#getting-groups">Getting Groups</a></li>
+<li><a href="#adding-groups">Adding Groups</a></li>
+<li><a href="#removing-groups">Removing Groups</a></li>
+<li><a href="#removing-all-groups">Removing All Groups</a></li>
+</ul></li>
+</ul>
 
-<p>Once you have composer installed, run the following command in the root directory of your project:</p>
+<h2 id="creation">Creation</h2>
 
-<pre><code class="language-bash">composer require directorytree/ldaprecord
+<p>To create a new Active Directory group, only a common name is required (<code>cn</code>):</p>
+
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\ActiveDirectory\Group;
+
+$group = Group::create(['cn' =&gt; 'Accounting']);
 </code></pre>
 
-<p>Then, if your application doesn't already require Composer's autoload, you will need to do it manually.</p>
+<p>To create a group inside of a particular Organizational Unit (OU), call the <code>inside()</code> method:</p>
 
-<p>Insert this line at the top of your projects PHP script (usually <code>index.php</code>):</p>
+<pre><code class="language-php">$group = (new Group)-&gt;inside('ou=Office Groups,dc=local,dc=com');
 
-<pre><code class="language-php">require __DIR__ . '/vendor/autoload.php';
+$group-&gt;cn = 'Accounting';
+
+$group-&gt;save();
+</code></pre>
+
+<h2 id="members">Members</h2>
+
+<p>When you create or locate a group on your directory, the <code>members</code> relationship
+is available to you on the model instance.</p>
+
+<h3 id="getting-members">Getting Members</h3>
+
+<p>To get the immediate members of a group on your directory call the <code>members</code> relationship, and then <code>get()</code>:</p>
+
+<pre><code class="language-php">$group = Group::find('cn=Accounting,dc=local,dc=com');
+
+$members = $group-&gt;members()-&gt;get();
+</code></pre>
+
+<blockquote>
+  <p>When getting members, a collection of various model objects may be returned, such as:</p>
+  
+  <ul>
+  <li><code>LdapRecord\Models\ActiveDirectory\User</code></li>
+  <li><code>LdapRecord\Models\ActiveDirectory\Group</code></li>
+  <li><code>LdapRecord\Models\ActiveDirectory\Contact</code></li>
+  </ul>
+  
+  <p>To use different models, override the <code>members</code> relationship.</p>
+</blockquote>
+
+<h4 id="getting-all-members">Getting Members Recursively</h4>
+
+<p>Very often we use groups that are apart of other groups, that include members.</p>
+
+<p>To retrieve these nested members, call the <code>recursive()</code> method, prior to <code>get()</code>:</p>
+
+<pre><code class="language-php">$group = Group::find('cn=Accounting,dc=local,dc=com');
+
+$allMembers = $group-&gt;members()-&gt;recursive()-&gt;get();
+</code></pre>
+
+<h3 id="adding-members">Adding Members</h3>
+
+<p>In Active Directory, valid group members are other groups, users and contacts.</p>
+
+<p>To add members to a group, call the <code>members</code> relationship, and then the  <code>attach()</code> method:</p>
+
+<blockquote>
+  <p>You must provide a <code>Model</code> instance into the <code>attach()</code> method.</p>
+</blockquote>
+
+<pre><code class="language-php">$group = Group::find('cn=Accounting,dc=local,dc=com');
+
+$user = User::find('cn=John Doe,dc=local,dc=com');
+
+$group-&gt;members()-&gt;attach($user);
+</code></pre>
+
+<p>If the model was successfully added, or the model is already a member of the group,
+the <code>attach()</code> method will return the model instance you passed into it:</p>
+
+<pre><code class="language-php">$office = $accounting-&gt;members()-&gt;attach(
+    Group::create(['cn' =&gt; 'Office'])
+);
+
+// Displays 'cn=Office,dc=local,dc=com'
+echo $office-&gt;getDn();
+</code></pre>
+
+<h4 id="adding-many-members">Adding Multiple Members</h4>
+
+<p>To add multiple members at once, provide an array of models to the <code>attachMany()</code> method:</p>
+
+<pre><code class="language-php">$accounting = Group::find('cn=Accounting,dc=local,dc=com');
+
+$accountants = User::in('ou=Accountants,ou=Users,dc=local,dc=com')-&gt;get();
+
+$accounting-&gt;members()-&gt;attachMany($accountants);
+</code></pre>
+
+<h3 id="removing-members">Removing Members</h3>
+
+<p>To remove members on a group, call the <code>members</code> relationship, and then <code>detach()</code>:</p>
+
+<blockquote>
+  <p>You must provide a <code>Model</code> instance into the <code>detach()</code> method.</p>
+</blockquote>
+
+<pre><code class="language-php">$group = Group::find('cn=Accounting,dc=local,dc=com');
+
+$user = $group-&gt;members()-&gt;where('cn', '=', 'Steve Bauman')-&gt;first();
+
+$group-&gt;members()-&gt;detach($user);
+</code></pre>
+
+<h4 id="removing-many-members">Removing Multiple Members</h4>
+
+<p>To remove multiple members at once, provide an array of models to the <code>detachMany()</code> method:</p>
+
+<pre><code class="language-php">$group = Group::find('cn=Accounting,dc=local,dc=com');
+
+$members = $group-&gt;members()
+                 -&gt;where('department', 'contains', 'Office')
+                 -&gt;get();
+
+$group-&gt;members()-&gt;detachMany($members);
+</code></pre>
+
+<h4 id="removing-all-members">Removing All Members</h4>
+
+<p>To remove <strong>all</strong> immediate members from the group, call the <code>detachAll()</code> method:</p>
+
+<blockquote>
+  <p>A collection of all removed members will be returned.</p>
+</blockquote>
+
+<pre><code class="language-php">$group = Group::find('cn=Accounting,dc=local,dc=com');
+
+$removed = $group-&gt;members()-&gt;detachAll();
+
+foreach ($removed as $member) {
+    echo "Removed: " . $member-&gt;getDn();
+}
+</code></pre>
+
+<h2 id="groups">Groups</h2>
+
+<p>When you create or locate a group on your directory, the <code>groups</code> relationship
+is available to you on the model instance.</p>
+
+<h3 id="getting-groups">Getting Groups</h3>
+
+<p>To get the immediate groups that a particular group is apart of on
+your directory call the <code>groups</code> relationship, and then <code>get()</code>:</p>
+
+<pre><code class="language-php">$group = Group::find('cn=Accounting,dc=local,dc=com');
+
+$groups = $group-&gt;groups()-&gt;get();
+</code></pre>
+
+<h4 id="getting-all-groups">Getting Groups Recursively</h4>
+
+<p>When you have a group that is apart of many parent groups in a hierarchy, you may need to retrieve these.</p>
+
+<p>Call the <code>recursive()</code> method, prior to <code>get()</code> to retrieve them:</p>
+
+<pre><code class="language-php">$group = Group::find('cn=Accounting,dc=local,dc=com');
+
+$allGroups = $group-&gt;groups()-&gt;recursive()-&gt;get();
+</code></pre>
+
+<h3 id="adding-groups">Adding Groups</h3>
+
+<p>To add groups to a particular group, call the <code>attach()</code> method on the <code>groups</code> relation:</p>
+
+<blockquote>
+  <p>You must provide a <code>Model</code> instance into the <code>attach()</code> method.</p>
+</blockquote>
+
+<pre><code class="language-php">$accounting = Group::find('cn=Accounting,dc=local,dc=com');
+
+$office = Group::find('cn=Office,dc=local,dc=com');
+
+$accounting-&gt;groups()-&gt;attach($office);
+</code></pre>
+
+<h4 id="adding-many-groups">Adding Multiple Groups</h4>
+
+<p>To add multiple groups at once, provide an array of models to the <code>attachMany()</code> method:</p>
+
+<pre><code class="language-php">$accounting = Group::find('cn=Accounting,dc=local,dc=com');
+
+$officeGroups = Group::in('ou=Office,ou=Groups,dc=local,dc=com')-&gt;get();
+
+$accounting-&gt;groups()-&gt;attachMany($officeGroups);
+</code></pre>
+
+<h3 id="removing-groups">Removing Groups</h3>
+
+<p>To remove groups on a particular group, call the <code>groups</code> relationship, and then <code>detach()</code>:</p>
+
+<blockquote>
+  <p>You must provide a <code>Model</code> instance into the <code>detach()</code> method.</p>
+</blockquote>
+
+<pre><code class="language-php">$accounting = Group::find('cn=Accounting,dc=local,dc=com');
+
+$officeGroup = $accounting-&gt;groups()-&gt;where('cn', '=', 'Office')-&gt;first();
+
+$accounting-&gt;groups()-&gt;detach($officeGroup);
+</code></pre>
+
+<h4 id="removing-multiple-groups">Removing Multiple Groups</h4>
+
+<p>To remove multiple groups at once, provide an array of models to the <code>detachMany()</code> method:</p>
+
+<pre><code class="language-php">$accounting = Group::find('cn=Accounting,dc=local,dc=com');
+
+$officeGroups = $accounting-&gt;groups()
+                           -&gt;in('ou=Office,ou=Groups,dc=local,dc=com')
+                           -&gt;get();
+
+$accounting-&gt;groups()-&gt;detachMany($officeGroups);
+</code></pre>
+
+<h4 id="removing-all-groups">Removing All Groups</h4>
+
+<p>To remove <strong>all</strong> immediate groups of a particular group, call the <code>detachAll()</code> method:</p>
+
+<blockquote>
+  <p>A collection of all removed groups will be returned.</p>
+</blockquote>
+
+<pre><code class="language-php">$accounting = Group::find('cn=Accounting,dc=local,dc=com');
+
+$removed = $accounting-&gt;groups()-&gt;detachAll();
+
+foreach ($removed as $group) {
+    echo "Removed: " . $group-&gt;getDn();
+}
 </code></pre>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
@@ -370,13 +593,13 @@
     <div class="flex flex-col items-center md:items-start">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs">Overview</a>
+                <a href="/docs/active-directory/users">Users</a>
             </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/configuration">Configuration</a>
+                <a href="/docs/testing">Testing</a>
             </h4>
             </div>
 </div>
