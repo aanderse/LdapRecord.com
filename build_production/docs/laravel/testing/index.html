@@ -526,8 +526,9 @@ inside of that OU and assert that we only see the proper user:</p>
 
 <p>A <code>hasOne</code> relationship is easy to test. In this example, we will set the <code>manager</code> of another user:</p>
 
-<pre><code class="language-php">$manager = User::create(['cn' =&gt; 'John']);
-$user = User::create(['cn' =&gt; 'Jane']);
+<pre><code class="language-php">$user = User::create(['cn' =&gt; 'Jane']);
+
+$manager = User::create(['cn' =&gt; 'John']);
 
 $user-&gt;manager()-&gt;attach($manager);
 </code></pre>
@@ -547,9 +548,9 @@ to mimic these virtual attributes. Let's walk through an example.</p>
 
 <p>First, we will create our group and user and add the user to the group:</p>
 
-<pre><code class="language-php">$group = Group::create(['cn' =&gt; 'Accounting']);
+<pre><code class="language-php">$user = User::create(['cn' =&gt; 'John']);
 
-$user = User::create(['cn' =&gt; 'John']);
+$group = Group::create(['cn' =&gt; 'Accounting']);
 
 $user-&gt;groups()-&gt;attach($group);
 </code></pre>

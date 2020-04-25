@@ -392,8 +392,8 @@ class TestLdapAuthentication extends TestCase
         $fake = DirectoryEmulator::setup('default');
 
         $ldapUser = User::create([
-            'mail' =&gt; $this-&gt;faker-&gt;email,
             'cn' =&gt; $this-&gt;faker-&gt;name,
+            'mail' =&gt; $this-&gt;faker-&gt;email,
             'objectguid' =&gt; $this-&gt;faker-&gt;uuid,
         ]);
 
@@ -427,8 +427,8 @@ that the user we create in this fake directory will successfully pass LDAP authe
 <hr />
 
 <pre><code class="language-php">$user = User::create([
-    'mail' =&gt; $this-&gt;faker-&gt;email,
     'cn' =&gt; $this-&gt;faker-&gt;name,
+    'mail' =&gt; $this-&gt;faker-&gt;email,
     'objectguid' =&gt; $this-&gt;faker-&gt;uuid,
 ]);
 </code></pre>
@@ -571,8 +571,8 @@ OU, simply create them inside a different OU, or inside the root of your emulate
     $fake = DirectoryEmulator::setup('default');
 
     $ldapUser = User::create([
-        'mail' =&gt; $this-&gt;faker-&gt;email,
         'cn' =&gt; $this-&gt;faker-&gt;name,
+        'mail' =&gt; $this-&gt;faker-&gt;email,
         'objectguid' =&gt; $this-&gt;faker-&gt;uuid,
     ]);
 
@@ -648,8 +648,8 @@ class HelpDeskEmployee extends Rule
     $ldapGroup = Group::create(['cn' =&gt; 'Help Desk']);
 
     $ldapUser = User::create([
-        'mail' =&gt; $this-&gt;faker-&gt;email,
         'cn' =&gt; $this-&gt;faker-&gt;name,
+        'mail' =&gt; $this-&gt;faker-&gt;email,
         'objectguid' =&gt; $this-&gt;faker-&gt;uuid,
         'memberof' =&gt; [$ldapGroup-&gt;getDn()],
     ]);
@@ -681,8 +681,8 @@ attribute (due to this field being virtual) and have attached them to the group.
     $fake = DirectoryEmulator::setup('default');
 
     $ldapUser = User::create([
-        'mail' =&gt; $this-&gt;faker-&gt;email,
         'cn' =&gt; $this-&gt;faker-&gt;name,
+        'mail' =&gt; $this-&gt;faker-&gt;email,
         'objectguid' =&gt; $this-&gt;faker-&gt;uuid,
     ]);
 
