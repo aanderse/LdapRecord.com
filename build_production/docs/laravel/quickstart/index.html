@@ -318,6 +318,47 @@
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Quickstart</h1>
 
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#install-setup-usage">Install, Setup &amp; Usage</a>
+
+<ul>
+<li><a href="#install-ldaprecord-laravel">Step 1: Install LdapRecord-Laravel</a></li>
+<li><a href="#publish-configuration">Step 2: Publish configuration file</a></li>
+<li><a href="#configure-connection">Step 3: Configure your LDAP Connection</a></li>
+<li><a href="#usage">Step 4: Use LdapRecord</a></li>
+<li><a href="#setup-authentication">Step 5: Setup Authentication</a></li>
+</ul></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>LdapRecord-Laravel requires the following:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Requirements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Laravel >= 5.6</td>
+</tr>
+<tr>
+  <td>PHP >= 7.2</td>
+</tr>
+<tr>
+  <td>PHP LDAP extension enabled</td>
+</tr>
+<tr>
+  <td>An LDAP server (Active Directory, OpenLDAP, FreeIPA etc.)</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="install-setup-usage">Install, Setup &amp; Usage</h2>
+
 <h3 id="install-ldaprecord-laravel">Step 1: Install LdapRecord-Laravel</h3>
 
 <p>Require LdapRecord-Laravel via <a href="https://getcomposer.org/">composer</a>:</p>
@@ -346,9 +387,9 @@ LDAP_SSL=false
 LDAP_TLS=false
 </code></pre>
 
-<p>View the core <a href="/docs/configuration">configuration</a> documentation for more information.</p>
+<p>View the core <a href="/docs/configuration">configuration</a> documentation for more information on each option.</p>
 
-<h3 id="usage">Step 4: Usage</h3>
+<h3 id="usage">Step 4: Use LdapRecord</h3>
 
 <p>To begin, you may either use the built-in <a href="/docs/models#predefined-models">models that LdapRecord comes with</a>,
 or you may create your own models that reference the connection you have created in your <code>ldap.php</code> file.</p>
@@ -377,7 +418,7 @@ class LdapUserController extends Controller
 }
 </code></pre>
 
-<h3 id="authentication">Step 5: Authentication</h3>
+<h3 id="setup-authentication">Step 5: Setup Authentication</h3>
 
 <p>View the <a href="/docs/laravel/auth/quickstart">authentication quickstart guide</a> if you require LDAP authentication in your application.</p>
 
