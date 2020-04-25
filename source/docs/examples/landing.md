@@ -1,7 +1,7 @@
 ```php
 $user = User::create([
-    'cn' => 'Steve Bauman',
     'company' => 'Acme',
+    'cn' => 'Steve Bauman',
     'password' => 'P@ssw0rd',
 ]);
 

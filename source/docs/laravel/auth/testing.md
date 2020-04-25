@@ -84,8 +84,8 @@ class TestLdapAuthentication extends TestCase
         $fake = DirectoryEmulator::setup('default');
 
         $ldapUser = User::create([
-            'mail' => $this->faker->email,
             'cn' => $this->faker->name,
+            'mail' => $this->faker->email,
             'objectguid' => $this->faker->uuid,
         ]);
 
@@ -121,8 +121,8 @@ that the user we create in this fake directory will successfully pass LDAP authe
 
 ```php
 $user = User::create([
-    'mail' => $this->faker->email,
     'cn' => $this->faker->name,
+    'mail' => $this->faker->email,
     'objectguid' => $this->faker->uuid,
 ]);
 ```
@@ -270,8 +270,8 @@ public function test_auth_fails()
     $fake = DirectoryEmulator::setup('default');
 
     $ldapUser = User::create([
-        'mail' => $this->faker->email,
         'cn' => $this->faker->name,
+        'mail' => $this->faker->email,
         'objectguid' => $this->faker->uuid,
     ]);
 
@@ -350,8 +350,8 @@ public function test_auth_works()
     $ldapGroup = Group::create(['cn' => 'Help Desk']);
 
     $ldapUser = User::create([
-        'mail' => $this->faker->email,
         'cn' => $this->faker->name,
+        'mail' => $this->faker->email,
         'objectguid' => $this->faker->uuid,
         'memberof' => [$ldapGroup->getDn()],
     ]);
@@ -384,8 +384,8 @@ public function test_auth_fails()
     $fake = DirectoryEmulator::setup('default');
 
     $ldapUser = User::create([
-        'mail' => $this->faker->email,
         'cn' => $this->faker->name,
+        'mail' => $this->faker->email,
         'objectguid' => $this->faker->uuid,
     ]);
 

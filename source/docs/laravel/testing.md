@@ -216,8 +216,9 @@ As you can see, this is extremely effective for testing your LDAP query integrat
 A `hasOne` relationship is easy to test. In this example, we will set the `manager` of another user:
 
 ```php
-$manager = User::create(['cn' => 'John']);
 $user = User::create(['cn' => 'Jane']);
+
+$manager = User::create(['cn' => 'John']);
 
 $user->manager()->attach($manager);
 ```
@@ -239,9 +240,9 @@ In our application, we want to test that a user is a member of a particular grou
 First, we will create our group and user and add the user to the group:
 
 ```php
-$group = Group::create(['cn' => 'Accounting']);
-
 $user = User::create(['cn' => 'John']);
+
+$group = Group::create(['cn' => 'Accounting']);
 
 $user->groups()->attach($group);
 ```

@@ -82,10 +82,10 @@ To create a new object in your directory, call the `create` method:
 
 ```php
 $user = User::create([
-    'cn'        => 'Steve Bauman',
+    'company'   => 'Acme',
     'givenname' => 'Steve',
     'sn'        => 'Bauman',
-    'company'   => 'Acme',
+    'cn'        => 'Steve Bauman',
 ]);
 ```
 
