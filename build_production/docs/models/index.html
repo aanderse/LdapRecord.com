@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=b695d4560772c4cab0ef">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=3db9c1430cdb3e8f3f97">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -376,6 +376,8 @@
 <ul>
 <li><a href="#creating">Creating</a></li>
 <li><a href="#updating">Updating</a></li>
+<li><a href="#moving">Moving</a></li>
+<li><a href="#renaming">Renaming</a></li>
 </ul></li>
 <li><a href="#restoring">Restoring Deleted Models</a></li>
 <li><a href="#attributes">Attributes</a>
@@ -709,9 +711,7 @@ pulls the descendants of the model.</p>
 <p>To re-retrieve a new model from your directory, call the <code>fresh()</code> method.
 Doing so will not affect the existing instance you already have:</p>
 
-<pre><code class="language-php">&lt;?php
-
-$user = User::where('cn', '=', 'jdoe')-&gt;first();
+<pre><code class="language-php">$user = User::where('cn', '=', 'jdoe')-&gt;first();
 
 $freshUser = $user-&gt;fresh();
 </code></pre>
@@ -719,9 +719,7 @@ $freshUser = $user-&gt;fresh();
 <p>If you would like to re-retrieve the existing model, call the <code>synchronize()</code> method.
 This will re-retrieve the models attributes from the directory:</p>
 
-<pre><code class="language-php">&lt;?php
-
-$user = User::where('cn', '=', 'jdoe')-&gt;first();
+<pre><code class="language-php">$user = User::where('cn', '=', 'jdoe')-&gt;first();
 
 $user-&gt;synchronize();
 </code></pre>
@@ -772,9 +770,7 @@ a variety of methods. Here is a list and usage of each:</p>
 </tbody>
 </table>
 
-<pre><code class="language-php">&lt;?php
-
-// Retrieve the first model of a global LDAP search...
+<pre><code class="language-php">// Retrieve the first model of a global LDAP search...
 $user = User::first();
 
 // Retrieve a model by its distinguished name...
@@ -821,9 +817,7 @@ with <code>OrFail()</code> variants:</p>
 </tbody>
 </table>
 
-<pre><code class="language-php">&lt;?php
-
-try {
+<pre><code class="language-php">try {
     // Retrieve the first model of a global LDAP search or fail...
     $user = User::firstOrFail();
 
@@ -862,9 +856,7 @@ example, <code>OrganizationlUnit</code>'s must have the <code>ou</code> attribut
 Upon calling <code>save()</code>, if no Distinguished Name is set on a new model, one will be generated
 based on your configured <code>base_dn</code> that you have set inside your connections configuration:</p>
 
-<pre><code class="language-php">&lt;?php
-
-$conn = new Connection([
+<pre><code class="language-php">$conn = new Connection([
     // ...
     'base_dn' =&gt; 'dc=local,dc=com',
 ]);
@@ -927,9 +919,7 @@ Distinguished Name (RDN) for an Active Directory <code>OrganizationalUnit</code>
 <p>You may set the base DN of where you would like the object to be created inside by
 using the <code>inside()</code> method, rather than your <code>base_dn</code> from your configuration:</p>
 
-<pre><code class="language-php">&lt;?php
-
-$user = new User(['cn' =&gt; 'John Doe']);
+<pre><code class="language-php">$user = new User(['cn' =&gt; 'John Doe']);
 
 $user-&gt;inside('ou=Users,dc=local,dc=com');
 
@@ -939,9 +929,7 @@ $user-&gt;save();
 <p>You may also pass in an LdapRecord <code>Model</code> instance. This is convenient so you
 know the container / organizational unit distinguished name is valid:</p>
 
-<pre><code class="language-php">&lt;?php
-
-$ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
+<pre><code class="language-php">$ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
 
 $user = new User(['cn' =&gt; 'John Doe']);
 
@@ -958,9 +946,7 @@ $user-&gt;inside($ou)-&gt;save();
 <p>To set the models distinguished name, call the <code>setDn()</code> method on your model and populate it
 with any organization unit or container that you would like it to be created inside:</p>
 
-<pre><code class="language-php">&lt;?php
-
-$user = new User();
+<pre><code class="language-php">$user = new User();
 
 $user-&gt;cn = 'John Doe';
 
@@ -974,9 +960,7 @@ $user-&gt;save();
 <p>Updating models is as easy as creating them. When you have a model returned from a query,
 set its attributes as you would for creating and call the <code>save()</code> method:</p>
 
-<pre><code class="language-php">&lt;?php
-
-$user = User::first();
+<pre><code class="language-php">$user = User::first();
 
 $user-&gt;company = 'My Company';
 $user-&gt;samaccountname = 'jdoe';
@@ -984,6 +968,44 @@ $user-&gt;department = 'Accounting';
 $user-&gt;displayname = 'Johnathan Doe';
 
 $user-&gt;save();
+</code></pre>
+
+<h3 id="moving">Moving</h3>
+
+<p>To move existing models into Organizational Units or Containers, call the <code>move()</code> method:</p>
+
+<blockquote>
+  <p>When moving a model is successful, the users distinguished name will be
+  automatically updated to reflect its new location in your directory,
+  so you may continue to run operations on it during the same request.</p>
+</blockquote>
+
+<pre><code class="language-php">$user = User::find('cn=Steve Bauman,dc=local,dc=com');
+
+$ou = OrganizationalUnit::find('ou=Office Users,dc=local,dc=com');
+
+$user-&gt;move($ou);
+
+// Displays 'cn=Steve Bauman,ou=Office Users,dc=local,d=com'
+echo $user-&gt;getDn();
+</code></pre>
+
+<h3 id="renaming">Renaming</h3>
+
+<p>To rename existing models, call the <code>rename()</code> method and supply the new objects RDN (relative distinguished name):</p>
+
+<blockquote>
+  <p>When renaming is successful, the users distinguished name is automatically
+  updated to reflect its new name in the directory, so you may run further
+  operations on it during the same request.</p>
+</blockquote>
+
+<pre><code class="language-php">$user = User::find('cn=John Doe,dc=local,dc=com');
+
+$user-&gt;rename('cn=Jane Doe');
+
+// Displays 'cn=Jane Doe,dc=local,dc=com'
+echo $user-&gt;getDn();
 </code></pre>
 
 <h2 id="restoring">Restoring Deleted Models</h2>
@@ -1604,7 +1626,7 @@ class User extends Model
     </section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=4084d289e77efba0f3a9"></script>
+        <script src="/assets/build/js/main.js?id=8bb9288277fd3f84abc0"></script>
 
         <script>
     const navMenu = {
