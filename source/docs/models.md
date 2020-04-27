@@ -20,6 +20,8 @@ section: content
 - [Creating & Updating Models](#creating-amp-updating-models)
  - [Creating](#creating)
  - [Updating](#updating)
+ - [Moving](#moving)
+ - [Renaming](#renaming)
 - [Restoring Deleted Models](#restoring)
 - [Attributes](#attributes)
  - [Methods](#methods)
@@ -310,8 +312,6 @@ To re-retrieve a new model from your directory, call the `fresh()` method.
 Doing so will not affect the existing instance you already have:
 
 ```php
-<?php
-
 $user = User::where('cn', '=', 'jdoe')->first();
 
 $freshUser = $user->fresh();
@@ -321,8 +321,6 @@ If you would like to re-retrieve the existing model, call the `synchronize()` me
 This will re-retrieve the models attributes from the directory:
 
 ```php
-<?php
-
 $user = User::where('cn', '=', 'jdoe')->first();
 
 $user->synchronize();
@@ -359,8 +357,6 @@ Method |
 `findByGuid($objectGuid)` |
 
 ```php
-<?php
-
 // Retrieve the first model of a global LDAP search...
 $user = User::first();
 
@@ -392,8 +388,6 @@ Method |
 `findByGuidOrFail($objectGuid)` |
 
 ```php
-<?php
-
 try {
     // Retrieve the first model of a global LDAP search or fail...
     $user = User::firstOrFail();
@@ -434,8 +428,6 @@ Upon calling `save()`, if no Distinguished Name is set on a new model, one will 
 based on your configured `base_dn` that you have set inside your connections configuration:
 
 ```php
-<?php
-
 $conn = new Connection([
     // ...
     'base_dn' => 'dc=local,dc=com',
@@ -501,8 +493,6 @@ You may set the base DN of where you would like the object to be created inside 
 using the `inside()` method, rather than your `base_dn` from your configuration:
 
 ```php
-<?php
-
 $user = new User(['cn' => 'John Doe']);
 
 $user->inside('ou=Users,dc=local,dc=com');
@@ -514,8 +504,6 @@ You may also pass in an LdapRecord `Model` instance. This is convenient so you
 know the container / organizational unit distinguished name is valid:
 
 ```php
-<?php
-
 $ou = OrganizationalUnit::findOrFail('ou=Users,dc=acme,dc=org');
 
 $user = new User(['cn' => 'John Doe']);
@@ -535,8 +523,6 @@ To set the models distinguished name, call the `setDn()` method on your model an
 with any organization unit or container that you would like it to be created inside:
 
 ```php
-<?php
-
 $user = new User();
 
 $user->cn = 'John Doe';
@@ -552,8 +538,6 @@ Updating models is as easy as creating them. When you have a model returned from
 set its attributes as you would for creating and call the `save()` method:
 
 ```php
-<?php
-
 $user = User::first();
 
 $user->company = 'My Company';
@@ -562,6 +546,42 @@ $user->department = 'Accounting';
 $user->displayname = 'Johnathan Doe';
 
 $user->save();
+```
+
+### Moving {#moving}
+
+To move existing models into Organizational Units or Containers, call the `move()` method:
+
+> When moving a model is successful, the users distinguished name will be
+> automatically updated to reflect its new location in your directory,
+> so you may continue to run operations on it during the same request.
+
+```php
+$user = User::find('cn=Steve Bauman,dc=local,dc=com');
+
+$ou = OrganizationalUnit::find('ou=Office Users,dc=local,dc=com');
+
+$user->move($ou);
+
+// Displays 'cn=Steve Bauman,ou=Office Users,dc=local,d=com'
+echo $user->getDn();
+```
+
+### Renaming {#renaming}
+
+To rename existing models, call the `rename()` method and supply the new objects RDN (relative distinguished name):
+
+> When renaming is successful, the users distinguished name is automatically
+> updated to reflect its new name in the directory, so you may run further
+> operations on it during the same request.
+
+```php
+$user = User::find('cn=John Doe,dc=local,dc=com');
+
+$user->rename('cn=Jane Doe');
+
+// Displays 'cn=Jane Doe,dc=local,dc=com'
+echo $user->getDn();
 ```
 
 ## Restoring Deleted Models {#restoring}
