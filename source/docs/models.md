@@ -647,12 +647,14 @@ $user = User::first();
 
 $attributes = $user->getAttributes();
 
-foreach ($attributes as $name => $value) {
+foreach ($attributes as $name => $values) {
     //
 }
 ```
 
-`Model::getAttribute($attribute)`
+> In the above example, `$values` will always be an array.
+
+`Model::getAttribute($name)`
 
 The `getAttribute` method returns all of the values inside the given key. This will return an `array` if the attribute exists:
 
@@ -668,7 +670,7 @@ if ($members) {
 }
 ```
 
-`Model::getFirstAttribute()`
+`Model::getFirstAttribute($name)`
 
 The `getFirstAttribute` method returns the first value of the given key. This will always return `null` or `string`:
 
@@ -688,6 +690,16 @@ $user = User::first();
 if ($user->hasAttribute('company')) {
     //
 }
+```
+
+`Model::addAttributeValue($name, $value)`
+
+To add a value to an attribute without clearing it, use the `addAttributeValue` method:
+
+```php
+$user = User::first();
+
+$user->addAttributeValue('proxyaddresses', 'SMTP:sbauman@local.com');
 ```
 
 `Model::countAttributes()`
