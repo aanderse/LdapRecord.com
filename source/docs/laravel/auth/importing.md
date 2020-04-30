@@ -179,9 +179,24 @@ Would you like to display the user(s) to be imported / synchronized? (yes/no) [n
 
 The `--filter` (or `-f`) option allows you to enter in a raw filter to further narrow down the users who are imported:
 
+> **Important**: If your filter contains commas, or other types of "escape" level LDAP search filter characters,
+> you **must** escape the value with a backslash (`\`) before passing it into the search string. More on this below.
+
 ```text
 php artisan ldap:import ldap --filter "(cn=John Doe)"
 ```
+
+#### Escaping
+
+In some cases, you may need to pass commas or other escape level characters into the search filter.
+
+To do so, add a backslash (`\`) **before** the character to escape it properly:
+
+```text
+php artisan ldap:import ldap --filter "(cn=Doe\, John)"
+```
+
+If this is not done, you will receive a `Bad search filter` exception during import.
 
 ### Delete {#option-delete}
 
