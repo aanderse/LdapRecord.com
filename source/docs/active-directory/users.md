@@ -49,8 +49,8 @@ use LdapRecord\Models\ActiveDirectory\User;
 $user = (new User)->inside('ou=Users,dc=local,dc=com');
 
 $user->cn = 'John Doe';
-$user->samaccountname = 'jdoe';
 $user->unicodePwd = 'SecretPassword';
+$user->samaccountname = 'jdoe';
 $user->userPrincipalName = 'jdoe@acme.org';
 
 $user->save();

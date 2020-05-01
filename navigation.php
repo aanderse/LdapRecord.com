@@ -34,6 +34,11 @@ return [
             'Testing' => 'docs/testing',
         ],
     ],
+    //    'Adldap2' => [
+    //        'children' => [
+    //            'Why LdapRecord?' => 'docs/adldap2/why',
+    //        ],
+    //    ],
     'Extra' => [
         'children' => [
             'Versioning' => 'docs/versioning',

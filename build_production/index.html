@@ -31,21 +31,22 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=3db9c1430cdb3e8f3f97">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=1db85790d01ad2bcc66f">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="flex flex-col bg-gray-100 font-sans">
-        <header class="flex items-center h-24 py-12 z-20 relative border-t-8 border-purple-600 1" role="banner">
-            <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
-                <div class="flex items-center">
-                    <a href="/" title="LdapRecord home" class="inline-flex items-center">
-                        <img class="h-20 md:h-24 mr-3" src="/assets/img/logo.svg" alt="LdapRecord logo" />
-                    </a>
-                </div>
+    <body class="bg-gray-100 antialiased font-sans">
+        <div class="relative">
+            <nav class="flex items-center h-24 py-12 z-20 relative border-gradient-l-purple-light " role="banner">
+                <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
+                    <div class="flex items-center">
+                        <a href="/" title="LdapRecord home" class="inline-flex items-center">
+                            <img class="h-20 md:h-24 mr-3" src="/assets/img/logo.svg" alt="LdapRecord logo" />
+                        </a>
+                    </div>
 
-                <div class="flex flex-1 justify-end items-center text-right md:pl-10 text-white">
-                                            <button
+                    <div class="flex flex-1 justify-end items-center text-right md:pl-10 text-gray-800 relative">
+                                                    <button
     title="Start searching"
     type="button"
     class="flex md:hidden bg-gray-100 hover:bg-blue-100 justify-center items-center border border-gray-500 rounded-full focus:outline-none h-10 px-3"
@@ -59,7 +60,7 @@
 
     <input
         id="docsearch-input"
-        class="docsearch-input relative block h-10 transition-fast w-full lg:w-1/2 xl:w-1/3 bg-gray-100 outline-none rounded-full text-gray-700 border border-gray-500 focus:border-blue-400 ml-auto px-4 pb-0"
+        class="docsearch-input relative block h-10 transition-fast w-full lg:w-1/2 xl:w-1/3 outline-none rounded text-gray-700 focus:border-blue-400 ml-auto px-4 pb-0 shadow"
         name="docsearch"
         type="text"
         placeholder="Search"
@@ -71,203 +72,143 @@
     >&times;</button>
 </div>
 
-                    
-                                                                        <a href="/docs/" class="ml-6 hidden md:inline whitespace-no-wrap hover:text-purple-900 text-white" title="LdapRecord-Laravel Documentation Link">
-                                Docs
-                            </a>
                         
-                        <a href="/docs/laravel" class="ml-6 hidden md:inline whitespace-no-wrap hover:text-purple-900 text-white" title="LdapRecord-Laravel Documentation Link">
-                            Laravel Docs
-                        </a>
+                                                                                    <a href="/docs/" class="ml-6 hidden md:inline whitespace-no-wrap text-gray-800 hover:text-purple-700" title="LdapRecord-Laravel Documentation Link">
+                                    Docs
+                                </a>
+                            
+                            <a href="/docs/laravel" class="ml-6 hidden md:inline whitespace-no-wrap text-gray-800 hover:text-purple-700" title="LdapRecord-Laravel Documentation Link">
+                                Laravel Docs
+                            </a>
 
-                        <a href="https://github.com/DirectoryTree/LdapRecord" class="hidden sm:inline hover:text-purple-900 text-white">
-                            <svg class="fill-current w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
-                        </a>
+                            <a href="https://github.com/DirectoryTree/LdapRecord" class="hidden sm:inline text-gray-800 hover:text-purple-700">
+                                <svg class="fill-current w-8 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>GitHub</title><path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path></svg>
+                            </a>
+                                            </div>
+                </div>
+
+                            </nav>
+        </div>
+
+        <main role="main" class="relative w-full">
+            <div class="sm:absolute sm:inset-y-0 sm:h-full sm:w-full">
+                <div class="relative h-full max-w-screen-xl mx-auto">
+                                            <svg style="right:100%;" width="404" height="784" fill="none" viewBox="0 0 404 784" class="absolute transform -translate-y-8 translate-x-1/4 lg:translate-x-1/2">
+                            <defs>
+                                <pattern id="f210dbf6-a58d-4871-961e-36d5016a0f49" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                                    <rect x="0" y="0" width="4" height="4" fill="currentColor" class="text-gray-200"></rect>
+                                </pattern>
+                            </defs>
+                            <rect width="404" height="784" fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"></rect>
+                        </svg>
                                     </div>
             </div>
 
-                    </header>
+            <div class="mt-10 mx-auto max-w-screen-xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 xl:mt-28 mb-12 sm:mb-16 md:mb-20 lg:mb-28 xl:mb-32">
+    <div class="text-center">
+        <h2 class="text-3xl sm:text-5xl md:text-6xl tracking-tighter leading-tight sm:leading-normal font-semibold text-gray-900">
+            <span class="font-light">A framework for </span>
 
-        <main role="main" class="w-full">
-            <section class="retro-hero">
-    <div class="retro-hero-content md:mx-48">
-        <h1 class="retro-hero-heading sm:text-4xl lg:text-5xl xl:text-6xl">
-            <em>Integrate LDAP into your PHP applications</em>
-        </h1>
+            <br class="xl:hidden">
 
-        <h2 class="text-shadow font-light hidden sm:block mt-4 text-white max-w-5xl">
-            No hair-pulling necessary.
+            <span class="text-gradient bg-gradient-l-purple-light inline-block">
+                Rapid LDAP Integration
+            </span>
         </h2>
 
-        <h4 class="text-shadow font-light block sm:hidden mt-4 text-white">
-            No hair-pulling necessary.
-        </h4>
+        <p class="mt-3 max-w-md mx-auto text-gray-600 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            LdapRecord is a framework that helps you quickly integrate <br class="hidden xl:inline-block"> LDAP  into your PHP applications.
+        </p>
 
-        <div class="flex justify-center my-10">
-            <a href="/docs/installation" title="LdapRecord getting started" class="uppercase tracking-wide italic bg-purple-600 hover:bg-purple-700 font-extrabold text-white hover:text-white rounded mr-4 py-3 px-6 shadow-lg">
-                Get Started
-            </a>
-
-            <a href="https://github.com/DirectoryTree/LdapRecord" title="GitHub LdapRecord Source Code Link" class="uppercase tracking-wide italic bg-gray-400 hover:bg-gray-600 text-blue-900 font-extrabold hover:text-white rounded py-3 px-6 shadow-lg">
-                Source Code
+        <div class="my-10 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
+            <a href="/docs/installation/" title="LdapRecord getting started" class="group hover:shadow-xl transform hover:-translate-y-2 rounded-md shadow lg:flex justify-center px-8 py-3 text-base leading-6 font-medium rounded-md text-white bg-gradient-l-purple-light hover:text-white focus:outline-none focus:shadow-outline-indigo transition duration-75 ease-in-out md:py-4 md:text-lg md:px-10">
+                Get started
+                <span class="text-xl ml-1">→</span>
             </a>
         </div>
-
-        <div class="my-10 flex justify-center">
-            <div class="hidden md:block">
-                <pre><code class="language-text">composer require directorytree/ldaprecord
-</code></pre>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div class="md:mb-16 lg:w-2/3 max-w-5xl mx-auto relative z-10 -mt-32">
-    <div class="feature shadow-2xl mx-12">
-        <div class="top-bar">
-            <div class="circles">
-                <div class="circle circle-red"></div>
-                <div class="circle circle-yellow"></div>
-                <div class="circle circle-green"></div>
-            </div>
-        </div>
-
-        <pre><code class="language-php">$user = User::create([
-    'company' =&gt; 'Acme',
-    'cn' =&gt; 'Steve Bauman',
-    'password' =&gt; 'P@ssw0rd',
-]);
-
-$administrators = Group::find('cn=Admins,dc=local,dc=com');
-
-$user-&gt;groups()-&gt;attach($administrators);
-</code></pre>
     </div>
 </div>
 
-<section class="mx-auto py-0 mt-16 md:mt-0">
-    <!-- Fast Setup. -->
-    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center lg:mb-16 p-12 max-w-screen-xl mx-auto">
-        <div class="md:w-3/5">
-            <div class="feature shadow-2xl">
-    <div class="top-bar">
-        <div class="circles">
-            <div class="circle circle-red"></div>
-            <div class="circle circle-yellow"></div>
-            <div class="circle circle-green"></div>
-        </div>
-    </div>
+<div class="bg-gray-b-code hidden sm:block">
+    <div class="pb-12 sm:pb-16">
+        <div class="relative">
+            <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto">
+                    <div class="rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-3">
+                        <a href="/docs/laravel/quickstart" class="rounded-tl-lg rounded-bl-lg">
+                            <div class="border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r flex flex-col justify-between items-center h-full">
+                                <div>
+                                    <svg fill="none" viewBox="0 0 50 52" stroke="url(#svg-grad1)" class="w-10 h-20 mx-auto">
+                                        <title>Logomark</title>
+                                        <path
+                                                d="M49.626 11.564a.809.809 0 0 1 .028.209v10.972a.8.8 0 0 1-.402.694l-9.209 5.302V39.25c0 .286-.152.55-.4.694L20.42 51.01c-.044.025-.092.041-.14.058-.018.006-.035.017-.054.022a.805.805 0 0 1-.41 0c-.022-.006-.042-.018-.063-.026-.044-.016-.09-.03-.132-.054L.402 39.944A.801.801 0 0 1 0 39.25V6.334c0-.072.01-.142.028-.21.006-.023.02-.044.028-.067.015-.042.029-.085.051-.124.015-.026.037-.047.055-.071.023-.032.044-.065.071-.093.023-.023.053-.04.079-.06.029-.024.055-.05.088-.069h.001l9.61-5.533a.802.802 0 0 1 .8 0l9.61 5.533h.002c.032.02.059.045.088.068.026.02.055.038.078.06.028.029.048.062.072.094.017.024.04.045.054.071.023.04.036.082.052.124.008.023.022.044.028.068a.809.809 0 0 1 .028.209v20.559l8.008-4.611v-10.51c0-.07.01-.141.028-.208.007-.024.02-.045.028-.068.016-.042.03-.085.052-.124.015-.026.037-.047.054-.071.024-.032.044-.065.072-.093.023-.023.052-.04.078-.06.03-.024.056-.05.088-.069h.001l9.611-5.533a.801.801 0 0 1 .8 0l9.61 5.533c.034.02.06.045.09.068.025.02.054.038.077.06.028.029.048.062.072.094.018.024.04.045.054.071.023.039.036.082.052.124.009.023.022.044.028.068zm-1.574 10.718v-9.124l-3.363 1.936-4.646 2.675v9.124l8.01-4.611zm-9.61 16.505v-9.13l-4.57 2.61-13.05 7.448v9.216l17.62-10.144zM1.602 7.719v31.068L19.22 48.93v-9.214l-9.204-5.209-.003-.002-.004-.002c-.031-.018-.057-.044-.086-.066-.025-.02-.054-.036-.076-.058l-.002-.003c-.026-.025-.044-.056-.066-.084-.02-.027-.044-.05-.06-.078l-.001-.003c-.018-.03-.029-.066-.042-.1-.013-.03-.03-.058-.038-.09v-.001c-.01-.038-.012-.078-.016-.117-.004-.03-.012-.06-.012-.09v-.002-21.481L4.965 9.654 1.602 7.72zm8.81-5.994L2.405 6.334l8.005 4.609 8.006-4.61-8.006-4.608zm4.164 28.764l4.645-2.674V7.719l-3.363 1.936-4.646 2.675v20.096l3.364-1.937zM39.243 7.164l-8.006 4.609 8.006 4.609 8.005-4.61-8.005-4.608zm-.801 10.605l-4.646-2.675-3.363-1.936v9.124l4.645 2.674 3.364 1.937v-9.124zM20.02 38.33l11.743-6.704 5.87-3.35-8-4.606-9.211 5.303-8.395 4.833 7.993 4.524z"
+                                                fill="#FF2D20"
+                                                fill-rule="evenodd"
+                                        /></svg>
+                                </div>
 
-    <pre><code class="language-php">use LdapRecord\Connection;
+                                <p class="mt-2 text-lg leading-6 font-medium text-gray-800 hover:text-purple-700">
+                                    Laravel Integration
+                                </p>
+                            </div>
+                        </a>
+                        <a href="/docs/">
+                            <div class="border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
+                                <div>
+                                    <svg fill="none" viewBox="0 0 24 24" stroke="url(#svg-grad1)" class="w-10 h-20 mx-auto">
+                                        <defs>
+                                            <linearGradient id="svg-grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#7F00FF"></stop>
+                                                <stop offset="1000%" stop-color="#E100FF"></stop>
+                                            </linearGradient>
+                                        </defs>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
 
-$connection = new Connection([
-    'hosts' =&gt; ['127.0.0.1'],
-    'base_dn' =&gt; 'dc=local,dc=com',
-    'username' =&gt; 'cn=user,dc=local,dc=com',
-    'password' =&gt; 'SuperSecret',
-]);
+                                <p class="mt-2 text-lg leading-6 font-medium text-gray-800 hover:text-purple-700">
+                                    Framework
+                                </p>
+                            </div>
+                        </a>
+                        <a href="/docs/quickstart" class="rounded-tr-lg rounded-br-lg">
+                            <div class="border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+                                <div>
+                                    <svg fill="none" viewBox="0 0 24 24" stroke="url(#svg-grad1)" class="w-10 h-20 mx-auto">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                </div>
 
-$connection-&gt;connect();
-
-$users = $connection-&gt;query()
-                    -&gt;where('title', '=', 'Accountant')
-                    -&gt;get();
-</code></pre>
-</div>
-        </div>
-
-        <div class="md:w-2/5 md:ml-8 flex flex-col items-center md:items-start">
-            <h3 class="text-center md:text-left text-5xl text-purple-800 my-0 font-extrabold italic text-shadow">
-                Up and running fast
-            </h3>
-
-            <p class="text-xl text-center md:text-left">
-                Connect to your LDAP servers and start running queries & operations in minutes.
-            </p>
-        </div>
-    </div>
-
-    <!-- Fluent Query Builder. -->
-    <div class="bg-purple-800">
-        <div class="flex flex-col md:flex-row md:flex md:items-center lg:mb-16 p-12 max-w-screen-xl mx-auto">
-            <div class="md:w-2/5 md:mr-8 flex flex-col items-center md:items-start">
-                <h3 class="text-center md:text-left text-5xl text-white my-0 font-extrabold italic">
-                    Fluent Query Builder
-                </h3>
-
-                <p class="text-xl text-white text-center md:text-left">
-                    Find the objects you're looking for in a couple lines or less with a fluent search builder.
-                </p>
-            </div>
-
-            <div class="md:w-3/5">
-                <div class="feature shadow-2xl">
-    <div class="top-bar">
-        <div class="circles">
-            <div class="circle circle-red"></div>
-            <div class="circle circle-yellow"></div>
-            <div class="circle circle-green"></div>
-        </div>
-    </div>
-
-    <pre><code class="language-php">User::whereEnabled()
-    -&gt;whereMemberOf('cn=Managers,ou=Groups,dc=local,dc=com')
-    -&gt;whereNotContains('company', 'Acme')
-    -&gt;get()
-    -&gt;each(function ($user) {
-        $user-&gt;company = 'Acme Organization';
-
-        $user-&gt;save();
-    });
-</code></pre>
-</div>
+                                <p class="mt-2 text-lg leading-6 font-medium text-gray-800 hover:text-purple-700">
+                                    Quick Start
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- ActiveRecord. -->
-    <div class="flex flex-col-reverse md:flex-row md:flex md:items-center mb-16 p-12 max-w-screen-xl mx-auto">
-        <div class="md:w-3/5">
-            <div class="feature shadow-2xl">
-    <div class="top-bar">
-        <div class="circles">
-            <div class="circle circle-red"></div>
-            <div class="circle circle-yellow"></div>
-            <div class="circle circle-green"></div>
-        </div>
-    </div>
-
-    <pre><code class="language-php">$user = new User();
-
-$user-&gt;cn = 'Steve Bauman';
-$user-&gt;title = 'Developer';
-$user-&gt;samaccountname = 'sbauman';
-$user-&gt;company = 'Acme';
-$user-&gt;mail = 'sbauman@acme.org';
-$user-&gt;givenname = 'Steve';
-$user-&gt;sn = 'Bauman';
-$user-&gt;password = 'Super-Secret';
-
-$user-&gt;save();
-</code></pre>
 </div>
-        </div>
 
-        <div class="md:w-2/5 md:ml-8 flex flex-col items-center md:items-start">
-            <h3 class="text-center md:text-left text-5xl text-purple-800 my-0 font-extrabold italic text-shadow">
-                Supercharged Active Record
-            </h3>
-
-            <p class="text-xl text-center md:text-left">
-                Create and modify LDAP objects with ease. All LDAP objects are individual models. Simply modify the
-                attributes on the model and save it to persist the changes to your LDAP server.
-            </p>
-        </div>
-    </div>
-</section>
         </main>
 
-        <script src="/assets/build/js/main.js?id=8bb9288277fd3f84abc0"></script>
+                    <footer class="text-center text-sm pt-24 py-4 mt-auto" role="contentinfo">
+                <ul class="flex flex-col md:flex-row justify-center list-none text-gray-600">
+                    <li class="md:mr-2">
+                        &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub" class="whitespace-no-wrap text-gray-800 hover:text-purple-700">DirectoryTree</a> 2020.
+                    </li>
+
+                    <li class="md:mr-2">
+                        Built with <a href="http://jigsaw.tighten.co" title="Jigsaw by Tighten" class="whitespace-no-wrap text-gray-800 hover:text-purple-700">Jigsaw</a>
+                        and <a href="https://tailwindcss.com" title="Tailwind CSS, a utility-first CSS framework" class="whitespace-no-wrap text-gray-800 hover:text-purple-700">Tailwind CSS</a>.
+                    </li>
+                </ul>
+            </footer>
+        
+        <script src="/assets/build/js/main.js?id=4084d289e77efba0f3a9"></script>
 
                     <script type="text/javascript">
             docsearch({
@@ -286,18 +227,5 @@ $user-&gt;save();
                 },
             }
         </script>
-    
-        <footer class="text-center text-sm mt-12 py-4 mt-auto" role="contentinfo">
-            <ul class="flex flex-col md:flex-row justify-center list-none">
-                <li class="md:mr-2">
-                    &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub">DirectoryTree</a> 2020.
-                </li>
-
-                <li class="md:mr-2">
-                    Built with <a href="http://jigsaw.tighten.co" title="Jigsaw by Tighten">Jigsaw</a>
-                    and <a href="https://tailwindcss.com" title="Tailwind CSS, a utility-first CSS framework">Tailwind CSS</a>.
-                </li>
-            </ul>
-        </footer>
-    </body>
+        </body>
 </html>

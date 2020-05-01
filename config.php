@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 
 return [
-    'baseUrl' => '',
+    'baseUrl' => 'https://ldaprecord.com',
     'production' => false,
     'siteName' => 'LdapRecord',
     'siteDescription' => "A PHP LDAP package made for humans.",

@@ -20,9 +20,8 @@
         "prismjs": "^1.19.0",
         "sass": "^1.25.0",
         "sass-loader": "^7.3.1",
-        "tailwindcss": "^1.2.0",
+        "tailwindcss": "^1.4.1",
         "vue-template-compiler": "^2.6.11",
         "yargs": "^4.6.0"
-    },
-    "dependencies": {}
+    }
 }

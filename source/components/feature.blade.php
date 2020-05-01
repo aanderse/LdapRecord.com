@@ -1,11 +1,3 @@
-<div class="feature shadow-2xl">
-    <div class="top-bar">
-        <div class="circles">
-            <div class="circle circle-red"></div>
-            <div class="circle circle-yellow"></div>
-            <div class="circle circle-green"></div>
-        </div>
-    </div>
-
+<div class="rounded-lg shadow-2xl">
     {{ $slot }}
 </div>

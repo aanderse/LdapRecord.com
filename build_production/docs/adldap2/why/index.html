@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="Testing with LdapRecord">
+        <meta name="description" content="Why LdapRecord was created instead of supporting Adldap2">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Testing | LdapRecord"/>
-        <meta property="og:description" content="Testing with LdapRecord"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/testing"/>
+        <meta property="og:title" content="Why LdapRecord? | Adldap2 Migration | LdapRecord"/>
+        <meta property="og:description" content="Why LdapRecord was created instead of supporting Adldap2"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/adldap2/why"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Testing</title>
+        <title>LdapRecord | Why LdapRecord? | Adldap2 Migration</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -298,7 +298,7 @@
             <li class="pl-4">
             
         <a href="/docs/testing"
-            class="lvl1  active font-semibold text-purple-600 nav-menu__item hover:text-purple-500"
+            class="lvl1  text-gray-700 nav-menu__item hover:text-purple-500"
         >
             Testing
         </a>
@@ -367,181 +367,170 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Testing</h1>
+                <h1>Why LdapRecord?</h1>
 
-<ul>
-<li><a href="#introduction">Introdcution</a></li>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#response-codes">Responses and Error Codes</a></li>
-</ul>
+<p><a href="https://github.com/Adldap2/Adldap2">Adldap2</a> was originally a fork of the repository <a href="https://github.com/adldap/adLDAP">adLDAP</a>.
+adLDAP contained some critical, project breaking bugs that prevented me from using it in any of my production PHP applications.
+The repository owner went completely AFK and would not add contributors or accept pull requests to the repository to resolve any issues.
+In haste due to my own project deadlines, Adldap2 was born.</p>
 
-<h2 id="introduction">Introduction</h2>
+<p>Due to the immediacy to create something the community (and I) could use that was relatively solid in PHP projects,
+Adldap2 lacked any real sense individuality. It still felt tied to its origins which felt wrong, since it was
+rewritten completely from the ground up.</p>
 
-<p>LdapRecord comes with a utility that allow you to test bind attempts
-against a fake server and return custom error codes &amp; responses.</p>
+<p>This brings me to my first reason for a new repository and name: <strong>Identity</strong>.</p>
 
-<p>This allows you to test how your application responds to authentication failures and error messages.</p>
+<h2>Identity</h2>
 
-<h2 id="setup">Setup</h2>
+<p><strong>Adldap2</strong> is simply an awful name, and due Adldap2 sharing its name with its predecessor, it never
+really felt like it was <em>mine</em>. Working on it felt like I was patching someone else's repository
+and work, rather than something <em>I</em> personally created.</p>
 
-<p>To begin, initialize the fake directory using the <code>DirectoryFake::setup</code> method. This method
-accepts the name of your LDAP connection that you initialize in your application.</p>
+<p>This is something I think a lot of developers feel when working on other projects, whether it be for clients or for work.
+We want to be the creators of our own projects and say -- "Hey, I <strong>made</strong> that". If we lack the ability to express our
+own design and creative freedoms, then the desire to produce quality work falls by the wayside.</p>
 
-<p>If you do not provide a name, your default LDAP connection name will be used.</p>
+<p>Since Adldap2 was a "successor" to the original adLDAP project, it needed to inherit much of its API so developers
+could easily migrate. This brought its own problems, and brings me to my next point: <strong>Design</strong>.</p>
 
-<p>Upon calling the <code>setup</code> method, your LDAP connection will be swapped out of the
-connection <code>Container</code> and replaced with a <code>ConnectionFake</code>.</p>
+<h2>Design</h2>
 
-<p>Let's walk through an example of testing an application that uses LDAP authentication.</p>
+<p>After implementing the original adLDAP repository in my own projects, I needed to build something that was easy to
+migrate to. This meant inheriting most of the original API design so other developers didn't have to completely rebuild
+LDAP integration in their own projects. The design was eventually phased out over time, but it led to some bad
+decisions on my part.</p>
 
-<p>Here's our example controller:</p>
+<h3>Versions</h3>
 
-<pre><code class="language-php">class AuthController
-{
-    public function __construct()
-    {
-        Container::addConnection([
-            'hosts' =&gt; ['10.0.0.1']
-        ]);
-    }
+<blockquote>
+  <p>"Where is Adldap2 v1-v4"? Simple. They don't exist.</p>
+</blockquote>
 
-    public function login()
-    {
-        $connection = Container::getDefaultConnection();
+<p>Versioning was my first bad decision. While the new Adldap2 repository had version <strong>2</strong> in its name, it began
+its versioning at v5 to follow suit of the original repository that was left at v4. It's confusing and ugly.</p>
 
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+<p>This made sense to me at the time since I was initially making small adjustments to a forked version of the original
+repository, but overtime as the similarities drifted apart quite drastically and I started to realize I should have started
+at version 1.0 to represent an actual "successor" to the original project.</p>
 
-        if ($connection-&gt;auth()-&gt;attempt($username, $password)) {
-            return "Your password is valid!";   
-        }
+<h3>Schema</h3>
 
-        return "Username or password is incorrect.";
-    }
-}
+<blockquote>
+  <p>"Wouldn't it be great to somehow map <strong>every</strong> LDAP attribute in a PHP interface so your IDE could
+  help you identify what attributes you were accessing without having to lookup the exact naming?"
+  Steve thought innocently.</p>
+</blockquote>
+
+<p>I thought this design would be <strong>killer</strong>. If I just build an interface that maps to LDAP attributes, I'll never
+have to lookup or guess the naming of attributes. Then, I could swap the interface implementation depending on
+which LDAP server I'm working with -- wonderful! Or so I thought.</p>
+
+<p>Turns out, there are <strong>thousands</strong> of different LDAP attributes across each LDAP distribution. That means I had to
+create <strong>thousands</strong> of interface methods that return a single string -- the attribute name. I literally excluded
+schemas from being analyzed from <a href="https://github.com/Adldap2/Adldap2/blob/master/.scrutinizer.yml">Scrutinizer</a>,
+<strong>because it was severely degrading the score due to the sheer size of the thing</strong>. That should have been my
+first hint.</p>
+
+<p>I realized this too late however -- my experience working with LDAP servers was severely lacking, and I already spent a ton
+of time on it. I documented <strong>each</strong> interface method. I released the first major Adldap2 version (v5) with this "<em>feature</em>".
+The design decision was in place, and I couldn't easily rework the entire system. <em>I do have my own deadlines after all.</em></p>
+
+<h3>Providers</h3>
+
+<blockquote>
+  <p>"Let's create a connection container, and we'll call it <strong>Adldap</strong>. Then, instead
+  of connections we'll call them <strong>Providers</strong>. Get it? Because they "provide" a
+  connection to your LDAP server?" I'm smart.</p>
+</blockquote>
+
+<p>"Providers" seemed to confuse a quite a few developers (myself included), as well as the <code>Adldap</code> class.
+You could create providers individually and utilize them without any <code>Adldap</code> instance.</p>
+
+<p>The underlying <code>Adldap</code> container proved to be basically useless, and didn't provide much
+besides the bootstrapping of event listeners. Take this code example for instance.</p>
+
+<p><strong>This:</strong></p>
+
+<pre><code class="language-php">$ad = new Adldap();
+
+$ad-&gt;addProvider(['...']);
+
+$provider = $ad-&gt;connect();
 </code></pre>
 
-<p>Now let's test it:</p>
+<p><strong>Is the same as:</strong></p>
 
-<pre><code class="language-php">use LdapRecord\Testing\DirectoryFake;
+<pre><code class="language-php">$provider = new Provider(['...']);
 
-class LoginTest extends TestCase
-{
-    public function test_login()
-    {
-        $user = 'cn=User,dc=local,dc=com';
-
-        DirectoryFake::setup()-&gt;actingAs($user);
-
-        // Execute HTTP post request somehow in your testing framework...
-
-        $this-&gt;post('/login', [
-            'username' =&gt; $user,
-            'password' =&gt; 'secret',
-        ])-&gt;assertSee("Your password is valid!");
-
-        $this-&gt;post('/login', [
-            'username' =&gt; 'invalid',
-            'password' =&gt; 'secret',
-        ])-&gt;assertSee("Username or password is incorrect.");
-    }
-}
+$provider-&gt;connect();
 </code></pre>
 
-<p>This is a small example of how you can test bind attempts to your LDAP server.</p>
+<h3>(Not-Really) Active Record</h3>
 
-<h2 id="response-codes">Responses and Error Codes</h2>
+<blockquote>
+  <p><em>"Models are configured in your Schema, returned in search results, and are created by your Provider"</em>.
+  Makes sense? No, no it doesn't.</p>
+</blockquote>
 
-<p>When testing connectivity to your LDAP server, you may wish to test error codes and
-messages that may be returned when a bind attempt fails. To do this, you can
-use the <code>ConnectionFake</code> to retrieve a fake LDAP connection to return
-error codes when a bind attempt fails.</p>
+<p>Adldap2 never really implemented a <strong>full</strong> Active Record implementation. Models are returned in results, and to
+use your own model classes, you have to swap them out in the inside of the badly designed Schema implementation.</p>
 
-<p>Let's walk through an example of an authentication controller that will
-retrieve the last LDAP error and determine the cause of the bind
-failure.</p>
+<p>To prevent breaking changes, overhauling documentation, creating upgrade guides and more -- I shoved a
+square peg into a circle hole, creating a <strong>half-</strong>Active-Record-<strong>half-</strong>weird-ORM.</p>
 
-<p>Let's walk through an example of testing an application that uses LDAP authentication.</p>
+<p><strong>This is Active Record:</strong></p>
 
-<p>Here's our example controller:</p>
+<pre><code class="language-php">// Creating a new user...
+$user = new User();
 
-<pre><code class="language-php">class AuthController
-{
-    public function __construct()
-    {
-        Container::addConnection([
-            'hosts' =&gt; ['10.0.0.1']
-        ]);
-    }
-
-    public function login()
-    {
-        $connection = Container::getDefaultConnection();
-
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-
-        if ($connection-&gt;auth()-&gt;attempt($username, $password)) {
-            return "Your password is valid!";   
-        }
-
-        $error = $connection-&gt;getLdapConnection()-&gt;getDiagnosticMessage();
-
-        if (strpos($error, '532') !== false) {
-            return "Your password has expired.";
-        } elseif (strpos($error, '533') !== false) {
-            return "Your account is disabled.";
-        } elseif (strpos($error, '701') !== false) {
-             return "Your account has expired.";
-        } elseif (strpos($error, '775') !== false) {
-             return "Your account is locked.";
-        }
-
-        return "Username or password is incorrect.";
-    }
-}
+// Getting existing users...
+$users = User::get();
 </code></pre>
 
-<p>You can see above that we are pulling the diagnostic message of the last failed bind attempt.</p>
+<p><strong>This is not:</strong></p>
 
-<p>This diagnostic message contains an error code that you can use to tell the user why they failed logging in.</p>
+<pre><code class="language-php">// Creating a new user...
+$user = $provider-&gt;make()-&gt;user();
 
-<p>Here is how we would test the above controller:</p>
-
-<pre><code class="language-php">use LdapRecord\Testing\DirectoryFake;
-
-class LoginTest extends TestCase
-{
-    public function test_login()
-    {
-        $user = 'cn=User,dc=local,dc=com';
-
-        $fake = DirectoryFake::setup()-&gt;actingAs($user);
-
-        $fake-&gt;getLdapConnection()-&gt;shouldReturnDiagnosticMessage('Failed: 775');
-
-        // Execute HTTP post request somehow in your testing framework...
-
-        $this-&gt;post('/login', [
-            'username' =&gt; $user,
-            'password' =&gt; 'secret',
-        ])-&gt;assertSee("Your account is locked.");
-    }
-}
+// Getting existing users...
+$users = $provider-&gt;search()-&gt;users()-&gt;get();
 </code></pre>
+
+<h2>Changes</h2>
+
+<blockquote>
+  <p>"Okay, maybe if I remove this, change that, rebuild the other part...
+  This is going to be so much upgrade documentation to write..."</p>
+</blockquote>
+
+<p>After years went by, the projects ugliness grew, and in my mind I felt disappointed by it all.
+Nothing in Adldap2 really screamed to me as well-designed, or easy to use. I needed to do
+right by the community and myself to create something better, that's <strong>enjoyable</strong> to use.</p>
+
+<p>When you use a project that makes you think "<em>Damn, that's some nice looking code there.</em>" -- that impression
+sticks, and <strong>I needed that</strong>. I needed LdapRecord to <em>feel great</em> to use and to look as gorgeous as possible.</p>
+
+<p>The sheer number of changes I wrote down as I went through the Adldap2 project source was staggering.
+There was simply no way I could write an "upgrade" guide for everything I was looking to change.
+Doing so would have generated such a massive amount of confusion, and not to mention an ever
+increasing workload on my free time that I was already spending helping people get up and
+running through GitHub issues.</p>
+
+<p>I had to create a <strong>brand</strong>. Something that screams confidence and thoughtfulness. This new project <strong>had</strong>
+to have <em>tons</em> of documentation, an easy API, a website -- and most importantly, fast &amp; helpful support.
+That is why I created <strong>LdapRecord</strong>. It is finally a project I feel completely connected to, something
+I'm very proud of, and plan to support for as long as I'm working in this industry.</p>
+
+<p>I really hope you love it. ❤️</p>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
     <div class="flex flex-col items-center md:items-start">
-                    <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">← Previous Topic</span>
-            <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/logging">Logging</a>
-            </h4>
             </div>
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/versioning">Versioning</a>
+                <a href="/docs">Overview</a>
             </h4>
             </div>
 </div>

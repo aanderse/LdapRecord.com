@@ -5,7 +5,7 @@
 @endsection
 
 @section('body')
-    <section class="container max-w-8xl mx-auto px-6 md:px-8 py-4">
+    <section class="container relative max-w-8xl mx-auto px-6 md:px-8 py-4">
         <div class="flex flex-col lg:flex-row">
             <nav id="js-nav-menu" class="nav-menu hidden lg:block">
                 @yield('nav')
