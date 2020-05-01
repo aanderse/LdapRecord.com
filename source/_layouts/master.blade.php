@@ -95,7 +95,7 @@
                         <rect width="404" height="784" fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"></rect>
                     </svg>
                 @else
-                    <svg style="left:100%;" width="404" height="784" fill="none" viewBox="0 0 404 784" class="absolute transform translate-y-64 -translate-x-64">
+                    <svg style="left:100%;" width="404" height="784" fill="none" viewBox="0 0 404 784" class="absolute hidden sm:block transform translate-y-64 -translate-x-64">
                         <defs>
                             <pattern id="f210dbf6-a58d-4871-961e-36d5016a0f49" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
                                 <rect x="0" y="0" width="4" height="4" fill="currentColor" class="text-gray-200"></rect>
