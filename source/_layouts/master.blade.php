@@ -86,35 +86,33 @@
         </div>
 
         <main role="main" class="relative w-full">
-            <div class="sm:absolute sm:inset-y-0 sm:h-full sm:w-full">
-                <div class="relative h-full max-w-screen-xl mx-auto">
-                    @if($page->isHomePage())
-                        <svg style="right:100%;" width="404" height="784" fill="none" viewBox="0 0 404 784" class="absolute transform -translate-y-8 translate-x-1/4 lg:translate-x-1/2">
-                            <defs>
-                                <pattern id="f210dbf6-a58d-4871-961e-36d5016a0f49" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                                    <rect x="0" y="0" width="4" height="4" fill="currentColor" class="text-gray-200"></rect>
-                                </pattern>
-                            </defs>
-                            <rect width="404" height="784" fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"></rect>
-                        </svg>
-                    @else
-                        <svg style="left:100%;" width="404" height="784" fill="none" viewBox="0 0 404 784" class="absolute transform translate-y-64 -translate-x-64">
-                            <defs>
-                                <pattern id="f210dbf6-a58d-4871-961e-36d5016a0f49" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                                    <rect x="0" y="0" width="4" height="4" fill="currentColor" class="text-gray-200"></rect>
-                                </pattern>
-                            </defs>
-                            <rect width="404" height="784" fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"></rect>
-                        </svg>
-                    @endif
-                </div>
+            <div class="relative h-full max-w-screen-xl mx-auto">
+                @if($page->isHomePage())
+                    <svg style="right:100%;" width="404" height="784" fill="none" viewBox="0 0 404 784" class="absolute hidden sm:block transform -translate-y-8 translate-x-1/4 lg:translate-x-1/2">
+                        <defs>
+                            <pattern id="f210dbf6-a58d-4871-961e-36d5016a0f49" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <rect x="0" y="0" width="4" height="4" fill="currentColor" class="text-gray-200"></rect>
+                            </pattern>
+                        </defs>
+                        <rect width="404" height="784" fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"></rect>
+                    </svg>
+                @else
+                    <svg style="left:100%;" width="404" height="784" fill="none" viewBox="0 0 404 784" class="absolute transform translate-y-64 -translate-x-64">
+                        <defs>
+                            <pattern id="f210dbf6-a58d-4871-961e-36d5016a0f49" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <rect x="0" y="0" width="4" height="4" fill="currentColor" class="text-gray-200"></rect>
+                            </pattern>
+                        </defs>
+                        <rect width="404" height="784" fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"></rect>
+                    </svg>
+                @endif
             </div>
 
             @yield('body')
         </main>
 
         @if($page->isHomePage())
-            <footer class="text-center text-sm pt-24 py-4 mt-auto" role="contentinfo">
+            <footer class="text-center text-sm pt-24 mt-auto" role="contentinfo">
                 <ul class="flex flex-col md:flex-row justify-center list-none text-gray-600">
                     <li class="md:mr-2">
                         &copy; <a href="https://github.com/DirectoryTree" title="DirectoryTree GitHub" class="whitespace-no-wrap text-gray-800 hover:text-purple-700">DirectoryTree</a> {{ date('Y') }}.
