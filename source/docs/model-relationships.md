@@ -296,8 +296,8 @@ you would like recursive results included (groups of groups).
 
 Recursive results are gathered by first retrieving the groups that the user is
 a member of, then retrieving the groups that are members of each resulting
-parent group. This means a query an LDAP search query is executed for each
-group that your user is apart of.
+parent group. This means an LDAP search query is executed for each group
+that your user is apart of.
 
 Circular group dependencies are rejected automatically to prevent infinite looping.
 
