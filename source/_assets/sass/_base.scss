@@ -149,17 +149,22 @@ pre {
 }
 
 table {
-    @apply w-full text-left rounded-lg overflow-hidden shadow;
+    @apply .w-full .text-left .rounded-lg .overflow-hidden .shadow;
 
     th {
-        @apply text-sm font-semibold text-gray-700 p-2 bg-gray-300;
+        @apply .text-sm .font-semibold .text-gray-700 .p-2 .bg-gray-300;
     }
 
     tr:first-child td {
-        @apply border-0;
+        @apply .border-0;
     }
 
     td {
-        @apply p-2 border-t text-sm bg-white border-gray-400;
+        @apply .p-2;
+        @apply .border-t;
+        @apply .text-sm;
+        @apply .bg-white;
+        @apply .border-gray-400;
+        @apply .whitespace-no-wrap;
     }
 }

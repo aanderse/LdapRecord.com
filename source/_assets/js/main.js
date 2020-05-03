@@ -9,3 +9,9 @@ import 'prismjs/components/prism-php';
 import 'prismjs/plugins/line-highlight/prism-line-highlight';
 
 Prism.highlightAll();
+
+window.$ = window.jQuery = require('jquery');
+
+$(document).ready(() => {
+    $('.content > table').wrap($("<div />").addClass('block shadow overflow-x-scroll rounded-lg'));
+});
