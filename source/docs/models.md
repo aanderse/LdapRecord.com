@@ -904,7 +904,7 @@ if ($user->isDescendantOf($ou)) {
 }
 ```
 
-You may also want to know whether a model is a direct ancestor of another. To
+You may also want to know whether a model is an ancestor of another. To
 do so, call the `isAncestorOf()` method:
 
 ```php
@@ -912,22 +912,50 @@ $user = User::find('cn=John Doe,ou=User Accounts,dc=acme,dc=org');
 $ou = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
 
 if ($ou->isAncestorOf($user)) {
-    // This OU is a direct ancestor of this user.
+    // This OU is an ancestor of this user.
 }
 ```
 
-> Calling `isDescendantOf()` or `isAncestorOf()` does not check recursively.
-> If a user is contained in a nested container of the one you are checking, this
-> method will return `false`.
+> Calling `isDescendantOf()` or `isAncestorOf()` performs recursive checks. If
+> a model is contained in a nested OU / container of the one you are checking,
+> the methods will return `true`.
 
 ```php
 $ou = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
 $user = User::find('cn=John Doe,ou=Accounting,ou=User Accounts,dc=acme,dc=org');
 
-// This will return false, as the user is not a direct descendant
-// of the 'User Accounts' organizational unit.
+// This will return true:
 if ($user->isDescendantOf($ou)) {
     // 
+}
+
+// This will return true:
+if ($ou->isAncestorOf($user)) {
+    //
+}
+```
+
+To perform non-recursive checks, such as checking if a model is a
+**direct** child of another model, call the `isChildOf` method:
+
+```php
+$ou = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
+$user = User::find('cn=John Doe,ou=User Accounts,dc=acme,dc=org');
+
+if ($user->isChildOf($ou)) {
+    //
+}
+```
+
+To perform the opposite, such as checking if a model is a parent of
+another, call the `isParentOf` method:
+
+```php
+$officeOu = OrganizationalUnit::find('ou=Office,ou=User Accounts,dc=acme,dc=org');
+$userAccountsOu = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
+
+if ($userAccountsOu->isParentOf($officeOu)) {
+    //
 }
 ```
 
