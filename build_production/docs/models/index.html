@@ -1324,30 +1324,56 @@ if ($user-&gt;isDescendantOf($ou)) {
 }
 </code></pre>
 
-<p>You may also want to know whether a model is a direct ancestor of another. To
+<p>You may also want to know whether a model is an ancestor of another. To
 do so, call the <code>isAncestorOf()</code> method:</p>
 
 <pre><code class="language-php">$user = User::find('cn=John Doe,ou=User Accounts,dc=acme,dc=org');
 $ou = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
 
 if ($ou-&gt;isAncestorOf($user)) {
-    // This OU is a direct ancestor of this user.
+    // This OU is an ancestor of this user.
 }
 </code></pre>
 
 <blockquote>
-  <p>Calling <code>isDescendantOf()</code> or <code>isAncestorOf()</code> does not check recursively.
-  If a user is contained in a nested container of the one you are checking, this
-  method will return <code>false</code>.</p>
+  <p>Calling <code>isDescendantOf()</code> or <code>isAncestorOf()</code> performs recursive checks. If
+  a model is contained in a nested OU / container of the one you are checking,
+  the methods will return <code>true</code>.</p>
 </blockquote>
 
 <pre><code class="language-php">$ou = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
 $user = User::find('cn=John Doe,ou=Accounting,ou=User Accounts,dc=acme,dc=org');
 
-// This will return false, as the user is not a direct descendant
-// of the 'User Accounts' organizational unit.
+// This will return true:
 if ($user-&gt;isDescendantOf($ou)) {
     // 
+}
+
+// This will return true:
+if ($ou-&gt;isAncestorOf($user)) {
+    //
+}
+</code></pre>
+
+<p>To perform non-recursive checks, such as checking if a model is a
+<strong>direct</strong> child of another model, call the <code>isChildOf</code> method:</p>
+
+<pre><code class="language-php">$ou = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
+$user = User::find('cn=John Doe,ou=User Accounts,dc=acme,dc=org');
+
+if ($user-&gt;isChildOf($ou)) {
+    //
+}
+</code></pre>
+
+<p>To perform the opposite, such as checking if a model is a parent of
+another, call the <code>isParentOf</code> method:</p>
+
+<pre><code class="language-php">$officeOu = OrganizationalUnit::find('ou=Office,ou=User Accounts,dc=acme,dc=org');
+$userAccountsOu = OrganizationalUnit::find('ou=User Accounts,dc=acme,dc=org');
+
+if ($userAccountsOu-&gt;isParentOf($officeOu)) {
+    //
 }
 </code></pre>
 
