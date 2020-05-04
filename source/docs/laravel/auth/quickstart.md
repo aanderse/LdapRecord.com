@@ -91,6 +91,8 @@ that have a unique value per user.
 In this example we want to use the users `mail` LDAP attribute to sign them into our application.
 
 ```php
+use Illuminate\Http\Request;
+
 class LoginController extends Controller
 {
     // ...
@@ -253,6 +255,8 @@ that have a unique value per user.
 In this example we want to use the users `mail` LDAP attribute to sign them into our application.
 
 ```php
+use Illuminate\Http\Request;
+
 class LoginController extends Controller
 {
     // ...

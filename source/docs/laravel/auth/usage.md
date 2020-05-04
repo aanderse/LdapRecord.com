@@ -45,6 +45,8 @@ To have LdapRecord properly locate the user in your directory, we will override 
 ```php
 // app/Http/Controllers/Auth/LoginController.php
 
+use Illuminate\Http\Request;
+
 protected function credentials(Request $request)
 {
     return [
@@ -128,6 +130,8 @@ We do this by overriding the `username` method, and updating our `credentials` m
 
 ```php
 // app/Http/Controllers/Auth/LoginController.php
+
+use Illuminate\Http\Request;
 
 public function username()
 {
