@@ -27,7 +27,7 @@
                         Edit this Page
                     </a>
                 </div>
-            </di>
+            </div>
         </div>
     </section>
 @endsection
