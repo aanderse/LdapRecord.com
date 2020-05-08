@@ -16,6 +16,7 @@ return [
             'Getting Started' => 'docs/models',
             'Relationships' => 'docs/model-relationships',
             'Accessors & Mutators' => 'docs/model-mutators',
+            'API (Available Methods)' => 'docs/model-api',
         ],
     ],
     'Active Directory' => [
@@ -34,11 +35,6 @@ return [
             'Testing' => 'docs/testing',
         ],
     ],
-    //    'Adldap2' => [
-    //        'children' => [
-    //            'Why LdapRecord?' => 'docs/adldap2/why',
-    //        ],
-    //    ],
     'Extra' => [
         'children' => [
             'Versioning' => 'docs/versioning',
