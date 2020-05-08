@@ -14,7 +14,7 @@
         </h2>
 
         <p class="mt-3 max-w-md mx-auto text-gray-600 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            LdapRecord is a framework that helps you quickly integrate <br class="hidden xl:inline-block"> LDAP  into your PHP applications.
+            LdapRecord is a framework that helps you quickly integrate <br class="hidden xl:inline-block"> LDAP  into your <strong>PHP</strong> applications.
         </p>
 
         <div class="my-10 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
