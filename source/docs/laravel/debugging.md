@@ -78,6 +78,8 @@ and the `credentials` method on your `LoginController`
 ```php
 // app/Http/Controllers/Auth/LoginController.php
 
+use Illuminate\Http\Request;
+
 public function username()
 {
     // This is the name of the HTML 'input' inside
