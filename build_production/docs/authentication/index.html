@@ -400,10 +400,12 @@ to you to implement, as every project may vary with session usage.</p>
 we will call the <code>auth()-&gt;attempt()</code> method:</p>
 
 <blockquote>
-  <p>If you only need to authenticate users against your LDAP server, you do not need to provide a <code>base_dn</code>. 
-  This is only used for performing searches on your directory. Similarly with the <code>username</code> and
-  <code>password</code> configuration options, these are only used for performing operations on your LDAP
-  server that require permission - such as resetting passwords, modifying LDAP entries, and more.</p>
+  <p>If you only need to authenticate users against your LDAP server, you do not need to
+  provide a <code>base_dn</code>.  This is only used for performing searches on your directory.
+  <br/><br/>
+  Similarly with the <code>username</code> and <code>password</code> configuration options, these are only
+  used for performing operations on your LDAP server that require permission - such
+  as resetting passwords, modifying LDAP entries, and more.</p>
 </blockquote>
 
 <pre><code class="language-php">$connection = new \LdapRecord\Connection([
