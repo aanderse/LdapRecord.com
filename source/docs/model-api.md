@@ -505,7 +505,7 @@ Model::addGlobalScope('my-scope', function () {
     // ...
 });
 
-// Returns: ['manager' => \Closure]
+// Returns: ['my-scope' => \Closure]
 $scopes = $model->getGlobalScopes();
 ```
 
