@@ -108,12 +108,12 @@ $model->proxyaddresses = ['SMTP:sbauman@microsoft.com'];
 
 $model->addAttributeValue('proxyaddresses', 'smtp:sbauman@local.com');
 
-var_dump($model->proxyaddresses);
-
+// Displays:
 // [
 //     'SMTP:sbauman@microsoft.com',
 //     'smtp:sbauman@local.com'
 // ]
+var_dump($model->proxyaddresses);
 ```
 
 #### `addHidden` {#addHidden}
@@ -124,6 +124,9 @@ Add an attribute to hide when encoding a model using `json_encode`:
 $model->addHidden('userpassword');
 
 $model->addHidden(['userpassword', 'mail']);
+
+// 'userpassword' and 'mail' will be omitted:
+$attributes = json_encode($model);
 ```
 
 #### `addModification` {#addModification}
@@ -190,9 +193,13 @@ Convert all the models attributes to their JSON encodable value:
 $attributes = $model->attributesToArray();
 ```
 
+> LDAP date attributes specified via the `$dates` model property will be converted in the returned array.
+
 #### `convert` {#convert}
 
 Convert a model into another by copying its attributes, connection and distinguished name:
+
+> This will also set `$model->exists` property to `true` if the **model being converted** exists.
 
 ```php
 $into = new \LdapRecord\Models\ActiveDirectory\User();
@@ -490,9 +497,9 @@ echo $model->getDn();
 Get the first value of an attribute:
 
 ```php
-$model->proxyaddresses = ['foo', 'bar'];
+$model->proxyaddresses = ['first', 'second'];
 
-// Returns: 'foo'
+// Returns: 'first'
 $value = $model->getFirstAttribute('proxyaddresses');
 ```
 
@@ -612,7 +619,7 @@ $model = Model::find('cn=John Doe,dc=local,dc=com');
 $model->getRdn();
 
 // Returns: 'cn=Steve Bauman'
-$model->getParentDn('cn=Steve Bauman,ou=Users,dc=local,dc=com');
+$model->getRdn('cn=Steve Bauman,ou=Users,dc=local,dc=com');
 ```
 
 #### `getVisible` {#getVisible}

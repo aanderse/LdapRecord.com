@@ -474,12 +474,12 @@
 
 $model-&gt;addAttributeValue('proxyaddresses', 'smtp:sbauman@local.com');
 
-var_dump($model-&gt;proxyaddresses);
-
+// Displays:
 // [
 //     'SMTP:sbauman@microsoft.com',
 //     'smtp:sbauman@local.com'
 // ]
+var_dump($model-&gt;proxyaddresses);
 </code></pre>
 
 <h4 id="addHidden"><code>addHidden</code></h4>
@@ -489,6 +489,9 @@ var_dump($model-&gt;proxyaddresses);
 <pre><code class="language-php">$model-&gt;addHidden('userpassword');
 
 $model-&gt;addHidden(['userpassword', 'mail']);
+
+// 'userpassword' and 'mail' will be omitted:
+$attributes = json_encode($model);
 </code></pre>
 
 <h4 id="addModification"><code>addModification</code></h4>
@@ -550,9 +553,17 @@ $carbon = $model-&gt;asDateTime('windows-int', 132334371140000000);
 <pre><code class="language-php">$attributes = $model-&gt;attributesToArray();
 </code></pre>
 
+<blockquote>
+  <p>LDAP date attributes specified via the <code>$dates</code> model property will be converted in the returned array.</p>
+</blockquote>
+
 <h4 id="convert"><code>convert</code></h4>
 
 <p>Convert a model into another by copying its attributes, connection and distinguished name:</p>
+
+<blockquote>
+  <p>This will also set <code>$model-&gt;exists</code> property to <code>true</code> if the <strong>model being converted</strong> exists.</p>
+</blockquote>
 
 <pre><code class="language-php">$into = new \LdapRecord\Models\ActiveDirectory\User();
 
@@ -836,9 +847,9 @@ echo $model-&gt;getDn();
 
 <p>Get the first value of an attribute:</p>
 
-<pre><code class="language-php">$model-&gt;proxyaddresses = ['foo', 'bar'];
+<pre><code class="language-php">$model-&gt;proxyaddresses = ['first', 'second'];
 
-// Returns: 'foo'
+// Returns: 'first'
 $value = $model-&gt;getFirstAttribute('proxyaddresses');
 </code></pre>
 
@@ -951,7 +962,7 @@ $model-&gt;getParentDn('cn=Steve Bauman,ou=Users,dc=local,dc=com');
 $model-&gt;getRdn();
 
 // Returns: 'cn=Steve Bauman'
-$model-&gt;getParentDn('cn=Steve Bauman,ou=Users,dc=local,dc=com');
+$model-&gt;getRdn('cn=Steve Bauman,ou=Users,dc=local,dc=com');
 </code></pre>
 
 <h4 id="getVisible"><code>getVisible</code></h4>
