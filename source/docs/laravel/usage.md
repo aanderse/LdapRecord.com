@@ -128,7 +128,7 @@ and apply it to a model query.
 > Be sure to take a peek at the [query scopes](/docs/models#query-scopes)
 > documentation for a more in-depth look.
 
-To create a new model scope, call the command `php artisan make:ldap-scope`:
+To create a new model scope, call the command:
 
 ```bash
 php artisan make:ldap-scope OnlyAccountants

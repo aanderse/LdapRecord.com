@@ -32,7 +32,7 @@ we will call the `auth()->attempt()` method:
 > <br/><br/>
 > Similarly with the `username` and `password` configuration options, these are only
 > used for performing operations on your LDAP server that require permission - such
-> as resetting passwords, modifying LDAP entries, and more.
+> as resetting passwords, modifying LDAP objects, and more.
 
 ```php
 $connection = new \LdapRecord\Connection([

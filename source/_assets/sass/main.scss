@@ -108,5 +108,19 @@
       width: 0;
       height: 0;
     }
+    .language-bash:before {
+      content: '>_ ';
+      @apply .text-gray-500;
+    }
+  }
+
+  pre.language-bash {
+    @apply .bg-gray-800;
+    @apply .text-white;
+
+    code {
+      @apply .bg-gray-800;
+      @apply .text-white;
+    }
   }
 }
