@@ -117,7 +117,7 @@ $user->save();
 ```
 
 > If you need help understanding user creation and management, take a look at the Active Directory 
-> [user management tutorial](/docs/tutorials/activedirectory/user-management).
+> [user management tutorial](/docs/active-directory/users/).
 
 ### Scopes {#scopes}
 
