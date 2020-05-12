@@ -444,7 +444,7 @@ $user-&gt;save();
 
 <blockquote>
   <p>If you need help understanding user creation and management, take a look at the Active Directory 
-  <a href="/docs/tutorials/activedirectory/user-management">user management tutorial</a>.</p>
+  <a href="/docs/active-directory/users/">user management tutorial</a>.</p>
 </blockquote>
 
 <h3 id="scopes">Scopes</h3>
@@ -505,7 +505,7 @@ class User extends Model
 </code></pre>
 
 <blockquote>
-  <p>You must pass a <strong>new</strong> instance of your scope into the <code>addGlobalScope</code> method, not the class name.</p>
+  <p>You must pass a <strong>new</strong> instance of your scope into the <code>addGlobalScope</code> method, <strong>not</strong> the class name.</p>
 </blockquote>
 
 <p>Any search queries that are performed on your <code>User</code> model will now be properly scoped.</p>
@@ -521,7 +521,7 @@ class User extends Model
 
 <p>Sometimes you simply want to know if a users LDAP credentials are valid.
 To do this, you must retrieve your LDAP connection from the LdapRecord
-<a href="/docs/connecting/#container">connection container</a>.</p>
+<a href="/docs/connections/#container">connection container</a>.</p>
 
 <p>To do so, you must call the <code>getConnection</code> method on the <code>Container</code> and pass in the name of
 your connection that appears in your <code>config/ldap.php</code> file:</p>
