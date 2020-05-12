@@ -177,7 +177,7 @@ class User extends Model
 }
 ```
 
-> You must pass a **new** instance of your scope into the `addGlobalScope` method, not the class name.
+> You must pass a **new** instance of your scope into the `addGlobalScope` method, **not** the class name.
 
 Any search queries that are performed on your `User` model will now be properly scoped.
 
@@ -193,7 +193,7 @@ As you may have noticed above, you must provide a named string for the scope you
 
 Sometimes you simply want to know if a users LDAP credentials are valid.
 To do this, you must retrieve your LDAP connection from the LdapRecord
-[connection container](/docs/connecting/#container).
+[connection container](/docs/connections/#container).
 
 To do so, you must call the `getConnection` method on the `Container` and pass in the name of
 your connection that appears in your `config/ldap.php` file:
