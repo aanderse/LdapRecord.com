@@ -388,5 +388,5 @@ class LoginController extends Controller
 }
 ```
 
-> Refer to the [Password Policy Errors](/docs/tutorials/activedirectory/user-management/#password-policy-errors)
+> Refer to the [Password Policy Errors](/docs/active-directory/users/#password-policy-errors)
 > documentation to see what each code means.
