@@ -9,6 +9,7 @@ section: content
 
 - [Introduction](#introduction)
 - [Basic Authentication](#basic)
+ - [Determining Auth / Bind Failure Cause](#determining-bind-failure)
 - [Using Other Attributes](#other-attributes)
 - [Restricting Authentication](#restricting)
  - [Group Memberships](#group-memberships)
@@ -53,6 +54,67 @@ above) would be in the format of `jdoe@acme.org`.
 You may have also noticed we added a third parameter named `$stayAuthenticated = true`. This means, that throughout the 
 entire lifecycle of the current request, you can perform further operations on your LDAP server *as* the
 successfully authenticated user.
+
+### Determining Auth / Bind Failure Cause {#determining-bind-failure}
+
+> This will only work when binding to an Active Directory server.
+
+It's a common scenario to require showing why a users password failed, wether it be
+an expired password, or account lockout. You can do this one of two ways:
+
+- Using `auth()->attempt()` with an if/else statement:
+
+```php
+if ($connection->auth()->attempt($username, $password)) {
+    // Further bound operations...  
+} else {
+    $error = $connection->getLdapConnection()->getDiagnosticMessage();
+
+    if (strpos($error, '532') !== false) {
+        return "Your password has expired.";
+    } elseif (strpos($error, '533') !== false) {
+        return "Your account is disabled.";
+    } elseif (strpos($error, '701') !== false) {
+        return "Your account has expired.";
+    } elseif (strpos($error, '775') !== false) {
+        return "Your account is locked.";
+    }
+
+    return "Username or password is incorrect.";
+}
+```
+
+- Using `auth()->bind()` and catching the thrown exception:
+
+```php
+try {
+    $connection->auth()->bind($username, $password);
+
+    // Further bound operations...
+} catch (\LdapRecord\Auth\BindException $e) {
+    $error = $e->getDetailedError()->getDiagnosticMessage();
+
+    if (strpos($error, '532') !== false) {
+        return "Your password has expired.";
+    } elseif (strpos($error, '533') !== false) {
+        return "Your account is disabled.";
+    } elseif (strpos($error, '701') !== false) {
+        return "Your account has expired.";
+    } elseif (strpos($error, '775') !== false) {
+        return "Your account is locked.";
+    }
+
+    return "Your account is locked.";
+}
+```
+
+> However, please be aware of the differences of the above methods as
+> described in the [connection binding documentation](/docs/connections/#binding):
+> 
+> - `auth()->attempt()` will automatically rebind the user you have in your configuration,
+>  unless you have specified `true` in the third parameter to stay bound. </br></br>
+> - `auth()->bind()` **will not** automatically rebind the user you have in your configuration,
+>  and will allow `null` usernames and passwords (anonymous binds).
 
 ## Authenticating with other username attributes {#other-attributes}
 
