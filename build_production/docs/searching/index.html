@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=f0797b45ea5c3b8eda69">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=2fceac57d380dfde0bbc">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -489,12 +489,7 @@ $record = $query-&gt;findBy('samaccountname', 'jdoe');
 <pre><code class="language-php">$results = $query-&gt;select(['cn', 'samaccountname'])-&gt;get();
 </code></pre>
 
-<blockquote>
-  <p>Executed searches via the <code>get()</code> method will return results inside an
-  <code>LdapRecord\Query\Collection</code> instance.</p>
-  
-  <p>Executed searches via the <code>first()</code> method will return <strong>the model instance only</strong>.</p>
-</blockquote>
+<p>Results will be returned inside of an <code>LdapRecord\Query\Collection</code> instance.</p>
 
 <h4>Retrieving the first record</h4>
 
@@ -502,6 +497,8 @@ $record = $query-&gt;findBy('samaccountname', 'jdoe');
 
 <pre><code class="language-php">$record = $query-&gt;first();
 </code></pre>
+
+<p>Results will return <strong>the model instance only</strong>.</p>
 
 <p>You can also use <code>firstOrFail()</code> to generate an exception when no records are found.</p>
 
@@ -645,10 +642,9 @@ server in your query results, use the <code>withDeleted</code> method:</p>
 
 <p>For example:</p>
 
-<pre><code class="language-php">$results = $query
-            -&gt;where('cn', '=', 'John Doe')
-            -&gt;orWhere('cn', '=', 'Suzy Doe')
-            -&gt;get();
+<pre><code class="language-php">$results = $query-&gt;where('cn', '=', 'John Doe')
+                 -&gt;orWhere('cn', '=', 'Suzy Doe')
+                 -&gt;get();
 </code></pre>
 
 <p>This query will return objects that have the common name of <code>John Doe</code> or <code>Suzy Doe</code>.</p>
@@ -680,11 +676,10 @@ $result = $query-&gt;whereCn('John Doe')-&gt;first();
 
 <p>You can also chain them:</p>
 
-<pre><code class="language-php">$result = $query
-    -&gt;whereTelephonenumber('555-555-5555')
-    -&gt;whereGivenname('John Doe')
-    -&gt;whereSn('Doe')
-    -&gt;first();
+<pre><code class="language-php">$result = $query-&gt;whereTelephonenumber('555-555-5555')
+                -&gt;whereGivenname('John Doe')
+                -&gt;whereSn('Doe')
+                -&gt;first();
 </code></pre>
 
 <p>You can even perform multiple dynamic wheres by separating your fields by an <code>And</code>:</p>

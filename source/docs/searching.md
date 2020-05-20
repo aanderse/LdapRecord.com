@@ -118,10 +118,7 @@ To get the results from a search, simply call the `get()` method:
 $results = $query->select(['cn', 'samaccountname'])->get();
 ```
 
-> Executed searches via the `get()` method will return results inside an
-> `LdapRecord\Query\Collection` instance.
->
-> Executed searches via the `first()` method will return **the model instance only**.
+Results will be returned inside of an `LdapRecord\Query\Collection` instance.
 
 #### Retrieving the first record
 
@@ -130,6 +127,8 @@ To retrieve the first record of a search, call the `first()` method:
 ```php
 $record = $query->first();
 ```
+
+Results will return **the model instance only**.
 
 You can also use `firstOrFail()` to generate an exception when no records are found.
 
@@ -288,10 +287,9 @@ To perform an `or where` clause on the search object, use the `orWhere()` method
 For example:
 
 ```php
-$results = $query
-            ->where('cn', '=', 'John Doe')
-            ->orWhere('cn', '=', 'Suzy Doe')
-            ->get();
+$results = $query->where('cn', '=', 'John Doe')
+                 ->orWhere('cn', '=', 'Suzy Doe')
+                 ->get();
 ```
 
 This query will return objects that have the common name of `John Doe` or `Suzy Doe`.
@@ -324,11 +322,10 @@ $result = $query->whereTelephonenumber('555-555-5555')->first();
 You can also chain them:
 
 ```php
-$result = $query
-    ->whereTelephonenumber('555-555-5555')
-    ->whereGivenname('John Doe')
-    ->whereSn('Doe')
-    ->first();
+$result = $query->whereTelephonenumber('555-555-5555')
+                ->whereGivenname('John Doe')
+                ->whereSn('Doe')
+                ->first();
 ```
 
 You can even perform multiple dynamic wheres by separating your fields by an `And`:
