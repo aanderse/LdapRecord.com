@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="LdapRecord-Laravel authentication usage guide">
+        <meta name="description" content="LdapRecord-Laravel authentication setup guide">
 
         <meta property="og:site_name" content="LdapRecord"/>
-        <meta property="og:title" content="Authentication Usage | LdapRecord"/>
-        <meta property="og:description" content="LdapRecord-Laravel authentication usage guide"/>
-        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/usage"/>
+        <meta property="og:title" content="Authentication Setup | LdapRecord"/>
+        <meta property="og:description" content="LdapRecord-Laravel authentication setup guide"/>
+        <meta property="og:url" content="https://ldaprecord.com/docs/laravel/auth/setup"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -18,7 +18,7 @@
 
                     <meta name="generator" content="tighten_jigsaw_doc">
         
-        <title>LdapRecord | Authentication Usage</title>
+        <title>LdapRecord | Authentication Setup</title>
 
         <link rel="home" href="https://ldaprecord.com">
         <link rel="icon" href="/favicon.ico">
@@ -31,11 +31,11 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=1fb9c770d704bcc85da2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=f0797b45ea5c3b8eda69">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="bg-gray-100 antialiased font-sans">
+    <body class="antialiased font-sans">
         <nav class="flex items-center h-24 py-12 z-20 border-gradient-l-purple-light border-b-8 mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -204,10 +204,10 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/auth/usage"
+        <a href="/docs/laravel/auth/setup"
             class="lvl1  active font-semibold text-purple-600 nav-menu__item hover:text-purple-500"
         >
-            Usage
+            Setup
         </a>
     
     </li>
@@ -327,10 +327,11 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Usage</h1>
+                <h1>Setup</h1>
 
 <ul>
-<li><a href="#logging-in">Logging In</a></li>
+<li><a href="#guard">Authentication Guard</a></li>
+<li><a href="#login-controller">Login Controller</a></li>
 <li><a href="#using-usernames">Using Usernames</a></li>
 <li><a href="#model-binding">Eloquent Model Binding</a></li>
 <li><a href="#passthrough-authentication">Pass-Through Authentication / SSO</a>
@@ -338,17 +339,17 @@
 <ul>
 <li><a href="#sso-domain-verification">Domain Verification</a></li>
 <li><a href="#changing-the-sso-server-key">Changing the Server Key</a></li>
+<li><a href="#selective-sigle-sign-on">Selective / Bypassing Single-Sign-On</a></li>
 </ul></li>
 <li><a href="#displaying-ldap-error-messages">Displaying LDAP Error Messages (password expiry, account lockouts)</a></li>
 </ul>
 
-<h2 id="logging-in">Logging In</h2>
+<h2 id="guard">Authentication Guard</h2>
 
-<p>Once you have finished configuring your authentication provider, you are ready to start authenticating users.</p>
+<p>Once you have <a href="/docs/laravel/auth/configuration">configured a new authentication provider</a>,
+you will have to setup your authentication guard to use this new provider.</p>
 
-<p>Before you get started, make sure you have either created a new authentication guard that uses your new provider,
-or change the default guard to use your new provider. For now, let's change our default <code>web</code> guard to use
-our new <code>ldap</code> provider:</p>
+<p>For this example, we will change our default <code>web</code> guard to use our new <code>ldap</code> provider:</p>
 
 <pre><code class="language-php">// config/auth.php
 
@@ -362,11 +363,15 @@ our new <code>ldap</code> provider:</p>
 ],
 </code></pre>
 
-<p>Now that we have updated our default authentication guard to use our new <code>ldap</code> provider, we will jump into
-the default <code>LoginController</code> that is included with Laravel. For this example application, we will
-authenticate our LDAP users with their email address using the LDAP attribute <code>mail</code>.</p>
+<h2 id="login-controller">Login Controller</h2>
 
-<p>To have LdapRecord properly locate the user in your directory, we will override the <code>credentials</code> method in this controller:</p>
+<p>Now that we have updated our default authentication guard to use our new <code>ldap</code> provider, we will jump into
+the default <code>LoginController</code> that is included with the <a href="https://laravel.com/docs/authentication#introduction">Laravel UI package</a>.</p>
+
+<p>For this example application, we will authenticate our LDAP users with their email address using the LDAP attribute <code>mail</code>.</p>
+
+<p>To have LdapRecord properly locate the user in your directory during login,
+we will override the <code>credentials</code> method in the <code>LoginController</code>:</p>
 
 <pre><code class="language-php">// app/Http/Controllers/Auth/LoginController.php
 
@@ -384,11 +389,16 @@ protected function credentials(Request $request)
 <p>As you can see above, we set the <code>mail</code> key which is passed to the LdapRecord authentication provider.</p>
 
 <p>A search query will be executed on your directory for a user that contains the <code>mail</code> attribute equal
-to the entered <code>email</code> that the user has submitted on your login form. The <code>password</code> key is
-automatically bypassed and will not be used in the search.</p>
+to the entered <code>email</code> that the user has submitted on your login form. The <code>password</code>
+key will not be used in the search.</p>
 
 <p>If a user is not found in your directory, or they fail authentication, they will be redirected to the
 login page normally with the "Invalid credentials" error message.</p>
+
+<blockquote>
+  <p>You may also add extra key => value pairs in the <code>credentials</code> array to further scope the
+  LDAP query. The <code>password</code> key is automatically ignored by LdapRecord.</p>
+</blockquote>
 
 <h2 id="using-usernames">Using Usernames</h2>
 
@@ -414,8 +424,10 @@ table to <code>username</code>, as this represents what it will now contain:</p>
 </blockquote>
 
 <p>Once we've changed the name of the column, we'll jump into the <code>config/auth.php</code> configuration and modify 
-our LDAP user providers <code>sync_attributes</code> to synchronize this changed column. In this example, we will
-use the users <code>sAMAccountName</code> as their username which is common in Active Directory environments:</p>
+our LDAP user providers <code>sync_attributes</code> to synchronize this changed column.</p>
+
+<p>In this example, we will use the users <code>sAMAccountName</code> as their username
+which is common in Active Directory environments:</p>
 
 <pre><code class="language-php">// config/auth.php
 
@@ -479,8 +491,11 @@ you to attach the users LdapRecord model to their Eloquent model so their LDAP d
 available on every request automatically.</p>
 
 <blockquote>
-  <p>Enabling this option will perform a single query on your LDAP server for a logged in user per request.
-  This could lead to slightly longer load times depending on your LDAP server and network speed.</p>
+  <p>Using this feature will perform a single query on your LDAP server for a <strong>logged in user per request</strong>.
+  This could lead to slightly longer load times depending on your LDAP server and network speed.
+  <br/><br/>
+  This also means <strong>persistent LDAP connectivity is required</strong> while LDAP
+  authenticated users use your Laravel application.</p>
 </blockquote>
 
 <p>To begin, insert the <code>LdapRecord\Laravel\Auth\HasLdapUser</code> trait onto your User model:</p>
@@ -502,9 +517,13 @@ their model via the <code>ldap</code> property:</p>
 $user = Auth::user();
 
 // Instance of App\Ldap\User
-$ldap = $user-&gt;ldap;
+$user-&gt;ldap;
 
-echo $ldap-&gt;getFirstAttribute('cn');
+// Get LDAP user attributes
+echo $user-&gt;ldap-&gt;getFirstAttribute('cn');
+
+// Get LDAP user relationships:
+$groups = $user-&gt;ldap-&gt;groups()-&gt;get();
 </code></pre>
 
 <h2 id="passthrough-authentication">Pass-through Authentication / SSO</h2>
@@ -549,7 +568,7 @@ inside of the users distinguished name that is retrieved from each of your confi
   <p>Only 'Domain Components' are checked in the users distinguished name. More on this below.</p>
 </blockquote>
 
-<p>To describe this issue further: The <code>WindowsAuthenticate</code> middleware retrieves all of your configured
+<p>To describe this issue in further detail -- the <code>WindowsAuthenticate</code> middleware retrieves all of your configured
 authentication guards inside of your <code>config/auth.php</code> file, determines which one is using the <code>ldap</code>
 driver, and then attempts to locate the authenticating users from <strong>each connection</strong>.</p>
 
@@ -562,30 +581,33 @@ is connecting to your Laravel application via Single-Sign-On.</p>
 <pre><code class="language-text">ACME\sbauman
 </code></pre>
 
-<p>And LdapRecord locates a user with the distinguished name of</p>
+<p>And LdapRecord locates a user with the distinguished name of:</p>
 
 <pre><code class="language-text">cn=sbauman,ou=users,dc=local,dc=com
 </code></pre>
 
-<p>They will be denied authentication, as the authenticating user has a domain of <code>ACME</code>,
-but it is not contained inside of their distinguished name domain components (dc).</p>
+<p>They will be denied authentication. This is because the authenticating user has a domain of
+<code>ACME</code>, but it is not contained inside of their distinguished name domain components (dc).</p>
 
-<p>Using the same example, if the users distinguished name returns:</p>
+<p>Using the same example, if the located users distinguished name is:</p>
 
 <pre><code class="language-text">cn=sbauman,ou=users,dc=acme,dc=com
 </code></pre>
 
 <p>Then they will be allowed to authenticate, as their <code>ACME</code> domain is contained inside of
-their distinguished name domain components (<code>dc=acme</code>). Comparison against each domain
-component is done in a <strong>case-insensitive</strong> manor.</p>
+their distinguished name domain components (<code>dc=acme</code>).</p>
+
+<blockquote>
+  <p>Comparison against each domain component is done in a <strong>case-insensitive</strong> manor.</p>
+</blockquote>
 
 <p>If you would like to disable this check, you must call the static method <code>bypassDomainVerification</code>
 on the <code>WindowsAuthenticate</code> middleware inside of your <code>AuthServiceProvider</code>:</p>
 
 <blockquote>
-  <p><strong>Important</strong>: This is a security issue if you use multi-domain authentication and
-  disable this check. If you only connect to one domain inside your application,
-  this is not a security issue. You have been warned.</p>
+  <p><strong>Important</strong>: If you only connect to one domain inside your application,
+  this is not a security issue. However, if you use multi-domain authentication
+  and disable this check, users who have the same <code>sAMAccountName</code> could login as eachother. <strong>This is a security issue. You have been warned.</strong></p>
 </blockquote>
 
 <pre><code class="language-php">// app/Providers/AuthServiceProvider.php
@@ -623,6 +645,33 @@ public function boot()
     WindowsAuthenticate::serverKey('PHP_AUTH_USER');
 }
 </code></pre>
+
+<h3 id="selective-sigle-sign-on">Selective / Bypassing Single-Sign-On</h3>
+
+<p>Occasionally you may need to allow users who are not apart of the domain
+to login  to your application, as well as allowing domain users to
+automatically sign in via Single-Sign-On.</p>
+
+<p>Unfortunately, NTLM / Windows authentication is all-or-nothing on your entire web application. This means,
+you cannot enable a single HTTP endpoint in your application to use Single-Sign-On or exempt a portion
+of your application. However, there is a workaround that is used frequently in the industry.</p>
+
+<p>The goal is to have two URL's that point to the same Laravel application. One that
+has Windows authentication enabled, and another that does not. This is typically idendified by an <code>sso</code> sub-domain:</p>
+
+<pre><code class="language-html">&lt;!-- Standard URL --&gt;
+my-app.com
+
+&lt;!-- Single-Sign-On URL --&gt;
+sso.my-app.com
+</code></pre>
+
+<p>To do this, you must create a new IIS instance and point to the same Laravel application. Then, you simply 
+have Windows authentication enabled on one instance, and left disabled on another.</p>
+
+<p>Nothing needs to be done in your Laravel application. The <code>WindowsAuthenticate</code> middleware
+will only attempt to authenticate users when the <code>AUTH_USER</code> server key is present,
+so it can remain in the global middleware stack.</p>
 
 <h2 id="displaying-ldap-error-messages">Displaying LDAP Error Messages</h2>
 
@@ -730,7 +779,7 @@ class LoginController extends Controller
                 </div>
 
                 <div class="mt-8 text-center hidden md:block">
-                    <a class="font-black text-gray-500 text-sm tracking-wider uppercase" href="https://github.com/DirectoryTree/LdapRecord.com/blob/master/source//docs/laravel/auth/usage.md" target="_blank">
+                    <a class="font-black text-gray-500 text-sm tracking-wider uppercase" href="https://github.com/DirectoryTree/LdapRecord.com/blob/master/source//docs/laravel/auth/setup.md" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="w-6 h-6 inline-block fill-current mr-1">
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
                         </svg>
@@ -744,7 +793,7 @@ class LoginController extends Controller
         </main>
 
         
-        <script src="/assets/build/js/main.js?id=f26c1cfd7d5ee8790299"></script>
+        <script src="/assets/build/js/main.js?id=f4770a7909c663b5fd4a"></script>
 
         <script>
     const navMenu = {

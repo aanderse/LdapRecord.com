@@ -255,7 +255,9 @@ $model->delete($recursive = true);
 
 #### `deleteAttribute` {#deleteAttribute}
 
-Immediately delete an attribute on a model:
+Immediately delete an attribute on a model.
+
+Performs an `ldap_mod_del` under the hood.
 
 ```php
 $model->deleteAttribute('telephonenumber');

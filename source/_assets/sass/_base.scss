@@ -38,11 +38,12 @@ blockquote {
 }
 
 code {
-    @apply .bg-gray-300;
+    @apply .bg-gray-200;
     @apply .px-2;
     @apply .py-px;
     @apply .rounded;
     @apply .text-sm;
+    @apply .text-purple-700;
 }
 
 h1,
@@ -166,5 +167,11 @@ table {
         @apply .bg-white;
         @apply .border-gray-400;
         @apply .whitespace-no-wrap;
+    }
+
+    @screen md {
+        td {
+            @apply .whitespace-normal;
+        }
     }
 }

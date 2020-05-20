@@ -31,11 +31,11 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=1fb9c770d704bcc85da2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=f0797b45ea5c3b8eda69">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="bg-gray-100 antialiased font-sans">
+    <body class="antialiased font-sans">
         <nav class="flex items-center h-24 py-12 z-20 border-gradient-l-purple-light border-b-8 mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -204,10 +204,10 @@
     </li>
             <li class="pl-4">
             
-        <a href="/docs/laravel/auth/usage"
+        <a href="/docs/laravel/auth/setup"
             class="lvl1  text-gray-700 nav-menu__item hover:text-purple-500"
         >
-            Usage
+            Setup
         </a>
     
     </li>
@@ -473,12 +473,12 @@ it using the <code>password_column</code> key inside of your providers configura
 <h3 id="database-password-sync">Database Password Sync</h3>
 
 <p>The <code>database =&gt; sync_passwords</code> option enables password synchronization. Password synchronization captures and hashes
-the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
+the users password <strong>upon login</strong> if they pass LDAP authentication. This helps in situations where you may want to
 provide a "back up" option in case your LDAP server is unreachable, as well as a way of determining if a
 users password is valid without having to call to your LDAP server and validate it for you.</p>
 
 <blockquote>
-  <p>If you do not define the <code>sync_passwords</code> key or have it set false, a user is always applied a
+  <p>If you do not define the <code>sync_passwords</code> key or have it set <code>false</code>, a user is always applied a
   random 16 character hashed password. This hashed password is only set once upon initial
   import or login so no needless updates are performed on user records.</p>
 </blockquote>
@@ -671,7 +671,7 @@ LDAP authentication, they will need to be a member of the <code>Administrators</
     <div class="mb-8 md:mb-0 flex flex-col items-center md:items-end">
                     <span class="font-black text-gray-500 text-sm tracking-wider uppercase pb-1">Next Topic →</span>
             <h4 class="font-bold underline m-0 text-blue-700">
-                <a href="/docs/laravel/auth/usage">Usage</a>
+                <a href="/docs/laravel/auth/setup">Setup</a>
             </h4>
             </div>
 </div>
@@ -692,7 +692,7 @@ LDAP authentication, they will need to be a member of the <code>Administrators</
         </main>
 
         
-        <script src="/assets/build/js/main.js?id=f26c1cfd7d5ee8790299"></script>
+        <script src="/assets/build/js/main.js?id=f4770a7909c663b5fd4a"></script>
 
         <script>
     const navMenu = {

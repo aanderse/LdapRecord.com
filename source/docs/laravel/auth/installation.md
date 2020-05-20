@@ -33,8 +33,8 @@ Trait | `LdapRecord\Laravel\Auth\AuthenticatesWithLdap` |
 
 // ...
 
-use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 
 class User extends Authenticatable implements LdapAuthenticatable
 {
@@ -58,8 +58,8 @@ However, once you have done so, you must override the following methods in your 
 
 // ...
 
-use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 
 class User extends Authenticatable implements LdapAuthenticatable
 {
@@ -74,4 +74,5 @@ class User extends Authenticatable implements LdapAuthenticatable
     {
         return 'guid_column';
     }
+}
 ```

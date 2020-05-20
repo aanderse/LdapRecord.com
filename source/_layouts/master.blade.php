@@ -40,7 +40,7 @@
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
         @endif
     </head>
-    <body class="bg-gray-100 antialiased font-sans">
+    <body class="antialiased font-sans">
         <nav class="flex items-center h-24 py-12 z-20 border-gradient-l-purple-light {{ $page->isHomePage() ? '' : 'border-b-8 mb-2' }}" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">

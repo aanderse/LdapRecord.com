@@ -1,27 +1,28 @@
 ---
-title: Authentication Usage
-description: LdapRecord-Laravel authentication usage guide
+title: Authentication Setup
+description: LdapRecord-Laravel authentication setup guide
 extends: _layouts.laravel-documentation
 section: content
 ---
 
-# Usage
+# Setup
 
-- [Logging In](#logging-in)
+- [Authentication Guard](#guard)
+- [Login Controller](#login-controller)
 - [Using Usernames](#using-usernames)
 - [Eloquent Model Binding](#model-binding)
 - [Pass-Through Authentication / SSO](#passthrough-authentication)
  - [Domain Verification](#sso-domain-verification)
  - [Changing the Server Key](#changing-the-sso-server-key)
+ - [Selective / Bypassing Single-Sign-On](#selective-sigle-sign-on)
 - [Displaying LDAP Error Messages (password expiry, account lockouts)](#displaying-ldap-error-messages)
 
-## Logging In {#logging-in}
+## Authentication Guard {#guard}
 
-Once you have finished configuring your authentication provider, you are ready to start authenticating users.
+Once you have [configured a new authentication provider](/docs/laravel/auth/configuration),
+you will have to setup your authentication guard to use this new provider.
 
-Before you get started, make sure you have either created a new authentication guard that uses your new provider,
-or change the default guard to use your new provider. For now, let's change our default `web` guard to use
-our new `ldap` provider:
+For this example, we will change our default `web` guard to use our new `ldap` provider:
 
 ```php
 // config/auth.php
@@ -36,11 +37,15 @@ our new `ldap` provider:
 ],
 ```
 
-Now that we have updated our default authentication guard to use our new `ldap` provider, we will jump into
-the default `LoginController` that is included with Laravel. For this example application, we will
-authenticate our LDAP users with their email address using the LDAP attribute `mail`.
+## Login Controller {#login-controller}
 
-To have LdapRecord properly locate the user in your directory, we will override the `credentials` method in this controller:
+Now that we have updated our default authentication guard to use our new `ldap` provider, we will jump into
+the default `LoginController` that is included with the [Laravel UI package](https://laravel.com/docs/authentication#introduction).
+
+For this example application, we will authenticate our LDAP users with their email address using the LDAP attribute `mail`.
+
+To have LdapRecord properly locate the user in your directory during login,
+we will override the `credentials` method in the `LoginController`:
 
 ```php
 // app/Http/Controllers/Auth/LoginController.php
@@ -59,11 +64,14 @@ protected function credentials(Request $request)
 As you can see above, we set the `mail` key which is passed to the LdapRecord authentication provider.
 
 A search query will be executed on your directory for a user that contains the `mail` attribute equal
-to the entered `email` that the user has submitted on your login form. The `password` key is
-automatically bypassed and will not be used in the search.
+to the entered `email` that the user has submitted on your login form. The `password`
+key will not be used in the search.
 
 If a user is not found in your directory, or they fail authentication, they will be redirected to the
 login page normally with the "Invalid credentials" error message.
+
+> You may also add extra key => value pairs in the `credentials` array to further scope the
+> LDAP query. The `password` key is automatically ignored by LdapRecord.
 
 ## Using Usernames {#using-usernames}
 
@@ -88,8 +96,10 @@ Schema::create('users', function (Blueprint $table) {
 > Make sure you run your migrations using `php artisan migrate`.
 
 Once we've changed the name of the column, we'll jump into the `config/auth.php` configuration and modify 
-our LDAP user providers `sync_attributes` to synchronize this changed column. In this example, we will
-use the users `sAMAccountName` as their username which is common in Active Directory environments:
+our LDAP user providers `sync_attributes` to synchronize this changed column.
+
+In this example, we will use the users `sAMAccountName` as their username
+which is common in Active Directory environments:
 
 ```php
 // config/auth.php
@@ -155,8 +165,11 @@ If you are using [database synchronization](/docs/laravel/auth#database), model 
 you to attach the users LdapRecord model to their Eloquent model so their LDAP data is
 available on every request automatically.
 
-> Enabling this option will perform a single query on your LDAP server for a logged in user per request.
+> Using this feature will perform a single query on your LDAP server for a **logged in user per request**.
 > This could lead to slightly longer load times depending on your LDAP server and network speed.
+> <br/><br/>
+> This also means **persistent LDAP connectivity is required** while LDAP
+> authenticated users use your Laravel application.
 
 To begin, insert the `LdapRecord\Laravel\Auth\HasLdapUser` trait onto your User model:
 
@@ -179,9 +192,13 @@ their model via the `ldap` property:
 $user = Auth::user();
 
 // Instance of App\Ldap\User
-$ldap = $user->ldap;
+$user->ldap;
 
-echo $ldap->getFirstAttribute('cn');
+// Get LDAP user attributes
+echo $user->ldap->getFirstAttribute('cn');
+
+// Get LDAP user relationships:
+$groups = $user->ldap->groups()->get();
 ```
 
 ## Pass-through Authentication / SSO {#passthrough-authentication}
@@ -223,7 +240,7 @@ inside of the users distinguished name that is retrieved from each of your confi
 
 > Only 'Domain Components' are checked in the users distinguished name. More on this below.
 
-To describe this issue further: The `WindowsAuthenticate` middleware retrieves all of your configured
+To describe this issue in further detail -- the `WindowsAuthenticate` middleware retrieves all of your configured
 authentication guards inside of your `config/auth.php` file, determines which one is using the `ldap`
 driver, and then attempts to locate the authenticating users from **each connection**.
 
@@ -237,31 +254,32 @@ For example, if a user visits your Laravel application with the username of:
 ACME\sbauman
 ```
 
-And LdapRecord locates a user with the distinguished name of
+And LdapRecord locates a user with the distinguished name of:
 
 ```text
 cn=sbauman,ou=users,dc=local,dc=com
 ```
 
-They will be denied authentication, as the authenticating user has a domain of `ACME`,
-but it is not contained inside of their distinguished name domain components (dc).
+They will be denied authentication. This is because the authenticating user has a domain of
+`ACME`, but it is not contained inside of their distinguished name domain components (dc).
 
-Using the same example, if the users distinguished name returns:
+Using the same example, if the located users distinguished name is:
 
 ```text
 cn=sbauman,ou=users,dc=acme,dc=com
 ```
 
 Then they will be allowed to authenticate, as their `ACME` domain is contained inside of
-their distinguished name domain components (`dc=acme`). Comparison against each domain
-component is done in a **case-insensitive** manor.
+their distinguished name domain components (`dc=acme`).
+
+> Comparison against each domain component is done in a **case-insensitive** manor.
 
 If you would like to disable this check, you must call the static method `bypassDomainVerification`
 on the `WindowsAuthenticate` middleware inside of your `AuthServiceProvider`:
 
-> **Important**: This is a security issue if you use multi-domain authentication and
-> disable this check. If you only connect to one domain inside your application,
-> this is not a security issue. You have been warned.
+> **Important**: If you only connect to one domain inside your application,
+> this is not a security issue. However, if you use multi-domain authentication
+> and disable this check, users who have the same `sAMAccountName` could login as eachother. **This is a security issue. You have been warned.**
 
 ```php
 // app/Providers/AuthServiceProvider.php
@@ -300,6 +318,34 @@ public function boot()
     WindowsAuthenticate::serverKey('PHP_AUTH_USER');
 }
 ```
+
+### Selective / Bypassing Single-Sign-On {#selective-sigle-sign-on}
+
+Occasionally you may need to allow users who are not apart of the domain
+to login  to your application, as well as allowing domain users to
+automatically sign in via Single-Sign-On.
+
+Unfortunately, NTLM / Windows authentication is all-or-nothing on your entire web application. This means,
+you cannot enable a single HTTP endpoint in your application to use Single-Sign-On or exempt a portion
+of your application. However, there is a workaround that is used frequently in the industry.
+
+The goal is to have two URL's that point to the same Laravel application. One that
+has Windows authentication enabled, and another that does not. This is typically idendified by an `sso` sub-domain:
+
+```html
+<!-- Standard URL -->
+my-app.com
+
+<!-- Single-Sign-On URL -->
+sso.my-app.com
+```
+
+To do this, you must create a new IIS instance and point to the same Laravel application. Then, you simply 
+have Windows authentication enabled on one instance, and left disabled on another.
+
+Nothing needs to be done in your Laravel application. The `WindowsAuthenticate` middleware
+will only attempt to authenticate users when the `AUTH_USER` server key is present,
+so it can remain in the global middleware stack.
 
 ## Displaying LDAP Error Messages {#displaying-ldap-error-messages}
 

@@ -123,4 +123,27 @@
       @apply .text-white;
     }
   }
+
+  div.prism-show-language {
+    @apply .relative;
+  
+    .prism-show-language-label {
+      bottom: auto;
+      top: 0;
+      right: 0;
+      width: auto;
+      height:auto;
+      padding:5px;
+      z-index:1;
+      @apply .inline-block;
+      @apply .absolute;
+      @apply .bg-gray-300;
+      @apply .rounded-tr;
+      @apply .rounded-bl;
+      @apply .font-mono;
+      @apply .text-sm;
+      @apply .uppercase;
+      @apply .bg-opacity-75;
+    }
+  }
 }

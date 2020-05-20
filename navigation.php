@@ -27,6 +27,7 @@ return [
     ],
     'Other Features' => [
         'children' => [
+            //'Adldap2 Migration' => 'docs/adldap2/migration',
             'Authentication' => 'docs/authentication',
             'Common Queries' => 'docs/common-queries',
             'Caching' => 'docs/caching',

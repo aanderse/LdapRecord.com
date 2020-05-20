@@ -47,7 +47,7 @@ pre[class*="language-"] {
   overflow: auto;
   position: relative;
   margin: 0.5em 0;
-  padding: 1.25em 1em;
+  @apply .p-6;
 }
 
 .language-css > code,
@@ -97,7 +97,7 @@ pre[class*="language-"] {
 }
 
 .token.class-name {
-  color: #ca473f;
+  @apply .text-purple-700;
 }
 
 .token.comment {

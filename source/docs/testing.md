@@ -7,8 +7,8 @@ section: content
 
 # Testing
 
-- [Introdcution](#introduction)
-- [Setup](#setup)
+- [Introduction](#introduction)
+- [Test Case Setup](#setup)
 - [Responses and Error Codes](#response-codes)
 
 ## Introduction {#introduction}
@@ -18,7 +18,7 @@ against a fake server and return custom error codes & responses.
 
 This allows you to test how your application responds to authentication failures and error messages.
 
-## Setup {#setup}
+## Test Case Setup {#setup}
 
 To begin, initialize the fake directory using the `DirectoryFake::setup` method. This method
 accepts the name of your LDAP connection that you initialize in your application.

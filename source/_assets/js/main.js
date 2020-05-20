@@ -13,5 +13,17 @@ Prism.highlightAll();
 window.$ = window.jQuery = require('jquery');
 
 $(document).ready(() => {
-    $('.content > table').wrap($("<div />").addClass('block shadow overflow-x-scroll rounded-lg'));
+    // Wrap tables in content responsive container.
+    $('.content > table').wrap($("<div />").addClass('block shadow overflow-auto rounded-lg'));
+
+    $('.content > pre[class*="language-"').each((index, el) => {
+        let language = el.classList[0].split('-')[1];
+
+        if (['php', 'bash', 'html'].includes(language)) {
+            $(
+                `<div class="prism-show-language"><div class="prism-show-language-label" data-language="${language}">${language}</div></div>`
+            ).insertBefore(el);
+        }
+    });
+    
 });

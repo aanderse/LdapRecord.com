@@ -143,11 +143,11 @@ You can also set the value to `false` if your database table does not have any p
 ### Database Password Sync {#database-password-sync}
 
 The `database => sync_passwords` option enables password synchronization. Password synchronization captures and hashes
-the users password upon login if they pass LDAP authentication. This helps in situations where you may want to
+the users password **upon login** if they pass LDAP authentication. This helps in situations where you may want to
 provide a "back up" option in case your LDAP server is unreachable, as well as a way of determining if a
 users password is valid without having to call to your LDAP server and validate it for you.
 
-> If you do not define the `sync_passwords` key or have it set false, a user is always applied a
+> If you do not define the `sync_passwords` key or have it set `false`, a user is always applied a
 > random 16 character hashed password. This hashed password is only set once upon initial
 > import or login so no needless updates are performed on user records.
 

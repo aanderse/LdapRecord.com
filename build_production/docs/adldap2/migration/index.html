@@ -31,11 +31,11 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=1fb9c770d704bcc85da2">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=f0797b45ea5c3b8eda69">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
-    <body class="bg-gray-100 antialiased font-sans">
+    <body class="antialiased font-sans">
         <nav class="flex items-center h-24 py-12 z-20 border-gradient-l-purple-light border-b-8 mb-2" role="banner">
             <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
@@ -372,47 +372,81 @@
             </nav>
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-                <h1>Migrating to LdapRecord from Adldap2</h1>
-
-<p>This guide will cover the largest changes that occurred during the upgrade of Adldap2 to the LdapRecord project.
-However, this guide can't cover all use-cases. You will have to adjust and change things, as LdapRecord was
-not meant to be a drop-in replacement of Adldap2. It is a brand new project -- but keeps some similarities
-with the Adldap2 project.</p>
-
-<h2>High Impact Changes</h2>
+                <h1>Migrating from Adldap2</h1>
 
 <ul>
-<li>Providers to Connections</li>
-<li>Adldap to Container</li>
-<li>Schema</li>
-<li>Models
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#high-impact-changes">High Impact Changes</a>
 
 <ul>
-<li>Making instances</li>
-<li>Searching</li>
+<li><a href="#adldap-to-container">Adldap to Container</a></li>
+<li><a href="#providers-to-connections">Providers to Connections</a></li>
+<li><a href="#adldap-interface-removal">Adldap Interface Removal</a></li>
+<li><a href="#schema-interface-removal">Schema Interface Removal</a></li>
+<li><a href="#query-builder">Query Builder</a></li>
+<li><a href="#exceptions">Exceptions</a></li>
+<li><a href="#">Models</a></li>
+</ul></li>
+<li><a href="#medium-impact-changes">Medium Impact Changes</a>
+
+<ul>
+<li><a href="#configuration">Configuration</a></li>
+</ul></li>
+<li><a href="#">Low Impact Changes</a>
+
+<ul>
+<li><a href="#">Authentication</a></li>
+<li><a href="#">Query Builder</a></li>
 </ul></li>
 </ul>
 
-<h2>Medium Impact Changes</h2>
+<h2>Introduction</h2>
 
-<ul>
-<li>Configuration</li>
-</ul>
-
-<h2>Low Impact Changes</h2>
-
-<ul>
-<li>Authentication</li>
-<li>Query Builder</li>
-</ul>
-
-<h2>Providers to Connections</h2>
-
-<p>The <code>Adldap\Connections|Provider</code> has been replaced with <code>LdapRecord\Connection</code>.
-Here is an example:</p>
+<p>This guide will cover the largest changes that have been made during the development of LdapRecord.</p>
 
 <blockquote>
-  <p><strong>Important:</strong> Configuration has undergone minimal changes. Most options have been carried over.</p>
+  <p>Please be aware, this guide cannot cover all use-cases. You will have to adjust and change things.
+  LdapRecord was not meant to be a drop-in replacement of Adldap2. It is a brand new project
+  -- but keeps some similarities with the Adldap2 library.</p>
+</blockquote>
+
+<h2 id="high-impact-changes">High Impact Changes</h2>
+
+<h3 id="adldap-to-container">Adldap to Container</h3>
+
+<p>The <code>Adldap\Adldap</code> class is responsible for storing connections.</p>
+
+<p>This has been replaced with the <code>LdapRecord\Container</code> class:</p>
+
+<p><strong>Adldap2</strong>:</p>
+
+<pre><code class="language-php">use Adldap\Adldap;
+
+$ad = new Adldap();
+
+$config = ['...'];
+
+$ad-&gt;addProvider($config, $name = 'default');
+</code></pre>
+
+<p><strong>LdapRecord</strong>:</p>
+
+<pre><code class="language-php">use LdapRecord\Container;
+
+$config = ['...'];
+
+Container::addConnection($config, $name = 'default');
+</code></pre>
+
+<h3 id="providers-to-connections">Providers to Connections</h3>
+
+<p>The <code>Adldap\Connections\Provider</code> has been replaced with <code>LdapRecord\Connection</code>.</p>
+
+<p>Here is an example:</p>
+
+<blockquote>
+  <p><strong>Important:</strong> Provider configuration has <a href="#configuration">undergone minimal changes</a>.
+  Most options have been carried over.</p>
 </blockquote>
 
 <p><strong>Adldap2</strong>:</p>
@@ -435,41 +469,39 @@ $connection = new Connection([
 ]);
 </code></pre>
 
-<h3>Connecting</h3>
-
-<h3>Methods</h3>
-
-<h2>Adldap to Container</h2>
-
-<p>The <code>Adldap\Adldap</code> class responsible for storing connections has been replaced with the <code>LdapRecord\Container</code> class.
-Here is an example:</p>
+<h4>Connecting</h4>
 
 <p><strong>Adldap2</strong>:</p>
 
-<pre><code class="language-php">use Adldap\Adldap;
+<pre><code class="language-php">// With configured username / password:
+$provider-&gt;connect();
 
-$ad = new Adldap();
-
-$config = ['...'];
-
-$ad-&gt;addProvider($config, $name = 'default');
+// With dynamic username / password:
+$provider-&gt;connect('cn=user,dc=local,dc=com', 'secret');
 </code></pre>
 
 <p><strong>LdapRecord</strong>:</p>
 
-<pre><code class="language-php">use LdapRecord\Container;
+<pre><code class="language-php">// With configured username / password:
+$connection-&gt;connect();
 
-$config = ['...'];
-
-Container::addConnection($config, $name = 'default');
+// With dynamic username / password:
+$connection-&gt;connect('cn=user,dc=local,dc=com', 'secret');
 </code></pre>
 
-<h2>Schema</h2>
+<h4>Methods</h4>
 
-<p>The Adldap2 schema classes have been completely removed. There is no substitute.
-All attributes you were using from the schema must used directly on models.</p>
+<h3 id="adldap-interface-removal">Adldap Interface Removal</h3>
 
-<p><strong>Removed Classes:</strong>:</p>
+<p>The <code>Adldap\AdldapInterface</code> has been removed. There is no equivalent in LdapRecord.</p>
+
+<h3 id="schema-interface-removal">Schema Interface Removal</h3>
+
+<p>The Adldap2 schema interface and classes have been completely removed. There is no equivalent in LdapRecord.</p>
+
+<p>All attributes you were using from the schema must accessed directly on models.</p>
+
+<p><strong>Removed:</strong></p>
 
 <ul>
 <li><code>Adldap\Schemas\Schema</code></li>
@@ -479,9 +511,121 @@ All attributes you were using from the schema must used directly on models.</p>
 <li><code>Adldap\Schemas\SchemaInterface</code></li>
 </ul>
 
-<p>See why this change has occurred <a href="/docs/adldap2/why">here</a>.</p>
+<p>See why this change has occurred <a href="https://stevebauman.ca/posts/why-ldap-record/">here</a>.</p>
 
-<h2>Models</h2>
+<h3 id="query-builder">Query Builder</h3>
+
+<p>The following methods have been removed:</p>
+
+<ul>
+<li><code>$query-&gt;findBaseDn()</code></li>
+<li><code>$query-&gt;findBySid()</code></li>
+<li><code>$query-&gt;findBySidOrFail()</code></li>
+<li><code>$query</code></li>
+<li><code>$query-&gt;sortBy()</code></li>
+<li><code>$query-&gt;isSorted()</code></li>
+<li><code>$query-&gt;getSortByFlags()</code></li>
+<li><code>$query-&gt;getSortByField()</code></li>
+<li><code>$query-&gt;getSortByDirection()</code></li>
+<li><code>$query-&gt;whereEnabled()</code></li>
+<li><code>$query-&gt;whereDisabled()</code></li>
+<li><code>$query-&gt;whereMemberOf()</code></li>
+</ul>
+
+<h3>Exceptions</h3>
+
+<p>The following exceptions have been renamed:</p>
+
+<table>
+<thead>
+<tr>
+  <th>From</th>
+  <th>To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>Adldap\AdldapException</code></td>
+  <td><code>LdapRecord\LdapRecordException</code></td>
+</tr>
+<tr>
+  <td><code>Adldap\Auth\BindException</code></td>
+  <td><code>LdapRecord\Auth\BindException</code></td>
+</tr>
+<tr>
+  <td><code>Adldap\Connections\ConnectionException</code></td>
+  <td><code>LdapRecord\ConnectionException</code></td>
+</tr>
+<tr>
+  <td><code>Adldap\Auth\UsernameRequiredException</code></td>
+  <td><code>LdapRecord\Auth\UsernameRequiredException</code></td>
+</tr>
+<tr>
+  <td><code>Adldap\Auth\PasswordRequiredException</code></td>
+  <td><code>LdapRecord\Auth\PasswordRequiredException</code></td>
+</tr>
+<tr>
+  <td><code>Adldap\Models\ModelNotFoundException</code></td>
+  <td><code>LdapRecord\Models\ModelNotFoundException</code></td>
+</tr>
+<tr>
+  <td><code>Adldap\Models\ModelDoesNotExistException</code></td>
+  <td><code>LdapRecord\Models\ModelDoesNotExistException</code></td>
+</tr>
+</tbody>
+</table>
+
+<h3>Models</h3>
+
+<h2 id="medium-impact-changes">Medium Impact Changes</h2>
+
+<h3 id="configuration">Configuration</h3>
+
+<p>The following configuration options have been removed:</p>
+
+<ul>
+<li><code>schema</code></li>
+<li><code>account_prefix</code></li>
+<li><code>account_suffix</code></li>
+</ul>
+
+<blockquote>
+  <p>All other configuration options have been kept identical and operate the same.</p>
+</blockquote>
+
+<p>If you require the same functionality, simply append / prepend a string to the users username:</p>
+
+<p><strong>Adldap2</strong>:</p>
+
+<pre><code class="language-php">$config = [
+    'account_prefix' =&gt; 'cn=',
+    'account_suffix' =&gt; ',ou=users,dc=local,dc=com',
+];
+
+$username = 'jdoe';
+$password = 'secret';
+
+if ($provider-&gt;auth()-&gt;attempt($username, $password)) {
+    //
+}
+</code></pre>
+
+<p><strong>LdapRecord</strong>:</p>
+
+<pre><code class="language-php">$username = 'jdoe';
+$password = 'secret';
+
+$prefix = 'cn=';
+$suffix = ',ou=users,dc=local,dc=com';
+
+if ($connection-&gt;auth()-&gt;attempt($prefix.$username.$suffix, $password)) {
+    //
+}
+</code></pre>
+
+<h2 id="low-impact-changes">Low Impact Changes</h2>
+
+<h3>Authentication</h3>
 
                 <div class="mt-12 pt-8 pb-6 border-t-2 border-purple-200">
                         <div class="flex flex-col-reverse md:flex-row justify-between items-center">
@@ -511,7 +655,7 @@ All attributes you were using from the schema must used directly on models.</p>
         </main>
 
         
-        <script src="/assets/build/js/main.js?id=f26c1cfd7d5ee8790299"></script>
+        <script src="/assets/build/js/main.js?id=f4770a7909c663b5fd4a"></script>
 
         <script>
     const navMenu = {
