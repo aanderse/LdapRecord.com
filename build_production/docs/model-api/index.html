@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=2fceac57d380dfde0bbc">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=c771359cc4ad3634ca76">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -373,17 +373,6 @@
 
             <div class="DocSearch-content content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
                 <h1>Available Model Methods (API)</h1>
-
-<style>
-    .api-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
-    }
-
-    .api-method-list a {
-        display: block;
-    }
-</style>
 
 <div class="api-method-list">
 <p>
@@ -1198,7 +1187,7 @@ $new = $model-&gt;newInstance();
 <p>Create a <strong>new</strong> model query:</p>
 
 <blockquote>
-  <p>Global scopes and object classes will be applied to this query.</p>
+  <p>Global scopes and object classes <strong>will be applied</strong> to this query.</p>
 </blockquote>
 
 <pre><code class="language-php">$results = $model-&gt;newQuery()-&gt;where('cn', 'contains', 'Steve')-&gt;get();
@@ -1209,7 +1198,7 @@ $new = $model-&gt;newInstance();
 <p>Create a new model query <strong>without</strong> global scopes:</p>
 
 <blockquote>
-  <p>Global scopes and object classes <strong>will not</strong> be applied to this query.</p>
+  <p>Global scopes and object classes <strong>will not be applied</strong> to this query.</p>
 </blockquote>
 
 <pre><code class="language-php">$results = $model-&gt;newQueryWithoutScopes()-&gt;get();

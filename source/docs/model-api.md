@@ -7,17 +7,6 @@ section: content
 
 # Available Model Methods (API)
 
-<style>
-    .api-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
-    }
-
-    .api-method-list a {
-        display: block;
-    }
-</style>
-
 <div class="api-method-list">
 <p>
 <a href="#addAttributeValue">addAttributeValue</a>
@@ -870,7 +859,7 @@ $new = $model->newInstance();
 
 Create a **new** model query:
 
-> Global scopes and object classes will be applied to this query.
+> Global scopes and object classes **will be applied** to this query.
 
 ```php
 $results = $model->newQuery()->where('cn', 'contains', 'Steve')->get();
@@ -880,7 +869,7 @@ $results = $model->newQuery()->where('cn', 'contains', 'Steve')->get();
 
 Create a new model query **without** global scopes:
 
-> Global scopes and object classes **will not** be applied to this query.
+> Global scopes and object classes **will not be applied** to this query.
 
 ```php
 $results = $model->newQueryWithoutScopes()->get();

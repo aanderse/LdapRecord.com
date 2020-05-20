@@ -32,42 +32,6 @@
   border-image-source: linear-gradient(to right, rgb(127, 0, 255) 0%, rgb(225, 0, 255) 100%);
 }
 
-.feature {
-  @apply .flex;
-  @apply .flex-col;
-
-  pre {
-    @apply .my-0;
-    @apply .rounded-t-none;
-  }
-
-  .top-bar {
-    height: 35px;
-    @apply .bg-gray-700;
-    @apply .rounded-t-lg;
-
-    .circles {
-      @apply .pt-1;
-      @apply .pl-3;
-      .circle {
-        @apply .rounded-full;
-        @apply .inline-block;
-        height: 12px;
-        width: 12px;
-      }
-      .circle-red {
-        @apply .bg-red-500;
-      }
-      .circle-yellow {
-        @apply .bg-yellow-500;
-      }
-      .circle-green {
-        @apply .bg-green-500;
-      }
-    }
-  }
-}
-
 .content {
   h1 {
     @apply .border-b-2;
@@ -98,6 +62,37 @@
 
   h1+ul ul {
     @apply .list-none;
+  }
+
+  .api-method-list {
+    > p {
+      column-count: 2; 
+      -moz-column-count: 2;
+      -webkit-column-count: 2;
+      column-gap: 2em;
+      -moz-column-gap: 2em;
+      -webkit-column-gap: 2em;
+
+      @screen md {
+        column-count: 3;
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+      }
+    }
+
+    a {
+      @apply .block;
+      @apply .rounded;
+      @apply .font-mono;
+      @apply .text-sm;
+      @apply .text-purple-700;
+      @apply .p-1;
+      @apply .mb-1;
+
+      &:hover {
+        @apply .text-purple-900;
+      }
+    }
   }
 
   /* Hide scrollbars. */
