@@ -7,24 +7,29 @@ section: content
 
 # Multi-Domain Authentication {#multi-domain-authentication}
 
-- [Configuration](#configuration)
-- [Authenticating](#authenticating)
-- [Routes](#routes)
+- [Introduction](#introduction)
+- [Step 1: Configuration](#configuration)
+ - [Configuring the LDAP Connections](#configuring-ldap-connections)
+ - [Configuring the Authentication Guards](#configuring-auth-guards)
+- [Step 2: Login Controller Setup](#authenticating)
+- [Step 3: Updating Your Web Routes](#routes)
 
-## Introduction
+## Introduction {#introduction}
 
 LdapRecord-Laravel allows you to authenticate users from as many LDAP directories as you'd like.
 
 This useful when you have separate domains that are not joined in a trust.
 
-## Configuration {#configuration}
+## Step 1: Configuration {#configuration}
 
 To begin, you must create two separate LdapRecord models for each of your domains.
 
 Having two separate models allows you to configure their connections independently.
 
-For this guide, we will have two example domains named `Alpha` and `Bravo`. We
-first need to setup these domains connections in our `ldap.php` configuration file:
+### Configuring the LDAP Connections {#configuring-ldap-connections}
+
+For this guide, we will have two example domains named `Alpha` and `Bravo`. We first
+need to setup these domain connections in our `ldap.php` configuration file:
 
 ```php
 // config/ldap.php
@@ -43,17 +48,21 @@ first need to setup these domains connections in our `ldap.php` configuration fi
 ],
 ```
 
-Now that we have our connections configured, let's go ahead and create their models by running the below commands:
+Now that we have our connections configured, you must create a `User` model for each one.
+
+Let's go ahead and create them by running the below commands:
 
 ```bash
 php artisan make:ldap-model Alpha\User
+```
 
+```bash
 php artisan make:ldap-model Bravo\User
 ```
 
 > The `Alpha` and `Bravo` sub-directories will be created for you automatically.
 
-Then, we must edit their connections to reflect the connection name:
+Then, we must edit their connections to reflect the connection name in the `config/ldap.php` file:
 
 ```php
 // app/Ldap/Alpha/User.php
@@ -63,6 +72,7 @@ class User extends Model
     protected $connection = 'alpha';
 
     // ...
+}
 ```
 
 ```php
@@ -73,22 +83,28 @@ class User extends Model
     protected $connection = 'bravo';
 
     // ...
+}
 ```
 
-Now, we need to setup a new [authentication provider](/docs/laravel/auth/configuration) in our
-`config/auth.php` file for each of our connections we've created, as well as their own guard:
+> You may want these models to extend the [built-in models](/docs/models/#predefined-models), as they
+> include functionality that you do not need to build yourself. It's completely up to you.
+
+### Configuring the Authentication Guards {#configuring-auth-guards}
+
+For each of our LDAP connections, we will setup new [authentication providers](/docs/laravel/auth/configuration),
+as well as their own guard inside of our `config/auth.php` file:
 
 ```php
 // config/auth.php
 
 'guards' => [
     'alpha' => [
-        // ...
+        'driver' => 'session',
         'provider' => 'alpha',
     ],
     
     'bravo' => [
-        // ...
+        'driver' => 'session',
         'provider' => 'bravo',
     ],
 ],
@@ -108,15 +124,15 @@ Now, we need to setup a new [authentication provider](/docs/laravel/auth/configu
 ],
 ```
 
-## Authenticating {#authenticating}
+## Step 2: Login Controller Setup {#authenticating}
 
 To start authenticating users from both of your LDAP domains, we need to modify our `LoginController`.
 
 > If you do not have a `LoginController`, follow Laravel's [Authentication Quick-Start](https://laravel.com/docs/authentication#authentication-quickstart)
 > guide to scaffold the controllers and views you need to continue below.
 
-LdapRecord-Laravel comes with a built-in trait that makes authenticating users from multiple directories easier.
-Go ahead and add it to the `LoginController`:
+LdapRecord-Laravel comes with a built-in trait that makes authenticating users from multiple
+directories easier. Go ahead and add it to the `LoginController`:
 
 ```php
 // app/Http/Controllers/Auth/LoginController.php
@@ -130,28 +146,86 @@ class LoginController extends Controller
     // ...
 ```
 
-Due to each domain requiring it's own `guard` that we've configured in our `auth.php` file,
-we need to be able to determine which domain the user who is attempting to login in is from
+Due to each domain requiring it's own `guard` that we've configured in our `config/auth.php` file,
+we need to be able to determine which domain the user who is attempting to login in is from,
 so we can tell Laravel which guard to use for authenticating the user.
 
-This could vary widely in each application, so in this guide we will be determining their domain from their
-email addresses host name (`@alpha.com` and `@bravo.com`).
+Let's walk through two examples of how we can determine their domain:
 
-> If you're logging in users by username, you may want to provide a `<select>` input on your login 
-> form that allows your user select their domain that they are authenticating to, instead of you
-> having to determine it manually when they attempt signing in. Each `<option>`'s value would
-> reflect the `guard` to use to sign the user in.
+Example | Description |
+--- | --- |
+[Domain Selection](#authenticating-domain-selection) | Using a `<select>` dropdown |
+[Email Address Suffix](#authenticating-email-suffix) | Using the users email address suffx / hostname (eg. `@domain.com`) |
 
-We must override the `guard()` method in our `LoginController` and let the included trait handle 
-retrieving it for simplicity. 
+### Domain Selection {#authenticating-domain-selection}
 
-The `guard()` method is responsible for returning which `guard` we want to use for
-authenticating the users who are attempting to sign in, as well as signing the
-currently authenticated user out.
+In this example, we will add an HTML `<select>` input containing an `<option>` for each
+domain we want to allow users to login to. This allows the user to select the domain
+from the dropdown, enter their credentials, and then attempt signing in.
 
-We will also override the `getLdapGuardFromRequest()` method. This method is only used for *determining*
-which guard to use for the user signing in. This is the method we will override for determining the
-`guard` to use based on the users email address they are signing into our application with:
+First, we will open up our `login.blade.php` file, and add the select option:
+
+```html
+<!-- resources/views/auth/login.blade.php -->
+
+<form method="POST" action="{{ route('login') }}">
+    @csrf
+
+    <div class="form-group row">
+        <select name="domain" class="form-control">
+            @foreach(['alpha' => 'Alpha', 'bravo' => 'Bravo'] as $guard => $name)
+            <option value="{{ $guard }}" {{ old('domain') == $guard ? 'selected' : '' }}>{{ $name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <!-- ... -->
+</form>
+```
+
+Now, inside of our `LoginController.php`, we will override the `guard()` method:
+
+```php
+// app/Http/Controllers/Auth/LoginController.php
+
+// ...
+
+public function guard()
+{
+    return $this->getLdapGuard();
+}
+```
+
+The `guard()` method is responsible for returning the name of the authentication
+guard the user is signing into, or signing out of. We must override this to have
+control over determining the suitable guard for the user signing in.
+
+By default, the `MultiDomainAuthentication` trait will attempt to retrieve the users `guard`, from the request `domain` input value.
+
+If you name your `<select>` input differently, simply override the `getLdapGuardFromRequest()` method and return its value instead.
+
+```php
+// app/Http/Controllers/Auth/LoginController.php
+
+// ...
+
+public function guard()
+{
+    return $this->getLdapGuard();
+}
+
+public function getLdapGuardFromRequest(Request $request)
+{
+    return $request->get('my-select-input');
+}
+```
+
+### Email Address Suffix {#authenticating-email-suffix}
+
+In this example, we will be determining the users domain from their email addresses host name (eg. `@alpha.com` and `@bravo.com`).
+
+Using this method, we do not need to modify our `login.blade.php` form. Instead, we will jump into
+our `LoginController.php`, and override the `guard()` and `getLdapGuardFromRequest()` methods:
 
 ```php
 // app/Http/Controllers/Auth/LoginController.php
@@ -176,6 +250,13 @@ public function getLdapGuardFromRequest(Request $request)
 }
 ```
 
+The `guard()` method is responsible for returning the name of the authentication
+guard the user is signing into, or signing out of. We must override this to have
+control over determining the suitable guard for the user signing in.
+
+The `getLdapGuardFromRequest()` method is responsible for determining the suitable
+`guard` for the user using their given email address upon sign in.
+
 If the user enters an email that is not available in our `$guards` array lookup, we will
 return the `alpha` guard by default, and the authentication attempt will be made
 to our `alpha` domain.
@@ -183,10 +264,10 @@ to our `alpha` domain.
 > You may wish to add a request validation rule instead to prevent users from signing
 > in with invalid email domain. The way you implement this is totally up to you.
 
-## Routes {#routes}
+## Step 3: Updating Your Web Routes {#routes}
 
 Having multiple authentication guards means that we need to update the `auth` middleware
-that is covering our protected application routes.
+that is covering our protected application routes inside of our `routes/web.php` file.
 
 Luckily, this middleware accepts a list of guards you would like to use. You will need to add
 both of the guards you created above for both LDAP domains to be able to access the same
@@ -204,7 +285,8 @@ Route::group(function () {
 })->middleware('auth:alpha,bravo');
 ```
 
-If you would like to restrict routes to certain domains, only include one of them `auth` middleware:
+If you would like to restrict routes to certain domains, only include
+one of them when adding the `auth` middleware to a route:
 
 ```php
 // routes/web.php
@@ -215,4 +297,4 @@ Route::group(function () {
 ```
 
 This is extremely handy for permission management - as authenticated users from certain domains
-can only access the routes that have been defined.
+can only access the routes that have been defined for their domain.
