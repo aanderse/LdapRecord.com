@@ -35,7 +35,7 @@ You must connect to your server via TLS or SSL if you set the the users password
 You must connect to your server with an account that has permission to create users |
 You must set a common name (`cn`) for the user |
 You must set the `unicodePwd` attribute as a non-encoded string (more on this below) |
-To set the users `userAccountControl`, it must be set **after** the user has been saved |
+To set the users `userAccountControl`, it must be set **after** the user has been created |
 
 > Attributes that are set below can be cased in *any* manor. They can be
 > `UPPERCASED`, `lowercased`, `camelCased`, etc. Use whichever casing
