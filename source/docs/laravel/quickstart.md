@@ -64,7 +64,7 @@ View the core [configuration](/docs/configuration) documentation for more inform
 ### Step 4: Use LdapRecord {#usage}
 
 To begin, you may either use the built-in [models that LdapRecord comes with](/docs/models#predefined-models),
-or you may create your own models that reference the connection you have created in your `ldap.php` file.
+or you may create your own models that reference the connection you have created in your `config/dap.php` file.
 
 Call the below command to create a new LdapRecord model:
 
