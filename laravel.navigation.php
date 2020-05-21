@@ -24,6 +24,7 @@ return [
     'Other Features' => [
         'children' => [
             'Importing Objects' => 'docs/laravel/importing',
+            'Events' => 'docs/laravel/events',
             'Testing' => 'docs/laravel/testing',
             'Debugging' => 'docs/laravel/debugging',
         ],
