@@ -216,8 +216,8 @@ Trait | `LdapRecord\Laravel\Auth\AuthenticatesWithLdap` |
 // app/User.php
 
 // ...
-use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 
 class User extends Authenticatable implements LdapAuthenticatable
 {
