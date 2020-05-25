@@ -200,6 +200,10 @@ echo $user->ldap->getFirstAttribute('cn');
 $groups = $user->ldap->groups()->get();
 ```
 
+> This property uses deferred loading -- which means that the users LDAP model only
+> gets requested from your server when you attempt to access it. This prevents
+> loading the model unnecessarily when it is not needed in your application.
+
 ## Pass-through Authentication / SSO {#passthrough-authentication}
 
 Pass-through authentication allows your users to be automatically signed in when they access your
