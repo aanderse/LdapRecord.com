@@ -162,14 +162,8 @@ You can now sign into your application using usernames instead of email addresse
 ## Eloquent Model Binding {#model-binding}
 
 If you are using [database synchronization](/docs/laravel/auth#database), model binding allows
-you to attach the users LdapRecord model to their Eloquent model so their LDAP data is
-available on every request automatically.
-
-> Using this feature will perform a single query on your LDAP server for a **logged in user per request**.
-> This could lead to slightly longer load times depending on your LDAP server and network speed.
-> <br/><br/>
-> This also means **persistent LDAP connectivity is required** while LDAP
-> authenticated users use your Laravel application.
+you to access the **currently authenticated user's** LdapRecord model from their Eloquent
+model. This grants you access to their LDAP data whenever you need it.
 
 To begin, insert the `LdapRecord\Laravel\Auth\HasLdapUser` trait onto your User model:
 
@@ -182,10 +176,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasLdapUser;
+
+    // ...
+}
 ```
 
-Now, after an LDAP user logs into your application, their LdapRecord model will be available on
-their model via the `ldap` property:
+Now, after an LDAP user logs into your application, their LdapRecord model will be
+available on their Eloquent model via the `ldap` property:
+
+> If their LDAP model cannot be located, this property will be `null`.
 
 ```php
 // Instance of App\User
