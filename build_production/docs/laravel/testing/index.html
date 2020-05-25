@@ -478,8 +478,8 @@ DirectoryEmulator::setup('default', ['database' =&gt; $file]);
 
 <h2 id="emulated-queries">Emulated Queries</h2>
 
-<p>The Directory Emulator also emulates LDAP queries. However, there are limitations. The
-following features are not supported using the emulator:</p>
+<p>The Directory Emulator also emulates LDAP queries. However, there are
+limitations. It currently does not support the following features:</p>
 
 <ul>
 <li><code>raw</code> filters</li>
@@ -487,14 +487,14 @@ following features are not supported using the emulator:</p>
 <li>Virtual attributes (such as <code>memberof</code>, <code>entryUUID</code> and more)</li>
 </ul>
 
+<p>Using the emulator, you can create a diverse LDAP object tree in your unit tests
+and ensure your application is querying the proper objects.</p>
+
 <blockquote>
-  <p>You must use LdapRecord models to perform queries. You cannot use a plain LdapRecord <code>Connection</code> to retrieve objects.</p>
+  <p>The examples below use LdapRecord models, but you may also use a raw LdapRecord <code>Connection</code>.</p>
 </blockquote>
 
-<p>Using the emulator, you can create a diverse LDAP object tree in your unit tests and ensure your
-application is querying the proper objects.</p>
-
-<p>Let's update our example controller to retrieve users inside of a specific OU and a company name:</p>
+<p>Let's update our example controller to retrieve users inside of a specific OU, and a company name:</p>
 
 <pre><code class="language-php">public class UsersController extends Controller
 {

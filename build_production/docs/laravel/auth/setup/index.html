@@ -496,16 +496,8 @@ protected function credentials(Request $request)
 <h2 id="model-binding">Eloquent Model Binding</h2>
 
 <p>If you are using <a href="/docs/laravel/auth#database">database synchronization</a>, model binding allows
-you to attach the users LdapRecord model to their Eloquent model so their LDAP data is
-available on every request automatically.</p>
-
-<blockquote>
-  <p>Using this feature will perform a single query on your LDAP server for a <strong>logged in user per request</strong>.
-  This could lead to slightly longer load times depending on your LDAP server and network speed.
-  <br/><br/>
-  This also means <strong>persistent LDAP connectivity is required</strong> while LDAP
-  authenticated users use your Laravel application.</p>
-</blockquote>
+you to access the <strong>currently authenticated user's</strong> LdapRecord model from their Eloquent
+model. This grants you access to their LDAP data whenever you need it.</p>
 
 <p>To begin, insert the <code>LdapRecord\Laravel\Auth\HasLdapUser</code> trait onto your User model:</p>
 
@@ -517,10 +509,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasLdapUser;
+
+    // ...
+}
 </code></pre>
 
-<p>Now, after an LDAP user logs into your application, their LdapRecord model will be available on
-their model via the <code>ldap</code> property:</p>
+<p>Now, after an LDAP user logs into your application, their LdapRecord model will be
+available on their Eloquent model via the <code>ldap</code> property:</p>
+
+<blockquote>
+  <p>If their LDAP model cannot be located, this property will be <code>null</code>.</p>
+</blockquote>
 
 <pre><code class="language-php">// Instance of App\User
 $user = Auth::user();
@@ -534,6 +533,12 @@ echo $user-&gt;ldap-&gt;getFirstAttribute('cn');
 // Get LDAP user relationships:
 $groups = $user-&gt;ldap-&gt;groups()-&gt;get();
 </code></pre>
+
+<blockquote>
+  <p>This property uses deferred loading -- which means that the users LDAP model only
+  gets requested from your server when you attempt to access it. This prevents
+  loading the model unnecessarily when it is not needed in your application.</p>
+</blockquote>
 
 <h2 id="passthrough-authentication">Pass-through Authentication / SSO</h2>
 
