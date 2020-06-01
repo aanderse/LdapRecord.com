@@ -37,7 +37,6 @@ need to setup these domain connections in our `ldap.php` configuration file:
 // ...
 
 'connections' => [
-
     'alpha' => [
         // ...
     ],

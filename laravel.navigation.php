@@ -23,10 +23,11 @@ return [
     ],
     'Other Features' => [
         'children' => [
-            'Importing Objects' => 'docs/laravel/importing',
+            'Lumen' => 'docs/laravel/lumen',
             'Events' => 'docs/laravel/events',
             'Testing' => 'docs/laravel/testing',
             'Debugging' => 'docs/laravel/debugging',
+            'Importing Objects' => 'docs/laravel/importing',
         ],
     ],
     'Extra' => [
