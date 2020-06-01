@@ -9,6 +9,7 @@ section: content
 
 - [Introduction](#introduction)
 - [Attribute Synchronization](#attribute-synchronization)
+- [Synchronizing Existing Records](#syncing-existing-records)
 - [Running the command](#running-the-command)
 - [Scheduling the command](#scheduling-the-command)
 - [Programmatically Executing](#programmatically-executing)
@@ -33,8 +34,17 @@ As it is with signing users into your application, the Eloquent database model y
 
 ## Attribute Synchronization {#attribute-synchronization}
 
-The `sync_attributes` you define inside of your `config/auth.php` file for your provider are used
-for importing and synchronizing users. Be sure to look at the [documentation](/docs/laravel/auth/configuration/#database)
+The `sync_attributes` you define inside of your `config/auth.php` file for your provider will be used
+for importing and synchronizing users.
+
+Be sure to look at the [documentation](/docs/laravel/auth/configuration/#database-sync-attributes)
+to get a further understanding on what is possible with this option.
+
+## Syncing Existing Records {#syncing-existing-records}
+
+The `sync_existing` array you define inside of your `config/auth.php` will be used to synchronize existing database records with your LDAP users.
+
+Be sure to look at the [documentation](/docs/laravel/auth/configuration/#database-sync-existing)
 to get a further understanding on what is possible with this option.
 
 ## Password Synchronization {#password-synchronization}

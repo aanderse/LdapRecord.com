@@ -13,9 +13,10 @@ section: content
  - [Rules](#plain-rules)
 - [Synchronized Database Authentication](#database)
  - [Database Model](#database-model)
- - [Database Password Column](#database-password-column)
- - [Database Password Sync](#database-password-sync)
- - [Database Sync Attributes](#database-sync-attributes)
+ - [Password Column](#database-password-column)
+ - [Password Sync](#database-password-sync)
+ - [Sync Attributes](#database-sync-attributes)
+ - [Sync Existing Records](#database-sync-existing)
 - [Attribute Handlers](#attribute-handlers)
 - [Authentication Rules](#rules)
 
@@ -105,7 +106,7 @@ used for creating and retrieving LDAP users from your applications database.
 
 > Be sure to add the required [trait and interface](/docs/laravel/auth/installation) to this model as shown in the installation guide.
 
-### Database Password Column {#database-password-column}
+### Sync Password Column {#database-password-column}
 
 If your application uses a different password column than `password`, then you can configure
 it using the `password_column` key inside of your providers configuration:
@@ -140,7 +141,7 @@ You can also set the value to `false` if your database table does not have any p
 ],
 ```
 
-### Database Password Sync {#database-password-sync}
+### Sync Passwords {#database-password-sync}
 
 The `database => sync_passwords` option enables password synchronization. Password synchronization captures and hashes
 the users password **upon login** if they pass LDAP authentication. This helps in situations where you may want to
@@ -151,14 +152,64 @@ users password is valid without having to call to your LDAP server and validate 
 > random 16 character hashed password. This hashed password is only set once upon initial
 > import or login so no needless updates are performed on user records.
 
-### Database Sync Attributes {#database-sync-attributes}
+### Sync Attributes {#database-sync-attributes}
 
-The `database => sync_attributes` array defines a set of key-value pairs. The key of each array item is the column
-of your `users` database table and the value is the name of the users LDAP attribute.
+The `database => sync_attributes` array defines a set of key-value pairs:
+
+- The **key** of each array item is the column of your `users` database table
+- The **value** is the *name* of the users LDAP attribute to set the database value to
 
 > You do not need to add your users `guid` or `domain` database columns. These are done automatically for you.
 
 For further control on sync attributes, see the below [attribute handler](#attribute-handlers) feature.
+
+### Sync Existing Records {#database-sync-existing}
+
+The `database => sync_existing` array defines a set of key-value pairs:
+
+- The **key** of each array item is the column of your `users` database table to query
+- The **value** is the *name* of the users LDAP attribute to query inside of your database for
+
+> If the LDAP attribute returns `null` for the given **value**, the value string will be used
+> in the query instead. This is helpful to be able to use raw strings to scope your query by.
+
+Let's walk through an example.
+
+In our application, we have existing users inside of our Laravel applications database:
+
+id | name | email | password | guid | domain |
+--- | --- | --- | --- |
+1 | Steve Bauman | sbauman@local.com | ... | `null` | `null` |
+2 | John Doe | jdoe@local.com | ... | `null` | `null` |
+
+As you can see above, these users have `null` values for their `guid` and `domain` columns.
+
+If you do not define a `sync_existing` array, and a user logs in with `sbauman@local.com`,
+you will receive a SQL exception. This is because LdapRecord was unable to locate a local
+database user using the users GUID. If this occurs, LdapRecord attempts to insert a new
+user with the same email address.
+
+To solve this issue, we will insert the following `sync_existing` array:
+
+```php
+'providers' => [
+    // ...
+
+    'ldap' => [
+        // ...
+        'database' => [
+            // ...
+            'sync_existing' => [
+                'email' => 'mail',
+            ],
+        ],
+    ],
+],
+```
+
+Now when `sbauman@local.com` attempts to log in, if the user cannot be located
+by their GUID, they will instead be located by their email address. Their
+GUID, domain, and sync attributes you define will then synchronize.
 
 ## Attribute Handlers {#attribute-handlers}
 
