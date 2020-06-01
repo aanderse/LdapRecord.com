@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=a63e088ad20b43b2400c">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d5769ff5b0719b74766f">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -359,9 +359,10 @@
 
 <ul>
 <li><a href="#database-model">Database Model</a></li>
-<li><a href="#database-password-column">Database Password Column</a></li>
-<li><a href="#database-password-sync">Database Password Sync</a></li>
-<li><a href="#database-sync-attributes">Database Sync Attributes</a></li>
+<li><a href="#database-password-column">Password Column</a></li>
+<li><a href="#database-password-sync">Password Sync</a></li>
+<li><a href="#database-sync-attributes">Sync Attributes</a></li>
+<li><a href="#database-sync-existing">Sync Existing Records</a></li>
 </ul></li>
 <li><a href="#attribute-handlers">Attribute Handlers</a></li>
 <li><a href="#rules">Authentication Rules</a></li>
@@ -455,7 +456,7 @@ used for creating and retrieving LDAP users from your applications database.</p>
   <p>Be sure to add the required <a href="/docs/laravel/auth/installation">trait and interface</a> to this model as shown in the installation guide.</p>
 </blockquote>
 
-<h3 id="database-password-column">Database Password Column</h3>
+<h3 id="database-password-column">Sync Password Column</h3>
 
 <p>If your application uses a different password column than <code>password</code>, then you can configure
 it using the <code>password_column</code> key inside of your providers configuration:</p>
@@ -488,7 +489,7 @@ it using the <code>password_column</code> key inside of your providers configura
 ],
 </code></pre>
 
-<h3 id="database-password-sync">Database Password Sync</h3>
+<h3 id="database-password-sync">Sync Passwords</h3>
 
 <p>The <code>database =&gt; sync_passwords</code> option enables password synchronization. Password synchronization captures and hashes
 the users password <strong>upon login</strong> if they pass LDAP authentication. This helps in situations where you may want to
@@ -501,16 +502,97 @@ users password is valid without having to call to your LDAP server and validate 
   import or login so no needless updates are performed on user records.</p>
 </blockquote>
 
-<h3 id="database-sync-attributes">Database Sync Attributes</h3>
+<h3 id="database-sync-attributes">Sync Attributes</h3>
 
-<p>The <code>database =&gt; sync_attributes</code> array defines a set of key-value pairs. The key of each array item is the column
-of your <code>users</code> database table and the value is the name of the users LDAP attribute.</p>
+<p>The <code>database =&gt; sync_attributes</code> array defines a set of key-value pairs:</p>
+
+<ul>
+<li>The <strong>key</strong> of each array item is the column of your <code>users</code> database table</li>
+<li>The <strong>value</strong> is the <em>name</em> of the users LDAP attribute to set the database value to</li>
+</ul>
 
 <blockquote>
   <p>You do not need to add your users <code>guid</code> or <code>domain</code> database columns. These are done automatically for you.</p>
 </blockquote>
 
 <p>For further control on sync attributes, see the below <a href="#attribute-handlers">attribute handler</a> feature.</p>
+
+<h3 id="database-sync-existing">Sync Existing Records</h3>
+
+<p>The <code>database =&gt; sync_existing</code> array defines a set of key-value pairs:</p>
+
+<ul>
+<li>The <strong>key</strong> of each array item is the column of your <code>users</code> database table to query</li>
+<li>The <strong>value</strong> is the <em>name</em> of the users LDAP attribute to query inside of your database for</li>
+</ul>
+
+<blockquote>
+  <p>If the LDAP attribute returns <code>null</code> for the given <strong>value</strong>, the value string will be used
+  in the query instead. This is helpful to be able to use raw strings to scope your query by.</p>
+</blockquote>
+
+<p>Let's walk through an example.</p>
+
+<p>In our application, we have existing users inside of our Laravel applications database:</p>
+
+<table>
+<thead>
+<tr>
+  <th>id</th>
+  <th>name</th>
+  <th>email</th>
+  <th>password</th>
+  <th>guid</th>
+  <th>domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>Steve Bauman</td>
+  <td>sbauman@local.com</td>
+  <td>...</td>
+  <td><code>null</code></td>
+  <td><code>null</code></td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>John Doe</td>
+  <td>jdoe@local.com</td>
+  <td>...</td>
+  <td><code>null</code></td>
+  <td><code>null</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>As you can see above, these users have <code>null</code> values for their <code>guid</code> and <code>domain</code> columns.</p>
+
+<p>If you do not define a <code>sync_existing</code> array, and a user logs in with <code>sbauman@local.com</code>,
+you will receive a SQL exception. This is because LdapRecord was unable to locate a local
+database user using the users GUID. If this occurs, LdapRecord attempts to insert a new
+user with the same email address.</p>
+
+<p>To solve this issue, we will insert the following <code>sync_existing</code> array:</p>
+
+<pre><code class="language-php">'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        // ...
+        'database' =&gt; [
+            // ...
+            'sync_existing' =&gt; [
+                'email' =&gt; 'mail',
+            ],
+        ],
+    ],
+],
+</code></pre>
+
+<p>Now when <code>sbauman@local.com</code> attempts to log in, if the user cannot be located
+by their GUID, they will instead be located by their email address. Their
+GUID, domain, and sync attributes you define will then synchronize.</p>
 
 <h2 id="attribute-handlers">Attribute Handlers</h2>
 
@@ -710,7 +792,7 @@ LDAP authentication, they will need to be a member of the <code>Administrators</
         </main>
 
         
-        <script src="/assets/build/js/main.js?id=f4770a7909c663b5fd4a"></script>
+        <script src="/assets/build/js/main.js?id=bcbc65921b92c4782f0d"></script>
 
         <script>
     const navMenu = {

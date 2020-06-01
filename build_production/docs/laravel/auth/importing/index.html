@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=a63e088ad20b43b2400c">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d5769ff5b0719b74766f">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -350,6 +350,7 @@
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#attribute-synchronization">Attribute Synchronization</a></li>
+<li><a href="#syncing-existing-records">Synchronizing Existing Records</a></li>
 <li><a href="#running-the-command">Running the command</a></li>
 <li><a href="#scheduling-the-command">Scheduling the command</a></li>
 <li><a href="#programmatically-executing">Programmatically Executing</a></li>
@@ -378,8 +379,17 @@ authentication providers you configure with <a href="/docs/laravel/auth/configur
 
 <h2 id="attribute-synchronization">Attribute Synchronization</h2>
 
-<p>The <code>sync_attributes</code> you define inside of your <code>config/auth.php</code> file for your provider are used
-for importing and synchronizing users. Be sure to look at the <a href="/docs/laravel/auth/configuration/#database">documentation</a>
+<p>The <code>sync_attributes</code> you define inside of your <code>config/auth.php</code> file for your provider will be used
+for importing and synchronizing users.</p>
+
+<p>Be sure to look at the <a href="/docs/laravel/auth/configuration/#database-sync-attributes">documentation</a>
+to get a further understanding on what is possible with this option.</p>
+
+<h2 id="syncing-existing-records">Syncing Existing Records</h2>
+
+<p>The <code>sync_existing</code> array you define inside of your <code>config/auth.php</code> will be used to synchronize existing database records with your LDAP users.</p>
+
+<p>Be sure to look at the <a href="/docs/laravel/auth/configuration/#database-sync-existing">documentation</a>
 to get a further understanding on what is possible with this option.</p>
 
 <h2 id="password-synchronization">Password Synchronization</h2>
@@ -724,7 +734,7 @@ This allows you to hash the random 16 character passwords any way you prefer.</l
         </main>
 
         
-        <script src="/assets/build/js/main.js?id=f4770a7909c663b5fd4a"></script>
+        <script src="/assets/build/js/main.js?id=bcbc65921b92c4782f0d"></script>
 
         <script>
     const navMenu = {
