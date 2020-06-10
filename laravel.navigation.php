@@ -15,7 +15,7 @@ return [
             'Overview' => 'docs/laravel/auth',
             'Installation' => 'docs/laravel/auth/installation',
             'Configuration' => 'docs/laravel/auth/configuration',
-            'Setup' => 'docs/laravel/auth/setup',
+            'Setup & Features' => 'docs/laravel/auth/setup',
             'Multi-Domain' => 'docs/laravel/auth/multi-domain',
             'Importing Users' => 'docs/laravel/auth/importing',
             'Testing' => 'docs/laravel/auth/testing',
