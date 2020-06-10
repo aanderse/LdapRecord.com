@@ -13,6 +13,7 @@ section: content
  - [Rules](#plain-rules)
 - [Synchronized Database Authentication](#database)
  - [Database Model](#database-model)
+ - [Database Fallback](#database-fallback)
  - [Password Column](#database-password-column)
  - [Password Sync](#database-password-sync)
  - [Sync Attributes](#database-sync-attributes)
@@ -105,6 +106,44 @@ The `database => model` key is the class name of the [Eloquent model](https://la
 used for creating and retrieving LDAP users from your applications database.
 
 > Be sure to add the required [trait and interface](/docs/laravel/auth/installation) to this model as shown in the installation guide.
+
+### Database Fallback {#database-fallback}
+
+The `database => fallback` configuration option enables the authentication of local database
+users if LDAP **connectivity is not present**, or an LDAP **user cannot be found**.
+
+```php
+'providers' => [
+    // ...
+
+    'ldap' => [
+        // ...
+        'database' => [
+            // ...
+            'fallback' => true,
+        ],
+    ],
+],
+```
+
+For example, given the following `users` database table:
+
+id | name | email | password | guid | domain |
+--- | --- | --- | --- |
+1 | Steve Bauman | sbauman@outlook.com | ... | `null` | `null` |
+
+If a user attempts to login with the above email address and this user does
+not exist inside of your LDAP directory, then standard Eloquent authentication
+will be performed instead.
+
+This feature is ideal for environments where:
+
+- LDAP server connectivity may be intermittent
+- Or; You have regular users registering normally in your application
+
+> If you would like your application to fallback to Eloquent authentication when connecting
+> to your LDAP server fails, be sure to enable the [sync passwords](#database-password-sync)
+> option, so your LDAP users can sign in using their last used password. 
 
 ### Sync Password Column {#database-password-column}
 
