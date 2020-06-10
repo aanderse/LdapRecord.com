@@ -510,7 +510,9 @@ model. This grants you access to their LDAP data whenever you need it.</p>
 
 <p>To begin, insert the <code>LdapRecord\Laravel\Auth\HasLdapUser</code> trait onto your User model:</p>
 
-<pre><code class="language-php">// ...
+<pre><code class="language-php">// app/User.php
+
+// ...
 
 use LdapRecord\Laravel\Auth\HasLdapUser;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
