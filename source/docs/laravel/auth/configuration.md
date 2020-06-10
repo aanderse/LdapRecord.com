@@ -265,6 +265,7 @@ Here is a configured provider with all available options present:
     'rules' => [],
     'database' => [
         'model' => App\User::class,
+        'fallback' => true,
         'sync_passwords' => true,
         'sync_attributes' => [
             'name' => 'cn',

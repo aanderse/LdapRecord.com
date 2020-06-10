@@ -669,6 +669,7 @@ GUID, domain, and sync attributes you define will then synchronize.</p>
     'rules' =&gt; [],
     'database' =&gt; [
         'model' =&gt; App\User::class,
+        'fallback' =&gt; true,
         'sync_passwords' =&gt; true,
         'sync_attributes' =&gt; [
             'name' =&gt; 'cn',
