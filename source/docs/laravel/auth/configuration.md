@@ -256,25 +256,31 @@ GUID, domain, and sync attributes you define will then synchronize.
 
 ### All Available Options Example {#database-options}
 
-Here is a configured provider with all available options present:
+Here is a synchronized database provider fully configured with all available options set:
 
 ```php
-'ldap' => [
-    'driver' => 'ldap',
-    'model' => LdapRecord\Models\ActiveDirectory\User::class,
-    'rules' => [],
-    'database' => [
-        'model' => App\User::class,
-        'fallback' => true,
-        'sync_passwords' => true,
-        'sync_attributes' => [
-            'name' => 'cn',
-            'email' => 'mail',
+// config/auth.php
+
+'providers' => [
+    // ...
+    
+    'ldap' => [
+        'driver' => 'ldap',
+        'model' => LdapRecord\Models\ActiveDirectory\User::class,
+        'rules' => [],
+        'database' => [
+            'model' => App\User::class,
+            'fallback' => true,
+            'sync_passwords' => true,
+            'sync_attributes' => [
+                'name' => 'cn',
+                'email' => 'mail',
+            ],
+            'sync_existing' => [
+                'email' => 'mail',
+            ],
+            'password_column' => 'password',
         ],
-        'sync_existing' => [
-            'email' => 'mail',
-        ],
-        'password_column' => 'password',
     ],
 ],
 ```

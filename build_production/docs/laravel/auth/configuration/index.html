@@ -661,24 +661,30 @@ GUID, domain, and sync attributes you define will then synchronize.</p>
 
 <h3 id="database-options">All Available Options Example</h3>
 
-<p>Here is a configured provider with all available options present:</p>
+<p>Here is a synchronized database provider fully configured with all available options set:</p>
 
-<pre><code class="language-php">'ldap' =&gt; [
-    'driver' =&gt; 'ldap',
-    'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
-    'rules' =&gt; [],
-    'database' =&gt; [
-        'model' =&gt; App\User::class,
-        'fallback' =&gt; true,
-        'sync_passwords' =&gt; true,
-        'sync_attributes' =&gt; [
-            'name' =&gt; 'cn',
-            'email' =&gt; 'mail',
+<pre><code class="language-php">// config/auth.php
+
+'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        'driver' =&gt; 'ldap',
+        'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
+        'rules' =&gt; [],
+        'database' =&gt; [
+            'model' =&gt; App\User::class,
+            'fallback' =&gt; true,
+            'sync_passwords' =&gt; true,
+            'sync_attributes' =&gt; [
+                'name' =&gt; 'cn',
+                'email' =&gt; 'mail',
+            ],
+            'sync_existing' =&gt; [
+                'email' =&gt; 'mail',
+            ],
+            'password_column' =&gt; 'password',
         ],
-        'sync_existing' =&gt; [
-            'email' =&gt; 'mail',
-        ],
-        'password_column' =&gt; 'password',
     ],
 ],
 </code></pre>
