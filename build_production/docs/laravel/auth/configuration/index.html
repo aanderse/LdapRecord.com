@@ -382,7 +382,9 @@ Finally, we'll check</p>
 <p>To create a plain LDAP authentication provider, navigate to the <code>providers</code> array,
 and paste the following <code>ldap</code> provider:</p>
 
-<pre><code class="language-php">'providers' =&gt; [
+<pre><code class="language-php">// config/auth.php
+
+'providers' =&gt; [
     // ...
 
     'ldap' =&gt; [
@@ -425,10 +427,12 @@ for fetching users from your directory.</p>
 and paste the following <code>ldap</code> provider:</p>
 
 <blockquote>
-  <p>If your application is requiring two or more LDAP connections, you must create a new user provider for each connection.</p>
+  <p>If your application requires two or more LDAP connections, you must create a new provider for each connection.</p>
 </blockquote>
 
-<pre><code class="language-php">'providers' =&gt; [
+<pre><code class="language-php">// config/auth.php
+
+'providers' =&gt; [
     // ...
 
     'ldap' =&gt; [

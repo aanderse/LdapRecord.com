@@ -34,6 +34,8 @@ To create a plain LDAP authentication provider, navigate to the `providers` arra
 and paste the following `ldap` provider:
 
 ```php
+// config/auth.php
+
 'providers' => [
     // ...
     
@@ -77,9 +79,11 @@ The `rules` option must be an array of class names of [authentication rules](#ru
 To create a synchronized database LDAP authentication provider, navigate to the `providers` array,
 and paste the following `ldap` provider:
 
-> If your application is requiring two or more LDAP connections, you must create a new user provider for each connection.
+> If your application requires two or more LDAP connections, you must create a new provider for each connection.
 
 ```php
+// config/auth.php
+
 'providers' => [
     // ...
     

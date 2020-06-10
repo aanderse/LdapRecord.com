@@ -55,8 +55,8 @@ use Illuminate\Http\Request;
 protected function credentials(Request $request)
 {
     return [
-        'mail' => $request->email,
-        'password' => $request->password,
+        'mail' => $request->get('email'),
+        'password' => $request->get('password'),
     ];
 }
 ```
@@ -168,14 +168,15 @@ model. This grants you access to their LDAP data whenever you need it.
 To begin, insert the `LdapRecord\Laravel\Auth\HasLdapUser` trait onto your User model:
 
 ```php
-namespace App;
+// ...
 
 use LdapRecord\Laravel\Auth\HasLdapUser;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 
-class User extends Authenticatable
+class User extends Authenticatable implements LdapAuthenticatable
 {
-    use HasLdapUser;
+    use Notifiable, AuthenticatesWithLdap, HasLdapUser;
 
     // ...
 }
