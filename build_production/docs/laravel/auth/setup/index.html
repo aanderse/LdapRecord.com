@@ -351,6 +351,7 @@
 <li><a href="#guard">Authentication Guard</a></li>
 <li><a href="#login-controller">Login Controller</a></li>
 <li><a href="#using-usernames">Using Usernames</a></li>
+<li><a href="#fallback-auth">Fallback Authentication</a></li>
 <li><a href="#model-binding">Eloquent Model Binding</a></li>
 <li><a href="#passthrough-authentication">Pass-Through Authentication / SSO</a>
 
@@ -501,6 +502,72 @@ protected function credentials(Request $request)
 </code></pre>
 
 <p>You can now sign into your application using usernames instead of email addresses.</p>
+
+<h2 id="fallback-auth">Fallback Authentication</h2>
+
+<p>Database fallback allows the authentication of local database users if LDAP
+<strong>connectivity is not present</strong>, or an LDAP <strong>user cannot be found</strong>.</p>
+
+<p>To enable this feature, you must define a <code>fallback</code> array inside of the credentials
+you return from the <code>credentials()</code> method inside of your <code>LoginController</code>:</p>
+
+<pre><code class="language-php">protected function credentials(Request $request)
+{
+    return [
+        'mail' =&gt; $request-&gt;get('email'),
+        'password' =&gt; $request-&gt;get('password'),
+        'fallback' =&gt; [
+            'email' =&gt; $request-&gt;get('email'),
+            'password' =&gt; $request-&gt;get('password'),
+        ],
+    ];
+}
+</code></pre>
+
+<p>For example, given the following <code>users</code> database table:</p>
+
+<table>
+<thead>
+<tr>
+  <th>id</th>
+  <th>name</th>
+  <th>email</th>
+  <th>password</th>
+  <th>guid</th>
+  <th>domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>Steve Bauman</td>
+  <td>sbauman@outlook.com</td>
+  <td>...</td>
+  <td><code>null</code></td>
+  <td><code>null</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>If a user attempts to login with the above email address and this user does
+not exist inside of your LDAP directory, then standard Eloquent authentication
+will be performed instead.</p>
+
+<p>This feature is ideal for environments where:</p>
+
+<ul>
+<li>LDAP server connectivity may be intermittent</li>
+<li>Or; You have regular users registering normally in your application</li>
+</ul>
+
+<blockquote>
+  <p>If you would like your LDAP users to be able to sign in to your application
+  when LDAP connectivity fails or is not present, you must enable the
+  <a href="#database-password-sync">sync passwords</a> option, so your LDAP
+  users can sign in using their last used password. 
+  <br/><br/>
+  If an LDAP users password has not been synchronized, they will not be able to sign in.</p>
+</blockquote>
 
 <h2 id="model-binding">Eloquent Model Binding</h2>
 

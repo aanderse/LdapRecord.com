@@ -359,7 +359,6 @@
 
 <ul>
 <li><a href="#database-model">Database Model</a></li>
-<li><a href="#database-fallback">Database Fallback</a></li>
 <li><a href="#database-password-column">Password Column</a></li>
 <li><a href="#database-password-sync">Password Sync</a></li>
 <li><a href="#database-sync-attributes">Sync Attributes</a></li>
@@ -372,10 +371,9 @@
 
 <h2>Introduction</h2>
 
-<p>All LDAP authentication configuration is done inside of your <code>config/auth.php</code> file.</p>
+<p>LDAP authentication configuration options are defined inside of your <code>config/auth.php</code> file.</p>
 
-<p>Let's walk through configuring both LDAP authentication mechanisms.
-Finally, we'll check</p>
+<p>Let's walk through configuring both LDAP authentication mechanisms.</p>
 
 <h2 id="plain">Plain Authentication</h2>
 
@@ -460,69 +458,6 @@ used for creating and retrieving LDAP users from your applications database.</p>
 
 <blockquote>
   <p>Be sure to add the required <a href="/docs/laravel/auth/installation">trait and interface</a> to this model as shown in the installation guide.</p>
-</blockquote>
-
-<h3 id="database-fallback">Database Fallback</h3>
-
-<p>The <code>database =&gt; fallback</code> configuration option enables the authentication of local database
-users if LDAP <strong>connectivity is not present</strong>, or an LDAP <strong>user cannot be found</strong>.</p>
-
-<pre><code class="language-php">'providers' =&gt; [
-    // ...
-
-    'ldap' =&gt; [
-        // ...
-        'database' =&gt; [
-            // ...
-            'fallback' =&gt; true,
-        ],
-    ],
-],
-</code></pre>
-
-<p>For example, given the following <code>users</code> database table:</p>
-
-<table>
-<thead>
-<tr>
-  <th>id</th>
-  <th>name</th>
-  <th>email</th>
-  <th>password</th>
-  <th>guid</th>
-  <th>domain</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>1</td>
-  <td>Steve Bauman</td>
-  <td>sbauman@outlook.com</td>
-  <td>...</td>
-  <td><code>null</code></td>
-  <td><code>null</code></td>
-</tr>
-</tbody>
-</table>
-
-<p>If a user attempts to login with the above email address and this user does
-not exist inside of your LDAP directory, then standard Eloquent authentication
-will be performed instead.</p>
-
-<p>This feature is ideal for environments where:</p>
-
-<ul>
-<li>LDAP server connectivity may be intermittent</li>
-<li>Or; You have regular users registering normally in your application</li>
-</ul>
-
-<blockquote>
-  <p>If you would like your LDAP users to be able to sign in to your application
-  when LDAP connectivity fails or is not present, you must enable the
-  <a href="#database-password-sync">sync passwords</a> option, so your LDAP
-  users can sign in using their last used password. 
-  <br/><br/>
-  If an LDAP users password has not been synchronized, they will not be able to sign in.</p>
 </blockquote>
 
 <h3 id="database-password-column">Sync Password Column</h3>
@@ -678,7 +613,6 @@ GUID, domain, and sync attributes you define will then synchronize.</p>
         'rules' =&gt; [],
         'database' =&gt; [
             'model' =&gt; App\User::class,
-            'fallback' =&gt; true,
             'sync_passwords' =&gt; true,
             'sync_attributes' =&gt; [
                 'name' =&gt; 'cn',

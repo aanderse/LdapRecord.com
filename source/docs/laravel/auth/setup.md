@@ -10,6 +10,7 @@ section: content
 - [Authentication Guard](#guard)
 - [Login Controller](#login-controller)
 - [Using Usernames](#using-usernames)
+- [Fallback Authentication](#fallback-auth)
 - [Eloquent Model Binding](#model-binding)
 - [Pass-Through Authentication / SSO](#passthrough-authentication)
  - [Domain Verification](#sso-domain-verification)
@@ -158,6 +159,51 @@ protected function credentials(Request $request)
 ```
 
 You can now sign into your application using usernames instead of email addresses.
+
+
+## Fallback Authentication {#fallback-auth}
+
+Database fallback allows the authentication of local database users if LDAP
+**connectivity is not present**, or an LDAP **user cannot be found**.
+
+To enable this feature, you must define a `fallback` array inside of the credentials
+you return from the `credentials()` method inside of your `LoginController`:
+
+```php
+protected function credentials(Request $request)
+{
+    return [
+        'mail' => $request->get('email'),
+        'password' => $request->get('password'),
+        'fallback' => [
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+        ],
+    ];
+}
+```
+
+For example, given the following `users` database table:
+
+id | name | email | password | guid | domain |
+--- | --- | --- | --- |
+1 | Steve Bauman | sbauman@outlook.com | ... | `null` | `null` |
+
+If a user attempts to login with the above email address and this user does
+not exist inside of your LDAP directory, then standard Eloquent authentication
+will be performed instead.
+
+This feature is ideal for environments where:
+
+- LDAP server connectivity may be intermittent
+- Or; You have regular users registering normally in your application
+
+> If you would like your LDAP users to be able to sign in to your application
+> when LDAP connectivity fails or is not present, you must enable the
+> [sync passwords](#database-password-sync) option, so your LDAP
+> users can sign in using their last used password. 
+> <br/><br/>
+> If an LDAP users password has not been synchronized, they will not be able to sign in.
 
 ## Eloquent Model Binding {#model-binding}
 
