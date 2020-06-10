@@ -145,7 +145,7 @@ This feature is ideal for environments where:
 > when LDAP connectivity fails or is not present, you must enable the
 > [sync passwords](#database-password-sync) option, so your LDAP
 > users can sign in using their last used password. 
->
+> <br/><br/>
 > If an LDAP users password has not been synchronized, they will not be able to sign in.
 
 ### Sync Password Column {#database-password-column}
