@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=a63e088ad20b43b2400c">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d151e2283f27a53e0740">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -512,9 +512,12 @@ will be performed instead.</p>
 </ul>
 
 <blockquote>
-  <p>If you would like your application to fallback to Eloquent authentication when connecting
-  to your LDAP server fails, be sure to enable the <a href="#database-password-sync">sync passwords</a>
-  option, so your LDAP users can sign in using their last used password.</p>
+  <p>If you would like your LDAP users to be able to sign in to your application
+  when LDAP connectivity fails or is not present, you must enable the
+  <a href="#database-password-sync">sync passwords</a> option, so your LDAP
+  users can sign in using their last used password.</p>
+  
+  <p>If an LDAP users password has not been synchronized, they will not be able to sign in.</p>
 </blockquote>
 
 <h3 id="database-password-column">Sync Password Column</h3>

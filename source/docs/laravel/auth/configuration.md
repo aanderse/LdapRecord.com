@@ -141,9 +141,12 @@ This feature is ideal for environments where:
 - LDAP server connectivity may be intermittent
 - Or; You have regular users registering normally in your application
 
-> If you would like your application to fallback to Eloquent authentication when connecting
-> to your LDAP server fails, be sure to enable the [sync passwords](#database-password-sync)
-> option, so your LDAP users can sign in using their last used password. 
+> If you would like your LDAP users to be able to sign in to your application
+> when LDAP connectivity fails or is not present, you must enable the
+> [sync passwords](#database-password-sync) option, so your LDAP
+> users can sign in using their last used password. 
+>
+> If an LDAP users password has not been synchronized, they will not be able to sign in.
 
 ### Sync Password Column {#database-password-column}
 
