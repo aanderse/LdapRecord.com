@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=d5769ff5b0719b74766f">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=a63e088ad20b43b2400c">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -359,6 +359,7 @@
 
 <ul>
 <li><a href="#database-model">Database Model</a></li>
+<li><a href="#database-fallback">Database Fallback</a></li>
 <li><a href="#database-password-column">Password Column</a></li>
 <li><a href="#database-password-sync">Password Sync</a></li>
 <li><a href="#database-sync-attributes">Sync Attributes</a></li>
@@ -454,6 +455,66 @@ used for creating and retrieving LDAP users from your applications database.</p>
 
 <blockquote>
   <p>Be sure to add the required <a href="/docs/laravel/auth/installation">trait and interface</a> to this model as shown in the installation guide.</p>
+</blockquote>
+
+<h3 id="database-fallback">Database Fallback</h3>
+
+<p>The <code>database =&gt; fallback</code> configuration option enables the authentication of local database
+users if LDAP <strong>connectivity is not present</strong>, or an LDAP <strong>user cannot be found</strong>.</p>
+
+<pre><code class="language-php">'providers' =&gt; [
+    // ...
+
+    'ldap' =&gt; [
+        // ...
+        'database' =&gt; [
+            // ...
+            'fallback' =&gt; true,
+        ],
+    ],
+],
+</code></pre>
+
+<p>For example, given the following <code>users</code> database table:</p>
+
+<table>
+<thead>
+<tr>
+  <th>id</th>
+  <th>name</th>
+  <th>email</th>
+  <th>password</th>
+  <th>guid</th>
+  <th>domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>Steve Bauman</td>
+  <td>sbauman@outlook.com</td>
+  <td>...</td>
+  <td><code>null</code></td>
+  <td><code>null</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>If a user attempts to login with the above email address and this user does
+not exist inside of your LDAP directory, then standard Eloquent authentication
+will be performed instead.</p>
+
+<p>This feature is ideal for environments where:</p>
+
+<ul>
+<li>LDAP server connectivity may be intermittent</li>
+<li>Or; You have regular users registering normally in your application</li>
+</ul>
+
+<blockquote>
+  <p>If you would like your application to fallback to Eloquent authentication when connecting
+  to your LDAP server fails, be sure to enable the <a href="#database-password-sync">sync passwords</a>
+  option, so your LDAP users can sign in using their last used password.</p>
 </blockquote>
 
 <h3 id="database-password-column">Sync Password Column</h3>
@@ -792,7 +853,7 @@ LDAP authentication, they will need to be a member of the <code>Administrators</
         </main>
 
         
-        <script src="/assets/build/js/main.js?id=bcbc65921b92c4782f0d"></script>
+        <script src="/assets/build/js/main.js?id=f4770a7909c663b5fd4a"></script>
 
         <script>
     const navMenu = {
