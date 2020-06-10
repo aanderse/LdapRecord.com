@@ -364,6 +364,7 @@
 <li><a href="#database-password-sync">Password Sync</a></li>
 <li><a href="#database-sync-attributes">Sync Attributes</a></li>
 <li><a href="#database-sync-existing">Sync Existing Records</a></li>
+<li><a href="#database-options">All Available Options Example</a></li>
 </ul></li>
 <li><a href="#attribute-handlers">Attribute Handlers</a></li>
 <li><a href="#rules">Authentication Rules</a></li>
@@ -657,6 +658,29 @@ user with the same email address.</p>
 <p>Now when <code>sbauman@local.com</code> attempts to log in, if the user cannot be located
 by their GUID, they will instead be located by their email address. Their
 GUID, domain, and sync attributes you define will then synchronize.</p>
+
+<h3>All Available Options Example</h3>
+
+<p>Here is a configured provider with all available options present:</p>
+
+<pre><code class="language-php">'ldap' =&gt; [
+    'driver' =&gt; 'ldap',
+    'model' =&gt; LdapRecord\Models\ActiveDirectoryUser::class,
+    'rules' =&gt; [],
+    'database' =&gt; [
+        'model' =&gt; App\User::class, // &lt;-- Your Laravel Eloquent database model
+        'sync_passwords' =&gt; true,
+        'sync_attributes' =&gt; [
+            'name' =&gt; 'cn',
+            'email' =&gt; 'mail',
+        ],
+        'sync_existing' =&gt; [
+            'email' =&gt; 'mail',
+        ],
+        'password_column' =&gt; 'password',
+    ],
+],
+</code></pre>
 
 <h2 id="attribute-handlers">Attribute Handlers</h2>
 

@@ -18,6 +18,7 @@ section: content
  - [Password Sync](#database-password-sync)
  - [Sync Attributes](#database-sync-attributes)
  - [Sync Existing Records](#database-sync-existing)
+ - [All Available Options Example](#database-options)
 - [Attribute Handlers](#attribute-handlers)
 - [Authentication Rules](#rules)
 
@@ -252,6 +253,30 @@ To solve this issue, we will insert the following `sync_existing` array:
 Now when `sbauman@local.com` attempts to log in, if the user cannot be located
 by their GUID, they will instead be located by their email address. Their
 GUID, domain, and sync attributes you define will then synchronize.
+
+### All Available Options Example
+
+Here is a configured provider with all available options present:
+
+```php
+'ldap' => [
+    'driver' => 'ldap',
+    'model' => LdapRecord\Models\ActiveDirectoryUser::class,
+    'rules' => [],
+    'database' => [
+        'model' => App\User::class, // <-- Your Laravel Eloquent database model
+        'sync_passwords' => true,
+        'sync_attributes' => [
+            'name' => 'cn',
+            'email' => 'mail',
+        ],
+        'sync_existing' => [
+            'email' => 'mail',
+        ],
+        'password_column' => 'password',
+    ],
+],
+```
 
 ## Attribute Handlers {#attribute-handlers}
 
