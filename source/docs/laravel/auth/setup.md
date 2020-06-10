@@ -1,11 +1,11 @@
 ---
-title: Authentication Setup
+title: Authentication Setup & Features
 description: LdapRecord-Laravel authentication setup guide
 extends: _layouts.laravel-documentation
 section: content
 ---
 
-# Setup
+# Setup & Features
 
 - [Authentication Guard](#guard)
 - [Login Controller](#login-controller)
