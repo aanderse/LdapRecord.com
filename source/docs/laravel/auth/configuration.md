@@ -254,17 +254,17 @@ Now when `sbauman@local.com` attempts to log in, if the user cannot be located
 by their GUID, they will instead be located by their email address. Their
 GUID, domain, and sync attributes you define will then synchronize.
 
-### All Available Options Example
+### All Available Options Example {#database-options}
 
 Here is a configured provider with all available options present:
 
 ```php
 'ldap' => [
     'driver' => 'ldap',
-    'model' => LdapRecord\Models\ActiveDirectoryUser::class,
+    'model' => LdapRecord\Models\ActiveDirectory\User::class,
     'rules' => [],
     'database' => [
-        'model' => App\User::class, // <-- Your Laravel Eloquent database model
+        'model' => App\User::class,
         'sync_passwords' => true,
         'sync_attributes' => [
             'name' => 'cn',

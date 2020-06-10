@@ -659,16 +659,16 @@ user with the same email address.</p>
 by their GUID, they will instead be located by their email address. Their
 GUID, domain, and sync attributes you define will then synchronize.</p>
 
-<h3>All Available Options Example</h3>
+<h3 id="database-options">All Available Options Example</h3>
 
 <p>Here is a configured provider with all available options present:</p>
 
 <pre><code class="language-php">'ldap' =&gt; [
     'driver' =&gt; 'ldap',
-    'model' =&gt; LdapRecord\Models\ActiveDirectoryUser::class,
+    'model' =&gt; LdapRecord\Models\ActiveDirectory\User::class,
     'rules' =&gt; [],
     'database' =&gt; [
-        'model' =&gt; App\User::class, // &lt;-- Your Laravel Eloquent database model
+        'model' =&gt; App\User::class,
         'sync_passwords' =&gt; true,
         'sync_attributes' =&gt; [
             'name' =&gt; 'cn',
