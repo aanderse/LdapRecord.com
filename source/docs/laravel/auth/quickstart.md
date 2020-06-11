@@ -33,10 +33,16 @@ to get started, then head back here once done.
 ## Debugging {#debugging}
 
 Inside of your `config/ldap.php` file, ensure you have `logging` enabled during the setup of authentication.
-
 Doing this will help you immensely in debugging connectivity and authentication issues.
 
-If you encounter issues along the way, be sure to open your `storage/logs` directory and see what may be occurring.
+If you encounter issues along the way, be sure to open your `storage/logs` directory after you
+attempt signing in to your application and see what issues may be occurring.
+
+In addition, you may also run the below artisan command to test connectivity to your LDAP server:
+
+```bash
+php artisan ldap:test
+```
 
 ## Plain LDAP Authentication {#plain}
 
@@ -79,8 +85,8 @@ locate users who are attempting to sign into our application. We do
 this by changing the `credentials` method. In this method we will
 return an array that contains the users username and password.
 
-**The keys you set here are important.** The `password` key must be present, as
-this is sent directly to your LDAP server for verification.
+**The array keys you set here are important.** The `password` key must be present,
+as this is sent directly to your LDAP server for verification.
 
 The other key must be the **name of the LDAP attribute** you want LdapRecord to
 locate the authenticating user with. It **must** be an attribute that has
@@ -112,7 +118,7 @@ class LoginController extends Controller
 When we use plain LDAP authentication, an instance of the LdapRecord `model` you have
 configured for authentication will be returned when calling the `Auth::user()`
 method. This means that our currently published blade views will throw an
-exception due to using `Auth::user()->name` inside of the view file
+exception due to using `Auth::user()->name` call inside of the view file
 `views/layouts/app.blade.php`.
 
 You must change the syntax to the following:
@@ -243,8 +249,8 @@ locate users who are attempting to sign into our application. We do
 this by changing the `credentials` method. In this method we will
 return an array that contains the users username and password.
 
-**The keys you set here are important.** The `password` key must be present, as
-this is sent directly to your LDAP server for verification.
+**The array keys you set here are important.** The `password` key must be present,
+as this is sent directly to your LDAP server for verification.
 
 The other key must be the **name of the LDAP attribute** you want LdapRecord to
 locate the authenticating user with. It **must** be an attribute that has

@@ -382,11 +382,16 @@ to get started, then head back here once done.</p>
 
 <h2 id="debugging">Debugging</h2>
 
-<p>Inside of your <code>config/ldap.php</code> file, ensure you have <code>logging</code> enabled during the setup of authentication.</p>
+<p>Inside of your <code>config/ldap.php</code> file, ensure you have <code>logging</code> enabled during the setup of authentication.
+Doing this will help you immensely in debugging connectivity and authentication issues.</p>
 
-<p>Doing this will help you immensely in debugging connectivity and authentication issues.</p>
+<p>If you encounter issues along the way, be sure to open your <code>storage/logs</code> directory after you
+attempt signing in to your application and see what issues may be occurring.</p>
 
-<p>If you encounter issues along the way, be sure to open your <code>storage/logs</code> directory and see what may be occurring.</p>
+<p>In addition, you may also run the below artisan command to test connectivity to your LDAP server:</p>
+
+<pre><code class="language-bash">php artisan ldap:test
+</code></pre>
 
 <h2 id="plain">Plain LDAP Authentication</h2>
 
@@ -427,8 +432,8 @@ locate users who are attempting to sign into our application. We do
 this by changing the <code>credentials</code> method. In this method we will
 return an array that contains the users username and password.</p>
 
-<p><strong>The keys you set here are important.</strong> The <code>password</code> key must be present, as
-this is sent directly to your LDAP server for verification.</p>
+<p><strong>The array keys you set here are important.</strong> The <code>password</code> key must be present,
+as this is sent directly to your LDAP server for verification.</p>
 
 <p>The other key must be the <strong>name of the LDAP attribute</strong> you want LdapRecord to
 locate the authenticating user with. It <strong>must</strong> be an attribute that has
@@ -459,7 +464,7 @@ class LoginController extends Controller
 <p>When we use plain LDAP authentication, an instance of the LdapRecord <code>model</code> you have
 configured for authentication will be returned when calling the <code>Auth::user()</code>
 method. This means that our currently published blade views will throw an
-exception due to using <code>Auth::user()-&gt;name</code> inside of the view file
+exception due to using <code>Auth::user()-&gt;name</code> call inside of the view file
 <code>views/layouts/app.blade.php</code>.</p>
 
 <p>You must change the syntax to the following:</p>
@@ -621,8 +626,8 @@ locate users who are attempting to sign into our application. We do
 this by changing the <code>credentials</code> method. In this method we will
 return an array that contains the users username and password.</p>
 
-<p><strong>The keys you set here are important.</strong> The <code>password</code> key must be present, as
-this is sent directly to your LDAP server for verification.</p>
+<p><strong>The array keys you set here are important.</strong> The <code>password</code> key must be present,
+as this is sent directly to your LDAP server for verification.</p>
 
 <p>The other key must be the <strong>name of the LDAP attribute</strong> you want LdapRecord to
 locate the authenticating user with. It <strong>must</strong> be an attribute that has

@@ -224,10 +224,11 @@ php artisan ldap:import ldap --delete
 > This option is available for **all LDAP directories**.
 
 The `--delete-missing` option allows you to soft-delete all LDAP users that
-were missing from the import. This is useful when a user is deleted in your
-LDAP server, and therefore should be soft-deleted inside of your application.
+were missing from the import. This is useful when a user has been deleted
+in your LDAP server, and therefore should be soft-deleted inside of your
+application, since they will not be returned in search results.
 
-This option was designed to have the utmost safety of user data in mind.
+This option has been designed to have the utmost safety of user data in mind.
 Here are some paramount things to understand with this option:
 
 **No users will be deleted if soft-deletes are not enabled on your `User` eloquent model.**
@@ -235,9 +236,9 @@ Here are some paramount things to understand with this option:
 Deletion will not occur. You must setup [Soft Deletes](https://laravel.com/docs/eloquent#soft-deleting)
 on your `User` eloquent model.
 
-**If no users were successfully imported, no users will be soft-deleted.**
+**If no users have been successfully imported, no users will be soft-deleted.**
 
-If an executed import imports zero (0) users, no users will be soft-deleted.
+If an executed import does not successfully import any users, no users will be soft-deleted.
 
 **Only users that belong to the domain you are importing will be soft-deleted.**
 
@@ -296,8 +297,8 @@ The `--restore` (or `-r`) option allows you to restore soft-deleted re-activated
 php artisan ldap:import ldap --restore
 ```
 
-> Usually the `--restore` and `--delete` options are used in tandem to allow
-> full synchronization of user disablements and restoration.
+> Typically, the `--restore` and `--delete` options would be used together to
+> allow full synchronization of user disablements and restoration.
 
 ### No Logging {#option-no-logging}
 
@@ -341,15 +342,16 @@ $schedule->command('ldap:import ldap', ['--no-interaction', '--filter' => $filte
 
 ### Additional Tips {#tips}
 
-- Users who already exist inside your database will be updated with your configured providers `sync_attributes`
-- Users are never deleted from the import command, you will need to delete users regularly through your Eloquent model
+- Users who already exist inside your database will be updated with your configured providers `sync_attributes`.
+- Users **will never be force deleted** from the import command. You will need to delete users manually
+  through your Eloquent model
 - If you have a password mutator (setter) on your `User` Eloquent model, it will not override it.
-  This allows you to hash the random 16 character passwords any way you prefer.
-- Successfully imported (new) users are reported in your log files:
+  This allows you to hash the random 16 character passwords in your own way.
+- Imported (new) users will be reported in your log files:
 ```text
 [2020-01-29 14:51:51] local.INFO: Imported user johndoe
 ```
-- Unsuccessful imported users are also reported in your log files, with the message of the exception:
+- Users that fail to be imported are also reported in your log files, alongside the message of the exception that caused the failure:
 ```text
 [2020-01-29 14:51:51] local.ERROR: Unable to import user janedoe. SQLSTATE[23000]: Integrity constraint violation: 1048
 ```

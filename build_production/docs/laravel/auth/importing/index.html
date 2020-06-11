@@ -569,10 +569,11 @@ will be deleted if your <code>User</code> Eloquent model does not have soft-dele
 </blockquote>
 
 <p>The <code>--delete-missing</code> option allows you to soft-delete all LDAP users that
-were missing from the import. This is useful when a user is deleted in your
-LDAP server, and therefore should be soft-deleted inside of your application.</p>
+were missing from the import. This is useful when a user has been deleted
+in your LDAP server, and therefore should be soft-deleted inside of your
+application, since they will not be returned in search results.</p>
 
-<p>This option was designed to have the utmost safety of user data in mind.
+<p>This option has been designed to have the utmost safety of user data in mind.
 Here are some paramount things to understand with this option:</p>
 
 <p><strong>No users will be deleted if soft-deletes are not enabled on your <code>User</code> eloquent model.</strong></p>
@@ -580,9 +581,9 @@ Here are some paramount things to understand with this option:</p>
 <p>Deletion will not occur. You must setup <a href="https://laravel.com/docs/eloquent#soft-deleting">Soft Deletes</a>
 on your <code>User</code> eloquent model.</p>
 
-<p><strong>If no users were successfully imported, no users will be soft-deleted.</strong></p>
+<p><strong>If no users have been successfully imported, no users will be soft-deleted.</strong></p>
 
-<p>If an executed import imports zero (0) users, no users will be soft-deleted.</p>
+<p>If an executed import does not successfully import any users, no users will be soft-deleted.</p>
 
 <p><strong>Only users that belong to the domain you are importing will be soft-deleted.</strong></p>
 
@@ -641,8 +642,8 @@ class UsersDeletedFromImport
 </code></pre>
 
 <blockquote>
-  <p>Usually the <code>--restore</code> and <code>--delete</code> options are used in tandem to allow
-  full synchronization of user disablements and restoration.</p>
+  <p>Typically, the <code>--restore</code> and <code>--delete</code> options would be used together to
+  allow full synchronization of user disablements and restoration.</p>
 </blockquote>
 
 <h3 id="option-no-logging">No Logging</h3>
@@ -685,18 +686,19 @@ $schedule-&gt;command('ldap:import ldap', ['--no-interaction', '--filter' =&gt; 
 <h3 id="tips">Additional Tips</h3>
 
 <ul>
-<li>Users who already exist inside your database will be updated with your configured providers <code>sync_attributes</code></li>
-<li>Users are never deleted from the import command, you will need to delete users regularly through your Eloquent model</li>
+<li>Users who already exist inside your database will be updated with your configured providers <code>sync_attributes</code>.</li>
+<li>Users <strong>will never be force deleted</strong> from the import command. You will need to delete users manually
+through your Eloquent model</li>
 <li>If you have a password mutator (setter) on your <code>User</code> Eloquent model, it will not override it.
-This allows you to hash the random 16 character passwords any way you prefer.</li>
-<li>Successfully imported (new) users are reported in your log files:</li>
+This allows you to hash the random 16 character passwords in your own way.</li>
+<li>Imported (new) users will be reported in your log files:</li>
 </ul>
 
 <pre><code class="language-text">[2020-01-29 14:51:51] local.INFO: Imported user johndoe
 </code></pre>
 
 <ul>
-<li>Unsuccessful imported users are also reported in your log files, with the message of the exception:</li>
+<li>Users that fail to be imported are also reported in your log files, alongside the message of the exception that caused the failure:</li>
 </ul>
 
 <pre><code class="language-text">[2020-01-29 14:51:51] local.ERROR: Unable to import user janedoe. SQLSTATE[23000]: Integrity constraint violation: 1048
