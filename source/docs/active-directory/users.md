@@ -13,6 +13,7 @@ section: content
   - [Changing Passwords](#changing-passwords)
   - [Resetting Passwords](#resetting-passwords)
   - [Password Policy Errors](#password-policy-errors)
+  - [User Must Change Password at Next Logon](#password-reset-on-next-login)
 - [User Account Control](#uac)
   - [Usage](#uac-usage)
   - [Available Contants](#uac-constants)
@@ -235,6 +236,31 @@ try {
         // This is an invalid credentials error.
     }
 }
+```
+
+### User Must Change Password at Next Logon {#password-reset-on-next-login}
+
+To toggle the "*User Must Change Password at Next Logon*" checkbox - you must
+set the `pwdlastset` attribute to one of the below values:
+
+Value | Meaning |
+--- | --- |
+`0` | **Toggled off**. The user will not be required to change their password. |
+`-1` | **Toggled on**. The user will be required to change their password. |
+
+> **Important**:
+>
+> - The `pwdlastset` attribute can only be modified by domain administrators
+> - If toggled on, the Active Directory user **will not** pass LDAP authentication
+>   until they visit a domain joined computer and update their password
+
+```php
+$user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
+
+// The user must change their password on next login.
+$user->pwdlastset = -1;
+
+$user->save();
 ```
 
 ## User Account Control {#uac}
