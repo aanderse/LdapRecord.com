@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=d151e2283f27a53e0740">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d5769ff5b0719b74766f">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -383,6 +383,7 @@
 <li><a href="#changing-passwords">Changing Passwords</a></li>
 <li><a href="#resetting-passwords">Resetting Passwords</a></li>
 <li><a href="#password-policy-errors">Password Policy Errors</a></li>
+<li><a href="#password-reset-on-next-login">User Must Change Password at Next Logon</a></li>
 </ul></li>
 <li><a href="#uac">User Account Control</a>
 
@@ -679,6 +680,48 @@ try {
         // This is an invalid credentials error.
     }
 }
+</code></pre>
+
+<h3 id="password-reset-on-next-login">User Must Change Password at Next Logon</h3>
+
+<p>To toggle the "<em>User Must Change Password at Next Logon</em>" checkbox - you must
+set the <code>pwdlastset</code> attribute to one of the below values:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Value</th>
+  <th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>0</code></td>
+  <td><strong>Toggled off</strong>. The user will not be required to change their password.</td>
+</tr>
+<tr>
+  <td><code>-1</code></td>
+  <td><strong>Toggled on</strong>. The user will be required to change their password.</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+  <p><strong>Important</strong>:</p>
+  
+  <ul>
+  <li>The <code>pwdlastset</code> attribute can only be modified by domain administrators</li>
+  <li>If toggled on, the Active Directory user <strong>will not</strong> pass LDAP authentication
+  until they visit a domain joined computer and update their password</li>
+  </ul>
+</blockquote>
+
+<pre><code class="language-php">$user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
+
+// The user must change their password on next login.
+$user-&gt;pwdlastset = -1;
+
+$user-&gt;save();
 </code></pre>
 
 <h2 id="uac">User Account Control</h2>
@@ -1166,7 +1209,7 @@ if ($group &amp;&amp; $user-&gt;groups()-&gt;detach($group)) {
         </main>
 
         
-        <script src="/assets/build/js/main.js?id=f4770a7909c663b5fd4a"></script>
+        <script src="/assets/build/js/main.js?id=bcbc65921b92c4782f0d"></script>
 
         <script>
     const navMenu = {
