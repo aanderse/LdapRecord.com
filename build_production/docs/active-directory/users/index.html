@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=d5769ff5b0719b74766f">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=a63e088ad20b43b2400c">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -471,13 +471,13 @@ try {
 
 <h3 id="setting-passwords">Setting Passwords</h3>
 
-<p>Utilizing the included <code>LdapRecord\Models\ActiveDirectory\User</code> model, an attribute
-<a href="/docs/model-mutators">mutator</a> has been added that assists in
-the setting and changing of passwords on user objects. Feel free to take a
+<p>Using the included <code>LdapRecord\Models\ActiveDirectory\User</code> model, an attribute
+<a href="/docs/model-mutators">mutator</a> has been added that assists in the setting
+and changing of passwords on user objects. Feel free to take a
 peek into the source code to see how it all works.</p>
 
-<p>The password string you set on the users <code>unicodePwd</code> attribute is automatically encoded,
-you do not need to encode it yourself. Doing so will cause an error or exception upon
+<p>The password string you set on the users <code>unicodePwd</code> attribute is automatically encoded.
+You do not need to encode it yourself. Doing so will cause an error or exception upon
 saving the user.</p>
 
 <p>Once you have set a password on a user object, this generates a modification
@@ -497,31 +497,34 @@ var_dump($modification);
 
 // "attrib" =&gt; "unicodepwd"
 // "modtype" =&gt; 3
-// "values" =&gt; array:1 [▼
+// "values" =&gt; array:1 [
 //    0 =&gt; ""\x00s\x00e\x00c\x00r\x00e\x00t\x00"\x00"
 // ]
 </code></pre>
 
-<p>As you can see, a batch modification is generated for the user and upon
-calling <code>save()</code>, it will be sent to your LDAP server.</p>
+<p>As you can see, a batch modification has been automatically generated for
+the user. Upon calling <code>save()</code>, it will be sent to your LDAP server.</p>
 
 <h3 id="changing-passwords">Changing Passwords</h3>
 
-<p>To change a users password, you must bind to your LDAP server with a user
-that has permissions to reset passwords, or bind as the user whose
-password you are trying to change.</p>
+<p>To change a user's password, you must either:</p>
+
+<ol>
+<li>Bind to your LDAP server with a user that has <strong>permissions to reset passwords</strong></li>
+<li>Or; <strong>bind as the user</strong> whose password you are trying to change.</li>
+</ol>
 
 <p>There are some prerequisites you must know for changing passwords:</p>
 
 <table>
 <thead>
 <tr>
-  <th>Requirement</th>
+  <th>Prerequisites</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-  <td>You must provide the correct users <strong>old</strong> password</td>
+  <td>You must provide the <strong>correct user's old password</strong></td>
 </tr>
 <tr>
   <td>You must provide a new password that abides by your <strong>password policy</strong>, such as <strong>history, complexity, and length</strong></td>
@@ -535,14 +538,13 @@ password you are trying to change.</p>
 <p>Let's walk through an example:</p>
 
 <blockquote>
-  <p>You must use a try / catch block upon saving. An <code>LdapRecord\LdapRecordException</code> will always be thrown
-  when an incorrect old password is given, or the new password does not abide by your
-  password policy.</p>
+  <p>You must use a try / catch block upon saving. An <code>LdapRecord\LdapRecordException</code>
+  will always be thrown when an incorrect old password has been given, or the new
+  password does not abide by your password policy.</p>
 </blockquote>
 
 <pre><code class="language-php">&lt;?php
 
-use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
@@ -553,12 +555,16 @@ try {
     $user-&gt;save();
 
     // User password changed!
-} catch (LdapRecordException $ex) {
-    // Failed changing password.
-    $connection = $user-&gt;getConnection();
-
-    // Get the last LDAP error to determine the cause of failure.
-    $error = $connection-&gt;getLdapConnection()-&gt;getDetailedError();
+} catch (\LdapRecord\Exceptions\InsufficientAccessException $ex) {
+    // The currently bound LDAP user does not
+    // have permission to change passwords.
+} catch (\LdapRecord\Exceptions\ConstraintException $ex) {
+    // The users new password does not abide
+    // by the domains password policy.
+} catch (\LdapRecord\LdapRecordException $ex) {
+    // Failed changing password. Get the last LDAP
+    // error to determine the cause of failure.
+    $error = $ex-&gt;getDetailedError();
 
     echo $error-&gt;getErrorCode();
     echo $error-&gt;getErrorMessage();
@@ -575,7 +581,6 @@ and then calling the <code>save()</code> method, similarly to how it is done dur
 
 <pre><code class="language-php">&lt;?php
 
-use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
@@ -586,12 +591,16 @@ try {
     $user-&gt;save();
 
     // User password reset!
-} catch (LdapRecordException $ex) {
-    // Failed resetting password.
-    $connection = $user-&gt;getConnection();
-
-    // Get the last LDAP error to determine the cause of failure.
-    $error = $connection-&gt;getLdapConnection()-&gt;getDetailedError();
+} catch (\LdapRecord\Exceptions\InsufficientAccessException $ex) {
+    // The currently bound LDAP user does not
+    // have permission to reset passwords.
+} catch (\LdapRecord\Exceptions\ConstraintException $ex) {
+    // The users new password does not abide
+    // by the domains password policy.
+} catch (\LdapRecord\LdapRecordException $ex) {
+    // Failed resetting password. Get the last LDAP
+    // error to determine the cause of failure.
+    $error = $ex-&gt;getDetailedError();
 
     echo $error-&gt;getErrorCode();
     echo $error-&gt;getErrorMessage();
@@ -654,7 +663,6 @@ try {
 
 <pre><code class="language-php">&lt;?php
 
-use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
@@ -665,12 +673,10 @@ try {
     $user-&gt;save();
 
     // User password changed!
-} catch (LdapRecordException $ex) {
-    // Failed resetting password.
-    $connection = $user-&gt;getConnection();
-
-    // Get the last LDAP error to determine the cause of failure.
-    $error = $connection-&gt;getLdapConnection()-&gt;getDetailedError();
+} catch (\LdapRecord\LdapRecordException $ex) {
+    // Failed changing password. Get the last LDAP
+    // error to determine the cause of failure.
+    $error = $ex-&gt;getDetailedError();
 
     echo $error-&gt;getErrorCode(); // 49
     echo $error-&gt;getErrorMessage(); // 'Invalid credentials'
@@ -684,8 +690,9 @@ try {
 
 <h3 id="password-reset-on-next-login">User Must Change Password at Next Logon</h3>
 
-<p>To toggle the "<em>User Must Change Password at Next Logon</em>" checkbox - you must
-set the <code>pwdlastset</code> attribute to one of the below values:</p>
+<p>To toggle the "<em>User Must Change Password at Next Logon</em>" checkbox that is
+available in the Active Directory GUI - you must set the <code>pwdlastset</code>
+attribute to one of the below values:</p>
 
 <table>
 <thead>
@@ -753,12 +760,10 @@ use LdapRecord\Models\Attributes\AccountControl;
 $user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
 
 // Setting the UAC value manually:
-$uac = 512; // Normal, enabled account.
+$user-&gt;userAccountControl = 512; // Normal, enabled account.
 
 // Or, using the UAC builder:
-$uac = (new AccountControl)-&gt;accountIsNormal();
-
-$user-&gt;userAccountControl = $uac;
+$user-&gt;userAccountControl = (new AccountControl)-&gt;accountIsNormal();
 
 $user-&gt;save();
 </code></pre>
@@ -1209,7 +1214,7 @@ if ($group &amp;&amp; $user-&gt;groups()-&gt;detach($group)) {
         </main>
 
         
-        <script src="/assets/build/js/main.js?id=bcbc65921b92c4782f0d"></script>
+        <script src="/assets/build/js/main.js?id=f4770a7909c663b5fd4a"></script>
 
         <script>
     const navMenu = {
