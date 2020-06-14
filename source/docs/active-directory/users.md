@@ -73,13 +73,13 @@ try {
 
 ### Setting Passwords {#setting-passwords}
 
-Utilizing the included `LdapRecord\Models\ActiveDirectory\User` model, an attribute
-[mutator](/docs/model-mutators) has been added that assists in
-the setting and changing of passwords on user objects. Feel free to take a
+Using the included `LdapRecord\Models\ActiveDirectory\User` model, an attribute
+[mutator](/docs/model-mutators) has been added that assists in the setting
+and changing of passwords on user objects. Feel free to take a
 peek into the source code to see how it all works.
 
-The password string you set on the users `unicodePwd` attribute is automatically encoded,
-you do not need to encode it yourself. Doing so will cause an error or exception upon
+The password string you set on the users `unicodePwd` attribute is automatically encoded.
+You do not need to encode it yourself. Doing so will cause an error or exception upon
 saving the user.
 
 Once you have set a password on a user object, this generates a modification
@@ -100,38 +100,38 @@ var_dump($modification);
 
 // "attrib" => "unicodepwd"
 // "modtype" => 3
-// "values" => array:1 [▼
+// "values" => array:1 [
 //    0 => ""\x00s\x00e\x00c\x00r\x00e\x00t\x00"\x00"
 // ]
 ```
 
-As you can see, a batch modification is generated for the user and upon
-calling `save()`, it will be sent to your LDAP server.
+As you can see, a batch modification has been automatically generated for
+the user. Upon calling `save()`, it will be sent to your LDAP server.
 
 ### Changing Passwords {#changing-passwords}
 
-To change a users password, you must bind to your LDAP server with a user
-that has permissions to reset passwords, or bind as the user whose
-password you are trying to change.
+To change a user's password, you must either:
+
+1. Bind to your LDAP server with a user that has **permissions to reset passwords**
+2. Or; **bind as the user** whose password you are trying to change.
 
 There are some prerequisites you must know for changing passwords:
 
-Requirement |
+Prerequisites |
 --- |
-You must provide the correct users **old** password |
+You must provide the **correct user's old password** |
 You must provide a new password that abides by your **password policy**, such as **history, complexity, and length** |
 You must set the `unicodepwd` attribute with an array containing **two** (2) values (old & new password) |
 
 Let's walk through an example:
 
-> You must use a try / catch block upon saving. An `LdapRecord\LdapRecordException` will always be thrown
-> when an incorrect old password is given, or the new password does not abide by your
-> password policy.
+> You must use a try / catch block upon saving. An `LdapRecord\LdapRecordException`
+> will always be thrown when an incorrect old password has been given, or the new
+> password does not abide by your password policy.
 
 ```php
 <?php
 
-use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
@@ -142,12 +142,16 @@ try {
     $user->save();
 
     // User password changed!
-} catch (LdapRecordException $ex) {
-    // Failed changing password.
-    $connection = $user->getConnection();
-
-    // Get the last LDAP error to determine the cause of failure.
-    $error = $connection->getLdapConnection()->getDetailedError();
+} catch (\LdapRecord\Exceptions\InsufficientAccessException $ex) {
+    // The currently bound LDAP user does not
+    // have permission to change passwords.
+} catch (\LdapRecord\Exceptions\ConstraintException $ex) {
+    // The users new password does not abide
+    // by the domains password policy.
+} catch (\LdapRecord\LdapRecordException $ex) {
+    // Failed changing password. Get the last LDAP
+    // error to determine the cause of failure.
+    $error = $ex->getDetailedError();
 
     echo $error->getErrorCode();
     echo $error->getErrorMessage();
@@ -165,7 +169,6 @@ and then calling the `save()` method, similarly to how it is done during user cr
 ```php
 <?php
 
-use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
@@ -176,12 +179,16 @@ try {
     $user->save();
 
     // User password reset!
-} catch (LdapRecordException $ex) {
-    // Failed resetting password.
-    $connection = $user->getConnection();
-
-    // Get the last LDAP error to determine the cause of failure.
-    $error = $connection->getLdapConnection()->getDetailedError();
+} catch (\LdapRecord\Exceptions\InsufficientAccessException $ex) {
+    // The currently bound LDAP user does not
+    // have permission to reset passwords.
+} catch (\LdapRecord\Exceptions\ConstraintException $ex) {
+    // The users new password does not abide
+    // by the domains password policy.
+} catch (\LdapRecord\LdapRecordException $ex) {
+    // Failed resetting password. Get the last LDAP
+    // error to determine the cause of failure.
+    $error = $ex->getDetailedError();
 
     echo $error->getErrorCode();
     echo $error->getErrorMessage();
@@ -210,7 +217,6 @@ Code | Meaning |
 ```php
 <?php
 
-use LdapRecord\LdapRecordException;
 use LdapRecord\Models\ActiveDirectory\User;
 
 $user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
@@ -221,12 +227,10 @@ try {
     $user->save();
 
     // User password changed!
-} catch (LdapRecordException $ex) {
-    // Failed resetting password.
-    $connection = $user->getConnection();
-
-    // Get the last LDAP error to determine the cause of failure.
-    $error = $connection->getLdapConnection()->getDetailedError();
+} catch (\LdapRecord\LdapRecordException $ex) {
+    // Failed changing password. Get the last LDAP
+    // error to determine the cause of failure.
+    $error = $ex->getDetailedError();
 
     echo $error->getErrorCode(); // 49
     echo $error->getErrorMessage(); // 'Invalid credentials'
@@ -240,8 +244,9 @@ try {
 
 ### User Must Change Password at Next Logon {#password-reset-on-next-login}
 
-To toggle the "*User Must Change Password at Next Logon*" checkbox - you must
-set the `pwdlastset` attribute to one of the below values:
+To toggle the "*User Must Change Password at Next Logon*" checkbox that is
+available in the Active Directory GUI - you must set the `pwdlastset`
+attribute to one of the below values:
 
 Value | Meaning |
 --- | --- |
@@ -293,12 +298,10 @@ use LdapRecord\Models\Attributes\AccountControl;
 $user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
 
 // Setting the UAC value manually:
-$uac = 512; // Normal, enabled account.
+$user->userAccountControl = 512; // Normal, enabled account.
 
 // Or, using the UAC builder:
-$uac = (new AccountControl)->accountIsNormal();
-
-$user->userAccountControl = $uac;
+$user->userAccountControl = (new AccountControl)->accountIsNormal();
 
 $user->save();
 ```
