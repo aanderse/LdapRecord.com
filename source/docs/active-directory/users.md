@@ -13,6 +13,7 @@ section: content
   - [Changing Passwords](#changing-passwords)
   - [Resetting Passwords](#resetting-passwords)
   - [Password Policy Errors](#password-policy-errors)
+  - [Extend User Password Expiration](#password-extension)
   - [User Must Change Password at Next Logon](#password-reset-on-next-login)
 - [User Account Control](#uac)
   - [Usage](#uac-usage)
@@ -240,6 +241,24 @@ try {
         // This is an invalid credentials error.
     }
 }
+```
+
+### Extend User Password Expiration {#password-extension}
+
+Sometimes you may wish to extend a user's password expiration for the full duration of your domains password expiry time.
+
+To do this, you must update the user's `pwdLastSet` time to `0`, then to `-1`:
+
+```php
+$user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
+
+// Set password last set to 'Never':
+$user->update(['pwdlastset' => 0]);
+
+// Set password last set to the current date / time:
+$user->update(['pwdlastset' => -1]);
+
+// User password expiration successfully extended.
 ```
 
 ### User Must Change Password at Next Logon {#password-reset-on-next-login}
