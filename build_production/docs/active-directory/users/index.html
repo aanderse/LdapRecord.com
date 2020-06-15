@@ -31,7 +31,7 @@
         <meta name="theme-color" content="#ffffff">
 
         
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=a63e088ad20b43b2400c">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=d5769ff5b0719b74766f">
 
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
             </head>
@@ -383,6 +383,7 @@
 <li><a href="#changing-passwords">Changing Passwords</a></li>
 <li><a href="#resetting-passwords">Resetting Passwords</a></li>
 <li><a href="#password-policy-errors">Password Policy Errors</a></li>
+<li><a href="#password-extension">Extend User Password Expiration</a></li>
 <li><a href="#password-reset-on-next-login">User Must Change Password at Next Logon</a></li>
 </ul></li>
 <li><a href="#uac">User Account Control</a>
@@ -686,6 +687,23 @@ try {
         // This is an invalid credentials error.
     }
 }
+</code></pre>
+
+<h3 id="password-extension">Extend User Password Expiration</h3>
+
+<p>Sometimes you may wish to extend a user's password expiration for the full duration of your domains password expiry time.</p>
+
+<p>To do this, you must update the user's <code>pwdLastSet</code> time to <code>0</code>, then to <code>-1</code>:</p>
+
+<pre><code class="language-php">$user = User::find('cn=John Doe,ou=Users,dc=local,dc=com');
+
+// Set password last set to 'Never':
+$user-&gt;update(['pwdlastset' =&gt; 0]);
+
+// Set password last set to the current date / time:
+$user-&gt;update(['pwdlastset' =&gt; -1]);
+
+// User password expiration successfully extended.
 </code></pre>
 
 <h3 id="password-reset-on-next-login">User Must Change Password at Next Logon</h3>
@@ -1214,7 +1232,7 @@ if ($group &amp;&amp; $user-&gt;groups()-&gt;detach($group)) {
         </main>
 
         
-        <script src="/assets/build/js/main.js?id=f4770a7909c663b5fd4a"></script>
+        <script src="/assets/build/js/main.js?id=bcbc65921b92c4782f0d"></script>
 
         <script>
     const navMenu = {
