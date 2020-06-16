@@ -63,6 +63,15 @@ return [
     'isOnParent' => function ($page, $path) {
         return Str::startsWith(Str::start($page->getPath(), '/'), $path);
     },
+    'pullRequestPath' => function ($page) {
+        $uris = [
+            'https://github.com/DirectoryTree/LdapRecord.com/blob/master/source',
+            trim(str_replace($page->getFilename(), '', $page->getPath()), '/'),
+            $page->getFilename().".".$page->getExtension()
+        ];
+
+        return implode('/', $uris);
+    },
     'url' => function ($page, $path) {
         return Str::startsWith($path, 'http') ? $path : '/' . trimPath($path);
     },
